@@ -20,6 +20,9 @@ public class GameLoopState : IGameState
         var canvas = GameObject.FindAnyObjectByType<Canvas>();
         var view = Object.Instantiate(prefab, canvas.transform);
         view.Show(item);
+
+        var purchaseController = Object.FindFirstObjectByType<PurchaseController>();
+        purchaseController.SetItem(item);
     }
 
     public void Exit() { }
