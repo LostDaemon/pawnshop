@@ -5,6 +5,8 @@ public class ProjectInstaller : MonoInstaller
     // public GridSettingsScriptableObject GridSettings;
     // public CameraSettingsScriptableObject CameraSettings;
 
+    private const long StartingMoney = 1000L; //TODO LOAD FROM CONFIG
+
     public override void InstallBindings()
     {
         Container.Bind<GameBootstrapper>().FromComponentInHierarchy().AsSingle();
@@ -15,7 +17,10 @@ public class ProjectInstaller : MonoInstaller
         Container.Bind<LoadLevelState>().AsSingle();
         Container.Bind<GameLoopState>().AsSingle();
 
-
+        Container.Bind<IWalletService>()
+              .To<WalletService>()
+              .AsSingle()
+              .WithArguments(StartingMoney);
 
         // Container.Bind<TouchInputSystem>().AsSingle();
         // Container.Bind<InputManager>().AsSingle();
