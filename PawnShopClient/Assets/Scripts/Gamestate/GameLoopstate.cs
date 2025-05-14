@@ -1,29 +1,37 @@
-using UnityEngine;
 using Zenject;
 
 public class GameLoopState : IGameState
 {
-    private IItemRepositoryService _itemRepository;
+    private readonly IItemRepositoryService _itemRepository;
+    private readonly IPurchaseService _purchaseService;
 
-    [Inject]
-    public void Construct(IItemRepositoryService itemRepository)
+    public GameLoopState(
+        IItemRepositoryService itemRepository,
+        IPurchaseService purchaseService)
     {
         _itemRepository = itemRepository;
+        _purchaseService = purchaseService;
     }
 
     public void Enter()
     {
-        var item = _itemRepository.GetRandomItem();
-
-        var prefab = Resources.Load<ItemController>("UI/ItemPrefab");
-        Debug.Log(prefab);
-        var canvas = GameObject.FindAnyObjectByType<Canvas>();
-        var view = Object.Instantiate(prefab, canvas.transform);
-        view.Show(item);
-
-        var purchaseController = Object.FindFirstObjectByType<PurchaseController>();
-        purchaseController.SetItem(item);
+        _purchaseService.OnPurchased += OnItemPurchased;
+        ShowNextItem();
     }
 
-    public void Exit() { }
+    public void Exit()
+    {
+        _purchaseService.OnPurchased -= OnItemPurchased;
+    }
+
+    private void ShowNextItem()
+    {
+        var item = _itemRepository.GetRandomItem();
+        _purchaseService.SetCurrentItem(item);
+    }
+
+    private void OnItemPurchased(ItemModel _)
+    {
+        ShowNextItem();
+    }
 }

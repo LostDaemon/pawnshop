@@ -8,40 +8,27 @@ public class PurchaseController : MonoBehaviour
     [SerializeField] private TMP_InputField _priceInput;
     [SerializeField] private Button _buyButton;
 
-    private IWalletService _wallet;
-    private IGameStorageService<ItemModel> _inventory;
-    private ItemModel _currentItem;
+    private IPurchaseService _purchaseService;
 
     [Inject]
-    public void Construct(IWalletService wallet, IGameStorageService<ItemModel> inventory)
+    public void Construct(IPurchaseService purchaseService)
     {
-        _wallet = wallet;
-        _inventory = inventory;
-
+        _purchaseService = purchaseService;
         _buyButton.onClick.AddListener(OnBuyClicked);
-    }
-
-    public void SetItem(ItemModel item)
-    {
-        _currentItem = item;
     }
 
     private void OnBuyClicked()
     {
-        if (_currentItem == null)
-            return;
-
-        if (!int.TryParse(_priceInput.text, out var offeredPrice))
-            return;
-
-        var success = _wallet.TransactionAttempt(CurrencyType.Money, -offeredPrice);
-        if (!success)
+        if (!long.TryParse(_priceInput.text, out var offeredPrice))
         {
-            Debug.Log("Not enough money!");
+            Debug.LogWarning("Invalid price input.");
             return;
         }
 
-        _inventory.Put(_currentItem);
-        Debug.Log($"Item purchased: {_currentItem.Name} for {offeredPrice}");
+        var success = _purchaseService.TryPurchase(offeredPrice);
+        if (!success)
+        {
+            Debug.Log("Purchase failed: not enough money or no item.");
+        }
     }
 }
