@@ -17,7 +17,7 @@ public class ProjectInstaller : MonoInstaller
         Container.Bind<BootstrapState>().AsSingle();
         Container.Bind<LoadLevelState>().AsSingle();
         Container.Bind<GameLoopState>().AsSingle();
-
+        Container.Bind<ITimeService>().To<TimeService>().AsSingle();
         Container.Bind<IGameStorageService<ItemModel>>()
           .To<GameStorageService<ItemModel>>()
           .AsSingle();
