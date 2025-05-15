@@ -3,26 +3,18 @@ using Zenject;
 
 public class ItemDisplayController : MonoBehaviour
 {
-    [SerializeField] private Transform _parent;
-
     [Inject] private IPurchaseService _purchaseService;
 
-    private ItemController _current;
+    [SerializeField] private Transform _spawnPoint;
+
+    private GameObject _current;
 
     private void Start()
     {
-        if (_purchaseService == null)
-        {
-            Debug.LogError("PurchaseService is not injected.");
-            return;
-        }
-
         _purchaseService.OnCurrentItemChanged += OnItemChanged;
 
         if (_purchaseService.CurrentItem != null)
-        {
             OnItemChanged(_purchaseService.CurrentItem);
-        }
     }
 
     private void OnDestroy()
@@ -34,12 +26,30 @@ public class ItemDisplayController : MonoBehaviour
     private void OnItemChanged(ItemModel item)
     {
         if (_current != null)
-            Destroy(_current.gameObject);
+            Destroy(_current);
 
-        var prefab = Resources.Load<ItemController>("UI/ItemPrefab");
-        _current = Instantiate(prefab, _parent);
-        _current.Show(item);
+        var prefab = Resources.Load<GameObject>("UI/ItemPrefab");
 
-        Debug.Log($"Item displayed: {item.Name}");
+        Vector3 spawnPosition = _spawnPoint != null ? _spawnPoint.position : Vector3.zero;
+        Transform parent = _spawnPoint != null ? _spawnPoint : null;
+
+        _current = Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
+
+        var renderer = _current.GetComponent<SpriteRenderer>();
+        if (renderer == null)
+        {
+            Debug.LogError("ItemPrefab must have a SpriteRenderer");
+            return;
+        }
+
+        var sprites = Resources.LoadAll<Sprite>("Sprites/ItemsAtlas");
+        var sprite = System.Array.Find(sprites, s => s.name == item.ImageId);
+
+        if (sprite != null)
+            renderer.sprite = sprite;
+        else
+            Debug.LogWarning($"Sprite not found: {item.ImageId}");
+
+        Debug.Log($"Item displayed in scene: {item.Name}");
     }
 }

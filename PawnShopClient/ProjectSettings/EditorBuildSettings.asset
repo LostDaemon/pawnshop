@@ -11,6 +11,9 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainScene.unity
     guid: 6c99a5d030f0653419cf5bf35e5fd542
+  - enabled: 1
+    path: Assets/Scenes/ParallaxTest.unity
+    guid: 172b86f7ff19ab5429f350b4fcff11b7
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}
   m_UseUCBPForAssetBundles: 0
