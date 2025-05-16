@@ -3,7 +3,7 @@ using Zenject;
 
 public class ItemDisplayController : MonoBehaviour
 {
-    [Inject] private IPurchaseService _purchaseService;
+    [Inject] private INegotiateService _purchaseService;
 
     [SerializeField] private Transform _spawnPoint;
 

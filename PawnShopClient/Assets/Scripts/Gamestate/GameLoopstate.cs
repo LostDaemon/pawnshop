@@ -4,11 +4,11 @@ using Zenject;
 public class GameLoopState : IGameState
 {
     private readonly IItemRepositoryService _itemRepository;
-    private readonly IPurchaseService _purchaseService;
+    private readonly INegotiateService _purchaseService;
 
     public GameLoopState(
         IItemRepositoryService itemRepository,
-        IPurchaseService purchaseService)
+        INegotiateService purchaseService)
     {
         _itemRepository = itemRepository;
         _purchaseService = purchaseService;

@@ -9,7 +9,7 @@ public class ProjectInstaller : MonoInstaller
     Container.Bind<GameBootstrapper>().FromComponentInHierarchy().AsSingle();
     Container.Bind<ISceneLoader>().To<SceneLoader>().AsSingle();
     Container.Bind<IItemRepositoryService>().To<ItemRepositoryService>().AsSingle();
-    Container.Bind<IPurchaseService>().To<PurchaseService>().AsSingle();
+    Container.Bind<INegotiateService>().To<NegotiateService>().AsSingle();
     Container.Bind<INavigationService>().To<NavigationService>().AsSingle();
     Container.Bind<GameStateMachine>().AsSingle();
     Container.Bind<BootstrapState>().AsSingle();
