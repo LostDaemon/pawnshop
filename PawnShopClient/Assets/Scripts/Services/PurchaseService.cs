@@ -7,6 +7,7 @@ public class PurchaseService : IPurchaseService
 
     public event Action<ItemModel> OnPurchased;
     public event Action<ItemModel> OnCurrentItemChanged;
+    public event Action OnSkipRequested;
 
     public ItemModel CurrentItem { get; private set; }
 
@@ -20,6 +21,11 @@ public class PurchaseService : IPurchaseService
     {
         CurrentItem = item;
         OnCurrentItemChanged?.Invoke(item);
+    }
+
+    public void RequestSkip()
+    {
+        OnSkipRequested?.Invoke();
     }
 
     public bool TryPurchase(long offeredPrice)

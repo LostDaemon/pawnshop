@@ -1,3 +1,4 @@
+using UnityEngine;
 using Zenject;
 
 public class GameLoopState : IGameState
@@ -16,12 +17,14 @@ public class GameLoopState : IGameState
     public void Enter()
     {
         _purchaseService.OnPurchased += OnItemPurchased;
+        _purchaseService.OnSkipRequested += ShowNextItem;
         ShowNextItem();
     }
 
     public void Exit()
     {
         _purchaseService.OnPurchased -= OnItemPurchased;
+        _purchaseService.OnSkipRequested -= ShowNextItem;
     }
 
     private void ShowNextItem()
@@ -32,6 +35,7 @@ public class GameLoopState : IGameState
 
     private void OnItemPurchased(ItemModel _)
     {
+        Debug.Log("[GameLoop] Player skipped the item.");
         ShowNextItem();
     }
 }
