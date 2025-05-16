@@ -34,6 +34,7 @@ public class ItemDisplayController : MonoBehaviour
         Transform parent = _spawnPoint != null ? _spawnPoint : null;
 
         _current = Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
+        _current.transform.localScale = Vector3.one * item.Scale;
 
         var renderer = _current.GetComponent<SpriteRenderer>();
         if (renderer == null)
