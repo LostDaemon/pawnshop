@@ -159,7 +159,7 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
       spriteID: d214db7c21d1a6660800000000000000
       internalID: 7379742905897664813
@@ -181,7 +181,7 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
       spriteID: 4dde84791e0639090800000000000000
       internalID: -8028967188649415212
@@ -203,7 +203,7 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
       spriteID: a210ef985c990d0c0800000000000000
       internalID: -4552970149568839382
@@ -225,7 +225,7 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
       spriteID: c0fed7d4cf520a7f0800000000000000
       internalID: -603440584505561332
@@ -238,41 +238,19 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 71
-        y: 152
-        width: 369
-        height: 265
+        y: 143
+        width: 379
+        height: 284
       alignment: 0
       pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
       spriteID: 43ccfb2a1e9e336b0800000000000000
       internalID: -5317649579687031756
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: ItemsAtlas_6
-      rect:
-        serializedVersion: 2
-        x: 179
-        y: 370
-        width: 6
-        height: 7
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: c4880b04f7a470330800000000000000
-      internalID: 3676989531177912396
       vertices: []
       indices: 
       edges: []
@@ -282,16 +260,24 @@ TextureImporter:
       rect:
         serializedVersion: 2
         x: 464
-        y: 412
-        width: 445
-        height: 206
+        y: 374
+        width: 444
+        height: 244
       alignment: 9
       pivot: {x: 0.34318507, y: 0.25762954}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
-      outline: []
+      outline:
+      - - {x: -222.5, y: -42}
+        - {x: -196, y: -115}
+        - {x: 43, y: -122}
+        - {x: 88, y: -97}
+        - {x: 222.5, y: 23}
+        - {x: 196, y: 122}
+        - {x: -54, y: 122}
+        - {x: -218.5, y: 71}
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
       spriteID: d6e0ea45bffbe0ec0800000000000000
       internalID: -3598727966044058003
@@ -313,7 +299,7 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
       spriteID: 3f51492730a9212d0800000000000000
       internalID: -3309413436566006285
@@ -335,7 +321,7 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
       spriteID: 9f4a08d12a1ec01c0800000000000000
       internalID: -4536002638273010439
@@ -357,7 +343,7 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
       spriteID: c52ec8b02f8df5370800000000000000
       internalID: 8313601971236692572
@@ -379,7 +365,7 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: -1
+      tessellationDetail: 0
       bones: []
       spriteID: c0801cb49f3eca9b0800000000000000
       internalID: -5067424820841347060
@@ -401,6 +387,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
+      ItemsAtlas_0: 758647978
       ItemsAtlas_2: -5033994639404219017
       ItemsAtlas_6: 3676989531177912396
       item_brass_hinge: 8313601971236692572
