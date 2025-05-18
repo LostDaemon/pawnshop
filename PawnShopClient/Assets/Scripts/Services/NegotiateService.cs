@@ -13,6 +13,7 @@ public class NegotiateService : INegotiateService
     public event Action OnSkipRequested;
 
     public ItemModel CurrentItem { get; private set; }
+    public Customer CurrentCustomer { get; private set; }
     public long CurrentNpcOffer { get; private set; }
 
     private long _agreedOffer;
@@ -20,19 +21,24 @@ public class NegotiateService : INegotiateService
 
     private static readonly float[] AllDiscounts = { 0.10f, 0.25f, 0.50f, 0.75f };
 
-    public NegotiateService(IWalletService wallet, IGameStorageService<ItemModel> inventory)
+    public NegotiateService(
+        IWalletService wallet,
+        IGameStorageService<ItemModel> inventory)
     {
         _wallet = wallet;
         _inventory = inventory;
     }
 
-    public void SetCurrentItem(ItemModel item)
+    public void SetCurrentCustomer(Customer customer)
     {
-        CurrentItem = item;
+        CurrentCustomer = customer;
+        CurrentItem = customer.OwnedItem;
+
         GenerateInitialNpcOffer();
         _agreedOffer = CurrentNpcOffer;
         _rejectedOffers.Clear();
-        OnCurrentItemChanged?.Invoke(item);
+
+        OnCurrentItemChanged?.Invoke(CurrentItem);
     }
 
     private void GenerateInitialNpcOffer()

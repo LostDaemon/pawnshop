@@ -15,9 +15,7 @@ public class NegotiationController : MonoBehaviour
     [SerializeField] private Button _offer75Button;
 
     [SerializeField] private IndicatorController _currentOfferIndicator;
-
     [SerializeField] private TMP_Text _itemNameLabel;
-
     [SerializeField] private SpeechPopupController _speechPopup;
 
     private INegotiateService _purchaseService;
@@ -53,9 +51,6 @@ public class NegotiationController : MonoBehaviour
         }
 
         _purchaseService.OnCurrentItemChanged += OnItemChanged;
-
-        if (_purchaseService.CurrentItem != null)
-            OnItemChanged(_purchaseService.CurrentItem);
     }
 
     private void OnDestroy()
@@ -66,6 +61,12 @@ public class NegotiationController : MonoBehaviour
 
     private void OnItemChanged(ItemModel item)
     {
+        if (item == null)
+        {
+            Debug.LogError("NegotiationController: Received null item in OnItemChanged.");
+            return;
+        }
+
         _itemNameLabel.text = item.Name;
         _currentOfferIndicator.SetValue(_purchaseService.GetCurrentOffer(), animate: true);
 

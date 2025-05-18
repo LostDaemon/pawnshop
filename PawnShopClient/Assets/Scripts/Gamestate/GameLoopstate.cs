@@ -1,41 +1,40 @@
 using UnityEngine;
-using Zenject;
 
 public class GameLoopState : IGameState
 {
-    private readonly IItemRepositoryService _itemRepository;
     private readonly INegotiateService _purchaseService;
+    private readonly ICustomerFactoryService _customerFactory;
 
     public GameLoopState(
-        IItemRepositoryService itemRepository,
-        INegotiateService purchaseService)
+        INegotiateService purchaseService,
+        ICustomerFactoryService customerFactory)
     {
-        _itemRepository = itemRepository;
         _purchaseService = purchaseService;
+        _customerFactory = customerFactory;
     }
 
     public void Enter()
     {
         _purchaseService.OnPurchased += OnItemPurchased;
-        _purchaseService.OnSkipRequested += ShowNextItem;
-        ShowNextItem();
+        _purchaseService.OnSkipRequested += ShowNextCustomer;
+        ShowNextCustomer();
     }
 
     public void Exit()
     {
         _purchaseService.OnPurchased -= OnItemPurchased;
-        _purchaseService.OnSkipRequested -= ShowNextItem;
+        _purchaseService.OnSkipRequested -= ShowNextCustomer;
     }
 
-    private void ShowNextItem()
+    private void ShowNextCustomer()
     {
-        var item = _itemRepository.GetRandomItem();
-        _purchaseService.SetCurrentItem(item);
+        var customer = _customerFactory.GenerateRandomCustomer();
+        _purchaseService.SetCurrentCustomer(customer);
     }
 
     private void OnItemPurchased(ItemModel _)
     {
-        Debug.Log("[GameLoop] Player skipped the item.");
-        ShowNextItem();
+        Debug.Log("[GameLoop] Item purchased.");
+        ShowNextCustomer();
     }
 }
