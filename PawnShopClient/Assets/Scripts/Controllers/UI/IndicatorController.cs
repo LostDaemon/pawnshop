@@ -4,7 +4,9 @@ using UnityEngine;
 public class IndicatorController : MonoBehaviour
 {
     [SerializeField] private string _formatter = "{0}";
-    [SerializeField] private float _animationSpeed = 300f;
+    [Tooltip("Maximum animation duration in seconds.")]
+    [Range(0.01f, 2f)]
+    [SerializeField] private float _maxAnimationDuration = 1f;
 
     private TextMeshProUGUI _label;
     private float _targetValue = 0;
@@ -38,7 +40,10 @@ public class IndicatorController : MonoBehaviour
         if (Mathf.Approximately(_displayValue, _targetValue))
             return;
 
-        _displayValue = Mathf.MoveTowards(_displayValue, _targetValue, _animationSpeed * Time.deltaTime);
+        float distance = Mathf.Abs(_targetValue - _displayValue);
+        float speed = distance / _maxAnimationDuration;
+
+        _displayValue = Mathf.MoveTowards(_displayValue, _targetValue, speed * Time.deltaTime);
         UpdateLabel();
     }
 

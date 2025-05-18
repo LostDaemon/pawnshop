@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 
 public interface INegotiateService
 {
@@ -10,8 +11,8 @@ public interface INegotiateService
     long CurrentNpcOffer { get; }
 
     void SetCurrentItem(ItemModel item);
-    void RequestSkip();
-
+    bool TryDiscount(float discount, out long newOffer, out bool accepted, out List<float> discountsToBlock);
     bool TryPurchase(long offeredPrice);
-    bool TryCounterOffer(long playerOffer);
+    void RequestSkip();
+    long GetCurrentOffer();
 }

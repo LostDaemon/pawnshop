@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class NegotiateService : INegotiateService
@@ -12,9 +13,12 @@ public class NegotiateService : INegotiateService
     public event Action OnSkipRequested;
 
     public ItemModel CurrentItem { get; private set; }
-
-    // The initial price offered by the NPC for the current item
     public long CurrentNpcOffer { get; private set; }
+
+    private long _agreedOffer;
+    private readonly HashSet<long> _rejectedOffers = new();
+
+    private static readonly float[] AllDiscounts = { 0.10f, 0.25f, 0.50f, 0.75f };
 
     public NegotiateService(IWalletService wallet, IGameStorageService<ItemModel> inventory)
     {
@@ -26,20 +30,41 @@ public class NegotiateService : INegotiateService
     {
         CurrentItem = item;
         GenerateInitialNpcOffer();
+        _agreedOffer = CurrentNpcOffer;
+        _rejectedOffers.Clear();
         OnCurrentItemChanged?.Invoke(item);
     }
 
     private void GenerateInitialNpcOffer()
     {
         if (CurrentItem == null) return;
-
-        // Offer between 60% and 85% of real item price
         CurrentNpcOffer = (long)(CurrentItem.RealPrice * _random.Next(60, 86) / 100f);
     }
 
-    /// <summary>
-    /// Player accepts the current offer. Tries to finalize the purchase.
-    /// </summary>
+    public long GetCurrentOffer() => _agreedOffer;
+
+    public bool TryDiscount(float discount, out long newOffer, out bool accepted, out List<float> discountsToBlock)
+    {
+        newOffer = Mathf.RoundToInt(_agreedOffer * (1f - discount));
+        accepted = TryCounterOffer(newOffer);
+        discountsToBlock = new List<float>();
+
+        if (accepted)
+        {
+            _agreedOffer = newOffer;
+        }
+        else
+        {
+            foreach (var d in AllDiscounts)
+            {
+                if (d >= discount)
+                    discountsToBlock.Add(d);
+            }
+        }
+
+        return true;
+    }
+
     public bool TryPurchase(long offeredPrice)
     {
         if (CurrentItem == null)
@@ -54,28 +79,34 @@ public class NegotiateService : INegotiateService
         return true;
     }
 
-    /// <summary>
-    /// Player makes a counter-offer. Returns true if NPC accepts.
-    /// </summary>
     public bool TryCounterOffer(long playerOffer)
     {
         if (CurrentItem == null)
             return false;
 
-        var minAcceptable = (long)(CurrentItem.RealPrice * 0.6f);  // минимум
-        var maxAcceptable = (long)(CurrentItem.RealPrice * 0.95f); // максимум
-
-        if (playerOffer < minAcceptable || playerOffer > maxAcceptable)
+        if (_rejectedOffers.Contains(playerOffer))
             return false;
 
-        // Вероятность отказа — чем ближе к максимуму, тем выше
+        var minAcceptable = (long)(CurrentItem.RealPrice * 0.6f);
+        var maxAcceptable = (long)(CurrentItem.RealPrice * 0.95f);
+
+        if (playerOffer < minAcceptable)
+            return false;
+
+        if (playerOffer > maxAcceptable)
+            playerOffer = maxAcceptable;
+
         var range = maxAcceptable - minAcceptable;
         var distance = playerOffer - minAcceptable;
         float t = (float)distance / range;
 
-        // Чем ближе к максимуму — тем меньше шанс (0.9 → 0.1)
         float chance = Mathf.Lerp(0.9f, 0.1f, t);
-        return _random.NextDouble() < chance;
+        bool success = _random.NextDouble() < chance;
+
+        if (!success)
+            _rejectedOffers.Add(playerOffer);
+
+        return success;
     }
 
     public void RequestSkip()

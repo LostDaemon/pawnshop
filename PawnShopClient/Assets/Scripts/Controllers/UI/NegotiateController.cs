@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Zenject;
+using System.Collections.Generic;
 
 public class NegotiationController : MonoBehaviour
 {
@@ -16,11 +17,18 @@ public class NegotiationController : MonoBehaviour
     [SerializeField] private IndicatorController _currentOfferIndicator;
 
     [SerializeField] private TMP_Text _itemNameLabel;
-    [SerializeField] private TMP_Text _statusText;
+
+    [SerializeField] private SpeechPopupController _speechPopup;
 
     private INegotiateService _purchaseService;
-    private long _lastPlayerOffer;
-    private long? _agreedPrice;
+
+    private struct DiscountButton
+    {
+        public float Discount;
+        public Button Button;
+    }
+
+    private DiscountButton[] _discountButtons;
 
     [Inject]
     public void Construct(INegotiateService purchaseService)
@@ -30,10 +38,19 @@ public class NegotiationController : MonoBehaviour
         _buyButton.onClick.AddListener(OnBuyClicked);
         _skipButton.onClick.AddListener(OnSkipClicked);
 
-        _offer10Button.onClick.AddListener(() => MakeDiscountOffer(0.10f));
-        _offer25Button.onClick.AddListener(() => MakeDiscountOffer(0.25f));
-        _offer50Button.onClick.AddListener(() => MakeDiscountOffer(0.50f));
-        _offer75Button.onClick.AddListener(() => MakeDiscountOffer(0.75f));
+        _discountButtons = new[]
+        {
+            new DiscountButton { Discount = 0.10f, Button = _offer10Button },
+            new DiscountButton { Discount = 0.25f, Button = _offer25Button },
+            new DiscountButton { Discount = 0.50f, Button = _offer50Button },
+            new DiscountButton { Discount = 0.75f, Button = _offer75Button },
+        };
+
+        foreach (var db in _discountButtons)
+        {
+            float d = db.Discount;
+            db.Button.onClick.AddListener(() => MakeDiscountOffer(d));
+        }
 
         _purchaseService.OnCurrentItemChanged += OnItemChanged;
 
@@ -49,22 +66,27 @@ public class NegotiationController : MonoBehaviour
 
     private void OnItemChanged(ItemModel item)
     {
-        _lastPlayerOffer = _purchaseService.CurrentNpcOffer;
-        _agreedPrice = null;
-
         _itemNameLabel.text = item.Name;
-        _statusText.text = "";
-        _currentOfferIndicator.SetValue(_lastPlayerOffer, animate: true);
+        _currentOfferIndicator.SetValue(_purchaseService.GetCurrentOffer(), animate: true);
+
+        foreach (var db in _discountButtons)
+            db.Button.interactable = true;
+
+        _speechPopup.ShowMessage($"How about {_purchaseService.CurrentNpcOffer}?");
     }
 
     private void OnBuyClicked()
     {
-        if (_purchaseService.TryPurchase(_lastPlayerOffer))
+        long offer = _purchaseService.GetCurrentOffer();
+
+        if (_purchaseService.TryPurchase(offer))
         {
+            _speechPopup.ShowMessage($"Deal. {offer} it is.");
             Debug.Log("Purchase confirmed.");
         }
         else
         {
+            _speechPopup.ShowMessage("You sure you can pay that?");
             Debug.Log("Purchase failed.");
         }
     }
@@ -76,27 +98,28 @@ public class NegotiationController : MonoBehaviour
 
     private void MakeDiscountOffer(float discount)
     {
-        var offer = Mathf.RoundToInt(_lastPlayerOffer * (1f - discount));
+        if (_purchaseService.TryDiscount(discount, out var newOffer, out var accepted, out var toBlock))
+        {
+            if (accepted)
+            {
+                _currentOfferIndicator.SetValue(newOffer, animate: true);
+                _speechPopup.ShowMessage($"Alright, we can do {newOffer}.");
+                Debug.Log($"Counter offer accepted: {newOffer}");
 
-        if (_agreedPrice == offer)
-        {
-            _currentOfferIndicator.SetValue(offer, animate: true);
-            _statusText.text = $"NPC already accepted: {offer}";
-            return;
-        }
+                foreach (var db in _discountButtons)
+                    db.Button.interactable = true;
+            }
+            else
+            {
+                _speechPopup.ShowMessage("No way. That's too low.");
+                Debug.Log("Counter offer rejected.");
 
-        if (_purchaseService.TryCounterOffer(offer))
-        {
-            _lastPlayerOffer = offer;
-            _agreedPrice = offer;
-            _currentOfferIndicator.SetValue(offer, animate: true);
-            _statusText.text = $"NPC accepted offer: {offer}";
-            Debug.Log($"Counter offer accepted: {offer}");
-        }
-        else
-        {
-            _statusText.text = $"NPC rejected offer: {offer}";
-            Debug.Log("Counter offer rejected.");
+                foreach (var db in _discountButtons)
+                {
+                    if (toBlock.Contains(db.Discount))
+                        db.Button.interactable = false;
+                }
+            }
         }
     }
 }
