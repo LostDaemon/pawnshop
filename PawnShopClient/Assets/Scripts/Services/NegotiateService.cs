@@ -21,6 +21,17 @@ public class NegotiateService : INegotiateService
 
     private static readonly float[] AllDiscounts = { 0.10f, 0.25f, 0.50f, 0.75f };
 
+
+    private readonly List<IHistoryRecord> _history = new();
+    public IReadOnlyList<IHistoryRecord> History => _history.AsReadOnly();
+    public event Action<IHistoryRecord> OnRecordAdded;
+
+    private void AddHistory(IHistoryRecord record)
+    {
+        _history.Add(record);
+        OnRecordAdded?.Invoke(record);
+    }
+
     public NegotiateService(
         IWalletService wallet,
         IGameStorageService<ItemModel> inventory)
@@ -38,6 +49,7 @@ public class NegotiateService : INegotiateService
         _agreedOffer = CurrentNpcOffer;
         _rejectedOffers.Clear();
 
+        AddHistory(new TextRecord("Customer", $"I'd sell '{CurrentItem.Name}' for {CurrentNpcOffer}."));
         OnCurrentItemChanged?.Invoke(CurrentItem);
     }
 
@@ -55,12 +67,16 @@ public class NegotiateService : INegotiateService
         accepted = TryCounterOffer(newOffer);
         discountsToBlock = new List<float>();
 
+        AddHistory(new TextRecord("Player", $"Offered {newOffer} ({discount * 100}% discount)"));
+
         if (accepted)
         {
             _agreedOffer = newOffer;
+            AddHistory(new TextRecord("Customer", $"Okay, let's do {newOffer}."));
         }
         else
         {
+            AddHistory(new TextRecord("Customer", "No way. Too low."));
             foreach (var d in AllDiscounts)
             {
                 if (d >= discount)
@@ -78,9 +94,13 @@ public class NegotiateService : INegotiateService
 
         var success = _wallet.TransactionAttempt(CurrencyType.Money, -offeredPrice);
         if (!success)
+        {
+            AddHistory(new TextRecord("System", $"Not enough money to buy '{CurrentItem.Name}' for {offeredPrice}."));
             return false;
+        }
 
         _inventory.Put(CurrentItem);
+        AddHistory(new TextRecord("System", $"Item '{CurrentItem.Name}' purchased for {offeredPrice}."));
         OnPurchased?.Invoke(CurrentItem);
         return true;
     }
@@ -117,6 +137,7 @@ public class NegotiateService : INegotiateService
 
     public void RequestSkip()
     {
+        AddHistory(new TextRecord("Player", $"Skipped '{CurrentItem?.Name}'"));
         OnSkipRequested?.Invoke();
     }
 }

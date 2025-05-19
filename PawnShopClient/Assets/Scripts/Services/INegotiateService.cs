@@ -3,18 +3,22 @@ using System.Collections.Generic;
 
 public interface INegotiateService
 {
-    ItemModel CurrentItem { get; }
-    Customer CurrentCustomer { get; }
-    long CurrentNpcOffer { get; }
-
     event Action<ItemModel> OnPurchased;
     event Action<ItemModel> OnCurrentItemChanged;
     event Action OnSkipRequested;
 
-    void SetCurrentCustomer(Customer customer);
+    ItemModel CurrentItem { get; }
+    Customer CurrentCustomer { get; }
+    long CurrentNpcOffer { get; }
+
     long GetCurrentOffer();
-    bool TryDiscount(float discount, out long newOffer, out bool accepted, out List<float> discountsToBlock);
+    void SetCurrentCustomer(Customer customer);
     bool TryPurchase(long offeredPrice);
+    bool TryDiscount(float discount, out long newOffer, out bool accepted, out List<float> discountsToBlock);
     bool TryCounterOffer(long playerOffer);
     void RequestSkip();
+
+
+    IReadOnlyList<IHistoryRecord> History { get; }
+    event Action<IHistoryRecord> OnRecordAdded;
 }
