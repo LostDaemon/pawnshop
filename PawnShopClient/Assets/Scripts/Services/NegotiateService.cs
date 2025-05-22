@@ -11,6 +11,7 @@ public class NegotiateService : INegotiateService
     public event Action<ItemModel> OnPurchased;
     public event Action<ItemModel> OnCurrentItemChanged;
     public event Action OnSkipRequested;
+    public event Action<float> OnCustomerUncertaintyChanged;
 
     public ItemModel CurrentItem { get; private set; }
     public Customer CurrentCustomer { get; private set; }
@@ -61,9 +62,11 @@ public class NegotiateService : INegotiateService
 
     public long GetCurrentOffer() => _agreedOffer;
 
-    public bool TryDiscount(float discount, out long newOffer, out bool accepted, out List<float> discountsToBlock)
+    public bool TryDiscount(float discount, out long newOffer, out bool accepted, out List<float> discountsToBlock) //<-- out 3x ???!!!
     {
         newOffer = Mathf.RoundToInt(_agreedOffer * (1f - discount));
+        Debug.Log($"Trying discount: {discount * 100}% => New offer: {newOffer}");
+
         accepted = TryCounterOffer(newOffer);
         discountsToBlock = new List<float>();
 
@@ -113,8 +116,10 @@ public class NegotiateService : INegotiateService
         if (_rejectedOffers.Contains(playerOffer))
             return false;
 
-        var minAcceptable = (long)(CurrentItem.RealPrice * 0.6f);
+        var minAcceptable = (long)(CurrentItem.RealPrice * 0.6f * (1f - CurrentCustomer.UncertaintyLevel));
         var maxAcceptable = (long)(CurrentItem.RealPrice * 0.95f);
+
+        Debug.Log($"NPC offer: {CurrentNpcOffer}, Player offer: {playerOffer}, Min: {minAcceptable}, Max: {maxAcceptable}");
 
         if (playerOffer < minAcceptable)
             return false;
@@ -128,6 +133,8 @@ public class NegotiateService : INegotiateService
 
         float chance = Mathf.Lerp(0.9f, 0.1f, t);
         bool success = _random.NextDouble() < chance;
+        Debug.Log($"Counter offer success: {success} (Chance: {chance})");
+
 
         if (!success)
             _rejectedOffers.Add(playerOffer);
@@ -139,5 +146,32 @@ public class NegotiateService : INegotiateService
     {
         AddHistory(new TextRecord("Player", $"Skipped '{CurrentItem?.Name}'"));
         OnSkipRequested?.Invoke();
+    }
+
+    public void AskAboutItemOrigin()
+    {
+        if (CurrentItem == null || CurrentCustomer == null)
+            return;
+
+        if (CurrentItem.IsFake)
+        {
+            IncreaseCustomerUncertainty(0.25f);
+            AddHistory(new TextRecord("Customer", "Umm... I'm not sure where this item came from, to be honest."));
+        }
+        else
+        {
+            AddHistory(new TextRecord("Customer", "Of course! It’s been in the family for years."));
+        }
+    }
+
+    private void IncreaseCustomerUncertainty(float amount)
+    {
+        if (CurrentCustomer == null)
+            return;
+
+        CurrentCustomer.UncertaintyLevel = Mathf.Clamp01(CurrentCustomer.UncertaintyLevel + amount);
+        OnCustomerUncertaintyChanged?.Invoke(CurrentCustomer.UncertaintyLevel);
+
+        Debug.Log($"Customer's uncertainty level increased to {CurrentCustomer.UncertaintyLevel}");
     }
 }

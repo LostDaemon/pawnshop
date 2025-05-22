@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -14,7 +15,10 @@ public class CustomerFactoryService : ICustomerFactoryService
 
     public Customer GenerateRandomCustomer()
     {
-        var customer = new Customer();
+        var customer = new Customer(new Dictionary<SkillType, int>(), null) //<--!!
+        {
+            UncertaintyLevel = _random.Next(0, 101) / 100f
+        };
 
         foreach (SkillType skill in Enum.GetValues(typeof(SkillType)))
         {

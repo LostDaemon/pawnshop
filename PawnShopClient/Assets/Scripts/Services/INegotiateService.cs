@@ -16,6 +16,7 @@ public interface INegotiateService
     bool TryPurchase(long offeredPrice);
     bool TryDiscount(float discount, out long newOffer, out bool accepted, out List<float> discountsToBlock);
     bool TryCounterOffer(long playerOffer);
+    void AskAboutItemOrigin();
     void RequestSkip();
 
 

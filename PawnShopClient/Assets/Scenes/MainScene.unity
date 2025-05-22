@@ -2051,6 +2051,7 @@ MonoBehaviour:
   _offer25Button: {fileID: 8033349803900359681}
   _offer50Button: {fileID: 1704391657807630672}
   _offer75Button: {fileID: 613906101}
+  _askButton: {fileID: 7552850631528922336}
   _currentOfferIndicator: {fileID: 391858626}
   _itemNameLabel: {fileID: 506639241}
   _speechPopup: {fileID: 1997174338}
@@ -3524,7 +3525,7 @@ GameObject:
   - component: {fileID: 7606904621967749470}
   - component: {fileID: 8033349805232692938}
   m_Layer: 5
-  m_Name: BetButton25
+  m_Name: inspectButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3627,7 +3628,7 @@ GameObject:
   - component: {fileID: 7772721456195831652}
   - component: {fileID: 7552850631528922336}
   m_Layer: 5
-  m_Name: BetButton10
+  m_Name: askButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

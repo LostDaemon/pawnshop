@@ -4,8 +4,7 @@ public class Customer : ICharacter
 {
     public SkillSet Skills { get; } = new();
     public ItemModel OwnedItem { get; set; }
-
-    public Customer() { }
+    public float UncertaintyLevel { get; set; }
 
     public Customer(Dictionary<SkillType, int> initialSkills, ItemModel ownedItem)
     {

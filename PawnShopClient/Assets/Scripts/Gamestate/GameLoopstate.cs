@@ -29,6 +29,11 @@ public class GameLoopState : IGameState
     private void ShowNextCustomer()
     {
         var customer = _customerFactory.GenerateRandomCustomer();
+        if (customer.OwnedItem != null && customer.OwnedItem.IsFake)
+        {
+            Debug.Log("[GameLoop] Item is fake.");
+        }
+
         _purchaseService.SetCurrentCustomer(customer);
     }
 

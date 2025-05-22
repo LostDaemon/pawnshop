@@ -23,9 +23,13 @@ public class ItemRepositoryService : IItemRepositoryService
     new ItemModel("Brilliant", "item_brilliant", 1500, 0.3f, "A loose brilliant-cut gemstone. Authentic, but needs professional setting."),
 };
     }
+
     public ItemModel GetRandomItem()
     {
         int index = _random.Next(_items.Count);
+        var itemResult = _items[index];
+        bool isFake = _random.NextDouble() < 0.25;
+        itemResult.IsFake = isFake;
         return _items[index];
     }
 }

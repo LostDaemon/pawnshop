@@ -13,12 +13,13 @@ public class NegotiationController : MonoBehaviour
     [SerializeField] private Button _offer25Button;
     [SerializeField] private Button _offer50Button;
     [SerializeField] private Button _offer75Button;
+    [SerializeField] private Button _askButton;
 
     [SerializeField] private IndicatorController _currentOfferIndicator;
     [SerializeField] private TMP_Text _itemNameLabel;
     [SerializeField] private SpeechPopupController _speechPopup;
 
-    private INegotiateService _purchaseService;
+    private INegotiateService _negotiationService;
 
     private struct DiscountButton
     {
@@ -29,12 +30,13 @@ public class NegotiationController : MonoBehaviour
     private DiscountButton[] _discountButtons;
 
     [Inject]
-    public void Construct(INegotiateService purchaseService)
+    public void Construct(INegotiateService negotiationService)
     {
-        _purchaseService = purchaseService;
+        _negotiationService = negotiationService;
 
         _buyButton.onClick.AddListener(OnBuyClicked);
         _skipButton.onClick.AddListener(OnSkipClicked);
+        _askButton.onClick.AddListener(OnAskClicked);
 
         _discountButtons = new[]
         {
@@ -50,13 +52,13 @@ public class NegotiationController : MonoBehaviour
             db.Button.onClick.AddListener(() => MakeDiscountOffer(d));
         }
 
-        _purchaseService.OnCurrentItemChanged += OnItemChanged;
+        _negotiationService.OnCurrentItemChanged += OnItemChanged;
     }
 
     private void OnDestroy()
     {
-        if (_purchaseService != null)
-            _purchaseService.OnCurrentItemChanged -= OnItemChanged;
+        if (_negotiationService != null)
+            _negotiationService.OnCurrentItemChanged -= OnItemChanged;
     }
 
     private void OnItemChanged(ItemModel item)
@@ -68,19 +70,19 @@ public class NegotiationController : MonoBehaviour
         }
 
         _itemNameLabel.text = item.Name;
-        _currentOfferIndicator.SetValue(_purchaseService.GetCurrentOffer(), animate: true);
+        _currentOfferIndicator.SetValue(_negotiationService.GetCurrentOffer(), animate: true);
 
         foreach (var db in _discountButtons)
             db.Button.interactable = true;
 
-        _speechPopup.ShowMessage($"How about {_purchaseService.CurrentNpcOffer}?");
+        _speechPopup.ShowMessage($"How about {_negotiationService.CurrentNpcOffer}?");
     }
 
     private void OnBuyClicked()
     {
-        long offer = _purchaseService.GetCurrentOffer();
+        long offer = _negotiationService.GetCurrentOffer();
 
-        if (_purchaseService.TryPurchase(offer))
+        if (_negotiationService.TryPurchase(offer))
         {
             _speechPopup.ShowMessage($"Deal. {offer} it is.");
             Debug.Log("Purchase confirmed.");
@@ -94,12 +96,17 @@ public class NegotiationController : MonoBehaviour
 
     private void OnSkipClicked()
     {
-        _purchaseService.RequestSkip();
+        _negotiationService.RequestSkip();
+    }
+
+    private void OnAskClicked()
+    {
+        _negotiationService.AskAboutItemOrigin();
     }
 
     private void MakeDiscountOffer(float discount)
     {
-        if (_purchaseService.TryDiscount(discount, out var newOffer, out var accepted, out var toBlock))
+        if (_negotiationService.TryDiscount(discount, out var newOffer, out var accepted, out var toBlock))
         {
             if (accepted)
             {
