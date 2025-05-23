@@ -6,27 +6,22 @@ public class NegotiateService : INegotiateService
 {
     private readonly IWalletService _wallet;
     private readonly IGameStorageService<ItemModel> _inventory;
+    private readonly ICustomerService _customerService;
     private readonly System.Random _random = new();
 
     public event Action<ItemModel> OnPurchased;
     public event Action<ItemModel> OnCurrentItemChanged;
     public event Action OnSkipRequested;
-    public event Action<float> OnCustomerUncertaintyChanged;
-    public event Action<float> OnCustomerMoodChanged;
+    public event Action<IHistoryRecord> OnRecordAdded;
 
     public ItemModel CurrentItem { get; private set; }
-    public Customer CurrentCustomer { get; private set; }
-    public long CurrentNpcOffer { get; private set; }
 
     private long _agreedOffer;
     private readonly HashSet<long> _rejectedOffers = new();
-
     private static readonly float[] AllDiscounts = { 0.10f, 0.25f, 0.50f, 0.75f };
-
 
     private readonly List<IHistoryRecord> _history = new();
     public IReadOnlyList<IHistoryRecord> History => _history.AsReadOnly();
-    public event Action<IHistoryRecord> OnRecordAdded;
 
     private void AddHistory(IHistoryRecord record)
     {
@@ -36,15 +31,17 @@ public class NegotiateService : INegotiateService
 
     public NegotiateService(
         IWalletService wallet,
-        IGameStorageService<ItemModel> inventory)
+        IGameStorageService<ItemModel> inventory,
+        ICustomerService customerService)
     {
         _wallet = wallet;
         _inventory = inventory;
+        _customerService = customerService;
     }
 
     public void SetCurrentCustomer(Customer customer)
     {
-        CurrentCustomer = customer;
+        _customerService.SetCurrent(customer);
         CurrentItem = customer.OwnedItem;
 
         GenerateInitialNpcOffer();
@@ -61,9 +58,11 @@ public class NegotiateService : INegotiateService
         CurrentNpcOffer = (long)(CurrentItem.RealPrice * _random.Next(60, 86) / 100f);
     }
 
+    public long CurrentNpcOffer { get; private set; }
+
     public long GetCurrentOffer() => _agreedOffer;
 
-    public bool TryDiscount(float discount, out long newOffer, out bool accepted, out List<float> discountsToBlock) //<-- out 3x ???!!!
+    public bool TryDiscount(float discount, out long newOffer, out bool accepted, out List<float> discountsToBlock)
     {
         newOffer = Mathf.RoundToInt(_agreedOffer * (1f - discount));
         Debug.Log($"Trying discount: {discount * 100}% => New offer: {newOffer}");
@@ -81,7 +80,8 @@ public class NegotiateService : INegotiateService
         else
         {
             AddHistory(new TextRecord("Customer", "No way. Too low."));
-            ChangeCustomerMood(-0.25f);
+            _customerService.ChangeMood(-0.25f);
+
             foreach (var d in AllDiscounts)
             {
                 if (d >= discount)
@@ -118,7 +118,9 @@ public class NegotiateService : INegotiateService
         if (_rejectedOffers.Contains(playerOffer))
             return false;
 
-        var minAcceptable = (long)(CurrentItem.RealPrice * 0.6f * (1f - CurrentCustomer.UncertaintyLevel));
+        var customer = _customerService.Current;
+
+        var minAcceptable = (long)(CurrentItem.RealPrice * 0.6f * (1f - customer.UncertaintyLevel));
         var maxAcceptable = (long)(CurrentItem.RealPrice * 0.95f);
 
         Debug.Log($"NPC offer: {CurrentNpcOffer}, Player offer: {playerOffer}, Min: {minAcceptable}, Max: {maxAcceptable}");
@@ -151,39 +153,17 @@ public class NegotiateService : INegotiateService
 
     public void AskAboutItemOrigin()
     {
-        if (CurrentItem == null || CurrentCustomer == null)
+        if (CurrentItem == null || _customerService.Current == null)
             return;
 
         if (CurrentItem.IsFake)
         {
-            IncreaseCustomerUncertainty(0.25f);
+            _customerService.IncreaseUncertainty(0.25f);
             AddHistory(new TextRecord("Customer", "Umm... I'm not sure where this item came from, to be honest."));
         }
         else
         {
             AddHistory(new TextRecord("Customer", "Of course! It’s been in the family for years."));
         }
-    }
-
-    private void IncreaseCustomerUncertainty(float amount)
-    {
-        if (CurrentCustomer == null)
-            return;
-
-        CurrentCustomer.UncertaintyLevel = Mathf.Clamp01(CurrentCustomer.UncertaintyLevel + amount);
-        OnCustomerUncertaintyChanged?.Invoke(CurrentCustomer.UncertaintyLevel);
-        ChangeCustomerMood(-0.1f);
-        Debug.Log($"Customer's uncertainty level increased to {CurrentCustomer.UncertaintyLevel}");
-    }
-
-    private void ChangeCustomerMood(float amount)
-    {
-        if (CurrentCustomer == null)
-            return;
-
-        CurrentCustomer.MoodLevel = Mathf.Clamp(CurrentCustomer.MoodLevel + amount, -1, 1);
-        OnCustomerMoodChanged?.Invoke(CurrentCustomer.MoodLevel);
-
-        Debug.Log($"Customer's mood level is changed to {CurrentCustomer.MoodLevel}");
     }
 }
