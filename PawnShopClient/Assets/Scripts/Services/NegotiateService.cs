@@ -12,6 +12,7 @@ public class NegotiateService : INegotiateService
     public event Action<ItemModel> OnCurrentItemChanged;
     public event Action OnSkipRequested;
     public event Action<float> OnCustomerUncertaintyChanged;
+    public event Action<float> OnCustomerMoodChanged;
 
     public ItemModel CurrentItem { get; private set; }
     public Customer CurrentCustomer { get; private set; }
@@ -80,6 +81,7 @@ public class NegotiateService : INegotiateService
         else
         {
             AddHistory(new TextRecord("Customer", "No way. Too low."));
+            ChangeCustomerMood(-0.25f);
             foreach (var d in AllDiscounts)
             {
                 if (d >= discount)
@@ -135,7 +137,6 @@ public class NegotiateService : INegotiateService
         bool success = _random.NextDouble() < chance;
         Debug.Log($"Counter offer success: {success} (Chance: {chance})");
 
-
         if (!success)
             _rejectedOffers.Add(playerOffer);
 
@@ -171,7 +172,18 @@ public class NegotiateService : INegotiateService
 
         CurrentCustomer.UncertaintyLevel = Mathf.Clamp01(CurrentCustomer.UncertaintyLevel + amount);
         OnCustomerUncertaintyChanged?.Invoke(CurrentCustomer.UncertaintyLevel);
-
+        ChangeCustomerMood(-0.1f);
         Debug.Log($"Customer's uncertainty level increased to {CurrentCustomer.UncertaintyLevel}");
+    }
+
+    private void ChangeCustomerMood(float amount)
+    {
+        if (CurrentCustomer == null)
+            return;
+
+        CurrentCustomer.MoodLevel = Mathf.Clamp(CurrentCustomer.MoodLevel + amount, -1, 1);
+        OnCustomerMoodChanged?.Invoke(CurrentCustomer.MoodLevel);
+
+        Debug.Log($"Customer's mood level is changed to {CurrentCustomer.MoodLevel}");
     }
 }

@@ -6,6 +6,9 @@ public interface INegotiateService
     event Action<ItemModel> OnPurchased;
     event Action<ItemModel> OnCurrentItemChanged;
     event Action OnSkipRequested;
+    event Action<float> OnCustomerMoodChanged;
+    event Action<float> OnCustomerUncertaintyChanged;
+    event Action<IHistoryRecord> OnRecordAdded;
 
     ItemModel CurrentItem { get; }
     Customer CurrentCustomer { get; }
@@ -18,8 +21,6 @@ public interface INegotiateService
     bool TryCounterOffer(long playerOffer);
     void AskAboutItemOrigin();
     void RequestSkip();
-
-
     IReadOnlyList<IHistoryRecord> History { get; }
-    event Action<IHistoryRecord> OnRecordAdded;
+
 }
