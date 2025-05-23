@@ -2,11 +2,11 @@ using UnityEngine;
 
 public class GameLoopState : IGameState
 {
-    private readonly INegotiateService _purchaseService;
+    private readonly INegotiationService _purchaseService;
     private readonly ICustomerFactoryService _customerFactory;
 
     public GameLoopState(
-        INegotiateService purchaseService,
+        INegotiationService purchaseService,
         ICustomerFactoryService customerFactory)
     {
         _purchaseService = purchaseService;

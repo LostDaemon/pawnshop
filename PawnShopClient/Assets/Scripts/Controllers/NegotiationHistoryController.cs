@@ -4,24 +4,26 @@ using UnityEngine.UI;
 using Zenject;
 using System;
 
-public class NegotiationLogController : MonoBehaviour
+public class NegotiationHistoryController : MonoBehaviour
 {
     [SerializeField] private Transform _contentRoot;
     [SerializeField] private GameObject _dialogItemPrefab;
     [SerializeField] private ScrollRect _scrollRect;
 
-    private INegotiateService _negotiateService;
+    private INegotiationHistoryService _historyService;
+    private INegotiationService _negotiateService;
     private Action<ItemModel> _onItemChangedHandler;
 
     [Inject]
-    public void Construct(INegotiateService negotiateService)
+    public void Construct(INegotiationHistoryService historyService, INegotiationService negotiateService)
     {
+        _historyService = historyService;
         _negotiateService = negotiateService;
 
-        foreach (var record in _negotiateService.History)
+        foreach (var record in _historyService.History)
             Append(record);
 
-        _negotiateService.OnRecordAdded += Append;
+        _historyService.OnRecordAdded += Append;
 
         _onItemChangedHandler = _ => Clear();
         _negotiateService.OnCurrentItemChanged += _onItemChangedHandler;
@@ -29,11 +31,11 @@ public class NegotiationLogController : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (_historyService != null)
+            _historyService.OnRecordAdded -= Append;
+
         if (_negotiateService != null)
-        {
-            _negotiateService.OnRecordAdded -= Append;
             _negotiateService.OnCurrentItemChanged -= _onItemChangedHandler;
-        }
     }
 
     private void Append(IHistoryRecord record)

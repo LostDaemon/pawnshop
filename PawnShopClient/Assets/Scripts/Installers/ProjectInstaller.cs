@@ -26,6 +26,10 @@ public class ProjectInstaller : MonoInstaller
             .AsSingle()
             .WithArguments(StartingMoney);
 
+        Container.Bind<INegotiationHistoryService>()
+    .To<NegotiationHistoryService>()
+    .AsSingle();
+
         Container.Bind<IGameStorageService<ItemModel>>()
             .To<GameStorageService<ItemModel>>()
             .AsSingle();
@@ -42,8 +46,8 @@ public class ProjectInstaller : MonoInstaller
                 .To<CustomerService>()
                 .AsSingle();
 
-        Container.Bind<INegotiateService>()
-        .To<NegotiateService>()
+        Container.Bind<INegotiationService>()
+        .To<NegotiationService>()
         .AsSingle();
     }
 }

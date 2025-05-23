@@ -2,7 +2,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Zenject;
-using System.Collections.Generic;
 
 public class NegotiationController : MonoBehaviour
 {
@@ -19,7 +18,7 @@ public class NegotiationController : MonoBehaviour
     [SerializeField] private TMP_Text _itemNameLabel;
     [SerializeField] private SpeechPopupController _speechPopup;
 
-    private INegotiateService _negotiationService;
+    private INegotiationService _negotiationService;
 
     private struct DiscountButton
     {
@@ -30,7 +29,7 @@ public class NegotiationController : MonoBehaviour
     private DiscountButton[] _discountButtons;
 
     [Inject]
-    public void Construct(INegotiateService negotiationService)
+    public void Construct(INegotiationService negotiationService)
     {
         _negotiationService = negotiationService;
 
