@@ -8,10 +8,27 @@ public class NavigationService : INavigationService
 
     public event Action<Vector2Int> OnPositionChanged;
     public event Action<Vector3> OnWorldPositionChanged;
+    public event Action<ScreenId> OnScreenChanged;
+
+    private ScreenId _currentScreen;
+    public ScreenId CurrentScreen
+    {
+        get => _currentScreen;
+        private set
+        {
+            if (_currentScreen != value)
+            {
+                _currentScreen = value;
+                Debug.Log($"[Navigation] Screen changed to: {_currentScreen}");
+                OnScreenChanged?.Invoke(_currentScreen);
+            }
+        }
+    }
 
     public NavigationService(Vector2 roomSize)
     {
         RoomSize = roomSize;
+        CurrentScreen = ScreenMapper.GetScreen(CurrentPosition);
     }
 
     public void MoveLeft() => MoveTo(CurrentPosition + Vector2Int.left);
@@ -34,5 +51,6 @@ public class NavigationService : INavigationService
 
         OnPositionChanged?.Invoke(CurrentPosition);
         OnWorldPositionChanged?.Invoke(worldPosition);
+        CurrentScreen = ScreenMapper.GetScreen(CurrentPosition);
     }
 }

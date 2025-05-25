@@ -7,6 +7,14 @@ public class NavigationController : MonoBehaviour
     public void Initialize(INavigationService service)
     {
         navigationService = service;
+
+        // Инициализируем все панели на сцене
+        var uiScreens = FindObjectsByType<ScreenUIController>(FindObjectsSortMode.None);
+        foreach (var screen in uiScreens)
+        {
+            screen.Initialize(navigationService);
+            Debug.Log($"[UI] Found screen: {screen.name}");
+        }
     }
 
     private void Update()
@@ -26,4 +34,6 @@ public class NavigationController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.D))
             navigationService.MoveRight();
     }
+
+    public INavigationService GetService() => navigationService;
 }
