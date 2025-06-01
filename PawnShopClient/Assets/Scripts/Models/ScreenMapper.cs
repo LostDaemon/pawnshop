@@ -6,9 +6,9 @@ public static class ScreenMapper
     public static readonly Dictionary<Vector2Int, ScreenId> PositionToScreen = new()
     {
         [new Vector2Int(0, 0)] = ScreenId.Negotiation,
-        [new Vector2Int(1, 0)] = ScreenId.TradeHall,
+        [new Vector2Int(1, 0)] = ScreenId.Settings,
         [new Vector2Int(0, 1)] = ScreenId.Storage,
-        [new Vector2Int(-1, 0)] = ScreenId.Settings
+        [new Vector2Int(-1, 0)] = ScreenId.TradeHall
         // Добавь другие при необходимости
     };
 

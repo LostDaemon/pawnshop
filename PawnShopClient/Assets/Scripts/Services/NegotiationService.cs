@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Zenject;
 
 public class NegotiationService : INegotiationService
 {
     private readonly IWalletService _wallet;
     private readonly IGameStorageService<ItemModel> _inventory;
+    private readonly IGameStorageService<ItemModel> _sellStorage;
     private readonly ICustomerService _customerService;
     private readonly INegotiationHistoryService _history;
     private readonly System.Random _random = new();
@@ -21,14 +23,17 @@ public class NegotiationService : INegotiationService
     private readonly HashSet<long> _rejectedOffers = new();
     private static readonly float[] AllDiscounts = { 0.10f, 0.25f, 0.50f, 0.75f };
 
+    [Inject]
     public NegotiationService(
         IWalletService wallet,
-        IGameStorageService<ItemModel> inventory,
+        [Inject(Id = "Inventory")] IGameStorageService<ItemModel> inventory,
+        [Inject(Id = "SellStorage")] IGameStorageService<ItemModel> sellStorage,
         ICustomerService customerService,
         INegotiationHistoryService history)
     {
         _wallet = wallet;
         _inventory = inventory;
+        _sellStorage = sellStorage;
         _customerService = customerService;
         _history = history;
     }
@@ -96,7 +101,9 @@ public class NegotiationService : INegotiationService
             return false;
         }
 
-        _inventory.Put(CurrentItem);
+        // _inventory.Put(CurrentItem); // ← временно отключено
+        _sellStorage.Put(CurrentItem); // ← напрямую в склад продажи
+
         _history.Add(new TextRecord("System", $"Item '{CurrentItem.Name}' purchased for {offeredPrice}."));
         OnPurchased?.Invoke(CurrentItem);
         return true;

@@ -30,12 +30,27 @@ public class ProjectInstaller : MonoInstaller
     .To<NegotiationHistoryService>()
     .AsSingle();
 
+
+
+        // Inventory
         Container.Bind<IGameStorageService<ItemModel>>()
-            .To<GameStorageService<ItemModel>>()
+            .WithId("Inventory")
+            .To<InventoryStorage>()
             .AsSingle();
+
+        // Sell storage
+        Container.Bind<IGameStorageService<ItemModel>>()
+            .WithId("SellStorage")
+            .To<SellStorageService>()
+            .AsSingle();
+
 
         Container.Bind<IItemRepositoryService>()
             .To<ItemRepositoryService>()
+            .AsSingle();
+
+        Container.Bind<IStorageRouterService<ItemModel>>()
+            .To<StorageRouterService<ItemModel>>()
             .AsSingle();
 
         Container.Bind<ICustomerFactoryService>()
@@ -44,6 +59,10 @@ public class ProjectInstaller : MonoInstaller
 
         Container.Bind<ICustomerService>()
                 .To<CustomerService>()
+                .AsSingle();
+
+        Container.Bind<ISellService>()
+                .To<SellService>()
                 .AsSingle();
 
         Container.Bind<INegotiationService>()

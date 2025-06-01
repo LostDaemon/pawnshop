@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 
 public interface IGameStorageService<T>
@@ -6,4 +7,7 @@ public interface IGameStorageService<T>
     bool Withdraw(T item);
     IReadOnlyList<T> All { get; }
     void Empty();
+
+    event Action<T> OnItemAdded;
+    event Action<T> OnItemRemoved;
 }
