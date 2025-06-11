@@ -4,6 +4,8 @@ using System.Collections.Generic;
 public interface ISellService
 {
     int MaxSlots { get; }
+
+    IReadOnlyDictionary<ItemModel, GameTime> ScheduledSales { get; }
     IReadOnlyList<ItemModel> DisplayedItems { get; }
 
     void ConfigureSlots(int count);
