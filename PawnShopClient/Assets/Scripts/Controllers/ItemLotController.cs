@@ -30,7 +30,7 @@ public class ItemLotController : MonoBehaviour
         else
             Debug.LogWarning($"Sprite '{item.ImageId}' not found in atlas.");
 
-        transform.localScale = Vector3.one * item.Scale;
+        transform.localScale = Vector3.one * item.Scale * 0.5f;
     }
 
     private Sprite LoadSprite(string imageId)

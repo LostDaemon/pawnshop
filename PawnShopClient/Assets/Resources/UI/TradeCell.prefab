@@ -28,7 +28,7 @@ RectTransform:
   m_GameObject: {fileID: 3799399086457455065}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 7182922604461025446}
@@ -90,11 +90,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1402eb5dcd46ba248893b140a3269bdc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _icon: {fileID: 6774632915050153728}
-  _nameText: {fileID: 3734066829291713184}
-  _atlasName: ItemsAtlas
-  _canvasRoot: {fileID: 0}
-  _mainCamera: {fileID: 0}
 --- !u!1 &4648361955194627512
 GameObject:
   m_ObjectHideFlags: 0

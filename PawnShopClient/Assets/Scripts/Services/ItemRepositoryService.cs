@@ -13,7 +13,7 @@ public class ItemRepositoryService : IItemRepositoryService
 {
     new ItemModel("Golden Watch", "item_watch_gold", 1200, 0.3f, "An elegant gold-plated wristwatch with classic design. Popular among collectors."),
     new ItemModel("Brilliant Ring", "item_brilliant_ring", 2200, 0.3f, "A luxurious ring set with a flawless brilliant-cut diamond. Pure extravagance."),
-    new ItemModel("Family Picture", "item_picture", 50, 1f, "A faded old photograph in a wooden frame. Sentimental value, little market interest."),
+    new ItemModel("Family Picture", "item_picture", 50, 0.5f, "A faded old photograph in a wooden frame. Sentimental value, little market interest."),
     new ItemModel("Vintage Ink Pen", "item_ink_pen", 250, 0.3f, "A well-preserved ink pen from the 1950s. Might appeal to niche collectors."),
     new ItemModel("Vintage Glasses", "item_vintage_glasses", 180, 0.5f, "Stylish round-frame glasses with gold accents. Slightly scratched."),
     new ItemModel("Golden Ingot", "item_golden_ingot", 3500, 0.5f, "A solid ingot of investment-grade gold. Very high market value."),
