@@ -1,20 +1,18 @@
-using System.Collections.Generic;
 using UnityEngine;
 using Zenject;
 
 public class SellExpositionController : MonoBehaviour
 {
-    [SerializeField] private Transform[] _anchors;
-    [SerializeField] private GameObject _itemLotPrefab;
+    [SerializeField] private TradeCellController[] _cells;
 
-    private readonly Dictionary<ItemModel, GameObject> _activeLots = new();
+
     private ISellService _sellService;
 
     [Inject]
     public void Construct(ISellService sellService)
     {
         _sellService = sellService;
-        _sellService.ConfigureSlots(_anchors.Length);
+        _sellService.ConfigureSlots(_cells.Length);
         _sellService.OnDisplayUpdated += RefreshDisplay;
     }
 
@@ -31,23 +29,14 @@ public class SellExpositionController : MonoBehaviour
 
     private void RefreshDisplay()
     {
-        // Удаляем все старые объекты
-        foreach (var go in _activeLots.Values)
-            Destroy(go);
-
-        _activeLots.Clear();
+        foreach (var cell in _cells)
+            cell.ClearItem();
 
         var items = _sellService.DisplayedItems;
-        for (int i = 0; i < items.Count && i < _anchors.Length; i++)
+        for (int i = 0; i < items.Count && i < _cells.Length; i++)
         {
             var item = items[i];
-            var anchor = _anchors[i];
-
-            var instance = Instantiate(_itemLotPrefab, anchor.position, Quaternion.identity, anchor);
-            var lot = instance.GetComponent<ItemLotController>();
-            lot.Initialize(item, anchor);
-
-            _activeLots[item] = instance;
+            _cells[i].SetItem(item);
         }
     }
 }
