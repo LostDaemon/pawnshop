@@ -26,8 +26,8 @@ public class NegotiationService : INegotiationService
     [Inject]
     public NegotiationService(
         IWalletService wallet,
-        [Inject(Id = "Inventory")] IGameStorageService<ItemModel> inventory,
-        [Inject(Id = "SellStorage")] IGameStorageService<ItemModel> sellStorage,
+        [Inject(Id = StorageType.InventoryStorage)] IGameStorageService<ItemModel> inventory,
+        [Inject(Id = StorageType.SellStorage)] IGameStorageService<ItemModel> sellStorage,
         ICustomerService customerService,
         INegotiationHistoryService history)
     {

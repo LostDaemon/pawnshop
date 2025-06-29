@@ -13,7 +13,7 @@ public class TradeListController : MonoBehaviour
 
     [Inject]
     public void Construct(
-        [Inject(Id = "Inventory")] IGameStorageService<ItemModel> inventoryStorage,
+        [Inject(Id = StorageType.InventoryStorage)] IGameStorageService<ItemModel> inventoryStorage,
         DiContainer container)
     {
         _inventoryStorage = inventoryStorage;

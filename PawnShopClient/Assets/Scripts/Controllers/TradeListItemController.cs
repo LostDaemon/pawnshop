@@ -22,8 +22,8 @@ public class TradeListItemController : MonoBehaviour
     [Inject]
     public void Construct(
         IStorageRouterService<ItemModel> router,
-        [Inject(Id = "Inventory")] IGameStorageService<ItemModel> inventory,
-        [Inject(Id = "SellStorage")] IGameStorageService<ItemModel> sellStorage,
+        [Inject(Id = StorageType.InventoryStorage)] IGameStorageService<ItemModel> inventory,
+        [Inject(Id = StorageType.SellStorage)] IGameStorageService<ItemModel> sellStorage,
         ISellService sellService)
     {
         _router = router;

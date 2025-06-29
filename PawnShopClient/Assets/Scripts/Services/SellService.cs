@@ -22,7 +22,7 @@ public class SellService : ISellService
 
     [Inject]
     public SellService(
-        [Inject(Id = "SellStorage")] IGameStorageService<ItemModel> sellStorage,
+        [Inject(Id = StorageType.SellStorage)] IGameStorageService<ItemModel> sellStorage,
         ITimeService timeService,
         IWalletService walletService)
     {

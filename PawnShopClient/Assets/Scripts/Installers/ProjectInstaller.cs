@@ -34,13 +34,13 @@ public class ProjectInstaller : MonoInstaller
 
         // Inventory
         Container.Bind<IGameStorageService<ItemModel>>()
-            .WithId("Inventory")
+            .WithId(StorageType.InventoryStorage)
             .To<InventoryStorage>()
             .AsSingle();
 
         // Sell storage
         Container.Bind<IGameStorageService<ItemModel>>()
-            .WithId("SellStorage")
+            .WithId(StorageType.SellStorage)
             .To<SellStorageService>()
             .AsSingle();
 
