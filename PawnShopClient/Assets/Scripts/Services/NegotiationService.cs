@@ -101,9 +101,7 @@ public class NegotiationService : INegotiationService
             return false;
         }
 
-        // _inventory.Put(CurrentItem); // ← временно отключено
-        _sellStorage.Put(CurrentItem); // ← напрямую в склад продажи
-
+        _inventory.Put(CurrentItem);
         _history.Add(new TextRecord("System", $"Item '{CurrentItem.Name}' purchased for {offeredPrice}."));
         OnPurchased?.Invoke(CurrentItem);
         return true;

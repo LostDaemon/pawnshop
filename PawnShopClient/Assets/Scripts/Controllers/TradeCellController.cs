@@ -25,7 +25,6 @@ public class TradeCellController : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log($"Update");
         if (_buttonInstance != null && _buttonInstance.activeSelf)
             PositionButton();
     }
@@ -99,11 +98,8 @@ public class TradeCellController : MonoBehaviour
     private void PositionButton()
     {
 
-        Debug.Log($"Posit");
         if (_uiCanvas == null || _buttonInstance == null)
             return;
-
-        Debug.Log($"Positioning button for {name} at {transform.position}");
 
         Vector2 screenPos = Camera.main.WorldToScreenPoint(transform.position);
         RectTransformUtility.ScreenPointToLocalPointInRectangle(

@@ -7,29 +7,33 @@ public class TradeListController : MonoBehaviour
     [SerializeField] private Transform _contentRoot;
     [SerializeField] private GameObject _itemPrefab;
 
-    private IGameStorageService<ItemModel> _sellStorage;
+    private IGameStorageService<ItemModel> _inventoryStorage;
+    private DiContainer _container;
     private readonly Dictionary<ItemModel, TradeListItemController> _spawned = new();
 
     [Inject]
-    public void Construct([Inject(Id = "SellStorage")] IGameStorageService<ItemModel> sellStorage)
+    public void Construct(
+        [Inject(Id = "Inventory")] IGameStorageService<ItemModel> inventoryStorage,
+        DiContainer container)
     {
-        _sellStorage = sellStorage;
-        _sellStorage.OnItemAdded += OnItemAdded;
-        _sellStorage.OnItemRemoved += OnItemRemoved;
+        _inventoryStorage = inventoryStorage;
+        _container = container;
+        _inventoryStorage.OnItemAdded += OnItemAdded;
+        _inventoryStorage.OnItemRemoved += OnItemRemoved;
     }
 
     private void Start()
     {
-        foreach (var item in _sellStorage.All)
+        foreach (var item in _inventoryStorage.All)
             AddItem(item);
     }
 
     private void OnDestroy()
     {
-        if (_sellStorage != null)
+        if (_inventoryStorage != null)
         {
-            _sellStorage.OnItemAdded -= OnItemAdded;
-            _sellStorage.OnItemRemoved -= OnItemRemoved;
+            _inventoryStorage.OnItemAdded -= OnItemAdded;
+            _inventoryStorage.OnItemRemoved -= OnItemRemoved;
         }
     }
 
@@ -41,8 +45,8 @@ public class TradeListController : MonoBehaviour
     {
         if (_spawned.ContainsKey(item))
             return;
-        var instance = Instantiate(_itemPrefab, _contentRoot);
-        var controller = instance.GetComponent<TradeListItemController>();
+        var controller = _container.InstantiatePrefabForComponent<TradeListItemController>(
+            _itemPrefab, _contentRoot);
         if (controller != null)
             controller.Show(item);
         _spawned[item] = controller;
