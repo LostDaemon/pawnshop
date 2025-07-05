@@ -30,7 +30,10 @@ public class ProjectInstaller : MonoInstaller
     .To<NegotiationHistoryService>()
     .AsSingle();
 
-
+        Container.Bind<ISpriteService>()
+            .To<SpriteService>()
+            .AsSingle()
+            .WithArguments("Sprites/ItemsAtlas");
 
         // Inventory
         Container.Bind<IGameStorageService<ItemModel>>()
@@ -44,6 +47,9 @@ public class ProjectInstaller : MonoInstaller
             .To<SellStorageService>()
             .AsSingle();
 
+        Container.Bind<IStorageLocatorService>()
+                  .To<StorageLocatorService>()
+                  .AsSingle();
 
         Container.Bind<IItemRepositoryService>()
             .To<ItemRepositoryService>()

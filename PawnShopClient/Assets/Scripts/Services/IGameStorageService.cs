@@ -1,7 +1,11 @@
 using System;
 using System.Collections.Generic;
 
-public interface IGameStorageService<T>
+
+public interface IGameStorageService { }
+
+
+public interface IGameStorageService<T> : IGameStorageService
 {
     void Put(T item);
     bool Withdraw(T item);
