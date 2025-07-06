@@ -1,16 +1,21 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
 
-public class ListItemController : MonoBehaviour
+public class ListItemController : MonoBehaviour, IDraggable
 {
     private Image _image;
     private ISpriteService _spriteService;
     private ItemModel _item;
-
+    public StorageType StorageType { get; private set; }
     public event Action<ItemModel> OnClick;
-    public ItemModel Item => _item;
+    public event Action<IDraggable, PointerEventData> OnItemDrag;
+    public event Action<IDraggable, PointerEventData> OnItemEndDrag;
+    public event Action<IDraggable, PointerEventData> OnItemBeginDrag;
+    public ItemModel Payload => _item;
+
 
     [Inject]
     public void Construct(ISpriteService spriteService)
@@ -28,9 +33,9 @@ public class ListItemController : MonoBehaviour
         }
     }
 
-    public void Init(ItemModel item)
+    public void Init(StorageType storageType, ItemModel item)
     {
-        Debug.Log($"INIT: {item.Name}");
+        StorageType = storageType;
         _item = item;
 
         var sprite = _spriteService.GetSprite(_item.ImageId);
@@ -48,5 +53,20 @@ public class ListItemController : MonoBehaviour
     {
         Debug.Log($"Item clicked");
         OnClick?.Invoke(_item);
+    }
+
+    public void OnBeginDrag(PointerEventData eventData)
+    {
+        OnItemBeginDrag?.Invoke(this, eventData);
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        OnItemDrag?.Invoke(this, eventData);
+    }
+
+    public void OnEndDrag(PointerEventData eventData)
+    {
+        OnItemEndDrag?.Invoke(this, eventData);
     }
 }

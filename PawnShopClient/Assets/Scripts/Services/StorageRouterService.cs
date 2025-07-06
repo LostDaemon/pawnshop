@@ -1,8 +1,8 @@
 using System.Linq;
 
-public class StorageRouterService<T> : IStorageRouterService<T>
+public class StorageRouterService : IStorageRouterService
 {
-    public void Transfer(T item, IGameStorageService<T> source, IGameStorageService<T> target)
+    public void Transfer(ItemModel item, IGameStorageService<ItemModel> source, IGameStorageService<ItemModel> target)
     {
         if (!source.All.Contains(item))
         {

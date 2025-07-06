@@ -1,4 +1,4 @@
-public interface IStorageRouterService<T>
+public interface IStorageRouterService
 {
-    void Transfer(T item, IGameStorageService<T> source, IGameStorageService<T> target);
+    void Transfer(ItemModel item, IGameStorageService<ItemModel> source, IGameStorageService<ItemModel> target);
 }

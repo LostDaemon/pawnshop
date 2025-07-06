@@ -9,7 +9,6 @@ public class ItemModel
     public string Description { get; private set; }
     public bool IsFake { get; set; }
 
-
     public ItemModel(string name, string imageId, int realPrice, float scale, string description, bool isFake = false)
     {
         Name = name;

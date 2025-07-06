@@ -55,8 +55,8 @@ public class ProjectInstaller : MonoInstaller
             .To<ItemRepositoryService>()
             .AsSingle();
 
-        Container.Bind<IStorageRouterService<ItemModel>>()
-            .To<StorageRouterService<ItemModel>>()
+        Container.Bind<IStorageRouterService>()
+            .To<StorageRouterService>()
             .AsSingle();
 
         Container.Bind<ICustomerFactoryService>()
