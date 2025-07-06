@@ -74,5 +74,9 @@ public class ProjectInstaller : MonoInstaller
         Container.Bind<INegotiationService>()
         .To<NegotiationService>()
         .AsSingle();
+
+        Container.Bind<IDragAndDropService>()
+               .To<DragDropService>()
+               .AsSingle();
     }
 }

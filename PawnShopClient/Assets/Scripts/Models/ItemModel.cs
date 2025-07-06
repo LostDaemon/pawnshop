@@ -1,6 +1,6 @@
 using NUnit.Framework;
 
-public class ItemModel
+public class ItemModel : ITransferable
 {
     public string Name { get; private set; }
     public string ImageId { get; private set; }

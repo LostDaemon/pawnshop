@@ -1,7 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using Zenject;
 
 public class ListController : MonoBehaviour
@@ -11,18 +13,26 @@ public class ListController : MonoBehaviour
     [SerializeField] private GameObject _itemPrefab;
     [SerializeField] private TMP_Text _title;
     private IGameStorageService<ItemModel> _storage;
-    IStorageLocatorService _storageLocatorService;
+    private IStorageLocatorService _storageLocatorService;
+    private IDragAndDropService _dragAndDropService;
     private DiContainer _container;
     private List<ListItemController> _renderedItems = new();
 
     [Inject]
-    public void Construct(DiContainer container, IStorageLocatorService storageLocatorService)
+    public void Construct(DiContainer container, IStorageLocatorService storageLocatorService, IDragAndDropService dragAndDropService)
     {
         _storageLocatorService = storageLocatorService;
+        _dragAndDropService = dragAndDropService;
+        _dragAndDropService.OnDragAndDropSucceed += OnDragAndDropSucceed;
         _container = container;
         _storage = _storageLocatorService.Get(_storageType);
         _storage.OnItemAdded += OnItemAdded;
         _storage.OnItemRemoved += OnItemRemoved;
+    }
+
+    private void OnDragAndDropSucceed(DragAndDropContext context)
+    {
+
     }
 
     private void Awake()
@@ -65,9 +75,16 @@ public class ListController : MonoBehaviour
         }
 
         controller.OnClick += OnItemClicked;
-        Debug.Log($"CALLING INIT");
+        controller.OnDrag += OnItemDrag;
+
+
         controller.Init(item);
         _renderedItems.Add(controller);
+    }
+
+    private void OnItemDrag(PointerEventData data)
+    {
+        throw new NotImplementedException();
     }
 
     private void OnItemClicked(ItemModel item)

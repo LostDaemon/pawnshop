@@ -1,16 +1,21 @@
 using System;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using Zenject;
 
-public class ListItemController : MonoBehaviour
+public class ListItemController : MonoBehaviour, IDraggable
 {
     private Image _image;
     private ISpriteService _spriteService;
+    private IDragAndDropService _dragAndDropService;
     private ItemModel _item;
-
+    private DragAndDropContext _dragAndDropContext;
     public event Action<ItemModel> OnClick;
     public ItemModel Item => _item;
+
+    public event Action<IDraggable, Vector2, DragAndDropContext> OnItemDrop;
+    public event Action<DragAndDropContext> OnItemStartDragging;
 
     [Inject]
     public void Construct(ISpriteService spriteService)
@@ -30,9 +35,7 @@ public class ListItemController : MonoBehaviour
 
     public void Init(ItemModel item)
     {
-        Debug.Log($"INIT: {item.Name}");
         _item = item;
-
         var sprite = _spriteService.GetSprite(_item.ImageId);
 
         if (_image == null || sprite == null)
@@ -44,9 +47,42 @@ public class ListItemController : MonoBehaviour
         _image.sprite = sprite;
     }
 
-    public void OnClicked()
+    public void OnBeginDrag(PointerEventData eventData)
     {
-        Debug.Log($"Item clicked");
+        Debug.Log($"Begin dragging item: {_item.Name}");
+
+        _dragAndDropContext = new DragAndDropContext
+        {
+            Raycaster = GetComponentInParent<GraphicRaycaster>(),
+            Canvas = GetComponentInParent<Canvas>(),
+            CurrentPosition = eventData.position,
+            InitialPosition = transform.position,
+            InitialParent = transform.parent
+        };
+
+        OnItemStartDragging?.Invoke(_dragAndDropContext);
+
+        transform.SetParent(transform.root); //TODO: Move to drag service
+    }
+
+    public void OnPointerDown(PointerEventData eventData)
+    {
+        Debug.Log($"Pointer down on item: {_item.Name}");
         OnClick?.Invoke(_item);
+    }
+
+    public void OnDrag(PointerEventData eventData)
+    {
+        transform.position = eventData.position;
+        if (_dragAndDropContext != null)
+        {
+            _dragAndDropContext.CurrentPosition = eventData.position;
+            _dragAndDropService.UpdateContext(this, _dragAndDropContext);
+        }
+    }
+
+    void IDropHandler.OnDrop(PointerEventData eventData)
+    {
+        OnItemDrop?.Invoke(this, eventData.position, _dragAndDropContext);
     }
 }

@@ -1,5 +1,8 @@
+//TODO: REFACTOR
+
 using UnityEngine;
 using UnityEngine.UI;
+using Zenject;
 
 public class TradeCellController : MonoBehaviour
 {
@@ -10,8 +13,15 @@ public class TradeCellController : MonoBehaviour
     private Image _itemImageInstance;
     private GameObject _buttonInstance;
     private Canvas _uiCanvas;
-
+    private DiContainer _container;
     private static Sprite[] _cachedAtlas;
+
+
+    [Inject]
+    public void Construct(DiContainer container)
+    {
+        _container = container;
+    }
 
     private void Start()
     {
@@ -83,9 +93,9 @@ public class TradeCellController : MonoBehaviour
 
         if (_buttonInstance == null)
         {
-            _buttonInstance = Instantiate(_addButtonPrefab, _uiCanvas.transform);
+            _buttonInstance = _container.InstantiatePrefabForComponent<GameObject>(_addButtonPrefab, _uiCanvas.transform);
         }
-        _buttonInstance.SetActive(true);
+        // _buttonInstance.SetActive(true);
         PositionButton();
     }
 
