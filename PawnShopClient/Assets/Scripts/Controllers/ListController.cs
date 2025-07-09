@@ -6,21 +6,25 @@ using Zenject;
 
 public class ListController : MonoBehaviour
 {
-    [SerializeField] private StorageType _storageType;
+    [SerializeField] private StorageType _sourceStorageType;
+    [SerializeField] private StorageType _targetStorageType;
     [SerializeField] private Transform _contentRoot;
     [SerializeField] private GameObject _itemPrefab;
     [SerializeField] private TMP_Text _title;
     private IGameStorageService<ItemModel> _storage;
     IStorageLocatorService _storageLocatorService;
     private DiContainer _container;
+    private IStorageRouterService<ItemModel> _storageRouterService;
     private List<ListItemController> _renderedItems = new();
+    private ItemModel _selectedItem;
 
     [Inject]
-    public void Construct(DiContainer container, IStorageLocatorService storageLocatorService)
+    public void Construct(DiContainer container, IStorageLocatorService storageLocatorService, IStorageRouterService<ItemModel> storageRouterService)
     {
         _storageLocatorService = storageLocatorService;
+        _storageRouterService = storageRouterService;
         _container = container;
-        _storage = _storageLocatorService.Get(_storageType);
+        _storage = _storageLocatorService.Get(_sourceStorageType);
         _storage.OnItemAdded += OnItemAdded;
         _storage.OnItemRemoved += OnItemRemoved;
     }
@@ -29,7 +33,7 @@ public class ListController : MonoBehaviour
     {
         if (_storage == null)
         {
-            Debug.LogError($"Storage of type {_storageType} not found.");
+            Debug.LogError($"Storage of type {_sourceStorageType} not found.");
             return;
         }
 
@@ -65,7 +69,6 @@ public class ListController : MonoBehaviour
         }
 
         controller.OnClick += OnItemClicked;
-        Debug.Log($"CALLING INIT");
         controller.Init(item);
         _renderedItems.Add(controller);
     }
@@ -77,8 +80,20 @@ public class ListController : MonoBehaviour
             Debug.LogError("Item is null in OnItemClicked.");
             return;
         }
+
+        _selectedItem = item;
+        RenderItemInfo(item);
+    }
+
+    private void RenderItemInfo(ItemModel item)
+    {
+        if (item == null)
+        {
+            Debug.LogError("Item is null in RenderItemInfo.");
+            return;
+        }
+
         _title.text = item.Name;
-        Debug.Log($"Item clicked: {item.Name}");
     }
 
     private void RemoveItem(ItemModel item)
@@ -94,5 +109,18 @@ public class ListController : MonoBehaviour
         _renderedItems.Remove(toDelete);
         toDelete.OnClick -= OnItemClicked;
         Destroy(toDelete.gameObject);
+    }
+
+    public void Schedule()
+    {
+        if (_selectedItem == null)
+        {
+            return;
+        }
+
+        var source = _storageLocatorService.Get(_sourceStorageType);
+        var target = _storageLocatorService.Get(_targetStorageType);
+        _storageRouterService.Transfer(_selectedItem, source, target);
+        _selectedItem = null;
     }
 }
