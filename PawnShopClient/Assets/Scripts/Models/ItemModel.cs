@@ -1,22 +1,14 @@
-using NUnit.Framework;
 
-public class ItemModel
+public class ItemModel : ItemPrototypeModel
 {
-    public string Name { get; private set; }
-    public string ImageId { get; private set; }
-    public int RealPrice { get; private set; }
-    public float Scale { get; private set; }
-    public string Description { get; private set; }
+    public string Id { get; private set; }
+    public long PurchasePrice { get; set; }
+    public long SellPrice { get; set; }
     public bool IsFake { get; set; }
 
-
-    public ItemModel(string name, string imageId, int realPrice, float scale, string description, bool isFake = false)
+    public ItemModel(string id, bool fake, string name, string imageId, long basePrice, float scale, string description) : base(name, imageId, basePrice, scale, description)
     {
-        Name = name;
-        ImageId = imageId;
-        RealPrice = realPrice;
-        Description = description;
-        Scale = scale;
-        IsFake = isFake;
+        Id = id;
+        IsFake = fake;
     }
 }
