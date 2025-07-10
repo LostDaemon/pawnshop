@@ -12,16 +12,18 @@ public class ListController : MonoBehaviour
     [SerializeField] private GameObject _itemPrefab;
     [SerializeField] private TMP_Text _title;
     private IGameStorageService<ItemModel> _storage;
-    IStorageLocatorService _storageLocatorService;
+    private IStorageLocatorService _storageLocatorService;
+    private ISellService _sellService;
     private DiContainer _container;
     private IStorageRouterService<ItemModel> _storageRouterService;
     private List<ListItemController> _renderedItems = new();
     private ItemModel _selectedItem;
 
     [Inject]
-    public void Construct(DiContainer container, IStorageLocatorService storageLocatorService, IStorageRouterService<ItemModel> storageRouterService)
+    public void Construct(DiContainer container, IStorageLocatorService storageLocatorService, IStorageRouterService<ItemModel> storageRouterService, ISellService sellService)
     {
         _storageLocatorService = storageLocatorService;
+        _sellService = sellService;
         _storageRouterService = storageRouterService;
         _container = container;
         _storage = _storageLocatorService.Get(_sourceStorageType);
@@ -93,7 +95,10 @@ public class ListController : MonoBehaviour
             return;
         }
 
-        _title.text = item.Name;
+        if (_title != null)
+        {
+            _title.text = item.Name; //TODO: Enrich ItemInfo
+        }
     }
 
     private void RemoveItem(ItemModel item)
@@ -118,9 +123,8 @@ public class ListController : MonoBehaviour
             return;
         }
 
-        var source = _storageLocatorService.Get(_sourceStorageType);
-        var target = _storageLocatorService.Get(_targetStorageType);
-        _storageRouterService.Transfer(_selectedItem, source, target);
+        _selectedItem.SellPrice = (int)(_selectedItem.PurchasePrice * 1.1f);
+        _sellService.ScheduleForSale(_selectedItem);
         _selectedItem = null;
     }
 }

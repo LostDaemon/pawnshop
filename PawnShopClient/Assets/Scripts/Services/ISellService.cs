@@ -4,16 +4,13 @@ using System.Collections.Generic;
 public interface ISellService
 {
     int MaxSlots { get; }
-
-    IReadOnlyDictionary<ItemModel, GameTime> ScheduledSales { get; }
     IReadOnlyList<ItemModel> DisplayedItems { get; }
+    IReadOnlyDictionary<ItemModel, GameTime> ScheduledSales { get; }
+
+    event Action<ItemModel> OnStartSelling;
+    event Action<ItemModel> OnSold;
 
     void ConfigureSlots(int count);
-    void TryAutoFillDisplay();
-
-    bool SellItem(ItemModel item);
-    bool RemoveFromDisplay(ItemModel item);
-
-    event Action OnDisplayUpdated;
-    event Action<ItemModel> OnSold;
+    bool RemoveFromSelling(ItemModel item);
+    bool ScheduleForSale(ItemModel item);
 }

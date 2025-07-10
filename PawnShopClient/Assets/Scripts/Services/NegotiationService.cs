@@ -54,7 +54,7 @@ public class NegotiationService : INegotiationService
     private void GenerateInitialNpcOffer()
     {
         if (CurrentItem == null) return;
-        CurrentNpcOffer = (long)(CurrentItem.RealPrice * _random.Next(60, 86) / 100f);
+        CurrentNpcOffer = (long)(CurrentItem.BasePrice * _random.Next(60, 86) / 100f);
     }
 
     public long GetCurrentOffer() => _agreedOffer;
@@ -101,6 +101,7 @@ public class NegotiationService : INegotiationService
             return false;
         }
 
+        CurrentItem.PurchasePrice = offeredPrice;
         _inventory.Put(CurrentItem);
         _history.Add(new TextRecord("System", $"Item '{CurrentItem.Name}' purchased for {offeredPrice}."));
         OnPurchased?.Invoke(CurrentItem);
@@ -117,8 +118,8 @@ public class NegotiationService : INegotiationService
 
         var customer = _customerService.Current;
 
-        var minAcceptable = (long)(CurrentItem.RealPrice * 0.6f * (1f - customer.UncertaintyLevel));
-        var maxAcceptable = (long)(CurrentItem.RealPrice * 0.95f);
+        var minAcceptable = (long)(CurrentItem.BasePrice * 0.6f * (1f - customer.UncertaintyLevel));
+        var maxAcceptable = (long)(CurrentItem.BasePrice * 0.95f);
 
         Debug.Log($"NPC offer: {CurrentNpcOffer}, Player offer: {playerOffer}, Min: {minAcceptable}, Max: {maxAcceptable}");
 

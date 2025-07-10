@@ -1,35 +1,35 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using Zenject;
-using UnityEngine;
 
 public class SellService : ISellService
 {
-    private readonly List<ItemModel> _displayed = new();
     private readonly IGameStorageService<ItemModel> _sellStorage;
+    private readonly IGameStorageService<ItemModel> _inventoryStorage;
     private readonly ITimeService _timeService;
     private readonly IWalletService _wallet;
     private readonly Dictionary<ItemModel, GameTime> _scheduledSales = new();
     private int _maxSlots;
 
     public int MaxSlots => _maxSlots;
-    public IReadOnlyList<ItemModel> DisplayedItems => _displayed;
+    public IReadOnlyList<ItemModel> DisplayedItems => _sellStorage.All.ToList();
     public IReadOnlyDictionary<ItemModel, GameTime> ScheduledSales => _scheduledSales;
-    public event Action OnDisplayUpdated;
+    public event Action<ItemModel> OnStartSelling;
     public event Action<ItemModel> OnSold;
 
     [Inject]
     public SellService(
+        [Inject(Id = StorageType.InventoryStorage)] IGameStorageService<ItemModel> inventoryStorage,
         [Inject(Id = StorageType.SellStorage)] IGameStorageService<ItemModel> sellStorage,
         ITimeService timeService,
-        IWalletService walletService)
+        IWalletService walletService, int initialSlots)
     {
+        _inventoryStorage = inventoryStorage;
         _sellStorage = sellStorage;
         _timeService = timeService;
         _wallet = walletService;
-        _sellStorage.OnItemAdded += HandleNewItemForSale;
+        _maxSlots = initialSlots;
     }
 
     public void ConfigureSlots(int count)
@@ -37,62 +37,58 @@ public class SellService : ISellService
         _maxSlots = count;
     }
 
-    private void HandleNewItemForSale(ItemModel item)
+    public bool ScheduleForSale(ItemModel item)
     {
-        UnityEngine.Debug.Log($"Trying publish: {item.Name}");
-        if (_displayed.Count < _maxSlots && _sellStorage.Withdraw(item))
-        {
-            _displayed.Add(item);
-            OnDisplayUpdated?.Invoke();
-
-            int delayHours = UnityEngine.Random.Range(1, 4);
-            var scheduleTime = AddHours(_timeService.CurrentTime, delayHours);
-            _scheduledSales[item] = scheduleTime;
-            _timeService.Schedule(scheduleTime, () => SellItem(item));
-            UnityEngine.Debug.Log($"Item {item.Name} scheduled for sale at {scheduleTime.Day} {scheduleTime.Hour}:{scheduleTime.Minute}");
-        }
-    }
-
-    public bool SellItem(ItemModel item)
-    {
-        if (!_displayed.Contains(item))
+        if (item == null)
             return false;
 
-        _displayed.Remove(item);
-        _scheduledSales.Remove(item);
-        _wallet.TransactionAttempt(CurrencyType.Money, item.RealPrice);
-        OnDisplayUpdated?.Invoke();
-        OnSold?.Invoke(item);
-        UnityEngine.Debug.Log($"Item {item.Name} sold for {item.RealPrice} money.");
+        if (_sellStorage.All.Count >= _maxSlots)
+        {
+            UnityEngine.Debug.LogWarning($"Cannot add {item.Name} with id {item.Id} to sell storage, max slots reached.");
+            return false;
+        }
+
+        if (!_inventoryStorage.Withdraw(item))
+            return false;
+
+        _sellStorage.Put(item);
+
+        int delayHours = UnityEngine.Random.Range(1, 4);
+        var scheduleTime = AddHours(_timeService.CurrentTime, delayHours);
+        _timeService.Schedule(scheduleTime, () => SellScheduledItem(item));
+        UnityEngine.Debug.Log($"Item {item.Name} with id {item.Id} scheduled for sale at {scheduleTime.Day} {scheduleTime.Hour}:{scheduleTime.Minute}");
+
+        OnStartSelling?.Invoke(item);
         return true;
     }
 
-    public bool RemoveFromDisplay(ItemModel item)
+    private bool SellScheduledItem(ItemModel item)
     {
-        bool removed = _displayed.Remove(item);
-        if (removed)
-        {
-            _scheduledSales.Remove(item);
-            OnDisplayUpdated?.Invoke();
-        }
-        return removed;
+        UnityEngine.Debug.Log($"Trying to fire shcheduled sale for {item.Name} with id {item.Id} at {_timeService.CurrentTime.Day} {_timeService.CurrentTime.Hour}:{_timeService.CurrentTime.Minute}");
+
+        if (item == null || !_sellStorage.All.Any(i => i.Id == item.Id))
+            return false;
+
+        _sellStorage.Withdraw(item);
+        _wallet.TransactionAttempt(CurrencyType.Money, item.SellPrice);
+        _scheduledSales.Remove(item);
+        OnSold?.Invoke(item);
+        UnityEngine.Debug.Log($"Item {item.Name} with id {item.Id} sold for {item.SellPrice} at {_timeService.CurrentTime.Day} {_timeService.CurrentTime.Hour}:{_timeService.CurrentTime.Minute}");
+        return true;
     }
 
-    public void TryAutoFillDisplay()
+    public bool RemoveFromSelling(ItemModel item)
     {
-        if (_displayed.Count >= _maxSlots)
-            return;
+        if (item == null || !_sellStorage.All.Contains(item))
+            return false;
 
-        foreach (var item in _sellStorage.All.ToList())
-        {
-            if (_displayed.Count >= _maxSlots)
-                break;
+        if (!_sellStorage.Withdraw(item))
+            return false;
 
-            if (_sellStorage.Withdraw(item))
-                _displayed.Add(item);
-        }
-
-        OnDisplayUpdated?.Invoke();
+        _inventoryStorage.Put(item);
+        _scheduledSales.Remove(item);
+        UnityEngine.Debug.Log($"Item {item.Name} with id {item.Id} removed from selling.");
+        return true;
     }
 
     private GameTime AddHours(GameTime time, int hours)

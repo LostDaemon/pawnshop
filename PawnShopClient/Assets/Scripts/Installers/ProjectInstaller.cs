@@ -3,6 +3,7 @@ using Zenject;
 public class ProjectInstaller : MonoInstaller
 {
     private const long StartingMoney = 10000L; // TODO: Load from config later
+    private const int DefaultSellSlots = 12;
 
     public override void InstallBindings()
     {
@@ -69,7 +70,8 @@ public class ProjectInstaller : MonoInstaller
 
         Container.Bind<ISellService>()
                 .To<SellService>()
-                .AsSingle();
+                .AsSingle()
+                .WithArguments(DefaultSellSlots);
 
         Container.Bind<INegotiationService>()
         .To<NegotiationService>()

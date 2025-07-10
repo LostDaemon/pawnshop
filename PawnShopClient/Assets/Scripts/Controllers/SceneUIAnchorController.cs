@@ -7,7 +7,6 @@ public class SceneUIAnchorController : MonoBehaviour
     [SerializeField] private GameObject _uiAnchorPrefab;
     [SerializeField] private Canvas _uiCanvas;
     [SerializeField] private Transform _parent;
-    [SerializeField] private int storageIndex;
     private GameObject _uiObjectInstance;
 
     [Inject]
@@ -19,21 +18,15 @@ public class SceneUIAnchorController : MonoBehaviour
     private void Awake()
     {
         _uiObjectInstance = _container.InstantiatePrefab(_uiAnchorPrefab, _parent);
-
-        var ctr = _uiObjectInstance.GetComponent<LotInteractionZoneController>();
-        if (ctr != null)
-        {
-            ctr.LotIndex = storageIndex;
-        }
     }
 
     public void LateUpdate()
     {
         //TODO: Ensure screen was moved
-        PositionButton();
+        PositionChildren();
     }
 
-    private void PositionButton()
+    private void PositionChildren()
     {
         if (_uiCanvas == null || _uiObjectInstance == null)
             return;
