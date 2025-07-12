@@ -42,6 +42,7 @@ public class ListItemController : MonoBehaviour
         }
 
         _image.sprite = sprite;
+        _image.preserveAspect = true;
     }
 
     public void OnClicked()

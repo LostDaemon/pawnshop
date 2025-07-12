@@ -11,20 +11,19 @@ public class ListController : MonoBehaviour
     [SerializeField] private Transform _contentRoot;
     [SerializeField] private GameObject _itemPrefab;
     [SerializeField] private TMP_Text _title;
+    [SerializeField] private BaseItemInfoController _itemInfo;
     private IGameStorageService<ItemModel> _storage;
     private IStorageLocatorService _storageLocatorService;
     private ISellService _sellService;
     private DiContainer _container;
-    private IStorageRouterService<ItemModel> _storageRouterService;
     private List<ListItemController> _renderedItems = new();
     private ItemModel _selectedItem;
 
     [Inject]
-    public void Construct(DiContainer container, IStorageLocatorService storageLocatorService, IStorageRouterService<ItemModel> storageRouterService, ISellService sellService)
+    public void Construct(DiContainer container, IStorageLocatorService storageLocatorService, ISellService sellService)
     {
         _storageLocatorService = storageLocatorService;
         _sellService = sellService;
-        _storageRouterService = storageRouterService;
         _container = container;
         _storage = _storageLocatorService.Get(_sourceStorageType);
         _storage.OnItemAdded += OnItemAdded;
@@ -89,15 +88,10 @@ public class ListController : MonoBehaviour
 
     private void RenderItemInfo(ItemModel item)
     {
-        if (item == null)
+        if (_itemInfo != null)
         {
-            Debug.LogError("Item is null in RenderItemInfo.");
-            return;
-        }
-
-        if (_title != null)
-        {
-            _title.text = item.Name; //TODO: Enrich ItemInfo
+            _itemInfo.gameObject.SetActive(true);
+            _itemInfo.SetItem(_selectedItem);
         }
     }
 
