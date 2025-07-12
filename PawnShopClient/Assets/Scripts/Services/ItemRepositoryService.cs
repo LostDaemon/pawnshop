@@ -37,7 +37,8 @@ public class ItemRepositoryService : IItemRepositoryService
             itemPrototype.ImageId,
             itemPrototype.BasePrice,
             itemPrototype.Scale,
-            itemPrototype.Description)
+            itemPrototype.Description,
+            condition: _random.Next(0, 100))
         {
         };
 
