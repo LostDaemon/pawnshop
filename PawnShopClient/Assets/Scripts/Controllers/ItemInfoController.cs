@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class SellItemInfoController : BaseItemInfoController
+public class ItemInfoController : BaseItemInfoController
 {
     private TMP_Text _infoText;
     private Image _image;
@@ -31,6 +31,12 @@ public class SellItemInfoController : BaseItemInfoController
     {
         if (_infoText != null && Item != null)
             _infoText.text = Item.Name;
+
+        if (Item?.Inspected == true)
+        {
+            _infoText.text += $"\n{Item.Inspected}";
+        }
+
 
         if (_image != null && Item != null)
         {

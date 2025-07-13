@@ -1,29 +1,23 @@
 using System.Collections.Generic;
 using System.Linq;
-using TMPro;
 using UnityEngine;
 using Zenject;
 
-public class ListController : MonoBehaviour
+public class BaseListController : MonoBehaviour
 {
     [SerializeField] private StorageType _sourceStorageType;
-    [SerializeField] private StorageType _targetStorageType;
     [SerializeField] private Transform _contentRoot;
     [SerializeField] private GameObject _itemPrefab;
-    [SerializeField] private TMP_Text _title;
     [SerializeField] private BaseItemInfoController _itemInfo;
     private IGameStorageService<ItemModel> _storage;
     private IStorageLocatorService _storageLocatorService;
-    private ISellService _sellService;
     private DiContainer _container;
-    private List<ListItemController> _renderedItems = new();
-    private ItemModel _selectedItem;
+    protected List<ListItemController> RenderedItems = new();
+    public ItemModel SelectedItem;
 
-    [Inject]
-    public void Construct(DiContainer container, IStorageLocatorService storageLocatorService, ISellService sellService)
+    public void Construct(DiContainer container, IStorageLocatorService storageLocatorService)
     {
         _storageLocatorService = storageLocatorService;
-        _sellService = sellService;
         _container = container;
         _storage = _storageLocatorService.Get(_sourceStorageType);
         _storage.OnItemAdded += OnItemAdded;
@@ -50,7 +44,7 @@ public class ListController : MonoBehaviour
             _storage.OnItemRemoved -= OnItemRemoved;
         }
 
-        foreach (var item in _renderedItems)
+        foreach (var item in RenderedItems)
         {
             item.OnClick -= OnItemClicked;
             Destroy(item.gameObject);
@@ -71,7 +65,7 @@ public class ListController : MonoBehaviour
 
         controller.OnClick += OnItemClicked;
         controller.Init(item);
-        _renderedItems.Add(controller);
+        RenderedItems.Add(controller);
     }
 
     private void OnItemClicked(ItemModel item)
@@ -82,7 +76,7 @@ public class ListController : MonoBehaviour
             return;
         }
 
-        _selectedItem = item;
+        SelectedItem = item;
         RenderItemInfo(item);
     }
 
@@ -91,13 +85,13 @@ public class ListController : MonoBehaviour
         if (_itemInfo != null)
         {
             _itemInfo.gameObject.SetActive(true);
-            _itemInfo.SetItem(_selectedItem);
+            _itemInfo.SetItem(SelectedItem);
         }
     }
 
     private void RemoveItem(ItemModel item)
     {
-        var toDelete = _renderedItems.FirstOrDefault(c => c.Item == item);
+        var toDelete = RenderedItems.FirstOrDefault(c => c.Item == item);
 
         if (toDelete == null)
         {
@@ -105,20 +99,8 @@ public class ListController : MonoBehaviour
             return;
         }
 
-        _renderedItems.Remove(toDelete);
+        RenderedItems.Remove(toDelete);
         toDelete.OnClick -= OnItemClicked;
         Destroy(toDelete.gameObject);
-    }
-
-    public void Schedule()
-    {
-        if (_selectedItem == null)
-        {
-            return;
-        }
-
-        _selectedItem.SellPrice = (int)(_selectedItem.PurchasePrice * 1.1f);
-        _sellService.ScheduleForSale(_selectedItem);
-        _selectedItem = null;
     }
 }

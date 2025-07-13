@@ -76,5 +76,9 @@ public class ProjectInstaller : MonoInstaller
         Container.Bind<INegotiationService>()
         .To<NegotiationService>()
         .AsSingle();
+
+        Container.Bind<IItemProcessingService>()
+        .To<ItemProcessingService>()
+        .AsSingle();
     }
 }

@@ -6,6 +6,7 @@ public class ItemModel : ItemPrototypeModel
     public long SellPrice { get; set; }
     public bool IsFake { get; set; }
     public int Condition { get; set; }
+    public bool Inspected { get; set; } //TODO: Temporary variable. To be replaced by "tags" [{TagType, Revealed}]
 
     public ItemModel(string id, bool fake, string name, string imageId, long basePrice, float scale, string description, int condition) : base(name, imageId, basePrice, scale, description)
     {
