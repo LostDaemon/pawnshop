@@ -1,0 +1,28 @@
+public enum ItemUniqueFeature
+{
+    //TODO: Revise the number of unique features
+    Undefined = 0,
+    AuthorSignature,
+    SerialNumber,
+    CustomPaint,
+    HistoricalSignificance,
+    LimitedEdition,
+    Provenance,
+    UniqueMaterial,
+    SpecialCraftsmanship,
+    CulturalSymbolism,
+    ArtisticValue,
+    ReligiousSignificance,
+    Personalization,
+    RestorationHistory,
+    CelebrityOwnership,
+    MilitaryHistory,
+    ScientificValue,
+    TechnologicalInnovation,
+    EnvironmentalImpact,
+    CulturalHeritage,
+    ArtisticTechnique,
+    HistoricalContext,
+    UniqueDesign,
+    RareMaterial,
+}
