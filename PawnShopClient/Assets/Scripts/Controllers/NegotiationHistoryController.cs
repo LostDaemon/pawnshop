@@ -7,7 +7,9 @@ using System;
 public class NegotiationHistoryController : MonoBehaviour
 {
     [SerializeField] private Transform _contentRoot;
-    [SerializeField] private GameObject _dialogItemPrefab;
+    [SerializeField] private GameObject _playerDialogItemPrefab;
+    [SerializeField] private GameObject _customerDialogItemPrefab;
+    [SerializeField] private GameObject _systemDialogItemPrefab;
     [SerializeField] private ScrollRect _scrollRect;
 
     private INegotiationHistoryService _historyService;
@@ -40,7 +42,24 @@ public class NegotiationHistoryController : MonoBehaviour
 
     private void Append(IHistoryRecord record)
     {
-        var instance = Instantiate(_dialogItemPrefab, _contentRoot);
+        GameObject instance = null;
+
+        switch (record.Source)
+        {
+            case HistoryRecordSource.Player:
+                instance = Instantiate(_playerDialogItemPrefab, _contentRoot);
+                break;
+            case HistoryRecordSource.Customer:
+                instance = Instantiate(_customerDialogItemPrefab, _contentRoot);
+                break;
+            case HistoryRecordSource.System:
+                instance = Instantiate(_systemDialogItemPrefab, _contentRoot);
+                break;
+            default:
+                Debug.LogWarning($"Unknown history record source: {record.Source}");
+                return;
+        }
+
         var text = instance.GetComponentInChildren<TMP_Text>();
 
         if (text != null)

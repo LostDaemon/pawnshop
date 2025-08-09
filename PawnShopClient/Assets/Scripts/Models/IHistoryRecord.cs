@@ -1,4 +1,5 @@
 public interface IHistoryRecord
 {
-    string Message { get; }
+    public HistoryRecordSource Source { get; }
+    public string Message { get; }
 }

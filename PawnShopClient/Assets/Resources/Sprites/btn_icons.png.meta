@@ -1,0 +1,419 @@
+fileFormatVersion: 2
+guid: 4190aa493ed5d7348836a2cbe1a2f47c
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -8544485173433635425
+    second: btn_icons_0
+  - first:
+      213: 9158909211814679647
+    second: btn_icons_1
+  - first:
+      213: -6662584196023364173
+    second: btn_icons_2
+  - first:
+      213: 5744526433005311878
+    second: btn_icons_3
+  - first:
+      213: 4665409651979645052
+    second: btn_icons_4
+  - first:
+      213: 3332185144648657579
+    second: btn_icons_5
+  - first:
+      213: -1330992361453163867
+    second: btn_icons_6
+  - first:
+      213: 6901110315971703338
+    second: btn_icons_7
+  - first:
+      213: -359638733798459778
+    second: btn_icons_8
+  - first:
+      213: -750424077235882719
+    second: btn_icons_9
+  - first:
+      213: -7548076556858211498
+    second: btn_icons_10
+  - first:
+      213: -1165148084845185744
+    second: btn_icons_11
+  - first:
+      213: 4893244384690881334
+    second: btn_icons_12
+  - first:
+      213: -7422283527900809993
+    second: btn_icons_13
+  - first:
+      213: -4484201616645717390
+    second: btn_icons_14
+  - first:
+      213: -6938856423447499675
+    second: btn_icons_15
+  - first:
+      213: -2876240672196869835
+    second: btn_icons_16
+  - first:
+      213: 3708350684522966846
+    second: btn_icons_17
+  - first:
+      213: -6328502632120612242
+    second: btn_icons_18
+  - first:
+      213: -3112281323240611875
+    second: btn_icons_19
+  - first:
+      213: 3267170302405396120
+    second: btn_icons_20
+  - first:
+      213: 7811694754105534809
+    second: btn_icons_21
+  - first:
+      213: -4347364203871289161
+    second: btn_icons_22
+  - first:
+      213: -1284566991650538714
+    second: btn_icons_23
+  - first:
+      213: -2804683762127419074
+    second: btn_icons_24
+  - first:
+      213: 8481278626714992166
+    second: btn_icons_25
+  - first:
+      213: 3591100352530227597
+    second: btn_icons_26
+  - first:
+      213: -7301758366441578393
+    second: btn_icons_27
+  - first:
+      213: -4661946269776733848
+    second: btn_icons_28
+  - first:
+      213: 548369546266009643
+    second: btn_icons_29
+  - first:
+      213: 6718578657430700842
+    second: btn_icons_30
+  - first:
+      213: 4924603115998696931
+    second: btn_icons_31
+  - first:
+      213: 1831694815895567712
+    second: btn_icons_32
+  - first:
+      213: 4933492853192317453
+    second: btn_icons_33
+  - first:
+      213: -3566761906407687950
+    second: btn_icons_34
+  - first:
+      213: -8702157756273670485
+    second: btn_icons_35
+  - first:
+      213: -2810545061496482905
+    second: btn_icons_36
+  - first:
+      213: -5893376528505520498
+    second: btn_icons_37
+  - first:
+      213: -5110055366873723009
+    second: btn_icons_38
+  - first:
+      213: 8848153052371407949
+    second: btn_icons_39
+  - first:
+      213: -794108874060997523
+    second: btn_icons_40
+  - first:
+      213: -8760469763122657677
+    second: btn_icons_41
+  - first:
+      213: -2256754573609464579
+    second: btn_icons_42
+  - first:
+      213: 6656509044909669099
+    second: btn_icons_43
+  - first:
+      213: -8789006970515118722
+    second: btn_icons_44
+  - first:
+      213: 1433527100217787921
+    second: btn_icons_45
+  - first:
+      213: 2103087669141191622
+    second: btn_icons_46
+  - first:
+      213: 5543225360598595802
+    second: btn_icons_47
+  - first:
+      213: 3412445532773320816
+    second: btn_icons_48
+  - first:
+      213: -3608267433351139699
+    second: btn_icons_49
+  - first:
+      213: 1240529731548410653
+    second: btn_icons_50
+  - first:
+      213: -3749952665033333418
+    second: btn_icons_51
+  - first:
+      213: 4199011291606288595
+    second: btn_icons_52
+  - first:
+      213: 3555331940763983659
+    second: btn_icons_53
+  - first:
+      213: 1314577500869318648
+    second: btn_icons_54
+  - first:
+      213: -3696591461048453738
+    second: btn_icons_55
+  - first:
+      213: 7228944391076725428
+    second: btn_icons_56
+  - first:
+      213: -2572797117629180245
+    second: btn_icons_57
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: inspect_icon
+      rect:
+        serializedVersion: 2
+        x: 86
+        y: 356
+        width: 267
+        height: 332
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cfaccb012240a8243913688fe256fb3d
+      internalID: -1159191836
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dialog_icon
+      rect:
+        serializedVersion: 2
+        x: 367
+        y: 357
+        width: 268
+        height: 332
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f45838c0623e0ca418186ae0c4fa9c9f
+      internalID: 1143193004
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: discount_icon
+      rect:
+        serializedVersion: 2
+        x: 636
+        y: 358
+        width: 263
+        height: 331
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6590c068ccfb2fb4182e516b580a9b7d
+      internalID: 155572714
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: accept_icon
+      rect:
+        serializedVersion: 2
+        x: 906
+        y: 357
+        width: 287
+        height: 328
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 72f81d8a9b59b1b44a3b01a6eacd0d3e
+      internalID: -1876328248
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: reject_icon
+      rect:
+        serializedVersion: 2
+        x: 1198
+        y: 356
+        width: 291
+        height: 328
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 14bf2222625a55e4cb7e0a86608dd678
+      internalID: 1904236593
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 4d8b414d5d9baf544a1c39b7de6a91f2
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      accept_icon: -1876328248
+      dialog_icon: 1143193004
+      discount_icon: 155572714
+      inspect_icon: -1159191836
+      reject_icon: 1904236593
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

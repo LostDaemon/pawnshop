@@ -47,7 +47,7 @@ public class NegotiationService : INegotiationService
         _agreedOffer = CurrentNpcOffer;
         _rejectedOffers.Clear();
 
-        _history.Add(new TextRecord("Customer", $"I'd sell '{CurrentItem.Name}' for {CurrentNpcOffer}."));
+        _history.Add(new TextRecord(HistoryRecordSource.Customer, $"I'd sell '{CurrentItem.Name}' for {CurrentNpcOffer}."));
         OnCurrentItemChanged?.Invoke(CurrentItem);
     }
 
@@ -67,16 +67,16 @@ public class NegotiationService : INegotiationService
         accepted = TryCounterOffer(newOffer);
         discountsToBlock = new List<float>();
 
-        _history.Add(new TextRecord("Player", $"Offered {newOffer} ({discount * 100}% discount)"));
+        _history.Add(new TextRecord(HistoryRecordSource.Player, $"Offered {newOffer} ({discount * 100}% discount)"));
 
         if (accepted)
         {
             _agreedOffer = newOffer;
-            _history.Add(new TextRecord("Customer", $"Okay, let's do {newOffer}."));
+            _history.Add(new TextRecord(HistoryRecordSource.Customer, $"Okay, let's do {newOffer}."));
         }
         else
         {
-            _history.Add(new TextRecord("Customer", "No way. Too low."));
+            _history.Add(new TextRecord(HistoryRecordSource.Customer, "No way. Too low."));
             _customerService.ChangeMood(-0.25f);
 
             foreach (var d in AllDiscounts)
@@ -97,13 +97,13 @@ public class NegotiationService : INegotiationService
         var success = _wallet.TransactionAttempt(CurrencyType.Money, -offeredPrice);
         if (!success)
         {
-            _history.Add(new TextRecord("System", $"Not enough money to buy '{CurrentItem.Name}' for {offeredPrice}."));
+            _history.Add(new TextRecord(HistoryRecordSource.System, $"Not enough money to buy '{CurrentItem.Name}' for {offeredPrice}."));
             return false;
         }
 
         CurrentItem.PurchasePrice = offeredPrice;
         _inventory.Put(CurrentItem);
-        _history.Add(new TextRecord("System", $"Item '{CurrentItem.Name}' purchased for {offeredPrice}."));
+        _history.Add(new TextRecord(HistoryRecordSource.System, $"Item '{CurrentItem.Name}' purchased for {offeredPrice}."));
         OnPurchased?.Invoke(CurrentItem);
         return true;
     }
@@ -145,7 +145,7 @@ public class NegotiationService : INegotiationService
 
     public void RequestSkip()
     {
-        _history.Add(new TextRecord("Player", $"Skipped '{CurrentItem?.Name}'"));
+        _history.Add(new TextRecord(HistoryRecordSource.Player, $"Skipped '{CurrentItem?.Name}'"));
         OnSkipRequested?.Invoke();
     }
 
@@ -157,11 +157,11 @@ public class NegotiationService : INegotiationService
         if (CurrentItem.IsFake)
         {
             _customerService.IncreaseUncertainty(0.25f);
-            _history.Add(new TextRecord("Customer", "Umm... I'm not sure where this item came from, to be honest."));
+            _history.Add(new TextRecord(HistoryRecordSource.Customer, "Umm... I'm not sure where this item came from, to be honest."));
         }
         else
         {
-            _history.Add(new TextRecord("Customer", "Of course! It’s been in the family for years."));
+            _history.Add(new TextRecord(HistoryRecordSource.Customer, "Of course! It’s been in the family for years."));
         }
     }
 }
