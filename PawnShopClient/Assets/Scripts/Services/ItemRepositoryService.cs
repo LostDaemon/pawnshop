@@ -1,4 +1,6 @@
 using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 
 public class ItemRepositoryService : IItemRepositoryService
 {
@@ -8,8 +10,14 @@ public class ItemRepositoryService : IItemRepositoryService
     public ItemRepositoryService()
     {
         _random = new System.Random();
-
         _items = new List<ItemPrototype>();
+    }
+
+    public void Load()
+    {
+        _items.Clear();
+        _items.AddRange(Resources.LoadAll<ItemPrototype>("ScriptableObjects").ToList());
+        Debug.Log($"Loaded {_items.Count} item prototypes.");
     }
 
     public ItemModel GetRandomItem()
