@@ -16,7 +16,7 @@ public class ItemRepositoryService : IItemRepositoryService
     public void Load()
     {
         _items.Clear();
-        _items.AddRange(Resources.LoadAll<ItemPrototype>("ScriptableObjects").ToList());
+        _items.AddRange(Resources.LoadAll<ItemPrototype>(@"ScriptableObjects\Items").ToList());
         Debug.Log($"Loaded {_items.Count} item prototypes.");
     }
 
