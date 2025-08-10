@@ -40,6 +40,7 @@ public class NegotiationHistoryController : MonoBehaviour
             _negotiateService.OnCurrentItemChanged -= _onItemChangedHandler;
     }
 
+    //TODO: Appended records should wait while the previous one is displayed
     private void Append(IHistoryRecord record)
     {
         GameObject instance = null;

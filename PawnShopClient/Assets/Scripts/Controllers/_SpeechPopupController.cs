@@ -2,6 +2,7 @@ using System.Collections;
 using TMPro;
 using UnityEngine;
 
+//TODO: NOT USED
 [RequireComponent(typeof(CanvasGroup))]
 public class SpeechPopupController : MonoBehaviour
 {

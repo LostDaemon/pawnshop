@@ -7,7 +7,7 @@ public class NegotiationService : INegotiationService
 {
     private readonly IWalletService _wallet;
     private readonly IGameStorageService<ItemModel> _inventory;
-    private readonly IGameStorageService<ItemModel> _sellStorage;
+
     private readonly ICustomerService _customerService;
     private readonly INegotiationHistoryService _history;
     private readonly System.Random _random = new();
@@ -21,19 +21,16 @@ public class NegotiationService : INegotiationService
     public long CurrentNpcOffer { get; private set; }
     private long _agreedOffer;
     private readonly HashSet<long> _rejectedOffers = new();
-    private static readonly float[] AllDiscounts = { 0.10f, 0.25f, 0.50f, 0.75f };
 
     [Inject]
     public NegotiationService(
         IWalletService wallet,
         [Inject(Id = StorageType.InventoryStorage)] IGameStorageService<ItemModel> inventory,
-        [Inject(Id = StorageType.SellStorage)] IGameStorageService<ItemModel> sellStorage,
         ICustomerService customerService,
         INegotiationHistoryService history)
     {
         _wallet = wallet;
         _inventory = inventory;
-        _sellStorage = sellStorage;
         _customerService = customerService;
         _history = history;
     }
@@ -59,35 +56,7 @@ public class NegotiationService : INegotiationService
 
     public long GetCurrentOffer() => _agreedOffer;
 
-    public bool TryDiscount(float discount, out long newOffer, out bool accepted, out List<float> discountsToBlock)
-    {
-        newOffer = Mathf.RoundToInt(_agreedOffer * (1f - discount));
-        Debug.Log($"Trying discount: {discount * 100}% => New offer: {newOffer}");
 
-        accepted = TryCounterOffer(newOffer);
-        discountsToBlock = new List<float>();
-
-        _history.Add(new TextRecord(HistoryRecordSource.Player, $"Offered {newOffer} ({discount * 100}% discount)"));
-
-        if (accepted)
-        {
-            _agreedOffer = newOffer;
-            _history.Add(new TextRecord(HistoryRecordSource.Customer, $"Okay, let's do {newOffer}."));
-        }
-        else
-        {
-            _history.Add(new TextRecord(HistoryRecordSource.Customer, "No way. Too low."));
-            _customerService.ChangeMood(-0.25f);
-
-            foreach (var d in AllDiscounts)
-            {
-                if (d >= discount)
-                    discountsToBlock.Add(d);
-            }
-        }
-
-        return true;
-    }
 
     public bool TryPurchase(long offeredPrice)
     {
@@ -97,13 +66,13 @@ public class NegotiationService : INegotiationService
         var success = _wallet.TransactionAttempt(CurrencyType.Money, -offeredPrice);
         if (!success)
         {
-            _history.Add(new TextRecord(HistoryRecordSource.System, $"Not enough money to buy '{CurrentItem.Name}' for {offeredPrice}."));
+            _history.Add(new TextRecord(HistoryRecordSource.Customer, "You sure you can pay that?"));
             return false;
         }
 
         CurrentItem.PurchasePrice = offeredPrice;
         _inventory.Put(CurrentItem);
-        _history.Add(new TextRecord(HistoryRecordSource.System, $"Item '{CurrentItem.Name}' purchased for {offeredPrice}."));
+        _history.Add(new TextRecord(HistoryRecordSource.Customer, $"Deal. {offeredPrice} it is."));
         OnPurchased?.Invoke(CurrentItem);
         return true;
     }
@@ -163,5 +132,26 @@ public class NegotiationService : INegotiationService
         {
             _history.Add(new TextRecord(HistoryRecordSource.Customer, "Of course! It’s been in the family for years."));
         }
+    }
+
+    public bool MakeDiscountOffer(float discount)
+    {
+        var newOffer = Mathf.RoundToInt(_agreedOffer * (1f - discount));
+        _history.Add(new TextRecord(HistoryRecordSource.Player, $"How about {newOffer}?"));
+        Debug.Log($"Trying discount: {discount * 100}% => New offer: {newOffer}");
+        var accepted = TryCounterOffer(newOffer);
+
+        if (accepted)
+        {
+            Debug.Log($"Counter offer accepted: {newOffer}");
+            _history.Add(new TextRecord(HistoryRecordSource.Customer, $"Okay, let's do {newOffer}."));
+        }
+        else
+        {
+            Debug.Log("Counter offer rejected.");
+            _history.Add(new TextRecord(HistoryRecordSource.Customer, $"No way. That's too low."));
+        }
+
+        return accepted;
     }
 }

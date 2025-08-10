@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 
 public interface INegotiationService
 {
@@ -12,7 +11,7 @@ public interface INegotiationService
     long GetCurrentOffer();
 
     void SetCurrentCustomer(Customer customer);
-    bool TryDiscount(float discount, out long newOffer, out bool accepted, out List<float> discountsToBlock);
+    bool MakeDiscountOffer(float discount);
     bool TryPurchase(long offeredPrice);
     bool TryCounterOffer(long playerOffer);
     void RequestSkip();

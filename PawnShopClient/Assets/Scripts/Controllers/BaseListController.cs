@@ -15,11 +15,13 @@ public class BaseListController : MonoBehaviour
     protected List<ListItemController> RenderedItems = new();
     public ItemModel SelectedItem;
 
+    [Inject]
     public void Construct(DiContainer container, IStorageLocatorService storageLocatorService)
     {
         _storageLocatorService = storageLocatorService;
         _container = container;
         _storage = _storageLocatorService.Get(_sourceStorageType);
+        Debug.Log($"Storage of type {_sourceStorageType} found: {_storage != null}");
         _storage.OnItemAdded += OnItemAdded;
         _storage.OnItemRemoved += OnItemRemoved;
     }
