@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69d55aed6d3dd144ca9771529f6b2710, type: 3}
+  m_Name: golden_watch_prototype
+  m_EditorClassIdentifier: 
+  ClassId: e5e31ef1-99e0-4d35-88b8-7167c136a35e
+  Name: Golden Watch
+  ImageId: item_watch_gold
+  BasePrice: 1200
+  Scale: 0.3
+  Description: An elegant gold-plated wristwatch with classic design. Popular among
+    collectors.

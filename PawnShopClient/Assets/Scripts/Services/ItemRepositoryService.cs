@@ -2,26 +2,14 @@ using System.Collections.Generic;
 
 public class ItemRepositoryService : IItemRepositoryService
 {
-    private readonly List<ItemPrototypeModel> _items;
+    private readonly List<ItemPrototype> _items;
     private readonly System.Random _random;
 
     public ItemRepositoryService()
     {
         _random = new System.Random();
 
-        _items = new List<ItemPrototypeModel>
-{
-    new ItemPrototypeModel("Golden Watch", "item_watch_gold", 1200, 0.3f, "An elegant gold-plated wristwatch with classic design. Popular among collectors."),
-    new ItemPrototypeModel("Brilliant Ring", "item_brilliant_ring", 2200, 0.3f, "A luxurious ring set with a flawless brilliant-cut diamond. Pure extravagance."),
-    new ItemPrototypeModel("Family Picture", "item_picture", 50, 0.5f, "A faded old photograph in a wooden frame. Sentimental value, little market interest."),
-    new ItemPrototypeModel("Vintage Ink Pen", "item_ink_pen", 250, 0.3f, "A well-preserved ink pen from the 1950s. Might appeal to niche collectors."),
-    new ItemPrototypeModel("Vintage Glasses", "item_vintage_glasses", 180, 0.5f, "Stylish round-frame glasses with gold accents. Slightly scratched."),
-    new ItemPrototypeModel("Golden Ingot", "item_golden_ingot", 3500, 0.5f, "A solid ingot of investment-grade gold. Very high market value."),
-    new ItemPrototypeModel("Old Book", "item_old_book", 120, 0.6f, "A dusty book with worn leather cover. First edition adds slight value."),
-    new ItemPrototypeModel("Brass Hinge", "item_brass_hinge", 25, 0.3f, "An ornate antique hinge. Minor detail piece, limited standalone value."),
-    new ItemPrototypeModel("Unknown Old Mixture", "item_old_mixture", 80, 0.5f, "A sealed bottle with unknown liquid. Possibly alchemical or medical."),
-    new ItemPrototypeModel("Brilliant", "item_brilliant", 1500, 0.3f, "A loose brilliant-cut gemstone. Authentic, but needs professional setting."),
-};
+        _items = new List<ItemPrototype>();
     }
 
     public ItemModel GetRandomItem()
@@ -30,18 +18,38 @@ public class ItemRepositoryService : IItemRepositoryService
         var itemPrototype = _items[index];
         bool isFake = _random.NextDouble() < 0.25;
 
-        var result = new ItemModel(
-            id: System.Guid.NewGuid().ToString(),
-            isFake,
-            itemPrototype.Name,
-            itemPrototype.ImageId,
-            itemPrototype.BasePrice,
-            itemPrototype.Scale,
-            itemPrototype.Description,
-            condition: _random.Next(0, 100))
+        var result = new ItemModel()
         {
+            Id = System.Guid.NewGuid().ToString(),
+            ClassId = itemPrototype.ClassId,
+            Name = itemPrototype.Name,
+            ImageId = itemPrototype.ImageId,
+            BasePrice = itemPrototype.BasePrice,
+            IsFake = isFake,
+            Scale = itemPrototype.Scale,
+            Description = itemPrototype.Description,
+            PurchasePrice = 0,
+            SellPrice = 0,
+            Inspected = false,
+            Condition = _random.Next(0, 100)
         };
 
         return result;
+    }
+
+    public void AddItem(ItemPrototype itemPrototype)
+    {
+        if (itemPrototype != null && !_items.Contains(itemPrototype))
+        {
+            _items.Add(itemPrototype);
+        }
+    }
+
+    public void RemoveItem(ItemPrototype itemPrototype)
+    {
+        if (itemPrototype != null)
+        {
+            _items.Remove(itemPrototype);
+        }
     }
 }

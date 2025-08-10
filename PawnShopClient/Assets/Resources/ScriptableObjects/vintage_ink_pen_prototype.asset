@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69d55aed6d3dd144ca9771529f6b2710, type: 3}
+  m_Name: vintage_ink_pen_prototype
+  m_EditorClassIdentifier: 
+  ClassId: a2895c5b-558b-40be-82dc-64da5ab1b6c5
+  Name: Vintage Ink Pen
+  ImageId: item_ink_pen
+  BasePrice: 250
+  Scale: 0.3
+  Description: A well-preserved ink pen "Porker" from the 1950s. Might appeal to
+    niche collectors.
