@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Zenject;
+using System;
 
 public class NegotiationController : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class NegotiationController : MonoBehaviour
 
     [SerializeField] private Button _askDiscountButton;
     [SerializeField] private Button _askButton;
+
+    [SerializeField] private Button _analyzeButton;
 
     [SerializeField] private IndicatorController _currentOfferIndicator;
     [SerializeField] private TMP_Text _itemNameLabel;
@@ -29,13 +32,19 @@ public class NegotiationController : MonoBehaviour
     {
         _negotiationService = negotiationService;
 
-        _buyButton.onClick.AddListener(OnBuyClicked);
-        _skipButton.onClick.AddListener(OnSkipClicked);
-        _askButton.onClick.AddListener(OnAskClicked);
+        _buyButton?.onClick.AddListener(OnBuyClicked);
+        _skipButton?.onClick.AddListener(OnSkipClicked);
+        _askButton?.onClick.AddListener(OnAskClicked);
+        _analyzeButton?.onClick.AddListener(OnAnalyzeClicked);
 
         _discountButton = new DiscountButton { Discount = 0.10f, Button = _askDiscountButton };
         _discountButton.Button.onClick.AddListener(() => OnDiscountClicked(_discountButton.Discount));
         _negotiationService.OnCurrentItemChanged += OnItemChanged;
+    }
+
+    private void OnAnalyzeClicked()
+    {
+        _negotiationService.AnalyzeItem();
     }
 
     private void OnDestroy()

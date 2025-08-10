@@ -64,7 +64,8 @@ public class BaseListController : MonoBehaviour
             Debug.LogError($"Failed to instantiate ItemController for item {item.Name}");
             return;
         }
-
+        Debug.Log($"Adding item {item.Name} with id {item.Id} to list.");
+        Debug.Log($"GameStorageService: {_storage.All.Count} items in storage.");
         controller.OnClick += OnItemClicked;
         controller.Init(item);
         RenderedItems.Add(controller);

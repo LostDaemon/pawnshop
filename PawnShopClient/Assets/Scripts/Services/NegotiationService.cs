@@ -143,6 +143,7 @@ public class NegotiationService : INegotiationService
 
         if (accepted)
         {
+            _agreedOffer = newOffer;
             Debug.Log($"Counter offer accepted: {newOffer}");
             _history.Add(new TextRecord(HistoryRecordSource.Customer, $"Okay, let's do {newOffer}."));
         }
@@ -153,5 +154,10 @@ public class NegotiationService : INegotiationService
         }
 
         return accepted;
+    }
+
+    public void AnalyzeItem()
+    {
+        Debug.Log(_inventory.All.Count);
     }
 }

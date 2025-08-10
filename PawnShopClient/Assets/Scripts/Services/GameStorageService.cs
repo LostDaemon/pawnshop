@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using Zenject;
+using UnityEngine;
 
 public class GameStorageService<T> : IGameStorageService<T>
 {
@@ -14,6 +14,7 @@ public class GameStorageService<T> : IGameStorageService<T>
     {
         _items.Add(item);
         OnItemAdded?.Invoke(item);
+        Debug.Log($"[Storage] Item added. Total items: {_items.Count}");
     }
 
     public bool Withdraw(T item)

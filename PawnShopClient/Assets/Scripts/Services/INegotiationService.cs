@@ -16,4 +16,5 @@ public interface INegotiationService
     bool TryCounterOffer(long playerOffer);
     void RequestSkip();
     void AskAboutItemOrigin();
+    void AnalyzeItem();
 }
