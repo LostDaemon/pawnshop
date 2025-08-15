@@ -1,0 +1,813 @@
+fileFormatVersion: 2
+guid: 9fdfa2b540e05f442b14e5452bebff1e
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -5636598829426800755
+    second: negotiations_icons_0
+  - first:
+      213: 5273516967954175862
+    second: negotiations_icons_1
+  - first:
+      213: 7294575902158227833
+    second: negotiations_icons_2
+  - first:
+      213: 5407922548391653373
+    second: negotiations_icons_3
+  - first:
+      213: 8712328772548907150
+    second: negotiations_icons_4
+  - first:
+      213: 7659356494101061279
+    second: negotiations_icons_5
+  - first:
+      213: 1782715193346586940
+    second: negotiations_icons_6
+  - first:
+      213: 4895519850374845029
+    second: negotiations_icons_7
+  - first:
+      213: 73423093892829062
+    second: negotiations_icons_8
+  - first:
+      213: -4482172932447790584
+    second: negotiations_icons_9
+  - first:
+      213: 8002846919824520858
+    second: negotiations_icons_10
+  - first:
+      213: 3364931303738090195
+    second: negotiations_icons_11
+  - first:
+      213: 3421171430990926954
+    second: negotiations_icons_12
+  - first:
+      213: -8311180095746114501
+    second: negotiations_icons_13
+  - first:
+      213: 1605360889444905789
+    second: negotiations_icons_14
+  - first:
+      213: 7419725503896634469
+    second: negotiations_icons_15
+  - first:
+      213: 348259397324649838
+    second: negotiations_icons_16
+  - first:
+      213: -7865635787785813596
+    second: negotiations_icons_17
+  - first:
+      213: -2649102577484712442
+    second: negotiations_icons_18
+  - first:
+      213: -658099500482925181
+    second: negotiations_icons_19
+  - first:
+      213: -741908427542453756
+    second: negotiations_icons_20
+  - first:
+      213: -6210605931352635103
+    second: negotiations_icons_21
+  - first:
+      213: -6972024093203062908
+    second: negotiations_icons_22
+  - first:
+      213: 8156841337400041223
+    second: negotiations_icons_23
+  - first:
+      213: 7235609671093743445
+    second: negotiations_icons_24
+  - first:
+      213: 1952369398287347837
+    second: negotiations_icons_25
+  - first:
+      213: 1918252944859493907
+    second: negotiations_icons_26
+  - first:
+      213: 3604244086098929970
+    second: negotiations_icons_27
+  - first:
+      213: -5415465420602491245
+    second: negotiations_icons_28
+  - first:
+      213: -6905810765990579126
+    second: negotiations_icons_29
+  - first:
+      213: -2841129148854813945
+    second: negotiations_icons_30
+  - first:
+      213: -1751529214089999396
+    second: negotiations_icons_31
+  - first:
+      213: -6763455774285627945
+    second: negotiations_icons_32
+  - first:
+      213: 5414215310935089052
+    second: negotiations_icons_33
+  - first:
+      213: -5601831881159427851
+    second: negotiations_icons_34
+  - first:
+      213: -6601271626142981743
+    second: negotiations_icons_35
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: skill
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 823
+        width: 193
+        height: 164
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d8702a68a37c6c1b0800000000000000
+      internalID: -5636598829426800755
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skill_confidence
+      rect:
+        serializedVersion: 2
+        x: 287
+        y: 823
+        width: 114
+        height: 162
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67757e7fdbb4f2940800000000000000
+      internalID: 5273516967954175862
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: negotiations_icons_2
+      rect:
+        serializedVersion: 2
+        x: 454
+        y: 823
+        width: 110
+        height: 173
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 979044b722a8b3560800000000000000
+      internalID: 7294575902158227833
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: negotiations_icons_4
+      rect:
+        serializedVersion: 2
+        x: 615
+        y: 842
+        width: 146
+        height: 144
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e805136dbd868e870800000000000000
+      internalID: 8712328772548907150
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: negotiations_icons_5
+      rect:
+        serializedVersion: 2
+        x: 799
+        y: 824
+        width: 190
+        height: 161
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f9e99fe76208b4a60800000000000000
+      internalID: 7659356494101061279
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: negotiations_icons_8
+      rect:
+        serializedVersion: 2
+        x: 46
+        y: 647
+        width: 187
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68fcac53ae9d40100800000000000000
+      internalID: 73423093892829062
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: negotiations_icons_9
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 639
+        width: 154
+        height: 170
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 80a149b277f1cc1c0800000000000000
+      internalID: -4482172932447790584
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: negotiations_icons_10
+      rect:
+        serializedVersion: 2
+        x: 438
+        y: 639
+        width: 130
+        height: 165
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9638f76fd2df0f60800000000000000
+      internalID: 8002846919824520858
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: negotiations_icons_12
+      rect:
+        serializedVersion: 2
+        x: 595
+        y: 635
+        width: 182
+        height: 166
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a64dde35a417a7f20800000000000000
+      internalID: 3421171430990926954
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: negotiations_icons_15
+      rect:
+        serializedVersion: 2
+        x: 799
+        y: 639
+        width: 186
+        height: 162
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5644aaec80928f660800000000000000
+      internalID: 7419725503896634469
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: negotiations_icons_16
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 455
+        width: 194
+        height: 169
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e653a33a31445d400800000000000000
+      internalID: 348259397324649838
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: negotiations_icons_20
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 455
+        width: 151
+        height: 162
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 402a678473634b5f0800000000000000
+      internalID: -741908427542453756
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skill_amateur_negotiator
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 454
+        width: 152
+        height: 165
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 129cac58fce7fc9a0800000000000000
+      internalID: -6210605931352635103
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: negotiations_icons_22
+      rect:
+        serializedVersion: 2
+        x: 607
+        y: 453
+        width: 162
+        height: 157
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48f9a2fc6056e3f90800000000000000
+      internalID: -6972024093203062908
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: negotiations_icons_23
+      rect:
+        serializedVersion: 2
+        x: 799
+        y: 453
+        width: 186
+        height: 161
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70f93f4cafbe23170800000000000000
+      internalID: 8156841337400041223
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: negotiations_icons_24
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 270
+        width: 195
+        height: 155
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 55f6ce2f8ac0a6460800000000000000
+      internalID: 7235609671093743445
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: negotiations_icons_26
+      rect:
+        serializedVersion: 2
+        x: 263
+        y: 279
+        width: 146
+        height: 146
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 31672b7d3e00f9a10800000000000000
+      internalID: 1918252944859493907
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: negotiations_icons_27
+      rect:
+        serializedVersion: 2
+        x: 431
+        y: 278
+        width: 154
+        height: 155
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 239aab376e8d40230800000000000000
+      internalID: 3604244086098929970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: negotiations_icons_28
+      rect:
+        serializedVersion: 2
+        x: 631
+        y: 275
+        width: 138
+        height: 158
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 39eb39f64e668d4b0800000000000000
+      internalID: -5415465420602491245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: negotiations_icons_30
+      rect:
+        serializedVersion: 2
+        x: 815
+        y: 271
+        width: 168
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 70b308197184298d0800000000000000
+      internalID: -2841129148854813945
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: negotiations_icons_31
+      rect:
+        serializedVersion: 2
+        x: 39
+        y: 94
+        width: 194
+        height: 155
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cdb4274b57151b7e0800000000000000
+      internalID: -1751529214089999396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: negotiations_icons_32
+      rect:
+        serializedVersion: 2
+        x: 255
+        y: 95
+        width: 162
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 7ddf3afbec06322a0800000000000000
+      internalID: -6763455774285627945
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: negotiations_icons_33
+      rect:
+        serializedVersion: 2
+        x: 447
+        y: 95
+        width: 130
+        height: 162
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c9f54c9b328232b40800000000000000
+      internalID: 5414215310935089052
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: negotiations_icons_34
+      rect:
+        serializedVersion: 2
+        x: 615
+        y: 95
+        width: 146
+        height: 154
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f8b808759b4242b0800000000000000
+      internalID: -5601831881159427851
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: negotiations_icons_35
+      rect:
+        serializedVersion: 2
+        x: 814
+        y: 95
+        width: 159
+        height: 162
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 191e1e95e629364a0800000000000000
+      internalID: -6601271626142981743
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: a13ecd12ae1ac5e4cb7df3204bb6cd94
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      negotiations_icons_10: 8002846919824520858
+      negotiations_icons_12: 3421171430990926954
+      negotiations_icons_15: 7419725503896634469
+      negotiations_icons_16: 348259397324649838
+      negotiations_icons_2: 7294575902158227833
+      negotiations_icons_20: -741908427542453756
+      negotiations_icons_22: -6972024093203062908
+      negotiations_icons_23: 8156841337400041223
+      negotiations_icons_24: 7235609671093743445
+      negotiations_icons_26: 1918252944859493907
+      negotiations_icons_27: 3604244086098929970
+      negotiations_icons_28: -5415465420602491245
+      negotiations_icons_30: -2841129148854813945
+      negotiations_icons_31: -1751529214089999396
+      negotiations_icons_32: -6763455774285627945
+      negotiations_icons_33: 5414215310935089052
+      negotiations_icons_34: -5601831881159427851
+      negotiations_icons_35: -6601271626142981743
+      negotiations_icons_4: 8712328772548907150
+      negotiations_icons_5: 7659356494101061279
+      negotiations_icons_8: 73423093892829062
+      negotiations_icons_9: -4482172932447790584
+      skill: -5636598829426800755
+      skill_amateur_negotiator: -6210605931352635103
+      skill_confidence: 5273516967954175862
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

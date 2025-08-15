@@ -80,5 +80,14 @@ public class ProjectInstaller : MonoInstaller
         Container.Bind<IItemProcessingService>()
         .To<ItemProcessingService>()
         .AsSingle();
+
+        // Skills
+        Container.Bind<ISkillRepositoryService>()
+            .To<SkillRepositoryService>()
+            .AsSingle();
+            
+        Container.Bind<ISkillService>()
+            .To<SkillService>()
+            .AsSingle();
     }
 }
