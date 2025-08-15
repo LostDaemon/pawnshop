@@ -4,35 +4,35 @@ using System.Collections.Generic;
 public interface ISkillService
 {
     // Check if skill is learned
-    bool IsSkillLearned(PlayerSkills skill);
-    
+    bool IsSkillLearned(SkillType skill);
+
     // Learn a skill
-    bool LearnSkill(PlayerSkills skill);
-    
+    bool LearnSkill(SkillType skill);
+
     // Check if skill can be learned (dependencies met)
-    bool CanLearnSkill(PlayerSkills skill);
-    
+    bool CanLearnSkill(SkillType skill);
+
     // Get required skills for a specific skill
-    IReadOnlyCollection<PlayerSkills> GetRequiredSkills(PlayerSkills skill);
-    
+    IReadOnlyCollection<SkillType> GetRequiredSkills(SkillType skill);
+
     // Get all learnable skills (dependencies met)
-    IReadOnlyCollection<PlayerSkills> GetLearnableSkills();
-    
+    IReadOnlyCollection<SkillType> GetLearnableSkills();
+
     // Get all learned skills
-    IReadOnlyCollection<PlayerSkills> GetLearnedSkills();
-    
+    IReadOnlyCollection<SkillType> GetLearnedSkills();
+
     // Get all skills with their learned status
-    IReadOnlyDictionary<PlayerSkills, bool> GetAllSkills();
-    
+    IReadOnlyDictionary<SkillType, bool> GetAllSkills();
+
     // Get skill information
-    Skill GetSkillInfo(PlayerSkills skill);
-    
+    Skill GetSkillInfo(SkillType skill);
+
     // Get all skills with their info
     IReadOnlyCollection<Skill> GetAllSkillInfos();
-    
+
     // Event when skill is learned
-    event Action<PlayerSkills> OnSkillLearned;
-    
+    event Action<SkillType> OnSkillLearned;
+
     // Event when skill status changes
-    event Action<PlayerSkills, bool> OnSkillStatusChanged;
+    event Action<SkillType, bool> OnSkillStatusChanged;
 }

@@ -4,11 +4,11 @@ using System.Collections.Generic;
 public class Skill
 {
     // Data from prototype
-    public PlayerSkills SkillType { get; set; }
+    public SkillType SkillType { get; set; }
     public string DisplayName { get; set; }
     public string Description { get; set; }
     public string Icon { get; set; }
-    public IReadOnlyList<PlayerSkills> RequiredSkills { get; set; }
+    public IReadOnlyList<SkillType> RequiredSkills { get; set; }
 
     // Runtime state
     public bool IsLearned { get; set; }

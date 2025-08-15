@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class SkillService : ISkillService
 {
-    private readonly Dictionary<PlayerSkills, Skill> _skills = new();
+    private readonly Dictionary<SkillType, Skill> _skills = new();
     private readonly ISkillRepositoryService _skillRepository;
 
-    public event Action<PlayerSkills> OnSkillLearned;
-    public event Action<PlayerSkills, bool> OnSkillStatusChanged;
+    public event Action<SkillType> OnSkillLearned;
+    public event Action<SkillType, bool> OnSkillStatusChanged;
 
     public SkillService(ISkillRepositoryService skillRepository)
     {
@@ -20,9 +20,9 @@ public class SkillService : ISkillService
     private void InitializeSkills()
     {
         // Initialize all skills as not learned
-        foreach (PlayerSkills skill in Enum.GetValues(typeof(PlayerSkills)))
+        foreach (SkillType skill in Enum.GetValues(typeof(SkillType)))
         {
-            if (skill != PlayerSkills.Undefined)
+            if (skill != SkillType.Undefined)
             {
                 var prototype = _skillRepository.GetSkill(skill);
                 if (prototype != null)
@@ -39,17 +39,17 @@ public class SkillService : ISkillService
         Debug.Log($"[SkillService] Skills initialized. Loaded {_skills.Count} skills.");
     }
 
-    public bool IsSkillLearned(PlayerSkills skill)
+    public bool IsSkillLearned(SkillType skill)
     {
-        if (skill == PlayerSkills.Undefined)
+        if (skill == SkillType.Undefined)
             return false;
 
         return _skills.TryGetValue(skill, out var skillData) && skillData.IsLearned;
     }
 
-    public bool LearnSkill(PlayerSkills skill)
+    public bool LearnSkill(SkillType skill)
     {
-        if (skill == PlayerSkills.Undefined)
+        if (skill == SkillType.Undefined)
             return false;
 
         if (IsSkillLearned(skill))
@@ -72,9 +72,9 @@ public class SkillService : ISkillService
         return true;
     }
 
-    public bool CanLearnSkill(PlayerSkills skill)
+    public bool CanLearnSkill(SkillType skill)
     {
-        if (skill == PlayerSkills.Undefined)
+        if (skill == SkillType.Undefined)
             return false;
 
         if (IsSkillLearned(skill))
@@ -94,15 +94,15 @@ public class SkillService : ISkillService
         return true;
     }
 
-    public IReadOnlyCollection<PlayerSkills> GetRequiredSkills(PlayerSkills skill)
+    public IReadOnlyCollection<SkillType> GetRequiredSkills(SkillType skill)
     {
         var skillData = _skills.GetValueOrDefault(skill);
-        return skillData?.RequiredSkills ?? new List<PlayerSkills>().AsReadOnly();
+        return skillData?.RequiredSkills ?? new List<SkillType>().AsReadOnly();
     }
 
-    public IReadOnlyCollection<PlayerSkills> GetLearnableSkills()
+    public IReadOnlyCollection<SkillType> GetLearnableSkills()
     {
-        var learnableSkills = new List<PlayerSkills>();
+        var learnableSkills = new List<SkillType>();
 
         foreach (var skill in _skills.Keys)
         {
@@ -115,18 +115,18 @@ public class SkillService : ISkillService
         return learnableSkills.AsReadOnly();
     }
 
-    public IReadOnlyCollection<PlayerSkills> GetLearnedSkills()
+    public IReadOnlyCollection<SkillType> GetLearnedSkills()
     {
         return _skills.Where(kvp => kvp.Value.IsLearned).Select(kvp => kvp.Key).ToList().AsReadOnly();
     }
 
-    public IReadOnlyDictionary<PlayerSkills, bool> GetAllSkills()
+    public IReadOnlyDictionary<SkillType, bool> GetAllSkills()
     {
         return _skills.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.IsLearned);
     }
 
     // Get skill information
-    public Skill GetSkillInfo(PlayerSkills skill)
+    public Skill GetSkillInfo(SkillType skill)
     {
         return _skills.GetValueOrDefault(skill);
     }
@@ -168,9 +168,9 @@ public class SkillService : ISkillService
     /// <summary>
     /// Unlearn a specific skill
     /// </summary>
-    public bool UnlearnSkill(PlayerSkills skill)
+    public bool UnlearnSkill(SkillType skill)
     {
-        if (skill == PlayerSkills.Undefined)
+        if (skill == SkillType.Undefined)
             return false;
 
         if (!IsSkillLearned(skill))

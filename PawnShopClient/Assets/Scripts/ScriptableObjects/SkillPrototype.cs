@@ -5,12 +5,14 @@ using UnityEngine;
 public class SkillPrototype : BasePrototype
 {
     [Header("Skill Information")]
-    public PlayerSkills skillType;
+    public SkillType skillType;
     public string displayName;
     [TextArea(3, 5)]
     public string description;
-    public string icon;
+
+    [Tooltip("FontAwesome Hex Code (ignore \\u prefix)")]
+    public string icon; // Hex code for FontAwesome glyph (e.g., "\uF004")
 
     [Header("Dependencies")]
-    public List<PlayerSkills> requiredSkills = new();
+    public List<SkillType> requiredSkills = new();
 }

@@ -18,7 +18,7 @@ public class SkillRepositoryService : ISkillRepositoryService
         Debug.Log($"Loaded {_skills.Count} skill prototypes.");
     }
 
-    public SkillPrototype GetSkill(PlayerSkills skillType)
+    public SkillPrototype GetSkill(SkillType skillType)
     {
         return _skills.FirstOrDefault(s => s.skillType == skillType);
     }
@@ -38,7 +38,7 @@ public class SkillRepositoryService : ISkillRepositoryService
         {
             return _skills.Where(s => s.skillType.ToString().StartsWith("Inspection")).ToList().AsReadOnly();
         }
-        
+
         return new List<SkillPrototype>().AsReadOnly();
     }
 

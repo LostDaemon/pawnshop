@@ -6,63 +6,69 @@ using TMPro;
 public class SkillController : MonoBehaviour
 {
     [Header("Skill Configuration")]
-    [SerializeField] private PlayerSkills skillType;
-    [SerializeField] private Button skillButton;
-    [SerializeField] private TMP_Text titleText;
-    
+    [SerializeField] private SkillType _skillType;
+    [SerializeField] private Button _skillButton;
+    [SerializeField] private TMP_Text _title;
+    [SerializeField] private TMP_Text _glyph;
+
     [Header("Visual States")]
-    [SerializeField] private Color learnedColor = Color.white;
-    [SerializeField] private Color unavailableColor = Color.gray;
-    [SerializeField] private Color availableColor = Color.white;
-    
+    [SerializeField] private Color _learnedColor = Color.white;
+    [SerializeField] private Color _unavailableColor = Color.gray;
+    [SerializeField] private Color _availableColor = Color.white;
+
     [Inject] private ISkillService _skillService;
-    [Inject] private ISpriteService _spriteService;
-    
+
     private Skill _skillData;
-    
+
     [Inject]
-    public void Construct(ISkillService skillService, ISpriteService spriteService)
+    public void Construct(ISkillService skillService)
     {
         _skillService = skillService;
-        _spriteService = spriteService;
     }
-    
+
     private void Start()
     {
-        if (skillButton == null)
+        if (_skillButton == null)
         {
-            Debug.LogError($"[SkillController] Skill button not assigned for skill {skillType}");
+            Debug.LogError($"[SkillController] Skill button not assigned for skill {_skillType}");
             return;
         }
-        
-        if (titleText == null)
+
+        if (_title == null)
         {
-            Debug.LogError($"[SkillController] Title text not assigned for skill {skillType}");
+            Debug.LogError($"[SkillController] Title text not assigned for skill {_skillType}");
             return;
         }
-        
+
+        if (_glyph == null)
+        {
+            Debug.LogError($"[SkillController] Glyph code not assigned for skill {_skillType}");
+            return;
+        }
+
         // Subscribe to skill events
         _skillService.OnSkillStatusChanged += OnSkillStatusChanged;
         _skillService.OnSkillLearned += OnSkillLearned;
-        
+
         // Set up button click handler
-        skillButton.onClick.AddListener(OnSkillButtonClicked);
-        
+        _skillButton.onClick.AddListener(OnSkillButtonClicked);
+
         // Initialize skill data
-        _skillData = _skillService.GetSkillInfo(skillType);
+        _skillData = _skillService.GetSkillInfo(_skillType);
         if (_skillData == null)
         {
-            Debug.LogError($"[SkillController] No skill data found for {skillType}");
+            Debug.LogError($"[SkillController] No skill data found for {_skillType}");
             return;
         }
-        
-        // Set initial title
+
+        // Set initial title and glyph code
         SetSkillTitle();
-        
+        SetSkillIcon();
+
         // Update button state
         UpdateButtonState();
     }
-    
+
     private void OnDestroy()
     {
         if (_skillService != null)
@@ -70,87 +76,94 @@ public class SkillController : MonoBehaviour
             _skillService.OnSkillStatusChanged -= OnSkillStatusChanged;
             _skillService.OnSkillLearned -= OnSkillLearned;
         }
-        
-        if (skillButton != null)
+
+        if (_skillButton != null)
         {
-            skillButton.onClick.RemoveListener(OnSkillButtonClicked);
+            _skillButton.onClick.RemoveListener(OnSkillButtonClicked);
         }
     }
-    
-    private void OnSkillStatusChanged(PlayerSkills skill, bool isLearned)
+
+    private void OnSkillStatusChanged(SkillType skill, bool isLearned)
     {
-        if (skill == skillType)
+        if (skill == _skillType)
         {
             UpdateButtonState();
         }
     }
-    
-    private void OnSkillLearned(PlayerSkills skill)
+
+    private void OnSkillLearned(SkillType skill)
     {
-        if (skill == skillType)
+        if (skill == _skillType)
         {
             UpdateButtonState();
         }
     }
-    
+
     private void OnSkillButtonClicked()
     {
-        if (_skillService.CanLearnSkill(skillType))
+        if (_skillService.CanLearnSkill(_skillType))
         {
-            bool success = _skillService.LearnSkill(skillType);
+            bool success = _skillService.LearnSkill(_skillType);
             if (success)
             {
-                Debug.Log($"[SkillController] Skill {skillType} learned successfully!");
+                Debug.Log($"[SkillController] Skill {_skillType} learned successfully!");
             }
             else
             {
-                Debug.LogWarning($"[SkillController] Failed to learn skill {skillType}");
+                Debug.LogWarning($"[SkillController] Failed to learn skill {_skillType}");
             }
         }
         else
         {
-            Debug.Log($"[SkillController] Skill {skillType} cannot be learned yet");
+            Debug.Log($"[SkillController] Skill {_skillType} cannot be learned yet");
         }
     }
-    
+
     private void UpdateButtonState()
     {
         if (_skillData == null) return;
-        
-        bool isLearned = _skillService.IsSkillLearned(skillType);
-        bool canLearn = _skillService.CanLearnSkill(skillType);
-        
+
+        bool isLearned = _skillService.IsSkillLearned(_skillType);
+        bool canLearn = _skillService.CanLearnSkill(_skillType);
+
         // Update button interactability
-        skillButton.interactable = canLearn && !isLearned;
-        
+        _skillButton.interactable = canLearn && !isLearned;
+
         // Update visual appearance
         if (isLearned)
         {
             // Skill is already learned - bright icon, button disabled
-            titleText.color = learnedColor;
-            skillButton.interactable = false;
+            _glyph.color = _learnedColor;
+            _skillButton.interactable = false;
         }
         else if (canLearn)
         {
             // Skill can be learned - bright icon, button enabled
-            titleText.color = availableColor;
-            skillButton.interactable = true;
+            _glyph.color = _availableColor;
+            _skillButton.interactable = true;
         }
         else
         {
             // Skill cannot be learned yet - gray icon, button disabled
-            titleText.color = unavailableColor;
-            skillButton.interactable = false;
+            _glyph.color = _unavailableColor;
+            _skillButton.interactable = false;
         }
     }
-    
+
     private void SetSkillTitle()
     {
         if (_skillData == null || string.IsNullOrEmpty(_skillData.DisplayName)) return;
-        
-        titleText.text = _skillData.DisplayName;
+
+        _title.text = _skillData.DisplayName;
     }
-    
+
+    private void SetSkillIcon()
+    {
+        if (_skillData == null || string.IsNullOrEmpty(_skillData.Icon)) return;
+        const string unicodePrefix = "\\u";
+        _glyph.text = unicodePrefix + _skillData.Icon;
+    }
+
     // Public method to manually refresh the controller (useful for testing)
     [ContextMenu("Refresh Skill State")]
     public void RefreshSkillState()
