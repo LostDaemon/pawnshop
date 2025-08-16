@@ -9,7 +9,6 @@ public class SkillService : ISkillService
     private readonly ISkillRepositoryService _skillRepository;
 
     public event Action<SkillType> OnSkillLearned;
-    public event Action<SkillType, bool> OnSkillStatusChanged;
 
     public SkillService(ISkillRepositoryService skillRepository)
     {
@@ -66,10 +65,28 @@ public class SkillService : ISkillService
 
         _skills[skill].IsLearned = true;
         OnSkillLearned?.Invoke(skill);
-        OnSkillStatusChanged?.Invoke(skill, true);
+
+        // Notify about skills that became available after learning this skill
+        NotifySkillsAvailabilityChanged();
 
         Debug.Log($"[SkillService] Skill {skill} learned!");
         return true;
+    }
+
+    /// <summary>
+    /// Notify about skills that may have changed availability status
+    /// </summary>
+    private void NotifySkillsAvailabilityChanged()
+    {
+        // Check all skills that might have become available
+        foreach (var skill in _skills.Keys)
+        {
+            if (!_skills[skill].IsLearned && CanLearnSkill(skill))
+            {
+                // This skill just became available
+                OnSkillLearned?.Invoke(skill); // Notify that it's now available
+            }
+        }
     }
 
     public bool CanLearnSkill(SkillType skill)
@@ -152,16 +169,24 @@ public class SkillService : ISkillService
     /// </summary>
     public void ResetAllSkills()
     {
+        // First, notify about all skills becoming unavailable
         foreach (var skillData in _skills.Values)
         {
-            bool wasLearned = skillData.IsLearned;
-            skillData.IsLearned = false;
-
-            if (wasLearned)
+            if (skillData.IsLearned)
             {
-                OnSkillStatusChanged?.Invoke(skillData.SkillType, false);
+                OnSkillLearned?.Invoke(skillData.SkillType); // Notify that it's now unavailable
             }
         }
+
+        // Then reset all skills
+        foreach (var skillData in _skills.Values)
+        {
+            skillData.IsLearned = false;
+        }
+
+        // Finally, notify about skills that are now available (basic skills with no requirements)
+        NotifySkillsAvailabilityChanged();
+
         Debug.Log("[SkillService] All skills reset");
     }
 
@@ -180,9 +205,33 @@ public class SkillService : ISkillService
         }
 
         _skills[skill].IsLearned = false;
-        OnSkillStatusChanged?.Invoke(skill, false);
+        OnSkillLearned?.Invoke(skill); // Notify that it's now unavailable
+
+        // Notify about skills that may have become unavailable after unlearning this skill
+        NotifySkillsAvailabilityChangedAfterUnlearn(skill);
 
         Debug.Log($"[SkillService] Skill {skill} unlearned");
         return true;
+    }
+
+    /// <summary>
+    /// Notify about skills that may have changed availability status after unlearning a skill
+    /// </summary>
+    private void NotifySkillsAvailabilityChangedAfterUnlearn(SkillType unlearnedSkill)
+    {
+        // Check all skills that might have become unavailable
+        foreach (var skill in _skills.Keys)
+        {
+            if (!_skills[skill].IsLearned)
+            {
+                // Check if this skill depends on the unlearned skill
+                var skillData = _skills[skill];
+                if (skillData.RequiredSkills.Contains(unlearnedSkill))
+                {
+                    // This skill depends on the unlearned skill, so it's now unavailable
+                    OnSkillLearned?.Invoke(skill); // Notify that it's now unavailable
+                }
+            }
+        }
     }
 }

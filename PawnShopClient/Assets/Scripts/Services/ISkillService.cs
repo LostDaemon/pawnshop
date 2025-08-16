@@ -32,7 +32,4 @@ public interface ISkillService
 
     // Event when skill is learned
     event Action<SkillType> OnSkillLearned;
-
-    // Event when skill status changes
-    event Action<SkillType, bool> OnSkillStatusChanged;
 }

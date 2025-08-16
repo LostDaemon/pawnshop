@@ -2,12 +2,12 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 using TMPro;
+using System.Linq; // Added for .Where() and .ToList()
 
 public class SkillController : MonoBehaviour
 {
     [Header("Skill Configuration")]
     [SerializeField] private SkillType _skillType;
-    [SerializeField] private Button _skillButton;
     [SerializeField] private TMP_Text _title;
     [SerializeField] private TMP_Text _glyph;
 
@@ -19,6 +19,7 @@ public class SkillController : MonoBehaviour
     [Inject] private ISkillService _skillService;
 
     private Skill _skillData;
+    private Button _skillButton;
 
     [Inject]
     public void Construct(ISkillService skillService)
@@ -28,9 +29,11 @@ public class SkillController : MonoBehaviour
 
     private void Start()
     {
+        // Get button component from this GameObject
+        _skillButton = GetComponent<Button>();
         if (_skillButton == null)
         {
-            Debug.LogError($"[SkillController] Skill button not assigned for skill {_skillType}");
+            Debug.LogError($"[SkillController] No Button component found on GameObject for skill {_skillType}");
             return;
         }
 
@@ -47,7 +50,6 @@ public class SkillController : MonoBehaviour
         }
 
         // Subscribe to skill events
-        _skillService.OnSkillStatusChanged += OnSkillStatusChanged;
         _skillService.OnSkillLearned += OnSkillLearned;
 
         // Set up button click handler
@@ -73,7 +75,6 @@ public class SkillController : MonoBehaviour
     {
         if (_skillService != null)
         {
-            _skillService.OnSkillStatusChanged -= OnSkillStatusChanged;
             _skillService.OnSkillLearned -= OnSkillLearned;
         }
 
@@ -83,17 +84,12 @@ public class SkillController : MonoBehaviour
         }
     }
 
-    private void OnSkillStatusChanged(SkillType skill, bool isLearned)
-    {
-        if (skill == _skillType)
-        {
-            UpdateButtonState();
-        }
-    }
+
 
     private void OnSkillLearned(SkillType skill)
     {
-        if (skill == _skillType)
+        // Update button state when this skill changes or when any skill it depends on changes
+        if (skill == _skillType || (_skillData != null && _skillData.RequiredSkills.Contains(skill)))
         {
             UpdateButtonState();
         }
@@ -148,6 +144,22 @@ public class SkillController : MonoBehaviour
             _glyph.color = _unavailableColor;
             _skillButton.interactable = false;
         }
+
+        // Debug logging for skill availability
+        if (!isLearned && !canLearn)
+        {
+            var missingSkills = _skillService.GetRequiredSkills(_skillType)
+                .Where(reqSkill => !_skillService.IsSkillLearned(reqSkill))
+                .ToList();
+            
+            if (missingSkills.Count > 0)
+            {
+                Debug.Log($"[SkillController] {_skillType} unavailable. Missing: {string.Join(", ", missingSkills)}");
+            }
+        }
+
+        // Log state changes for debugging
+        Debug.Log($"[SkillController] {_skillType} - Learned: {isLearned}, CanLearn: {canLearn}, ButtonActive: {_skillButton.interactable}");
     }
 
     private void SetSkillTitle()
@@ -172,5 +184,34 @@ public class SkillController : MonoBehaviour
         {
             UpdateButtonState();
         }
+    }
+
+    /// <summary>
+    /// Force update of the controller state - useful when external changes occur
+    /// </summary>
+    public void ForceUpdate()
+    {
+        if (_skillData != null)
+        {
+            UpdateButtonState();
+            SetSkillTitle();
+            SetSkillIcon();
+        }
+    }
+
+    /// <summary>
+    /// Check if this skill can be learned right now
+    /// </summary>
+    public bool CanLearnSkill()
+    {
+        return _skillService?.CanLearnSkill(_skillType) ?? false;
+    }
+
+    /// <summary>
+    /// Check if this skill is already learned
+    /// </summary>
+    public bool IsSkillLearned()
+    {
+        return _skillService?.IsSkillLearned(_skillType) ?? false;
     }
 }
