@@ -1,4 +1,6 @@
 
+using System.Collections.Generic;
+
 public class ItemModel
 {
     public string Id { get; set; }
@@ -13,4 +15,7 @@ public class ItemModel
     public long BasePrice { get; set; }
     public float Scale { get; set; }
     public string Description { get; set; }
+
+    // Tags system
+    public List<BaseTagModel> Tags { get; set; } = new List<BaseTagModel>();
 }
