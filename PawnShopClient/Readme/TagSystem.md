@@ -11,6 +11,11 @@ The Tag System is a flexible framework for adding metadata to items in the game.
 - **`BaseTagPrototype`** - Abstract ScriptableObject class that defines tag properties
 - **`BaseTagModel`** - Abstract runtime class that holds tag data during gameplay
 
+### Services
+
+- **`ITagRepositoryService`** - Interface for tag data access
+- **`TagRepositoryService`** - Implementation that loads and manages tag prototypes
+
 ### Tag Types
 
 The system supports three main tag categories:
@@ -147,6 +152,47 @@ public class TagLimit
     public TagType TagType;
     public int MaxCount;  // Maximum instances of this tag type
 }
+```
+
+## Tag Loading and Management
+
+### Tag Repository Service
+
+The `TagRepositoryService` manages all tag prototypes and loads them from Resources:
+
+```csharp
+public interface ITagRepositoryService
+{
+    void Load();
+    BaseTagPrototype GetTagPrototype(TagType tagType);
+    IReadOnlyCollection<BaseTagPrototype> GetAllTagPrototypes();
+}
+```
+
+### Loading Process
+
+Tags are automatically loaded during game initialization in `LoadLevelState`:
+
+```csharp
+public void Enter()
+{
+    _itemRepositoryService.Load();
+    _skillRepositoryService.Load();
+    _tagRepositoryService.Load();  // Tags loaded here
+    _sceneLoader.Load("MainScene", () => {
+        _stateMachine.Enter<GameLoopState>();
+    });
+}
+```
+
+### Accessing Tag Prototypes
+
+```csharp
+// Get a specific tag prototype by type
+var conditionTag = tagRepository.GetTagPrototype(TagType.Condition);
+
+// Get all available tag prototypes
+var allTags = tagRepository.GetAllTagPrototypes();
 ```
 
 ## Tag Generation

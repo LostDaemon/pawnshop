@@ -89,5 +89,10 @@ public class ProjectInstaller : MonoInstaller
         Container.Bind<ISkillService>()
             .To<SkillService>()
             .AsSingle();
+
+        // Tags
+        Container.Bind<ITagRepositoryService>()
+            .To<TagRepositoryService>()
+            .AsSingle();
     }
 }
