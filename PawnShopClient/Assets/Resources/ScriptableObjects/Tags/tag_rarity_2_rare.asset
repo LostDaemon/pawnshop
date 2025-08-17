@@ -12,11 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
   m_Name: tag_rarity_2_rare
   m_EditorClassIdentifier: 
-  ClassId: 01d408ba-12e4-48e6-816d-4f9d8ebaec40
   TagType: 2
   DisplayName: Rare
-  RequiredSkill: 11
+  Description: 
   Hidden: 0
   Color: {r: 0, g: 0.5019608, b: 1, a: 1}
+  RequiredSkills:
+  - SkillType: 2
+    RequiredLevel: 2
+  - SkillType: 4
+    RequiredLevel: 2
   PriceMultiplier: 1
   AppearanceChance: 0.1

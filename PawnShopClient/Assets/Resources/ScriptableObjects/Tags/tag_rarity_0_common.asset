@@ -12,10 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
   m_Name: tag_rarity_0_common
   m_EditorClassIdentifier: 
-  ClassId: b893ac43-186b-4cb2-92dd-03d2e765a58d
   TagType: 2
   DisplayName: Common
-  RequiredSkill: 10
+  Description: 
   Hidden: 0
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  RequiredSkills:
+  - SkillType: 2
+    RequiredLevel: 1
+  - SkillType: 4
+    RequiredLevel: 1
   PriceMultiplier: 1
   AppearanceChance: 0.6

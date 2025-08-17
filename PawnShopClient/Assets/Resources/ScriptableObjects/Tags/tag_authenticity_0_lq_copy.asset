@@ -12,12 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
   m_Name: tag_authenticity_0_lq_copy
   m_EditorClassIdentifier: 
-  ClassId: ea142448-6622-41a8-a74d-0c6bd87f90eb
   TagType: 12
   DisplayName: LQ Copy
   Description: Low Quality Copy
-  RequiredSkill: 34
   Hidden: 0
   Color: {r: 0.53333336, g: 0.53333336, b: 0.53333336, a: 1}
+  RequiredSkills:
+  - SkillType: 42
+    RequiredLevel: 1
+  - SkillType: 2
+    RequiredLevel: 1
   PriceMultiplier: 0.25
   AppearanceChance: 0.25

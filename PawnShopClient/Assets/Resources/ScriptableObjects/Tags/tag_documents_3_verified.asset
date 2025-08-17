@@ -12,12 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
   m_Name: tag_documents_3_verified
   m_EditorClassIdentifier: 
-  ClassId: 89ff4012-baf1-4882-bdf0-91792f4bebb1
   TagType: 7
   DisplayName: Verified
   Description: Certified and stamped, sleep well
-  RequiredSkill: 21
   Hidden: 0
   Color: {r: 0, g: 0.8, b: 0, a: 1}
+  RequiredSkills:
+  - SkillType: 1
+    RequiredLevel: 3
+  - SkillType: 2
+    RequiredLevel: 2
   PriceMultiplier: 1.5
   AppearanceChance: 0.2

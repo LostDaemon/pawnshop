@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
   m_Name: tag_condition_3_worn
   m_EditorClassIdentifier: 
-  ClassId: af89023c-f97d-4b7d-b546-7486a337e83e
   TagType: 1
   DisplayName: Worn
-  RequiredSkill: 20
+  Description: 
   Hidden: 0
   Color: {r: 1, g: 1, b: 0, a: 1}
+  RequiredSkills:
+  - SkillType: 2
+    RequiredLevel: 1
   PriceMultiplier: 0.8
   AppearanceChance: 0.35

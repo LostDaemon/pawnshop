@@ -12,12 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
   m_Name: tag_documents_1_suspicious
   m_EditorClassIdentifier: 
-  ClassId: 0f3340dd-1ac8-44cd-94eb-0412df7a65fe
   TagType: 7
   DisplayName: 'Suspicious '
   Description: Papers exist, but smell like fresh ink
-  RequiredSkill: 21
   Hidden: 0
   Color: {r: 1, g: 0.2, b: 0, a: 1}
+  RequiredSkills:
+  - SkillType: 1
+    RequiredLevel: 3
+  - SkillType: 2
+    RequiredLevel: 2
   PriceMultiplier: 0.4
   AppearanceChance: 0.15

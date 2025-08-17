@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
   m_Name: tag_legalstatus_3_illegal
   m_EditorClassIdentifier: 
-  ClassId: d06607f8-bb7e-4c60-9067-494413496bca
   TagType: 8
   DisplayName: Illegal
   Description: Hot stuff, better hide it under the floorboards
-  RequiredSkill: 20
   Hidden: 0
   Color: {r: 1, g: 1, b: 1, a: 1}
+  RequiredSkills:
+  - SkillType: 2
+    RequiredLevel: 1
   PriceMultiplier: 0.3
   AppearanceChance: 0.05

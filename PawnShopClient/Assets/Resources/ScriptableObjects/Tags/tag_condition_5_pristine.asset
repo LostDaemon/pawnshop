@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
   m_Name: tag_condition_5_pristine
   m_EditorClassIdentifier: 
-  ClassId: 4bafc922-60a5-42e7-9d35-347181432a98
   TagType: 1
   DisplayName: Pristine
-  RequiredSkill: 0
+  Description: 
   Hidden: 0
   Color: {r: 1, g: 1, b: 1, a: 1}
+  RequiredSkills:
+  - SkillType: 2
+    RequiredLevel: 1
   PriceMultiplier: 1
   AppearanceChance: 0.15

@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
   m_Name: tag_condition_1_broken
   m_EditorClassIdentifier: 
-  ClassId: a9e8b89d-39d5-49aa-b4bd-408cb6ee9c30
   TagType: 1
   DisplayName: Broken
-  RequiredSkill: 20
+  Description: 
   Hidden: 0
   Color: {r: 0.39607844, g: 0.2627451, b: 0.12941177, a: 1}
+  RequiredSkills:
+  - SkillType: 2
+    RequiredLevel: 1
   PriceMultiplier: 0.3
   AppearanceChance: 0.05
