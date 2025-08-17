@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
+  m_Name: tag_documents_3_verified
+  m_EditorClassIdentifier: 
+  ClassId: 89ff4012-baf1-4882-bdf0-91792f4bebb1
+  TagType: 7
+  DisplayName: Verified
+  Description: Certified and stamped, sleep well
+  RequiredSkill: 21
+  Hidden: 0
+  Color: {r: 0, g: 0.8, b: 0, a: 1}
+  PriceMultiplier: 1.5
+  AppearanceChance: 0.2

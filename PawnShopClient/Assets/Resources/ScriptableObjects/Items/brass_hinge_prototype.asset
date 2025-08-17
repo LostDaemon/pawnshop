@@ -18,3 +18,5 @@ MonoBehaviour:
   BasePrice: 50
   Scale: 0.4
   Description: An ornate antique hinge. Minor detail piece, limited standalone value.
+  allowedTags: []
+  requiredTags: []

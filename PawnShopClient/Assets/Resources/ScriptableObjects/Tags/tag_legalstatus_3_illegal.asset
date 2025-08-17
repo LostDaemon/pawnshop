@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
+  m_Name: tag_legalstatus_3_illegal
+  m_EditorClassIdentifier: 
+  ClassId: d06607f8-bb7e-4c60-9067-494413496bca
+  TagType: 8
+  DisplayName: Illegal
+  Description: Hot stuff, better hide it under the floorboards
+  RequiredSkill: 20
+  Hidden: 0
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  PriceMultiplier: 0.3
+  AppearanceChance: 0.05
