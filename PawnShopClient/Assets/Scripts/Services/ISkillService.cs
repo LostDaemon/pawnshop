@@ -3,17 +3,20 @@ using System.Collections.Generic;
 
 public interface ISkillService
 {
-    // Check if skill is learned
-    bool IsSkillLearned(SkillType skill);
+    // Check if skill is learned to specific level
+    bool IsSkillLearnedTo(SkillType skillType, int level);
+
+    // Check if skill is learned (to level 1)
+    bool IsSkillLearned(SkillType skillType);
 
     // Learn a skill
-    bool LearnSkill(SkillType skill);
+    bool LearnSkill(SkillType skillType);
 
     // Check if skill can be learned (dependencies met)
-    bool CanLearnSkill(SkillType skill);
+    bool CanLearnSkill(SkillType skillType);
 
     // Get required skills for a specific skill
-    IReadOnlyCollection<SkillType> GetRequiredSkills(SkillType skill);
+    IReadOnlyCollection<SkillRequirement> GetRequiredSkills(SkillType skillType);
 
     // Get all learnable skills (dependencies met)
     IReadOnlyCollection<SkillType> GetLearnableSkills();
@@ -25,11 +28,17 @@ public interface ISkillService
     IReadOnlyDictionary<SkillType, bool> GetAllSkills();
 
     // Get skill information
-    Skill GetSkillInfo(SkillType skill);
+    Skill GetSkillInfo(SkillType skillType);
 
     // Get all skills with their info
     IReadOnlyCollection<Skill> GetAllSkillInfos();
 
-    // Event when skill is learned
-    event Action<SkillType> OnSkillLearned;
+    // Level-related methods
+    bool CanLevelUpSkill(SkillType skillType);
+    bool LevelUpSkill(SkillType skillType);
+    int GetSkillLevel(SkillType skillType);
+    int GetSkillMaxLevel(SkillType skillType);
+
+    // Event when skill level changes
+    event Action<SkillType, int> OnSkillLevelChanged;
 }

@@ -1,5 +1,5 @@
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections.Generic;
 
 [CreateAssetMenu(fileName = "Skill", menuName = "ScriptableObjects/SkillPrototype", order = 2)]
 public class SkillPrototype : BasePrototype
@@ -9,10 +9,11 @@ public class SkillPrototype : BasePrototype
     public string displayName;
     [TextArea(3, 5)]
     public string description;
+    public int maxLevel = 5;
 
     [Tooltip("FontAwesome Hex Code (ignore \\u prefix)")]
-    public string icon; // Hex code for FontAwesome glyph (e.g., "\uF004")
+    public string glyph; // Hex code for FontAwesome glyph (e.g., "\uF004")
 
     [Header("Dependencies")]
-    public List<SkillType> requiredSkills = new();
+    public List<SkillRequirement> requiredSkills = new();
 }

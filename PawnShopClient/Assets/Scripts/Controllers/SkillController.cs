@@ -16,8 +16,10 @@ public class SkillController : MonoBehaviour
     [SerializeField] private Color _unavailableColor = Color.gray;
     [SerializeField] private Color _availableColor = Color.white;
 
-    [Inject] private ISkillService _skillService;
+    [Header("Level Display")]
+    [SerializeField] private TMP_Text _levelText;
 
+    [Inject] private ISkillService _skillService;
     private Skill _skillData;
     private Button _skillButton;
 
@@ -50,7 +52,7 @@ public class SkillController : MonoBehaviour
         }
 
         // Subscribe to skill events
-        _skillService.OnSkillLearned += OnSkillLearned;
+        _skillService.OnSkillLevelChanged += OnSkillLevelChanged;
 
         // Set up button click handler
         _skillButton.onClick.AddListener(OnSkillButtonClicked);
@@ -66,6 +68,7 @@ public class SkillController : MonoBehaviour
         // Set initial title and glyph code
         SetSkillTitle();
         SetSkillIcon();
+        UpdateLevelDisplay();
 
         // Update button state
         UpdateButtonState();
@@ -75,7 +78,7 @@ public class SkillController : MonoBehaviour
     {
         if (_skillService != null)
         {
-            _skillService.OnSkillLearned -= OnSkillLearned;
+            _skillService.OnSkillLevelChanged -= OnSkillLevelChanged;
         }
 
         if (_skillButton != null)
@@ -84,14 +87,13 @@ public class SkillController : MonoBehaviour
         }
     }
 
-
-
-    private void OnSkillLearned(SkillType skill)
+    private void OnSkillLevelChanged(SkillType skill, int newLevel)
     {
         // Update button state when this skill changes or when any skill it depends on changes
-        if (skill == _skillType || (_skillData != null && _skillData.RequiredSkills.Contains(skill)))
+        if (skill == _skillType || (_skillData != null && _skillData.RequiredSkills.Any(req => req.SkillType == skill)))
         {
             UpdateButtonState();
+            UpdateLevelDisplay();
         }
     }
 
@@ -109,57 +111,56 @@ public class SkillController : MonoBehaviour
                 Debug.LogWarning($"[SkillController] Failed to learn skill {_skillType}");
             }
         }
+        else if (_skillService.CanLevelUpSkill(_skillType))
+        {
+            bool success = _skillService.LevelUpSkill(_skillType);
+            if (success)
+            {
+                Debug.Log($"[SkillController] Skill {_skillType} leveled up successfully!");
+            }
+            else
+            {
+                Debug.LogWarning($"[SkillController] Failed to level up skill {_skillType}");
+            }
+        }
         else
         {
-            Debug.Log($"[SkillController] Skill {_skillType} cannot be learned yet");
+            Debug.Log($"[SkillController] Skill {_skillType} cannot be learned or leveled up yet");
         }
     }
 
     private void UpdateButtonState()
     {
-        if (_skillData == null) return;
-
-        bool isLearned = _skillService.IsSkillLearned(_skillType);
+        bool isLearned = _skillService.IsSkillLearned(_skillType); // Uses wrapper
         bool canLearn = _skillService.CanLearnSkill(_skillType);
+        bool canLevelUp = _skillService.CanLevelUpSkill(_skillType); // Now same as CanLearnSkill
 
-        // Update button interactability
-        _skillButton.interactable = canLearn && !isLearned;
+        // Update button interactability - can learn OR level up
+        _skillButton.interactable = canLearn || canLevelUp;
 
         // Update visual appearance
         if (isLearned)
         {
-            // Skill is already learned - bright icon, button disabled
             _glyph.color = _learnedColor;
-            _skillButton.interactable = false;
         }
         else if (canLearn)
         {
-            // Skill can be learned - bright icon, button enabled
             _glyph.color = _availableColor;
-            _skillButton.interactable = true;
         }
         else
         {
-            // Skill cannot be learned yet - gray icon, button disabled
             _glyph.color = _unavailableColor;
-            _skillButton.interactable = false;
         }
+        Debug.Log($"[SkillController] {_skillType} - Learned: {isLearned}, CanLearn: {canLearn}, CanLevelUp: {canLevelUp}, ButtonActive: {_skillButton.interactable}");
+    }
 
-        // Debug logging for skill availability
-        if (!isLearned && !canLearn)
-        {
-            var missingSkills = _skillService.GetRequiredSkills(_skillType)
-                .Where(reqSkill => !_skillService.IsSkillLearned(reqSkill))
-                .ToList();
-            
-            if (missingSkills.Count > 0)
-            {
-                Debug.Log($"[SkillController] {_skillType} unavailable. Missing: {string.Join(", ", missingSkills)}");
-            }
-        }
+    private void UpdateLevelDisplay()
+    {
+        if (_levelText == null) return;
 
-        // Log state changes for debugging
-        Debug.Log($"[SkillController] {_skillType} - Learned: {isLearned}, CanLearn: {canLearn}, ButtonActive: {_skillButton.interactable}");
+        int currentLevel = _skillService.GetSkillLevel(_skillType);
+
+        _levelText.text = currentLevel.ToString();
     }
 
     private void SetSkillTitle()
@@ -171,9 +172,9 @@ public class SkillController : MonoBehaviour
 
     private void SetSkillIcon()
     {
-        if (_skillData == null || string.IsNullOrEmpty(_skillData.Icon)) return;
+        if (_skillData == null || string.IsNullOrEmpty(_skillData.Glyph)) return;
         const string unicodePrefix = "\\u";
-        _glyph.text = unicodePrefix + _skillData.Icon;
+        _glyph.text = unicodePrefix + _skillData.Glyph;
     }
 
     // Public method to manually refresh the controller (useful for testing)
@@ -183,6 +184,7 @@ public class SkillController : MonoBehaviour
         if (_skillData != null)
         {
             UpdateButtonState();
+            UpdateLevelDisplay();
         }
     }
 
@@ -194,6 +196,7 @@ public class SkillController : MonoBehaviour
         if (_skillData != null)
         {
             UpdateButtonState();
+            UpdateLevelDisplay();
             SetSkillTitle();
             SetSkillIcon();
         }

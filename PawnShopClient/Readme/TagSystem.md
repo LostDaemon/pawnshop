@@ -34,20 +34,17 @@ The system supports three main tag categories:
 
 ### Core Properties
 
-- **`TagType`** - Enum defining the tag category (Condition, Feature, Origin, etc.)
+- **`TagType`** - Category of the tag (Condition, Rarity, Feature, etc.)
 - **`DisplayName`** - Human-readable name for the tag
 - **`Description`** - Detailed description of what the tag represents
-- **`RequiredSkill`** - Skill required to reveal this tag
-- **`Hidden`** - Whether the tag is hidden from players (affects mechanics only)
-- **`Color`** - Visual color for UI representation
-- **`PriceMultiplier`** - Multiplier affecting item price when tag is present
-- **`AppearanceChance`** - Probability of tag appearing on items (0.0 to 1.0)
+- **`Hidden`** - Whether this tag should be displayed in UI
+- **`Color`** - Visual color for the tag
 
 ### Specialized Properties
 
-- **Simple Tags**: No additional properties
-- **Text Tags**: `DefaultTextValue` - default text content
-- **Numeric Tags**: `DefaultNumericValue` - default numerical value
+- **`RequiredSkills`** - Array of skill requirements (skill type + required level) to reveal this tag
+- **`PriceMultiplier`** - Multiplier that affects item price when this tag is present
+- **`AppearanceChance`** - Probability of this tag appearing on an item (0.0 to 1.0)
 
 ## Tag Types
 
@@ -226,9 +223,9 @@ private BaseTagModel CreateTagModelFromPrototype(BaseTagPrototype prototype)
 }
 ```
 
-## Tag Model Classes
+### Tag Model Classes
 
-### BaseTagModel
+#### BaseTagModel
 
 ```csharp
 public abstract class BaseTagModel
@@ -236,30 +233,16 @@ public abstract class BaseTagModel
     public TagType TagType { get; set; }
     public string DisplayName { get; set; }
     public string Description { get; set; }
-    public SkillType RequiredSkill { get; set; }
+    public SkillRequirement[] RequiredSkills { get; set; }
+    public float PriceMultiplier { get; set; }
+    public float AppearanceChance { get; set; }
     public bool IsRevealed { get; set; }
     public bool Hidden { get; set; }
     public Color Color { get; set; }
-    public float PriceMultiplier { get; set; }
-    public float AppearanceChance { get; set; }
-
-    protected BaseTagModel(BaseTagPrototype prototype)
-    {
-        if (prototype != null)
-        {
-            TagType = prototype.TagType;
-            DisplayName = prototype.DisplayName;
-            Description = prototype.Description;
-            RequiredSkill = prototype.RequiredSkill;
-            PriceMultiplier = prototype.PriceMultiplier;
-            AppearanceChance = prototype.AppearanceChance;
-            IsRevealed = false;
-            Hidden = prototype.Hidden;
-            Color = prototype.Color;
-        }
-    }
 }
 ```
+
+**Note:** `SkillRequirement` is defined in a separate file `Assets/Scripts/Models/Tags/SkillRequirement.cs` and is used by both `BaseTagModel` and `BaseTagPrototype`.
 
 ### SimpleTagModel
 
@@ -308,16 +291,66 @@ public class NumericTagModel : BaseTagModel
 
 ## Usage Examples
 
-### Creating a Tag Prototype
+### Creating Tag Prototypes
 
-1. Right-click in Project window
-2. Create → ScriptableObjects → Tags → SimpleTag/TextTag/NumericTag
-3. Configure properties in Inspector:
-   - Set `TagType` enum value
-   - Enter `DisplayName`, `Description` and other properties
-   - Configure `PriceMultiplier` and `AppearanceChance`
-   - Set `Hidden` flag if needed
-   - Choose `Color` for UI representation
+#### Simple Tag (Boolean)
+
+```csharp
+// Create a "Fake" tag that requires Appraisal skill level 2
+var fakeTag = ScriptableObject.CreateInstance<SimpleTagPrototype>();
+fakeTag.TagType = TagType.Authenticity;
+fakeTag.DisplayName = "Fake";
+fakeTag.Description = "Item is a counterfeit or replica";
+fakeTag.RequiredSkills = new SkillRequirement[]
+{
+    new SkillRequirement { SkillType = SkillType.Appraisal, RequiredLevel = 2 }
+};
+fakeTag.PriceMultiplier = 0.3f;
+fakeTag.AppearanceChance = 0.1f;
+fakeTag.Hidden = false;
+fakeTag.Color = Color.red;
+```
+
+#### Text Tag
+
+```csharp
+// Create an "Autograph" tag that requires Celebrity Knowledge skill level 3
+var autographTag = ScriptableObject.CreateInstance<TextTagPrototype>();
+autographTag.TagType = TagType.History;
+autographTag.DisplayName = "Autograph";
+autographTag.Description = "Signed by a famous person";
+autographTag.DefaultTextValue = "Unknown Celebrity";
+autographTag.RequiredSkills = new SkillRequirement[]
+{
+    new SkillRequirement { SkillType = SkillType.CelebrityKnowledge, RequiredLevel = 3 }
+};
+autographTag.PriceMultiplier = 2.5f;
+autographTag.AppearanceChance = 0.05f;
+autographTag.Hidden = false;
+autographTag.Color = Color.gold;
+```
+
+#### Numeric Tag
+
+```csharp
+// Create a "Wear" tag that requires Inspection skill level 1
+var wearTag = ScriptableObject.CreateInstance<NumericTagPrototype>();
+wearTag.TagType = TagType.Condition;
+wearTag.DisplayName = "Wear";
+wearTag.Description = "Percentage of wear and tear";
+wearTag.DefaultNumericValue = 50f;
+wearTag.MinValue = 0f;
+wearTag.MaxValue = 100f;
+wearTag.Unit = "%";
+wearTag.RequiredSkills = new SkillRequirement[]
+{
+    new SkillRequirement { SkillType = SkillType.Inspection, RequiredLevel = 1 }
+};
+wearTag.PriceMultiplier = 0.8f;
+wearTag.AppearanceChance = 0.8f;
+wearTag.Hidden = false;
+wearTag.Color = Color.orange;
+```
 
 ### Adding Tags to Items
 

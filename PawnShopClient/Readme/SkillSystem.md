@@ -26,18 +26,34 @@ SkillPrototype → SkillRepository → SkillService → SkillController → UI
 
 ## Skill Properties
 
-### Base Properties (SkillPrototype)
+### Base Properties
 
-- **`ClassId`** - Unique identifier for skill type
-- **`DisplayName`** - Human-readable skill name
-- **`Description`** - Detailed skill description
-- **`RequiredSkills`** - List of skills required to learn this skill
-- **`Icon`** - Visual representation of the skill
+- **`SkillType`** - Enum defining the skill category
+- **`DisplayName`** - Human-readable name for the skill
+- **`Description`** - Detailed description of what the skill does
+- **`Glyph`** - FontAwesome hex code for visual representation
+- **`MaxLevel`** - Maximum level the skill can reach (default: 5)
 
-### Runtime Properties (Skill)
+### Runtime Properties
 
-- **`IsLearned`** - Whether the skill has been learned
-- **`Prototype`** - Reference to the skill prototype
+- **`Level`** - Current skill level (0 = not learned, 1+ = learned)
+- **`RequiredSkills`** - List of skill requirements with required levels
+- **`IsLearned`** - Computed property: `Level > 0`
+
+### Skill Requirements Structure
+
+Skills can have dependencies on other skills with specific level requirements:
+
+```csharp
+[System.Serializable]
+public struct SkillRequirement
+{
+    public SkillType SkillType;
+    public int RequiredLevel;
+}
+```
+
+Example: A skill might require "Appraisal level 2" and "History level 1" to be learnable.
 
 ## Skill Types
 
@@ -250,15 +266,29 @@ Container.Bind<ISkillService>()
 - **Singleton Pattern**: Single instance of each service
 - **Interface Binding**: Services bound to their interfaces
 
-### Skill Prototype Creation
+### Creating Skill Prototypes
 
-1. Right-click in Project window
-2. Create → ScriptableObjects → SkillPrototype
-3. Configure properties:
-   - Set unique `ClassId`
-   - Enter `DisplayName` and `Description`
-   - Configure `RequiredSkills` list
-   - Set `Icon` for visual representation
+1. **Create ScriptableObject**
+
+   - Right-click in Project window
+   - Create → PawnShop → Skill
+   - Name: "skill_appraisal_advanced"
+
+2. **Configure Basic Information**
+
+   - Display Name: "Advanced Appraisal"
+   - Description: "Expert-level item evaluation and authentication"
+   - Max Level: 5
+   - Glyph: "F06E" (FontAwesome hex code)
+
+3. **Set Skill Type**
+
+   - Skill Type: Appraisal
+
+4. **Configure Requirements**
+   - Required Skills: Add SkillRequirement entries
+   - Example: Appraisal level 2, History level 1
+   - This means the skill requires Appraisal to be at level 2+ and History at level 1+
 
 ## Integration Points
 

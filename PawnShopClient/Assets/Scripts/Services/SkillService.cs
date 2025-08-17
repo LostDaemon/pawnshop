@@ -8,7 +8,7 @@ public class SkillService : ISkillService
     private readonly Dictionary<SkillType, Skill> _skills = new();
     private readonly ISkillRepositoryService _skillRepository;
 
-    public event Action<SkillType> OnSkillLearned;
+    public event Action<SkillType, int> OnSkillLevelChanged;
 
     public SkillService(ISkillRepositoryService skillRepository)
     {
@@ -38,38 +38,38 @@ public class SkillService : ISkillService
         Debug.Log($"[SkillService] Skills initialized. Loaded {_skills.Count} skills.");
     }
 
-    public bool IsSkillLearned(SkillType skill)
+    public bool IsSkillLearnedTo(SkillType skillType, int level)
     {
-        if (skill == SkillType.Undefined)
+        if (skillType == SkillType.Undefined)
             return false;
 
-        return _skills.TryGetValue(skill, out var skillData) && skillData.IsLearned;
+        return _skills.TryGetValue(skillType, out var skill) && skill.Level >= level;
     }
 
-    public bool LearnSkill(SkillType skill)
+    public bool IsSkillLearned(SkillType skillType)
     {
-        if (skill == SkillType.Undefined)
+        return IsSkillLearnedTo(skillType, 1);
+    }
+
+    public bool LearnSkill(SkillType skillType)
+    {
+        if (skillType == SkillType.Undefined)
             return false;
 
-        if (IsSkillLearned(skill))
+        if (!CanLearnSkill(skillType))
         {
-            Debug.Log($"[SkillService] Skill {skill} is already learned");
+            Debug.Log($"[SkillService] Cannot learn skill {skillType} - dependencies not met");
             return false;
         }
 
-        if (!CanLearnSkill(skill))
-        {
-            Debug.Log($"[SkillService] Cannot learn skill {skill} - dependencies not met");
-            return false;
-        }
-
-        _skills[skill].IsLearned = true;
-        OnSkillLearned?.Invoke(skill);
+        var skill = _skills[skillType];
+        skill.Level++;
+        OnSkillLevelChanged?.Invoke(skillType, skill.Level);
 
         // Notify about skills that became available after learning this skill
         NotifySkillsAvailabilityChanged();
 
-        Debug.Log($"[SkillService] Skill {skill} learned!");
+        Debug.Log($"[SkillService] Skill {skillType} leveled up to {skill.Level}!");
         return true;
     }
 
@@ -81,40 +81,62 @@ public class SkillService : ISkillService
         // Check all skills that might have become available
         foreach (var skill in _skills.Keys)
         {
-            if (!_skills[skill].IsLearned && CanLearnSkill(skill))
+            if (_skills[skill].Level == 0 && CanLearnSkill(skill))
             {
                 // This skill just became available
-                OnSkillLearned?.Invoke(skill); // Notify that it's now available
+                OnSkillLevelChanged?.Invoke(skill, 0); // Notify that it's now available
             }
         }
     }
 
-    public bool CanLearnSkill(SkillType skill)
+    public bool CanLearnSkill(SkillType skillType)
     {
-        if (skill == SkillType.Undefined)
+        if (skillType == SkillType.Undefined)
             return false;
 
-        if (IsSkillLearned(skill))
+        var skill = _skills.GetValueOrDefault(skillType);
+        if (skill == null)
             return false;
 
-        var skillData = _skills.GetValueOrDefault(skill);
-        if (skillData == null)
-            return false;
-
-        // Check if all required skills are learned
-        foreach (var requiredSkill in skillData.RequiredSkills)
+        // Check if all required skills are learned to required levels
+        foreach (var requiredSkill in skill.RequiredSkills)
         {
-            if (!IsSkillLearned(requiredSkill))
+            if (!IsSkillLearnedTo(requiredSkill.SkillType, requiredSkill.RequiredLevel))
                 return false;
         }
 
-        return true;
+        // Can learn if not at max level
+        return skill.Level < skill.MaxLevel;
     }
 
-    public IReadOnlyCollection<SkillType> GetRequiredSkills(SkillType skill)
+    public bool CanLevelUpSkill(SkillType skillType)
     {
-        var skillData = _skills.GetValueOrDefault(skill);
-        return skillData?.RequiredSkills ?? new List<SkillType>().AsReadOnly();
+        return CanLearnSkill(skillType);
+    }
+
+    public bool LevelUpSkill(SkillType skillType)
+    {
+        return LearnSkill(skillType);
+    }
+
+    public int GetSkillLevel(SkillType skillType)
+    {
+        return _skills.TryGetValue(skillType, out var skill) ? skill.Level : 0;
+    }
+
+    public int GetSkillMaxLevel(SkillType skillType)
+    {
+        if (!_skills.TryGetValue(skillType, out var skill))
+            return 0;
+
+        var prototype = _skillRepository.GetSkill(skillType);
+        return prototype?.maxLevel ?? 0;
+    }
+
+    public IReadOnlyCollection<SkillRequirement> GetRequiredSkills(SkillType skillType)
+    {
+        var skill = _skills.GetValueOrDefault(skillType);
+        return skill?.RequiredSkills ?? new List<SkillRequirement>().AsReadOnly();
     }
 
     public IReadOnlyCollection<SkillType> GetLearnableSkills()
@@ -134,18 +156,18 @@ public class SkillService : ISkillService
 
     public IReadOnlyCollection<SkillType> GetLearnedSkills()
     {
-        return _skills.Where(kvp => kvp.Value.IsLearned).Select(kvp => kvp.Key).ToList().AsReadOnly();
+        return _skills.Where(kvp => kvp.Value.Level > 0).Select(kvp => kvp.Key).ToList().AsReadOnly();
     }
 
     public IReadOnlyDictionary<SkillType, bool> GetAllSkills()
     {
-        return _skills.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.IsLearned);
+        return _skills.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Level > 0);
     }
 
     // Get skill information
-    public Skill GetSkillInfo(SkillType skill)
+    public Skill GetSkillInfo(SkillType skillType)
     {
-        return _skills.GetValueOrDefault(skill);
+        return _skills.GetValueOrDefault(skillType);
     }
 
     // Get all skills with their info
@@ -161,7 +183,7 @@ public class SkillService : ISkillService
     /// </summary>
     public int GetLearnedSkillsCount()
     {
-        return _skills.Values.Count(skill => skill.IsLearned);
+        return _skills.Values.Count(skill => skill.Level > 0);
     }
 
     /// <summary>
@@ -170,18 +192,18 @@ public class SkillService : ISkillService
     public void ResetAllSkills()
     {
         // First, notify about all skills becoming unavailable
-        foreach (var skillData in _skills.Values)
+        foreach (var skill in _skills.Values)
         {
-            if (skillData.IsLearned)
+            if (skill.Level > 0)
             {
-                OnSkillLearned?.Invoke(skillData.SkillType); // Notify that it's now unavailable
+                OnSkillLevelChanged?.Invoke(skill.SkillType, 0); // Notify that it's now unavailable
             }
         }
 
         // Then reset all skills
-        foreach (var skillData in _skills.Values)
+        foreach (var skill in _skills.Values)
         {
-            skillData.IsLearned = false;
+            skill.Level = 0;
         }
 
         // Finally, notify about skills that are now available (basic skills with no requirements)
@@ -193,24 +215,24 @@ public class SkillService : ISkillService
     /// <summary>
     /// Unlearn a specific skill
     /// </summary>
-    public bool UnlearnSkill(SkillType skill)
+    public bool UnlearnSkill(SkillType skillType)
     {
-        if (skill == SkillType.Undefined)
+        if (skillType == SkillType.Undefined)
             return false;
 
-        if (!IsSkillLearned(skill))
+        if (!IsSkillLearned(skillType))
         {
-            Debug.Log($"[SkillService] Skill {skill} is not learned");
+            Debug.Log($"[SkillService] Skill {skillType} is not learned");
             return false;
         }
 
-        _skills[skill].IsLearned = false;
-        OnSkillLearned?.Invoke(skill); // Notify that it's now unavailable
+        _skills[skillType].Level = 0;
+        OnSkillLevelChanged?.Invoke(skillType, 0); // Notify that it's now unavailable
 
         // Notify about skills that may have become unavailable after unlearning this skill
-        NotifySkillsAvailabilityChangedAfterUnlearn(skill);
+        NotifySkillsAvailabilityChangedAfterUnlearn(skillType);
 
-        Debug.Log($"[SkillService] Skill {skill} unlearned");
+        Debug.Log($"[SkillService] Skill {skillType} unlearned");
         return true;
     }
 
@@ -222,15 +244,12 @@ public class SkillService : ISkillService
         // Check all skills that might have become unavailable
         foreach (var skill in _skills.Keys)
         {
-            if (!_skills[skill].IsLearned)
+            var skillData = _skills[skill];
+            // Check if this skill depends on the unlearned skill
+            if (skillData.RequiredSkills.Any(req => req.SkillType == unlearnedSkill))
             {
-                // Check if this skill depends on the unlearned skill
-                var skillData = _skills[skill];
-                if (skillData.RequiredSkills.Contains(unlearnedSkill))
-                {
-                    // This skill depends on the unlearned skill, so it's now unavailable
-                    OnSkillLearned?.Invoke(skill); // Notify that it's now unavailable
-                }
+                // This skill depends on the unlearned skill, so it's now unavailable
+                OnSkillLevelChanged?.Invoke(skill, 0); // Notify that it's now unavailable
             }
         }
     }

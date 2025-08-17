@@ -10,11 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3379241a116a3364f8e7a9f3f65c2baf, type: 3}
-  m_Name: negotiations_expert
+  m_Name: skill_negotiations
   m_EditorClassIdentifier: 
-  ClassId: 8220ec9c-c124-4771-be1b-5dda51ff3541
-  skillType: 12
-  displayName: Negotiations Expert
-  description: Expert negotiations skills
-  icon: f2b5
-  requiredSkills: 0b000000
+  ClassId: 3f965d43-b47a-4ceb-9c5d-ca833c4b46db
+  skillType: 1
+  displayName: Negotiations
+  description: 'Smooth talker: can haggle prices and charm stubborn sellers'
+  maxLevel: 5
+  glyph: f086
+  requiredSkills: []
