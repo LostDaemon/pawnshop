@@ -7,9 +7,9 @@ public class NegotiationService : INegotiationService
 {
     private readonly IWalletService _wallet;
     private readonly IGameStorageService<ItemModel> _inventory;
-
     private readonly ICustomerService _customerService;
     private readonly INegotiationHistoryService _history;
+    private readonly ILocalizationService _localizationService;
     private readonly System.Random _random = new();
 
     public event Action<ItemModel> OnPurchased;
@@ -27,12 +27,14 @@ public class NegotiationService : INegotiationService
         IWalletService wallet,
         [Inject(Id = StorageType.InventoryStorage)] IGameStorageService<ItemModel> inventory,
         ICustomerService customerService,
-        INegotiationHistoryService history)
+        INegotiationHistoryService history,
+        ILocalizationService localizationService)
     {
         _wallet = wallet;
         _inventory = inventory;
         _customerService = customerService;
         _history = history;
+        _localizationService = localizationService;
     }
 
     public void SetCurrentCustomer(Customer customer)
@@ -44,7 +46,8 @@ public class NegotiationService : INegotiationService
         _agreedOffer = CurrentNpcOffer;
         _rejectedOffers.Clear();
 
-        _history.Add(new TextRecord(HistoryRecordSource.Customer, $"I'd sell '{CurrentItem.Name}' for {CurrentNpcOffer}."));
+        _history.Add(new TextRecord(HistoryRecordSource.Customer, 
+            string.Format(_localizationService.GetLocalization("dialog_customer_initial_offer"), CurrentItem.Name, CurrentNpcOffer)));
         OnCurrentItemChanged?.Invoke(CurrentItem);
     }
 
@@ -56,8 +59,6 @@ public class NegotiationService : INegotiationService
 
     public long GetCurrentOffer() => _agreedOffer;
 
-
-
     public bool TryPurchase(long offeredPrice)
     {
         if (CurrentItem == null)
@@ -66,13 +67,14 @@ public class NegotiationService : INegotiationService
         var success = _wallet.TransactionAttempt(CurrencyType.Money, -offeredPrice);
         if (!success)
         {
-            _history.Add(new TextRecord(HistoryRecordSource.Customer, "You sure you can pay that?"));
+            _history.Add(new TextRecord(HistoryRecordSource.Customer, _localizationService.GetLocalization("dialog_customer_cant_pay")));
             return false;
         }
 
         CurrentItem.PurchasePrice = offeredPrice;
         _inventory.Put(CurrentItem);
-        _history.Add(new TextRecord(HistoryRecordSource.Customer, $"Deal. {offeredPrice} it is."));
+        _history.Add(new TextRecord(HistoryRecordSource.Customer, 
+            string.Format(_localizationService.GetLocalization("dialog_customer_deal_accepted"), offeredPrice)));
         OnPurchased?.Invoke(CurrentItem);
         return true;
     }
@@ -114,7 +116,8 @@ public class NegotiationService : INegotiationService
 
     public void RequestSkip()
     {
-        _history.Add(new TextRecord(HistoryRecordSource.Player, $"Skipped '{CurrentItem?.Name}'"));
+        _history.Add(new TextRecord(HistoryRecordSource.Player, 
+            string.Format(_localizationService.GetLocalization("dialog_player_skip_item"), CurrentItem?.Name)));
         OnSkipRequested?.Invoke();
     }
 
@@ -126,18 +129,19 @@ public class NegotiationService : INegotiationService
         if (CurrentItem.IsFake)
         {
             _customerService.IncreaseUncertainty(0.25f);
-            _history.Add(new TextRecord(HistoryRecordSource.Customer, "Umm... I'm not sure where this item came from, to be honest."));
+            _history.Add(new TextRecord(HistoryRecordSource.Customer, _localizationService.GetLocalization("dialog_customer_uncertain_origin")));
         }
         else
         {
-            _history.Add(new TextRecord(HistoryRecordSource.Customer, "Of course! It’s been in the family for years."));
+            _history.Add(new TextRecord(HistoryRecordSource.Customer, _localizationService.GetLocalization("dialog_customer_family_item")));
         }
     }
 
     public bool MakeDiscountOffer(float discount)
     {
         var newOffer = Mathf.RoundToInt(_agreedOffer * (1f - discount));
-        _history.Add(new TextRecord(HistoryRecordSource.Player, $"How about {newOffer}?"));
+        _history.Add(new TextRecord(HistoryRecordSource.Player, 
+            string.Format(_localizationService.GetLocalization("dialog_player_counter_offer"), newOffer)));
         Debug.Log($"Trying discount: {discount * 100}% => New offer: {newOffer}");
         var accepted = TryCounterOffer(newOffer);
 
@@ -145,12 +149,13 @@ public class NegotiationService : INegotiationService
         {
             _agreedOffer = newOffer;
             Debug.Log($"Counter offer accepted: {newOffer}");
-            _history.Add(new TextRecord(HistoryRecordSource.Customer, $"Okay, let's do {newOffer}."));
+            _history.Add(new TextRecord(HistoryRecordSource.Customer, 
+                string.Format(_localizationService.GetLocalization("dialog_customer_counter_accepted"), newOffer)));
         }
         else
         {
             Debug.Log("Counter offer rejected.");
-            _history.Add(new TextRecord(HistoryRecordSource.Customer, $"No way. That's too low."));
+            _history.Add(new TextRecord(HistoryRecordSource.Customer, _localizationService.GetLocalization("dialog_customer_counter_rejected")));
         }
 
         return accepted;

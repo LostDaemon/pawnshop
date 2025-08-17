@@ -1,0 +1,140 @@
+{
+  "entries": [
+    {
+      "key": "ui_label_loading",
+      "values": ["Загрузка..."]
+    },
+    {
+      "key": "dialog_customer_initial_offer",
+      "values": [
+        "Я продам '{0}' за {1}.",
+        "Хочу получить {1} за этот '{0}'.",
+        "Прошу {1} за '{0}'."
+      ]
+    },
+    {
+      "key": "dialog_customer_cant_pay",
+      "values": [
+        "Ты уверен, что можешь это оплатить?",
+        "У тебя достаточно денег?",
+        "Можешь позволить такую цену?"
+      ]
+    },
+    {
+      "key": "dialog_customer_deal_accepted",
+      "values": [
+        "Сделка. {0} так {0}.",
+        "Отлично! {0} так {0}.",
+        "Согласен! {0} так {0}."
+      ]
+    },
+    {
+      "key": "dialog_customer_uncertain_origin",
+      "values": [
+        "Хм... Честно говоря, я не уверен, откуда этот предмет.",
+        "Честно, не помню, где я это взял.",
+        "Не совсем уверен в происхождении этой вещи."
+      ]
+    },
+    {
+      "key": "dialog_customer_family_item",
+      "values": [
+        "Конечно! Это в семье уже много лет.",
+        "Абсолютно! Это передавалось из поколения в поколение.",
+        "Определенно! Это семейная реликвия."
+      ]
+    },
+    {
+      "key": "dialog_customer_counter_accepted",
+      "values": [
+        "Хорошо, давайте за {0}.",
+        "Конечно, {0} подходит.",
+        "Хорошо, {0} так {0}."
+      ]
+    },
+    {
+      "key": "dialog_customer_counter_rejected",
+      "values": [
+        "Ни за что. Это слишком мало.",
+        "Я не могу опуститься так низко.",
+        "Это намного ниже моей цены."
+      ]
+    },
+    {
+      "key": "dialog_player_skip_item",
+      "values": [
+        "Пропущен '{0}'",
+        "Отказался от '{0}'",
+        "Не заинтересован в '{0}'"
+      ]
+    },
+    {
+      "key": "dialog_player_counter_offer",
+      "values": ["Как насчет {0}?", "Что думаешь о {0}?", "Подойдет ли {0}?"]
+    },
+    {
+      "key": "dialog_system_item_loaded",
+      "values": ["Предмет успешно загружен"]
+    },
+    {
+      "key": "dialog_system_negotiation_started",
+      "values": ["Переговоры начались"]
+    },
+    {
+      "key": "dialog_system_negotiation_ended",
+      "values": ["Переговоры закончились"]
+    },
+    {
+      "key": "dialog_system_price_too_high",
+      "values": ["Цена слишком высока"]
+    },
+    {
+      "key": "dialog_system_price_too_low",
+      "values": ["Цена слишком низка"]
+    },
+    {
+      "key": "dialog_system_offer_rejected",
+      "values": ["Предложение отклонено"]
+    },
+    {
+      "key": "dialog_system_offer_accepted",
+      "values": ["Предложение принято"]
+    },
+    {
+      "key": "dialog_system_item_purchased",
+      "values": ["Предмет куплен за {0}"]
+    },
+    {
+      "key": "dialog_system_item_sold",
+      "values": ["Предмет продан за {0}"]
+    },
+    {
+      "key": "dialog_system_not_enough_money",
+      "values": ["Недостаточно денег"]
+    },
+    {
+      "key": "dialog_system_inventory_full",
+      "values": ["Инвентарь полон"]
+    },
+    {
+      "key": "dialog_system_item_not_found",
+      "values": ["Предмет не найден"]
+    },
+    {
+      "key": "dialog_system_customer_left",
+      "values": ["Клиент покинул магазин"]
+    },
+    {
+      "key": "dialog_system_customer_arrived",
+      "values": ["Новый клиент прибыл"]
+    },
+    {
+      "key": "dialog_system_shop_closed",
+      "values": ["Магазин теперь закрыт"]
+    },
+    {
+      "key": "dialog_system_shop_opened",
+      "values": ["Магазин теперь открыт"]
+    }
+  ]
+}

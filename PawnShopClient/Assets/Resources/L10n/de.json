@@ -1,0 +1,144 @@
+{
+  "entries": [
+    {
+      "key": "ui_label_loading",
+      "values": ["Laden..."]
+    },
+    {
+      "key": "dialog_customer_initial_offer",
+      "values": [
+        "Ich würde '{0}' für {1} verkaufen.",
+        "Ich suche {1} für diesen '{0}'.",
+        "Ich verlange {1} für den '{0}'."
+      ]
+    },
+    {
+      "key": "dialog_customer_cant_pay",
+      "values": [
+        "Bist du sicher, dass du das bezahlen kannst?",
+        "Hast du genug Geld?",
+        "Kannst du dir diesen Preis leisten?"
+      ]
+    },
+    {
+      "key": "dialog_customer_deal_accepted",
+      "values": [
+        "Deal. {0} ist es.",
+        "Perfekt! {0} ist es dann.",
+        "Einverstanden! {0} ist es."
+      ]
+    },
+    {
+      "key": "dialog_customer_uncertain_origin",
+      "values": [
+        "Hmm... Ehrlich gesagt, bin ich mir nicht sicher, woher dieser Gegenstand stammt.",
+        "Ehrlich gesagt, ich erinnere mich nicht, woher ich das habe.",
+        "Ich bin mir nicht ganz sicher über die Herkunft dieses Stücks."
+      ]
+    },
+    {
+      "key": "dialog_customer_family_item",
+      "values": [
+        "Natürlich! Das ist seit Jahren in der Familie.",
+        "Absolut! Das wird seit Generationen weitergegeben.",
+        "Definitiv! Das ist ein Familienerbstück."
+      ]
+    },
+    {
+      "key": "dialog_customer_counter_accepted",
+      "values": [
+        "Okay, lass uns {0} machen.",
+        "Sicher, {0} passt mir.",
+        "Gut, {0} ist es dann."
+      ]
+    },
+    {
+      "key": "dialog_customer_counter_rejected",
+      "values": [
+        "Auf keinen Fall. Das ist zu niedrig.",
+        "Ich kann nicht so tief gehen.",
+        "Das ist viel zu niedrig für mich."
+      ]
+    },
+    {
+      "key": "dialog_player_skip_item",
+      "values": [
+        "Übersprungen '{0}'",
+        "Abgelehnt '{0}'",
+        "Nicht interessiert an '{0}'"
+      ]
+    },
+    {
+      "key": "dialog_player_counter_offer",
+      "values": [
+        "Wie wäre es mit {0}?",
+        "Was denkst du über {0}?",
+        "Würde {0} für dich funktionieren?"
+      ]
+    },
+    {
+      "key": "dialog_system_item_loaded",
+      "values": ["Gegenstand erfolgreich geladen"]
+    },
+    {
+      "key": "dialog_system_negotiation_started",
+      "values": ["Verhandlung begonnen"]
+    },
+    {
+      "key": "dialog_system_negotiation_ended",
+      "values": ["Verhandlung beendet"]
+    },
+    {
+      "key": "dialog_system_price_too_high",
+      "values": ["Der Preis ist zu hoch"]
+    },
+    {
+      "key": "dialog_system_price_too_low",
+      "values": ["Der Preis ist zu niedrig"]
+    },
+    {
+      "key": "dialog_system_offer_rejected",
+      "values": ["Angebot abgelehnt"]
+    },
+    {
+      "key": "dialog_system_offer_accepted",
+      "values": ["Angebot angenommen"]
+    },
+    {
+      "key": "dialog_system_item_purchased",
+      "values": ["Gegenstand für {0} gekauft"]
+    },
+    {
+      "key": "dialog_system_item_sold",
+      "values": ["Gegenstand für {0} verkauft"]
+    },
+    {
+      "key": "dialog_system_not_enough_money",
+      "values": ["Nicht genug Geld"]
+    },
+    {
+      "key": "dialog_system_inventory_full",
+      "values": ["Inventar ist voll"]
+    },
+    {
+      "key": "dialog_system_item_not_found",
+      "values": ["Gegenstand nicht gefunden"]
+    },
+    {
+      "key": "dialog_system_customer_left",
+      "values": ["Kunde hat den Laden verlassen"]
+    },
+    {
+      "key": "dialog_system_customer_arrived",
+      "values": ["Neuer Kunde angekommen"]
+    },
+    {
+      "key": "dialog_system_shop_closed",
+      "values": ["Laden ist jetzt geschlossen"]
+    },
+    {
+      "key": "dialog_system_shop_opened",
+      "values": ["Laden ist jetzt geöffnet"]
+    }
+  ]
+}

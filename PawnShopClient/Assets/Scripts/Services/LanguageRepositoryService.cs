@@ -1,0 +1,25 @@
+using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
+
+public class LanguageRepositoryService : ILanguageRepositoryService
+{
+    private readonly List<LanguagePrototype> _languages;
+
+    public LanguageRepositoryService()
+    {
+        _languages = new List<LanguagePrototype>();
+    }
+
+    public void Load()
+    {
+        _languages.Clear();
+        _languages.AddRange(Resources.LoadAll<LanguagePrototype>(@"ScriptableObjects\L10n").ToList());
+        Debug.Log($"Loaded {_languages.Count} language prototypes.");
+    }
+
+    public LanguagePrototype GetLanguage(Language language)
+    {
+        return _languages.FirstOrDefault(lang => lang.Language == language);
+    }
+}

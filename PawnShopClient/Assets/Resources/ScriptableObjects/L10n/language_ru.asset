@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c99ce5dc18ec19944a5f05eb59203467, type: 3}
+  m_Name: language_ru
+  m_EditorClassIdentifier: 
+  ClassId: 40a2bf0c-a46f-432d-99d1-a9d4dd15d98e
+  Language: 2
+  Name: "\u0420\u0443\u0441\u0441\u043A\u0438\u0439"
+  fileName: ru

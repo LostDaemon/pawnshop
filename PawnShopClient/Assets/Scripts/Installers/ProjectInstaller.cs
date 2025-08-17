@@ -20,6 +20,7 @@ public class ProjectInstaller : MonoInstaller
         // --- Services: Utility ---
         Container.Bind<INavigationService>().To<NavigationService>().AsSingle();
         Container.Bind<ITimeService>().To<TimeService>().AsSingle();
+        Container.Bind<ILocalizationService>().To<LocalizationService>().AsSingle();
 
         // --- Game Systems ---
         Container.Bind<IWalletService>()
@@ -93,6 +94,11 @@ public class ProjectInstaller : MonoInstaller
         // Tags
         Container.Bind<ITagRepositoryService>()
             .To<TagRepositoryService>()
+            .AsSingle();
+
+        // Languages
+        Container.Bind<ILanguageRepositoryService>()
+            .To<LanguageRepositoryService>()
             .AsSingle();
     }
 }
