@@ -21,9 +21,15 @@ public class ItemPrototype : BasePrototype
     }
     
     [Header("Tags")]
+    [Tooltip("Tag types that will be automatically applied to every item of this type")]
+    public List<TagType> requiredTags = new List<TagType>();
+    
     [Tooltip("Available tag types and their maximum counts for this item")]
     public List<TagLimit> allowedTags = new List<TagLimit>();
     
-    [Tooltip("Tags that will be automatically applied to every item of this type")]
-    public List<BaseTagPrototype> requiredTags = new List<BaseTagPrototype>();
+    [Tooltip("Override default tag generation algorithm")]
+    public bool OverrideTagsGeneration = false;
+    
+    [Tooltip("Tags that will be applied to every item of this type (overrides random generation)")]
+    public List<BaseTagPrototype> OverridedTags = new List<BaseTagPrototype>();
 }

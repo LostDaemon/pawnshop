@@ -35,6 +35,17 @@ namespace PawnShop.Controllers
         
         private void Awake()
         {
+            // Enable rich text support for tags text
+            if (itemTagsText != null)
+            {
+                itemTagsText.richText = true;
+                Debug.Log("[ItemDetailsController] Enabled rich text support for tags text");
+                
+                // Test rich text with a simple example
+                itemTagsText.text = "<color=#FF0000>Red</color> <color=#00FF00>Green</color> <color=#0000FF>Blue</color>";
+                Debug.Log("[ItemDetailsController] Tested rich text with simple colors");
+            }
+            
             // Add click event handler to tags text
             if (itemTagsText != null)
             {
@@ -145,15 +156,31 @@ namespace PawnShop.Controllers
             
             // Update item tags with HTML formatting
             UpdateTagsDisplay();
+            
+            // Final check - ensure rich text is enabled
+            if (itemTagsText != null && !itemTagsText.richText)
+            {
+                Debug.LogError("[ItemDetailsController] Rich text is still disabled after UpdateTagsDisplay!");
+            }
         }
         
         private void UpdateTagsDisplay()
         {
             if (itemTagsText == null || currentItem == null) return;
             
+            // Ensure rich text is enabled
+            if (!itemTagsText.richText)
+            {
+                Debug.LogWarning("[ItemDetailsController] Rich text is disabled, enabling it now");
+                itemTagsText.richText = true;
+            }
+            
             var tags = currentItem.Tags;
+            Debug.Log($"[ItemDetailsController] Updating tags display. Item: {currentItem.Name}, Tags count: {tags?.Count ?? 0}");
+            
             if (tags == null || tags.Count == 0)
             {
+                Debug.Log("[ItemDetailsController] No tags found, displaying 'No tags'");
                 itemTagsText.text = "No tags";
                 return;
             }
@@ -164,13 +191,15 @@ namespace PawnShop.Controllers
                 var tag = tags[i];
                 if (tag == null) continue;
                 
+                Debug.Log($"[ItemDetailsController] Processing tag {i}: Type={tag.TagType}, DisplayName='{tag.DisplayName}', Color={tag.Color}");
+                
                 // Create clickable link for each tag
                 string tagId = $"tag_{i}";
                 string tagColor = GetTagColorHex(tag);
                 
                 // Use DisplayName and wrap in square brackets
                 string tagDisplayName = !string.IsNullOrEmpty(tag.DisplayName) ? tag.DisplayName : tag.TagType.ToString();
-                formattedTags += $"<color={tagColor}><link=\"{tagId}\">[{tagDisplayName}]</link></color>";
+                formattedTags += $"<color=#{tagColor}><link=\"{tagId}\">[{tagDisplayName}]</link></color>";
                 
                 // Add space between tags
                 if (i < tags.Count - 1)
@@ -179,7 +208,26 @@ namespace PawnShop.Controllers
                 }
             }
             
-            itemTagsText.text = formattedTags;
+            Debug.Log($"[ItemDetailsController] Final formatted tags: {formattedTags}");
+            
+            // Try different approaches to set rich text
+            try
+            {
+                // Method 1: Direct text assignment
+                itemTagsText.text = formattedTags;
+                
+                // Method 2: Force mesh update
+                itemTagsText.ForceMeshUpdate();
+                
+                // Method 3: Mark for rebuild
+                itemTagsText.SetAllDirty();
+                
+                Debug.Log("[ItemDetailsController] Text set successfully with all update methods");
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"[ItemDetailsController] Error setting rich text: {e.Message}");
+            }
         }
         
         private string GetTagColorHex(BaseTagModel tag)
@@ -187,10 +235,14 @@ namespace PawnShop.Controllers
             // Use the tag's own color if available, otherwise use fallback color
             if (tag != null && tag.Color != Color.clear)
             {
-                return ColorUtility.ToHtmlStringRGB(tag.Color);
+                string colorHex = ColorUtility.ToHtmlStringRGB(tag.Color);
+                Debug.Log($"[ItemDetailsController] Using tag color: {tag.Color} -> #{colorHex}");
+                return colorHex;
             }
             
-            return ColorUtility.ToHtmlStringRGB(fallbackTagColor);
+            string fallbackHex = ColorUtility.ToHtmlStringRGB(fallbackTagColor);
+            Debug.Log($"[ItemDetailsController] Using fallback color: {fallbackTagColor} -> #{fallbackHex}");
+            return fallbackHex;
         }
         
         private void ClearUI()

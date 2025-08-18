@@ -6,7 +6,7 @@ public class LocalizationService : ILocalizationService
     private readonly ILanguageRepositoryService _languageRepository;
     private Dictionary<string, string[]> _localizationDictionary;
     private Language _currentLanguage;
-    
+
     public event System.Action OnLocalizationSwitch;
 
     public LocalizationService(ILanguageRepositoryService languageRepository)
@@ -38,17 +38,17 @@ public class LocalizationService : ILocalizationService
                 Debug.LogWarning($"Localization key '{key}' has no values for language {_currentLanguage}");
                 return $"[{key}]";
             }
-            
+
             // If only one value, return it directly
             if (values.Length == 1)
             {
                 return values[0];
             }
-            
+
             // If multiple values, return a random one
             return values[Random.Range(0, values.Length)];
         }
-        
+
         Debug.LogWarning($"Localization key '{key}' not found for language {_currentLanguage}");
         return $"[{key}]";
     }
@@ -56,7 +56,7 @@ public class LocalizationService : ILocalizationService
     private void LoadLocalizationFile(string fileName)
     {
         _localizationDictionary.Clear();
-        
+
         var textAsset = Resources.Load<TextAsset>($"L10n/{fileName}");
         if (textAsset == null)
         {
@@ -68,13 +68,13 @@ public class LocalizationService : ILocalizationService
         {
             var jsonContent = textAsset.text;
             var localizationData = JsonUtility.FromJson<LocalizationData>(jsonContent);
-            
+
             foreach (var entry in localizationData.entries)
             {
                 _localizationDictionary[entry.key] = entry.values;
-                Debug.Log($"Loaded localization entry: {entry.key} = {entry.values[0]}");
+                // Debug.Log($"Loaded localization entry: {entry.key} = {entry.values[0]}");
             }
-            
+
             Debug.Log($"Loaded {_localizationDictionary.Count} localization entries from {fileName}");
         }
         catch (System.Exception e)
