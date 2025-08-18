@@ -14,6 +14,7 @@ public class NegotiationService : INegotiationService
 
     public event Action<ItemModel> OnPurchased;
     public event Action<ItemModel> OnCurrentItemChanged;
+    public event Action<long> OnCurrentOfferChanged;
     public event Action OnSkipRequested;
 
     public ItemModel CurrentItem { get; private set; }
@@ -151,6 +152,7 @@ public class NegotiationService : INegotiationService
             Debug.Log($"Counter offer accepted: {newOffer}");
             _history.Add(new TextRecord(HistoryRecordSource.Customer, 
                 string.Format(_localizationService.GetLocalization("dialog_customer_counter_accepted"), newOffer)));
+            OnCurrentOfferChanged?.Invoke(_agreedOffer);
         }
         else
         {

@@ -4,6 +4,7 @@ public interface INegotiationService
 {
     event Action<ItemModel> OnPurchased;
     event Action<ItemModel> OnCurrentItemChanged;
+    event Action<long> OnCurrentOfferChanged;
     event Action OnSkipRequested;
 
     ItemModel CurrentItem { get; }
