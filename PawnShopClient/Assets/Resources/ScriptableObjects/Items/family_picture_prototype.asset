@@ -19,7 +19,7 @@ MonoBehaviour:
   Scale: 0.5
   Description: A faded old photograph in a wooden frame. Sentimental value, little
     market interest.
-  requiredTags: 
+  requiredTags: 01000000
   allowedTags: []
   OverrideTagsGeneration: 0
   OverridedTags: []

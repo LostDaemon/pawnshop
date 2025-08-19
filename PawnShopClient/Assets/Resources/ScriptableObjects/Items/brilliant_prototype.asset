@@ -19,3 +19,11 @@ MonoBehaviour:
   Scale: 0.3
   Description: A loose brilliant-cut gemstone. Authentic, but needs professional
     setting.
+  requiredTags: 01000000020000000800000007000000
+  allowedTags:
+  - TagType: 3
+    MaxCount: 5
+  - TagType: 4
+    MaxCount: 3
+  OverrideTagsGeneration: 0
+  OverridedTags: []

@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
+  m_Name: tag_purity_4_perfect
+  m_EditorClassIdentifier: 
+  TagType: 13
+  DisplayName: Perfect 99.99...%
+  Description: Near perfect purity, exceptional and unique
+  Hidden: 0
+  Color: {r: 0.85490197, g: 0.4392157, b: 0.8392157, a: 1}
+  RequiredSkills:
+  - SkillType: 2
+    RequiredLevel: 1
+  PriceMultiplier: 3
+  AppearanceChance: 0.05

@@ -197,9 +197,10 @@ namespace PawnShop.Controllers
                 string tagId = $"tag_{i}";
                 string tagColor = GetTagColorHex(tag);
                 
-                // Use DisplayName and wrap in square brackets
+                // Format as [TagType: DisplayName]
                 string tagDisplayName = !string.IsNullOrEmpty(tag.DisplayName) ? tag.DisplayName : tag.TagType.ToString();
-                formattedTags += $"<color=#{tagColor}><link=\"{tagId}\">[{tagDisplayName}]</link></color>";
+                string formattedTag = $"[{tag.TagType}: {tagDisplayName}]";
+                formattedTags += $"<color=#{tagColor}><link=\"{tagId}\">{formattedTag}</link></color>";
                 
                 // Add space between tags
                 if (i < tags.Count - 1)

@@ -13,6 +13,7 @@ public enum TagType
     Age = 10,
     Manufacturer = 11,
     Authenticity = 12,
+    Purity = 13,
 }
 
 
