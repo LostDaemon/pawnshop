@@ -84,108 +84,136 @@ public class ItemRepositoryService : IItemRepositoryService
 
         if (prototype.OverrideTagsGeneration)
         {
-            // Use overrided tags instead of random generation
-            Debug.Log($"[ItemRepositoryService] Using overrided tags for item: {prototype.Name}");
-            
-            foreach (var overridedTag in prototype.OverridedTags)
-            {
-                if (overridedTag != null)
-                {
-                    Debug.Log($"[ItemRepositoryService] Processing overrided tag: {overridedTag.TagType}");
-                    var tagModel = CreateTagModelFromPrototype(overridedTag);
-                    if (tagModel != null)
-                    {
-                        item.Tags.Add(tagModel);
-                        Debug.Log($"[ItemRepositoryService] Added overrided tag: {tagModel.TagType}");
-                    }
-                    else
-                    {
-                        Debug.LogWarning($"[ItemRepositoryService] Failed to create tag model for overrided tag: {overridedTag.TagType}");
-                    }
-                }
-            }
+            ProcessOverridedTags(item, prototype);
         }
         else
         {
-            // Use original random generation algorithm
-            Debug.Log($"[ItemRepositoryService] Using random tag generation for item: {prototype.Name}");
-            
-            // First, add all required tags (ignoring probability)
-            Debug.Log($"[ItemRepositoryService] Adding required tags for item: {prototype.Name}");
-            foreach (var requiredTagType in prototype.requiredTags)
+            ProcessRandomTagGeneration(item, prototype);
+        }
+
+        Debug.Log($"[ItemRepositoryService] Final tags count for item {item.Name}: {item.Tags.Count}");
+    }
+
+    private void ProcessOverridedTags(ItemModel item, ItemPrototype prototype)
+    {
+        Debug.Log($"[ItemRepositoryService] Using overrided tags for item: {prototype.Name}");
+        
+        foreach (var overridedTag in prototype.OverridedTags)
+        {
+            if (overridedTag != null)
             {
-                Debug.Log($"[ItemRepositoryService] Processing required tag type: {requiredTagType}");
-                var tagPrototype = GetTagPrototype(requiredTagType);
-                if (tagPrototype != null)
+                Debug.Log($"[ItemRepositoryService] Processing overrided tag: {overridedTag.TagType}");
+                var tagModel = CreateTagModelFromPrototype(overridedTag);
+                if (tagModel != null)
                 {
-                    var tagModel = CreateTagModelFromPrototype(tagPrototype);
-                    if (tagModel != null)
-                    {
-                        item.Tags.Add(tagModel);
-                        Debug.Log($"[ItemRepositoryService] Added required tag: {tagModel.TagType}");
-                    }
-                    else
-                    {
-                        Debug.LogWarning($"[ItemRepositoryService] Failed to create tag model for required tag type: {requiredTagType}");
-                    }
+                    item.Tags.Add(tagModel);
+                    Debug.Log($"[ItemRepositoryService] Added overrided tag: {tagModel.TagType}");
                 }
                 else
                 {
-                    Debug.LogWarning($"[ItemRepositoryService] Failed to get tag prototype for required tag type: {requiredTagType}");
+                    Debug.LogWarning($"[ItemRepositoryService] Failed to create tag model for overrided tag: {overridedTag.TagType}");
                 }
             }
+        }
+    }
+
+    private void ProcessRandomTagGeneration(ItemModel item, ItemPrototype prototype)
+    {
+        Debug.Log($"[ItemRepositoryService] Using random tag generation for item: {prototype.Name}");
+        
+        // First, add all required tags (ignoring probability)
+        Debug.Log($"[ItemRepositoryService] Adding required tags for item: {prototype.Name}");
+        foreach (var requiredTagType in prototype.requiredTags)
+        {
+            Debug.Log($"[ItemRepositoryService] Processing required tag type: {requiredTagType}");
             
-            // Then, process available tags based on probability and max count
-            Debug.Log($"[ItemRepositoryService] Processing allowed tags for item: {prototype.Name}");
-            foreach (var tagLimit in prototype.allowedTags)
+            // Get all tags of this type
+            var availableTags = _tagRepository.GetTagPrototypesByType(requiredTagType);
+            if (availableTags.Count > 0)
             {
-                int maxCount = tagLimit.MaxCount;
-                Debug.Log($"[ItemRepositoryService] Processing allowed tag type: {tagLimit.TagType}, MaxCount: {maxCount}");
-
-                // Check how many tags of this type we already have (including required ones)
-                int currentCount = item.Tags.Count(t => t.TagType == tagLimit.TagType);
-                int remainingSlots = maxCount - currentCount;
-
-                if (remainingSlots <= 0) 
+                // Select one tag with weighted probability, but one must be selected
+                var selectedTag = SelectRequiredTagByProbability(availableTags);
+                Debug.Log($"[ItemRepositoryService] Selected required tag with weighted probability: {selectedTag.DisplayName}");
+                
+                var tagModel = CreateTagModelFromPrototype(selectedTag);
+                if (tagModel != null)
                 {
-                    Debug.Log($"[ItemRepositoryService] No remaining slots for tag type: {tagLimit.TagType}");
-                    continue;
+                    item.Tags.Add(tagModel);
+                    Debug.Log($"[ItemRepositoryService] Added required tag: {tagModel.TagType} - {tagModel.DisplayName}");
                 }
-
-                // Try to add tags based on probability
-                for (int i = 0; i < remainingSlots; i++)
+                else
                 {
-                    var tagPrototype = GetTagPrototype(tagLimit.TagType);
-                    if (tagPrototype != null)
+                    Debug.LogWarning($"[ItemRepositoryService] Failed to create tag model for required tag type: {requiredTagType}");
+                }
+            }
+            else
+            {
+                Debug.LogWarning($"[ItemRepositoryService] Failed to get tag prototype for required tag type: {requiredTagType}");
+            }
+        }
+        
+        // Then, process available tags based on probability and max count
+        Debug.Log($"[ItemRepositoryService] Processing allowed tags for item: {prototype.Name}");
+        foreach (var tagLimit in prototype.allowedTags)
+        {
+            int maxCount = tagLimit.MaxCount;
+            Debug.Log($"[ItemRepositoryService] Processing allowed tag type: {tagLimit.TagType}, MaxCount: {maxCount}");
+
+            // Check how many tags of this type we already have (including required ones)
+            int currentCount = item.Tags.Count(t => t.TagType == tagLimit.TagType);
+            int remainingSlots = maxCount - currentCount;
+
+            if (remainingSlots <= 0) 
+            {
+                Debug.Log($"[ItemRepositoryService] No remaining slots for tag type: {tagLimit.TagType}");
+                continue;
+            }
+
+            // Get all available tags of this type
+            var availableTags = _tagRepository.GetTagPrototypesByType(tagLimit.TagType);
+            if (availableTags.Count == 0)
+            {
+                Debug.LogWarning($"[ItemRepositoryService] No tag prototypes found for type: {tagLimit.TagType}");
+                continue;
+            }
+
+            Debug.Log($"[ItemRepositoryService] Found {availableTags.Count} available tags for type {tagLimit.TagType}");
+
+            // Try to add tags based on probability for each remaining slot
+            for (int i = 0; i < remainingSlots; i++)
+            {
+                // Go through all available tags and try to add them based on their AppearanceChance
+                foreach (var tag in availableTags)
+                {
+                    // Check if we already have this specific tag prototype (to avoid duplicates)
+                    if (item.Tags.Any(existingTag => existingTag.DisplayName == tag.DisplayName))
                     {
-                        Debug.Log($"[ItemRepositoryService] Got tag prototype: {tagPrototype.TagType}, AppearanceChance: {tagPrototype.AppearanceChance}");
-                        if (Random.Range(0f, 1f) <= tagPrototype.AppearanceChance)
+                        Debug.Log($"[ItemRepositoryService] Skipping tag {tag.DisplayName} - already exists");
+                        continue;
+                    }
+
+                    Debug.Log($"[ItemRepositoryService] Checking tag: {tag.DisplayName} with chance: {tag.AppearanceChance}");
+                    if (Random.Range(0f, 1f) <= tag.AppearanceChance)
+                    {
+                        var tagModel = CreateTagModelFromPrototype(tag);
+                        if (tagModel != null)
                         {
-                            var tagModel = CreateTagModelFromPrototype(tagPrototype);
-                            if (tagModel != null)
-                            {
-                                item.Tags.Add(tagModel);
-                                Debug.Log($"[ItemRepositoryService] Added allowed tag: {tagModel.TagType}");
-                            }
-                            else
-                            {
-                                Debug.LogWarning($"[ItemRepositoryService] Failed to create tag model for allowed tag: {tagPrototype.TagType}");
-                            }
+                            item.Tags.Add(tagModel);
+                            Debug.Log($"[ItemRepositoryService] Added allowed tag: {tagModel.TagType} - {tagModel.DisplayName}");
+                            break; // Move to next slot
                         }
                         else
                         {
-                            Debug.Log($"[ItemRepositoryService] Tag {tagPrototype.TagType} failed probability check");
+                            Debug.LogWarning($"[ItemRepositoryService] Failed to create tag model for allowed tag: {tag.TagType}");
                         }
                     }
                     else
                     {
-                        Debug.LogWarning($"[ItemRepositoryService] Failed to get tag prototype for type: {tagLimit.TagType}");
+                        Debug.Log($"[ItemRepositoryService] Tag {tag.TagType} failed probability check");
                     }
                 }
             }
         }
-
-        Debug.Log($"[ItemRepositoryService] Final tags count for item {item.Name}: {item.Tags.Count}");
     }
 
     private BaseTagModel CreateTagModelFromPrototype(BaseTagPrototype prototype)
@@ -217,6 +245,37 @@ public class ItemRepositoryService : IItemRepositoryService
     private BaseTagPrototype GetTagPrototype(TagType tagType)
     {
         return _tagRepository?.GetTagPrototype(tagType);
+    }
+
+    private BaseTagPrototype SelectRequiredTagByProbability(IReadOnlyCollection<BaseTagPrototype> availableTags)
+    {
+        if (availableTags == null || availableTags.Count == 0) return null;
+        
+        // Calculate total weight (sum of all AppearanceChance values)
+        float totalWeight = availableTags.Sum(tag => tag.AppearanceChance);
+        
+        if (totalWeight <= 0)
+        {
+            // If all AppearanceChance are 0, select random
+            int randomIndex = Random.Range(0, availableTags.Count);
+            return availableTags.ElementAt(randomIndex);
+        }
+        
+        // Select based on weighted probability
+        float randomValue = Random.Range(0f, totalWeight);
+        float currentWeight = 0f;
+        
+        foreach (var tag in availableTags)
+        {
+            currentWeight += tag.AppearanceChance;
+            if (randomValue <= currentWeight)
+            {
+                return tag;
+            }
+        }
+        
+        // Fallback to last tag (shouldn't happen, but just in case)
+        return availableTags.Last();
     }
 
     public void AddItem(ItemPrototype itemPrototype)

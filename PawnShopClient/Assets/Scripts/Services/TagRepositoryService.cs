@@ -47,4 +47,13 @@ public class TagRepositoryService : ITagRepositoryService
     {
         return _allTags.AsReadOnly();
     }
+
+    public IReadOnlyCollection<BaseTagPrototype> GetTagPrototypesByType(TagType tagType)
+    {
+        if (_tagsByType.TryGetValue(tagType, out var tags))
+        {
+            return tags.AsReadOnly();
+        }
+        return new List<BaseTagPrototype>().AsReadOnly();
+    }
 }
