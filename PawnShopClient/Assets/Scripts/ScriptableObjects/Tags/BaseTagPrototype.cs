@@ -8,6 +8,9 @@ public abstract class BaseTagPrototype : ScriptableObject
     public string Description;
     public bool Hidden;
     public Color Color = Color.white;
+    
+    [Tooltip("Whether this tag is revealed by default (visible without inspection)")]
+    public bool IsRevealed = false;
 
     [Header("Requirements")]
     public SkillRequirement[] RequiredSkills = new SkillRequirement[0];

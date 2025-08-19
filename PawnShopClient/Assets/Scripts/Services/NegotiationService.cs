@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Zenject;
 
@@ -16,6 +17,7 @@ public class NegotiationService : INegotiationService
     public event Action<ItemModel> OnCurrentItemChanged;
     public event Action<long> OnCurrentOfferChanged;
     public event Action OnSkipRequested;
+    public event Action OnTagsRevealed;
 
     public ItemModel CurrentItem { get; private set; }
 
@@ -165,6 +167,74 @@ public class NegotiationService : INegotiationService
 
     public void AnalyzeItem()
     {
-        Debug.Log(_inventory.All.Count);
+        // Temporary implementation - reveals all tags
+        // TODO: Replace with complex analysis logic in the future
+        
+        if (CurrentItem?.Tags == null)
+            return;
+            
+        int revealedCount = 0;
+        foreach (var tag in CurrentItem.Tags)
+        {
+            if (tag != null && !tag.IsRevealed)
+            {
+                tag.IsRevealed = true;
+                revealedCount++;
+                Debug.Log($"Tag revealed through analysis: {tag.TagType} - {tag.DisplayName}");
+            }
+        }
+        
+        if (revealedCount > 0)
+        {
+            Debug.Log($"Analysis complete: {revealedCount} tags revealed");
+            
+            // Add to history
+            _history.Add(new TextRecord(HistoryRecordSource.Player, 
+                string.Format(_localizationService.GetLocalization("dialog_player_analyzed_item"), CurrentItem.Name, revealedCount)));
+            
+            // Trigger UI update event
+            OnCurrentItemChanged?.Invoke(CurrentItem);
+            
+            // Notify that tags were revealed
+            OnTagsRevealed?.Invoke();
+        }
+        else
+        {
+            Debug.Log("Analysis complete: no new tags to reveal");
+            _history.Add(new TextRecord(HistoryRecordSource.Player, 
+                _localizationService.GetLocalization("dialog_player_analysis_no_new_info")));
+        }
+    }
+    
+    public List<BaseTagModel> GetVisibleTags()
+    {
+        if (CurrentItem?.Tags == null)
+            return new List<BaseTagModel>();
+            
+        return CurrentItem.Tags.Where(tag => tag != null && IsTagVisible(tag)).ToList();
+    }
+    
+    public bool IsTagVisible(BaseTagModel tag)
+    {
+        if (tag == null)
+            return false;
+            
+        // Tag is visible if it's marked as revealed by default
+        // or if it was revealed through gameplay mechanics
+        return tag.IsRevealed;
+    }
+    
+    public void RevealTag(BaseTagModel tag)
+    {
+        if (tag == null)
+            return;
+            
+        tag.IsRevealed = true;
+        Debug.Log($"Tag revealed: {tag.TagType} - {tag.DisplayName}");
+        
+        // You can add additional logic here, such as:
+        // - Adding to history
+        // - Triggering events
+        // - Updating UI
     }
 }

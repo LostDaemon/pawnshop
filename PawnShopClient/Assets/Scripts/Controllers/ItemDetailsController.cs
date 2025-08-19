@@ -66,6 +66,7 @@ namespace PawnShop.Controllers
             {
                 negotiationService.OnCurrentItemChanged += OnNegotiationItemChanged;
                 negotiationService.OnCurrentOfferChanged += OnNegotiationOfferChanged;
+                negotiationService.OnTagsRevealed += OnTagsRevealed;
             }
         }
         
@@ -185,13 +186,24 @@ namespace PawnShop.Controllers
                 return;
             }
             
-            string formattedTags = "";
-            for (int i = 0; i < tags.Count; i++)
+            // Get visible tags from negotiation service
+            var visibleTags = negotiationService.GetVisibleTags();
+            Debug.Log($"[ItemDetailsController] Visible tags count: {visibleTags.Count} out of {tags.Count} total");
+            
+            if (visibleTags.Count == 0)
             {
-                var tag = tags[i];
+                Debug.Log("[ItemDetailsController] No visible tags found, displaying 'No visible tags'");
+                itemTagsText.text = "No visible tags";
+                return;
+            }
+            
+            string formattedTags = "";
+            for (int i = 0; i < visibleTags.Count; i++)
+            {
+                var tag = visibleTags[i];
                 if (tag == null) continue;
                 
-                Debug.Log($"[ItemDetailsController] Processing tag {i}: Type={tag.TagType}, DisplayName='{tag.DisplayName}', Color={tag.Color}");
+                Debug.Log($"[ItemDetailsController] Processing visible tag {i}: Type={tag.TagType}, DisplayName='{tag.DisplayName}', Color={tag.Color}, IsRevealed={tag.IsRevealed}");
                 
                 // Create clickable link for each tag
                 string tagId = $"tag_{i}";
@@ -203,7 +215,7 @@ namespace PawnShop.Controllers
                 formattedTags += $"<color=#{tagColor}><link=\"{tagId}\">{formattedTag}</link></color>";
                 
                 // Add space between tags
-                if (i < tags.Count - 1)
+                if (i < visibleTags.Count - 1)
                 {
                     formattedTags += " ";
                 }
@@ -321,6 +333,13 @@ namespace PawnShop.Controllers
             }
         }
         
+        private void OnTagsRevealed()
+        {
+            // Update tags display when new tags are revealed
+            Debug.Log("[ItemDetailsController] Tags revealed, updating display");
+            UpdateTagsDisplay();
+        }
+        
         private void OnDestroy()
         {
             // Unsubscribe from negotiation service events
@@ -328,6 +347,7 @@ namespace PawnShop.Controllers
             {
                 negotiationService.OnCurrentItemChanged -= OnNegotiationItemChanged;
                 negotiationService.OnCurrentOfferChanged -= OnNegotiationOfferChanged;
+                negotiationService.OnTagsRevealed -= OnTagsRevealed;
             }
         }
     }

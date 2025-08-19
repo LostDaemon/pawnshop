@@ -65,6 +65,22 @@
       "values": ["Skipped '{0}'", "Passed on '{0}'", "Not interested in '{0}'"]
     },
     {
+      "key": "dialog_player_analyzed_item",
+      "values": [
+        "Analyzed '{0}' and discovered {1} new details.",
+        "Examined '{0}' closely and found {1} new characteristics.",
+        "Carefully inspected '{0}' and revealed {1} new properties."
+      ]
+    },
+    {
+      "key": "dialog_player_analysis_no_new_info",
+      "values": [
+        "No new information found during analysis.",
+        "Analysis complete - no additional details discovered.",
+        "Thorough examination revealed no new insights."
+      ]
+    },
+    {
       "key": "dialog_player_counter_offer",
       "values": [
         "How about {0}?",

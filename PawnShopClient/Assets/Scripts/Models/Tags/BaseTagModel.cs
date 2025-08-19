@@ -22,7 +22,7 @@ public abstract class BaseTagModel
             RequiredSkills = prototype.RequiredSkills;
             PriceMultiplier = prototype.PriceMultiplier;
             AppearanceChance = prototype.AppearanceChance;
-            IsRevealed = false;
+            IsRevealed = prototype.IsRevealed;
             Hidden = prototype.Hidden;
             Color = prototype.Color;
         }
