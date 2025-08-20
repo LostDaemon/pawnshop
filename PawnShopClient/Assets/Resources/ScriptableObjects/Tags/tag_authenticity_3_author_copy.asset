@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
   m_Name: tag_authenticity_3_author_copy
   m_EditorClassIdentifier: 
+  ClassId: e0ba18fd-ed46-462d-bdf3-d1214a13fd8c
   TagType: 12
   DisplayName: Author Copy
   Description: The copy of original masterpeace, made by master
-  Hidden: 0
-  Color: {r: 1, g: 0.84313726, b: 0, a: 1}
-  IsRevealed: 0
   RequiredSkills: 020000002a00000030000000
+  IsRevealedToPlayer: 0
+  IsRevealedToCustomer: 0
+  Hidden: 0
   PriceMultiplier: 2
   AppearanceChance: 0.05
+  Color: {r: 1, g: 0.84313726, b: 0, a: 1}
