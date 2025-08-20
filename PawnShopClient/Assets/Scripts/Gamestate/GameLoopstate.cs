@@ -2,39 +2,30 @@ using UnityEngine;
 
 public class GameLoopState : IGameState
 {
-    private readonly INegotiationService _purchaseService;
-    private readonly ICustomerFactoryService _customerFactory;
+    private readonly INegotiationService _negotiationService;
 
     public GameLoopState(
-        INegotiationService purchaseService,
-        ICustomerFactoryService customerFactory)
+        INegotiationService purchaseService)
     {
-        _purchaseService = purchaseService;
-        _customerFactory = customerFactory;
+        _negotiationService = purchaseService;
     }
 
     public void Enter()
     {
-        _purchaseService.OnPurchased += OnItemPurchased;
-        _purchaseService.OnSkipRequested += ShowNextCustomer;
+        _negotiationService.OnPurchased += OnItemPurchased;
+        _negotiationService.OnSkipRequested += ShowNextCustomer;
         ShowNextCustomer();
     }
 
     public void Exit()
     {
-        _purchaseService.OnPurchased -= OnItemPurchased;
-        _purchaseService.OnSkipRequested -= ShowNextCustomer;
+        _negotiationService.OnPurchased -= OnItemPurchased;
+        _negotiationService.OnSkipRequested -= ShowNextCustomer;
     }
 
     private void ShowNextCustomer()
     {
-        var customer = _customerFactory.GenerateRandomCustomer();
-        if (customer.OwnedItem != null && customer.OwnedItem.IsFake)
-        {
-            Debug.Log("[GameLoop] Item is fake.");
-        }
-
-        _purchaseService.SetCurrentCustomer(customer);
+        _negotiationService.ShowNextCustomer();
     }
 
     private void OnItemPurchased(ItemModel _)

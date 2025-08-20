@@ -8,18 +8,15 @@ public interface INegotiationService
     event Action<long> OnCurrentOfferChanged;
     event Action OnSkipRequested;
     event Action OnTagsRevealed;
-
     ItemModel CurrentItem { get; }
     long CurrentNpcOffer { get; }
     long GetCurrentOffer();
-
-    void SetCurrentCustomer(Customer customer);
     bool MakeDiscountOffer(float discount);
     bool TryPurchase(long offeredPrice);
     bool TryCounterOffer(long playerOffer);
     void RequestSkip();
     void AskAboutItemOrigin();
-
+    void ShowNextCustomer();
     /// <summary>
     /// Get visible tags for the current item (filtered by IsRevealed)
     /// </summary>

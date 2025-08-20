@@ -19,7 +19,7 @@ public class CustomerFactoryService : ICustomerFactoryService
 
     public Customer GenerateRandomCustomer()
     {
-        var customer = new Customer(null, _random.Next(0, 101) / 100f)
+        var customer = new Customer()
         {
             UncertaintyLevel = _random.Next(0, 101) / 100f
         };
@@ -36,9 +36,9 @@ public class CustomerFactoryService : ICustomerFactoryService
     {
         // Get all available skills from repository
         var allSkills = _skillRepository.GetAllSkills();
-        
+
         Debug.Log($"[CustomerFactory] Found {allSkills.Count} skill prototypes in repository");
-        
+
         foreach (var skillPrototype in allSkills)
         {
             if (skillPrototype.skillType == SkillType.Undefined)
@@ -46,19 +46,19 @@ public class CustomerFactoryService : ICustomerFactoryService
 
             // Generate random level from 0 to maxLevel
             var randomLevel = _random.Next(0, skillPrototype.maxLevel + 1);
-            
+
             // Create skill instance with random level
             var skill = new Skill(skillPrototype)
             {
                 Level = randomLevel
             };
-            
+
             // Add skill to customer
             customer.Skills[skillPrototype.skillType] = skill;
-            
+
             Debug.Log($"[CustomerFactory] Generated skill {skillPrototype.displayName} (Type: {skillPrototype.skillType}) with level {randomLevel}/{skillPrototype.maxLevel}");
         }
-        
+
         Debug.Log($"[CustomerFactory] Generated {customer.Skills.Count} random skills for customer");
     }
 }

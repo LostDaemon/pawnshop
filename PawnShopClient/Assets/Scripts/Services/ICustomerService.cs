@@ -2,10 +2,10 @@ using System;
 
 public interface ICustomerService
 {
-    Customer Current { get; }
-    void SetCurrent(Customer customer);
+    Customer CurrentCustomer { get; }
     void ChangeMood(float delta);
     void IncreaseUncertainty(float delta);
-    event Action<float> OnMoodChanged;
-    event Action<float> OnUncertaintyChanged;
+    void ShowNextCustomer();
+    long EvaluateCurrentItem();
+    event Action<Customer> OnCustomerChanged;
 }

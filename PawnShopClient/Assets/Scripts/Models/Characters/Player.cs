@@ -1,6 +1,6 @@
 public class Player : BaseCharacter
 {
-    public Player(string name = "Player") : base(name)
+    public Player(string name = "Player")
     {
     }
 }

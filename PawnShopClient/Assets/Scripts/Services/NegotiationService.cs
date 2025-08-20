@@ -19,7 +19,8 @@ public class NegotiationService : INegotiationService
     public event Action OnSkipRequested;
     public event Action OnTagsRevealed;
 
-    public ItemModel CurrentItem { get; private set; }
+    public ItemModel CurrentItem => _customerService.CurrentCustomer?.OwnedItem;
+    public Customer CurrentCustomer => _customerService.CurrentCustomer;
 
     public long CurrentNpcOffer { get; private set; }
     private long _agreedOffer;
@@ -40,16 +41,15 @@ public class NegotiationService : INegotiationService
         _localizationService = localizationService;
     }
 
-    public void SetCurrentCustomer(Customer customer)
-    {
-        _customerService.SetCurrent(customer);
-        CurrentItem = customer.OwnedItem;
+    public long GetCurrentOffer() => _agreedOffer;
 
+    public void ShowNextCustomer()
+    {
+        _customerService.ShowNextCustomer();
         GenerateInitialNpcOffer();
         _agreedOffer = CurrentNpcOffer;
         _rejectedOffers.Clear();
-
-        _history.Add(new TextRecord(HistoryRecordSource.Customer, 
+        _history.Add(new TextRecord(HistoryRecordSource.Customer,
             string.Format(_localizationService.GetLocalization("dialog_customer_initial_offer"), CurrentItem.Name, CurrentNpcOffer)));
         OnCurrentItemChanged?.Invoke(CurrentItem);
     }
@@ -57,10 +57,8 @@ public class NegotiationService : INegotiationService
     private void GenerateInitialNpcOffer()
     {
         if (CurrentItem == null) return;
-        CurrentNpcOffer = (long)(CurrentItem.BasePrice * _random.Next(60, 86) / 100f);
+        CurrentNpcOffer = _customerService.EvaluateCurrentItem();
     }
-
-    public long GetCurrentOffer() => _agreedOffer;
 
     public bool TryPurchase(long offeredPrice)
     {
@@ -76,7 +74,7 @@ public class NegotiationService : INegotiationService
 
         CurrentItem.PurchasePrice = offeredPrice;
         _inventory.Put(CurrentItem);
-        _history.Add(new TextRecord(HistoryRecordSource.Customer, 
+        _history.Add(new TextRecord(HistoryRecordSource.Customer,
             string.Format(_localizationService.GetLocalization("dialog_customer_deal_accepted"), offeredPrice)));
         OnPurchased?.Invoke(CurrentItem);
         return true;
@@ -90,9 +88,7 @@ public class NegotiationService : INegotiationService
         if (_rejectedOffers.Contains(playerOffer))
             return false;
 
-        var customer = _customerService.Current;
-
-        var minAcceptable = (long)(CurrentItem.BasePrice * 0.6f * (1f - customer.UncertaintyLevel));
+        var minAcceptable = (long)(CurrentItem.BasePrice * 0.6f * (1f - CurrentCustomer.UncertaintyLevel));
         var maxAcceptable = (long)(CurrentItem.BasePrice * 0.95f);
 
         Debug.Log($"NPC offer: {CurrentNpcOffer}, Player offer: {playerOffer}, Min: {minAcceptable}, Max: {maxAcceptable}");
@@ -119,14 +115,14 @@ public class NegotiationService : INegotiationService
 
     public void RequestSkip()
     {
-        _history.Add(new TextRecord(HistoryRecordSource.Player, 
+        _history.Add(new TextRecord(HistoryRecordSource.Player,
             string.Format(_localizationService.GetLocalization("dialog_player_skip_item"), CurrentItem?.Name)));
         OnSkipRequested?.Invoke();
     }
 
     public void AskAboutItemOrigin()
     {
-        if (CurrentItem == null || _customerService.Current == null)
+        if (CurrentItem == null || CurrentCustomer == null)
             return;
 
         if (CurrentItem.IsFake)
@@ -143,7 +139,7 @@ public class NegotiationService : INegotiationService
     public bool MakeDiscountOffer(float discount)
     {
         var newOffer = Mathf.RoundToInt(_agreedOffer * (1f - discount));
-        _history.Add(new TextRecord(HistoryRecordSource.Player, 
+        _history.Add(new TextRecord(HistoryRecordSource.Player,
             string.Format(_localizationService.GetLocalization("dialog_player_counter_offer"), newOffer)));
         Debug.Log($"Trying discount: {discount * 100}% => New offer: {newOffer}");
         var accepted = TryCounterOffer(newOffer);
@@ -152,7 +148,7 @@ public class NegotiationService : INegotiationService
         {
             _agreedOffer = newOffer;
             Debug.Log($"Counter offer accepted: {newOffer}");
-            _history.Add(new TextRecord(HistoryRecordSource.Customer, 
+            _history.Add(new TextRecord(HistoryRecordSource.Customer,
                 string.Format(_localizationService.GetLocalization("dialog_customer_counter_accepted"), newOffer)));
             OnCurrentOfferChanged?.Invoke(_agreedOffer);
         }
@@ -169,10 +165,10 @@ public class NegotiationService : INegotiationService
     {
         // Temporary implementation - reveals all tags
         // TODO: Replace with complex analysis logic in the future
-        
+
         if (CurrentItem?.Tags == null)
             return;
-            
+
         int revealedCount = 0;
         foreach (var tag in CurrentItem.Tags)
         {
@@ -183,55 +179,55 @@ public class NegotiationService : INegotiationService
                 Debug.Log($"Tag revealed through analysis: {tag.TagType} - {tag.DisplayName}");
             }
         }
-        
+
         if (revealedCount > 0)
         {
             Debug.Log($"Analysis complete: {revealedCount} tags revealed");
-            
+
             // Add to history
-            _history.Add(new TextRecord(HistoryRecordSource.Player, 
+            _history.Add(new TextRecord(HistoryRecordSource.Player,
                 string.Format(_localizationService.GetLocalization("dialog_player_analyzed_item"), CurrentItem.Name, revealedCount)));
-            
+
             // Trigger UI update event
             OnCurrentItemChanged?.Invoke(CurrentItem);
-            
+
             // Notify that tags were revealed
             OnTagsRevealed?.Invoke();
         }
         else
         {
             Debug.Log("Analysis complete: no new tags to reveal");
-            _history.Add(new TextRecord(HistoryRecordSource.Player, 
+            _history.Add(new TextRecord(HistoryRecordSource.Player,
                 _localizationService.GetLocalization("dialog_player_analysis_no_new_info")));
         }
     }
-    
+
     public List<BaseTagModel> GetVisibleTags()
     {
         if (CurrentItem?.Tags == null)
             return new List<BaseTagModel>();
-            
+
         return CurrentItem.Tags.Where(tag => tag != null && IsTagVisible(tag)).ToList();
     }
-    
+
     public bool IsTagVisible(BaseTagModel tag)
     {
         if (tag == null)
             return false;
-            
+
         // Tag is visible if it's marked as revealed by default
         // or if it was revealed through gameplay mechanics
         return tag.IsRevealed;
     }
-    
+
     public void RevealTag(BaseTagModel tag)
     {
         if (tag == null)
             return;
-            
+
         tag.IsRevealed = true;
         Debug.Log($"Tag revealed: {tag.TagType} - {tag.DisplayName}");
-        
+
         // You can add additional logic here, such as:
         // - Adding to history
         // - Triggering events
