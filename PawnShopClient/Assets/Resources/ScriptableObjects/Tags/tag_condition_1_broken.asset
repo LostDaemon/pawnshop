@@ -17,8 +17,7 @@ MonoBehaviour:
   Description: 
   Hidden: 0
   Color: {r: 0.39607844, g: 0.2627451, b: 0.12941177, a: 1}
-  RequiredSkills:
-  - SkillType: 2
-    RequiredLevel: 1
+  IsRevealed: 0
+  RequiredSkills: 02000000
   PriceMultiplier: 0.3
   AppearanceChance: 0.05

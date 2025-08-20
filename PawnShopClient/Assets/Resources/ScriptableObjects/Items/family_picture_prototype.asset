@@ -17,9 +17,10 @@ MonoBehaviour:
   ImageId: item_picture
   BasePrice: 100
   Scale: 0.5
-  Description: A faded old photograph in a wooden frame. Sentimental value, little
-    market interest.
-  requiredTags: 01000000
-  allowedTags: []
+  Description: A faded old photograph in a wooden frame. Sentimental value.
+  requiredTags: 0100000008000000
+  allowedTags:
+  - TagType: 6
+    MaxCount: 1
   OverrideTagsGeneration: 0
   OverridedTags: []

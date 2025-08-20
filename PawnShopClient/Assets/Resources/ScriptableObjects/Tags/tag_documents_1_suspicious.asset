@@ -17,10 +17,7 @@ MonoBehaviour:
   Description: Papers exist, but smell like fresh ink
   Hidden: 0
   Color: {r: 1, g: 0.2, b: 0, a: 1}
-  RequiredSkills:
-  - SkillType: 1
-    RequiredLevel: 3
-  - SkillType: 2
-    RequiredLevel: 2
+  IsRevealed: 0
+  RequiredSkills: 02000000
   PriceMultiplier: 0.4
   AppearanceChance: 0.15

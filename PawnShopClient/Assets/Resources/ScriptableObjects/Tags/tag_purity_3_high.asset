@@ -17,8 +17,7 @@ MonoBehaviour:
   Description: High purity, rare and valuable
   Hidden: 0
   Color: {r: 0.11764706, g: 0.5647059, b: 1, a: 1}
-  RequiredSkills:
-  - SkillType: 2
-    RequiredLevel: 1
+  IsRevealed: 0
+  RequiredSkills: 02000000
   PriceMultiplier: 2
   AppearanceChance: 0.1

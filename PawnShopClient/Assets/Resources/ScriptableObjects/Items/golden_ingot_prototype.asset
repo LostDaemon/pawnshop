@@ -17,8 +17,8 @@ MonoBehaviour:
   ImageId: item_golden_ingot
   BasePrice: 3500
   Scale: 0.5
-  Description: A solid ingot of investment-grade gold. Very high market value.
-  requiredTags: 070000000800000008000000
+  Description: A solid ingot of gold. Very high market value.
+  requiredTags: 0700000008000000
   allowedTags: []
   OverrideTagsGeneration: 0
   OverridedTags: []

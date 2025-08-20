@@ -17,10 +17,7 @@ MonoBehaviour:
   Description: Some documents are there, others lost in time
   Hidden: 0
   Color: {r: 0, g: 0.6666667, b: 0.6666667, a: 1}
-  RequiredSkills:
-  - SkillType: 1
-    RequiredLevel: 3
-  - SkillType: 2
-    RequiredLevel: 2
+  IsRevealed: 0
+  RequiredSkills: 02000000
   PriceMultiplier: 0.8
   AppearanceChance: 0.25

@@ -19,3 +19,13 @@ MonoBehaviour:
   Scale: 0.3
   Description: An elegant gold-plated wristwatch with classic design. Popular among
     collectors.
+  requiredTags: 08000000
+  allowedTags:
+  - TagType: 3
+    MaxCount: 2
+  - TagType: 5
+    MaxCount: 1
+  - TagType: 6
+    MaxCount: 2
+  OverrideTagsGeneration: 0
+  OverridedTags: []

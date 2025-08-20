@@ -13,7 +13,7 @@ public abstract class BaseTagPrototype : ScriptableObject
     public bool IsRevealed = false;
 
     [Header("Requirements")]
-    public SkillRequirement[] RequiredSkills = new SkillRequirement[0];
+    public SkillType[] RequiredSkills = new SkillType[0];
 
     [Tooltip("Multiplier that affects item price when this tag is present")]
     [Range(0.0f, 10.0f)]

@@ -17,8 +17,7 @@ MonoBehaviour:
   Description: Near perfect purity, exceptional and unique
   Hidden: 0
   Color: {r: 0.85490197, g: 0.4392157, b: 0.8392157, a: 1}
-  RequiredSkills:
-  - SkillType: 2
-    RequiredLevel: 1
+  IsRevealed: 0
+  RequiredSkills: 02000000
   PriceMultiplier: 3
   AppearanceChance: 0.05

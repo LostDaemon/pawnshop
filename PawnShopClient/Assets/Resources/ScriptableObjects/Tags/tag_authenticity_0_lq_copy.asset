@@ -17,10 +17,7 @@ MonoBehaviour:
   Description: Low Quality Copy
   Hidden: 0
   Color: {r: 0.53333336, g: 0.53333336, b: 0.53333336, a: 1}
-  RequiredSkills:
-  - SkillType: 42
-    RequiredLevel: 1
-  - SkillType: 2
-    RequiredLevel: 1
+  IsRevealed: 0
+  RequiredSkills: 020000002a00000030000000
   PriceMultiplier: 0.25
   AppearanceChance: 0.25

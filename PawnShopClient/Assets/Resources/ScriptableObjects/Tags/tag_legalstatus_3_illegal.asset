@@ -17,8 +17,7 @@ MonoBehaviour:
   Description: Hot stuff, better hide it under the floorboards
   Hidden: 0
   Color: {r: 1, g: 1, b: 1, a: 1}
-  RequiredSkills:
-  - SkillType: 2
-    RequiredLevel: 1
+  IsRevealed: 0
+  RequiredSkills: 01000000
   PriceMultiplier: 0.3
   AppearanceChance: 0.05

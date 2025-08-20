@@ -18,7 +18,7 @@ MonoBehaviour:
   BasePrice: 2200
   Scale: 0.3
   Description: A luxurious ring set with a flawless brilliant-cut diamond. Pure extravagance.
-  requiredTags: 01000000020000000700000008000000
+  requiredTags: 010000000200000007000000080000000d000000
   allowedTags:
   - TagType: 11
     MaxCount: 1

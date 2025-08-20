@@ -17,12 +17,7 @@ MonoBehaviour:
   Description: The Masterpeace
   Hidden: 0
   Color: {r: 1, g: 0, b: 0, a: 1}
-  RequiredSkills:
-  - SkillType: 42
-    RequiredLevel: 5
-  - SkillType: 2
-    RequiredLevel: 5
-  - SkillType: 48
-    RequiredLevel: 5
+  IsRevealed: 0
+  RequiredSkills: 020000002a00000030000000
   PriceMultiplier: 5
   AppearanceChance: 0.01

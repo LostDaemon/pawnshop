@@ -5,7 +5,7 @@ public abstract class BaseTagModel
     public TagType TagType { get; set; }
     public string DisplayName { get; set; }
     public string Description { get; set; }
-    public SkillRequirement[] RequiredSkills { get; set; }
+    public SkillType[] RequiredSkills { get; set; }
     public float PriceMultiplier { get; set; }
     public float AppearanceChance { get; set; }
     public bool IsRevealed { get; set; }

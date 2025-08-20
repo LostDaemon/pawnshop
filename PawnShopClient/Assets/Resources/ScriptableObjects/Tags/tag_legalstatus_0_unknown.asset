@@ -17,8 +17,7 @@ MonoBehaviour:
   Description: Nobody knows, better check twice
   Hidden: 0
   Color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
-  RequiredSkills:
-  - SkillType: 2
-    RequiredLevel: 1
+  IsRevealed: 0
+  RequiredSkills: 01000000
   PriceMultiplier: 1
   AppearanceChance: 0.3

@@ -17,10 +17,7 @@ MonoBehaviour:
   Description: Top-tier provenance, museum would fight for it
   Hidden: 0
   Color: {r: 1, g: 0.84313726, b: 0, a: 1}
-  RequiredSkills:
-  - SkillType: 1
-    RequiredLevel: 3
-  - SkillType: 2
-    RequiredLevel: 2
+  IsRevealed: 0
+  RequiredSkills: 02000000
   PriceMultiplier: 2
   AppearanceChance: 0.1

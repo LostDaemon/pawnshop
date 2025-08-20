@@ -17,8 +17,7 @@ MonoBehaviour:
   Description: Average purity, acceptable quality
   Hidden: 0
   Color: {r: 0.13333334, g: 0.54509807, b: 0.13333334, a: 1}
-  RequiredSkills:
-  - SkillType: 2
-    RequiredLevel: 1
+  IsRevealed: 0
+  RequiredSkills: 02000000
   PriceMultiplier: 1
   AppearanceChance: 0.2

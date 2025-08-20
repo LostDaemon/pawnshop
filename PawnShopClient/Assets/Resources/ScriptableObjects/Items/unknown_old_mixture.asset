@@ -18,3 +18,13 @@ MonoBehaviour:
   BasePrice: 75
   Scale: 0.5
   Description: A sealed bottle with unknown liquid. Possibly alchemical or medical.
+  requiredTags: 08000000
+  allowedTags:
+  - TagType: 3
+    MaxCount: 2
+  - TagType: 5
+    MaxCount: 1
+  - TagType: 6
+    MaxCount: 2
+  OverrideTagsGeneration: 0
+  OverridedTags: []
