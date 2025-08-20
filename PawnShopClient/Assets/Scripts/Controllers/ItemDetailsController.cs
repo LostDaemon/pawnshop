@@ -16,26 +16,39 @@ namespace PawnShop.Controllers
         [SerializeField] private IndicatorController itemPriceIndicator;
         [SerializeField] private Image itemImage;
         [SerializeField] private TextMeshProUGUI itemTagsText;
-        [SerializeField] private TextMeshProUGUI TagDescription;
+        [SerializeField] private TextMeshProUGUI tagDescription;
 
         [Header("Settings")]
         [SerializeField] private Color fallbackTagColor = Color.black;
 
-        private ItemModel currentItem;
-        private Dictionary<string, Action> tagClickHandlers;
-        private ISpriteService spriteService;
-        private INegotiationService negotiationService;
-        private ITagRepositoryService tagRepository;
-        private List<BaseTagModel> currentDisplayedTags;
+        private ISpriteService _spriteService;
+        private ITagRepositoryService _tagRepository;
 
         [Inject]
-        private void Construct(ISpriteService spriteService, INegotiationService negotiationService, ITagRepositoryService tagRepository)
+        private void Construct(ISpriteService spriteService, ITagRepositoryService tagRepository)
         {
-            this.spriteService = spriteService;
-            this.negotiationService = negotiationService;
-            this.tagRepository = tagRepository;
-            tagClickHandlers = new Dictionary<string, Action>();
-            currentDisplayedTags = new List<BaseTagModel>();
+            _spriteService = spriteService;
+            _tagRepository = tagRepository;
+        }
+
+        /// <summary>
+        /// Display item details in the UI
+        /// </summary>
+        /// <param name="item">Item to display</param>
+        public void UpdateItemDetails(ItemModel item)
+        {
+            if (item == null)
+            {
+                Debug.LogError("ItemDetailsController: Attempted to show null item details.");
+                return;
+            }
+
+            UpdateItemName(item);
+            UpdateItemDescription(item);
+            UpdateItemImage(item);
+            UpdateTagsDisplay(item);
+            UpdateOfferIndicator(item);
+            tagDescription.text = string.Empty;
         }
 
         private void Awake()
@@ -60,111 +73,46 @@ namespace PawnShop.Controllers
                 entry.callback.AddListener((data) => OnTagsTextClicked());
                 eventTrigger.triggers.Add(entry);
             }
+        }
 
-            // Subscribe to negotiation service events
-            if (negotiationService != null)
+
+        private void UpdateItemName(ItemModel item)
+        {
+            if (item != null && itemNameText != null)
             {
-                negotiationService.OnCurrentItemChanged += OnNegotiationItemChanged;
-                negotiationService.OnCurrentOfferChanged += OnNegotiationOfferChanged;
-                negotiationService.OnTagsRevealed += OnTagsRevealed;
+                itemNameText.text = item.Name;
             }
         }
 
-        private void OnTagsRevealed(List<BaseTagModel> tags)
+        private void UpdateItemDescription(ItemModel item)
         {
-            UpdateTagsDisplay(tags);
-        }
-
-        /// <summary>
-        /// Display item details in the UI
-        /// </summary>
-        /// <param name="item">Item to display</param>
-        public void DisplayItem(ItemModel item)
-        {
-            if (item == null) return;
-
-            currentItem = item;
-            UpdateUI();
-        }
-
-        /// <summary>
-        /// Clear the display
-        /// </summary>
-        public void ClearDisplay()
-        {
-            currentItem = null;
-            ClearUI();
-        }
-
-        /// <summary>
-        /// Register a click handler for a specific tag
-        /// </summary>
-        /// <param name="tagId">Tag identifier</param>
-        /// <param name="handler">Action to execute when tag is clicked</param>
-        public void RegisterTagClickHandler(string tagId, Action handler)
-        {
-            if (handler != null)
+            if (item != null && itemDescriptionText != null)
             {
-                tagClickHandlers[tagId] = handler;
+                itemDescriptionText.text = item.Description;
             }
         }
 
-        /// <summary>
-        /// Unregister a click handler for a specific tag
-        /// </summary>
-        /// <param name="tagId">Tag identifier</param>
-        public void UnregisterTagClickHandler(string tagId)
+        private void UpdateItemImage(ItemModel item)
         {
-            if (tagClickHandlers.ContainsKey(tagId))
+            if (item == null || itemImage == null)
             {
-                tagClickHandlers.Remove(tagId);
+                return;
+            }
+
+            var sprite = _spriteService.GetSprite(item.ImageId);
+
+            if (sprite != null)
+            {
+                itemImage.sprite = sprite;
+                itemImage.preserveAspect = true;
             }
         }
 
-        private void UpdateUI()
+        private void UpdateOfferIndicator(ItemModel item)
         {
-            if (currentItem == null) return;
-
-            // Update item name
-            if (itemNameText != null)
+            if (item != null && itemPriceIndicator != null)
             {
-                itemNameText.text = currentItem.Name;
-            }
-
-            // Update item description
-            if (itemDescriptionText != null)
-            {
-                itemDescriptionText.text = currentItem.Description;
-            }
-
-            // Update item price
-            if (itemPriceIndicator != null)
-            {
-                itemPriceIndicator.SetValue(currentItem.BasePrice, false);
-            }
-
-            // Update item image
-            if (itemImage != null)
-            {
-                var sprite = spriteService.GetSprite(currentItem.ImageId);
-                if (sprite != null)
-                {
-                    itemImage.sprite = sprite;
-                    itemImage.enabled = true;
-                    itemImage.preserveAspect = true;
-                }
-                else
-                {
-                    Debug.LogWarning($"Sprite '{currentItem.ImageId}' not found for item '{currentItem.Name}'");
-                    itemImage.enabled = false;
-                }
-            }
-
-            ClearTags();
-            // Final check - ensure rich text is enabled
-            if (itemTagsText != null && !itemTagsText.richText)
-            {
-                Debug.LogError("[ItemDetailsController] Rich text is still disabled after UpdateTagsDisplay!");
+                itemPriceIndicator.SetValue(item.CurrentOffer, false);
             }
         }
 
@@ -172,20 +120,17 @@ namespace PawnShop.Controllers
         {
             if (itemTagsText != null)
             {
-                itemTagsText.text = "No visible tags";
+                itemTagsText.text = "No details available. Try to research more about the item.";
             }
-            if (TagDescription != null) TagDescription.text = "";
-            currentDisplayedTags.Clear();
+            if (tagDescription != null) tagDescription.text = "";
         }
 
-        private void UpdateTagsDisplay(List<BaseTagModel> tags)
+        private void UpdateTagsDisplay(ItemModel item)
         {
-            // Store the current displayed tags for click handling
-            currentDisplayedTags = tags ?? new List<BaseTagModel>();
-
-            if (currentDisplayedTags.Count == 0)
+            ClearTags();
+            var currentDisplayedTags = item.Tags.FindAll(c => c.IsRevealedToPlayer);
+            if (currentDisplayedTags == null || currentDisplayedTags.Count == 0)
             {
-                ClearTags();
                 return;
             }
 
@@ -196,13 +141,13 @@ namespace PawnShop.Controllers
                 if (tag == null) continue;
 
                 // Create clickable link for each tag
-                string tagId = $"tag_{i}";
+
                 string tagColor = GetTagColorHex(tag);
 
                 // Format as [TagType: DisplayName]
                 string tagDisplayName = !string.IsNullOrEmpty(tag.DisplayName) ? tag.DisplayName : tag.TagType.ToString();
                 string formattedTag = $"[{tag.TagType}: {tagDisplayName}]";
-                formattedTags += $"<color=#{tagColor}><link=\"{tagId}\">{formattedTag}</link></color>";
+                formattedTags += $"<color=#{tagColor}><link=\"{tag.ClassId}\">{formattedTag}</link></color>";
 
                 // Add space between tags
                 if (i < currentDisplayedTags.Count - 1)
@@ -219,24 +164,11 @@ namespace PawnShop.Controllers
             if (tag != null && tag.Color != Color.clear)
             {
                 string colorHex = ColorUtility.ToHtmlStringRGB(tag.Color);
-                Debug.Log($"[ItemDetailsController] Using tag color: {tag.Color} -> #{colorHex}");
                 return colorHex;
             }
 
             string fallbackHex = ColorUtility.ToHtmlStringRGB(fallbackTagColor);
-            Debug.Log($"[ItemDetailsController] Using fallback color: {fallbackTagColor} -> #{fallbackHex}");
             return fallbackHex;
-        }
-
-        private void ClearUI()
-        {
-            if (itemNameText != null) itemNameText.text = "";
-            if (itemDescriptionText != null) itemDescriptionText.text = "";
-            if (itemPriceIndicator != null) itemPriceIndicator.SetValue(0, false);
-            if (itemImage != null) itemImage.enabled = false;
-            if (itemTagsText != null) itemTagsText.text = "";
-            if (TagDescription != null) TagDescription.text = "";
-            currentDisplayedTags.Clear();
         }
 
         private void OnTagsTextClicked()
@@ -257,83 +189,10 @@ namespace PawnShop.Controllers
         private void OnTagLinkClicked(string linkId)
         {
             if (string.IsNullOrEmpty(linkId)) return;
-
-            // Check if we have a registered handler for this tag
-            if (tagClickHandlers.TryGetValue(linkId, out Action handler))
+            var prototype = _tagRepository.GetTagPrototypeByClassId(linkId);
+            if (prototype != null)
             {
-                handler?.Invoke();
-            }
-            else
-            {
-                // Default behavior - log the click
-                Debug.Log($"Tag clicked: {linkId}");
-
-                // You can add default tag handling logic here
-                HandleDefaultTagClick(linkId);
-            }
-        }
-
-        private void HandleDefaultTagClick(string linkId)
-        {
-            // Extract tag index from linkId (format: "tag_X")
-            if (linkId.StartsWith("tag_") && int.TryParse(linkId.Substring(4), out int tagIndex))
-            {
-                if (currentDisplayedTags != null && tagIndex < currentDisplayedTags.Count)
-                {
-                    var clickedTag = currentDisplayedTags[tagIndex];
-                    string tagName = !string.IsNullOrEmpty(clickedTag.DisplayName) ? clickedTag.DisplayName : clickedTag.TagType.ToString();
-                    Debug.Log($"Default tag click handler: {tagName}");
-
-                    // Get tag prototype from repository by ClassId to get full description
-                    var tagPrototype = tagRepository.GetTagPrototypeByClassId(clickedTag.ClassId);
-                    if (tagPrototype != null)
-                    {
-                        // Display tag description from prototype in TagDescription TMP
-                        if (TagDescription != null)
-                        {
-                            string description = !string.IsNullOrEmpty(tagPrototype.Description) ? tagPrototype.Description : $"No description available for {tagName}";
-                            TagDescription.text = description;
-                        }
-                    }
-                    else
-                    {
-                        // Fallback to tag model description if prototype not found
-                        if (TagDescription != null)
-                        {
-                            string description = !string.IsNullOrEmpty(clickedTag.Description) ? clickedTag.Description : $"No description available for {tagName}";
-                            TagDescription.text = description;
-                        }
-                    }
-
-                    // Add your default tag handling logic here
-                    // For example, show tooltip, highlight related items, etc.
-                }
-            }
-        }
-
-        private void OnNegotiationItemChanged(ItemModel item)
-        {
-            // Update the display when negotiation service changes the current item
-            DisplayItem(item);
-        }
-
-        private void OnNegotiationOfferChanged(long newOffer)
-        {
-            // Update the price display when the current offer changes
-            if (itemPriceIndicator != null)
-            {
-                itemPriceIndicator.SetValue(newOffer, true);
-            }
-        }
-
-        private void OnDestroy()
-        {
-            // Unsubscribe from negotiation service events
-            if (negotiationService != null)
-            {
-                negotiationService.OnCurrentItemChanged -= OnNegotiationItemChanged;
-                negotiationService.OnCurrentOfferChanged -= OnNegotiationOfferChanged;
-                negotiationService.OnTagsRevealed -= OnTagsRevealed;
+                tagDescription.text = !string.IsNullOrEmpty(prototype.Description) ? prototype.Description : $"No description available for {prototype.DisplayName}";
             }
         }
     }

@@ -15,6 +15,7 @@ public class ItemModel
     public long BasePrice { get; set; }
     public float Scale { get; set; }
     public string Description { get; set; }
+    public long CurrentOffer { get; set; }
 
     // Tags system
     public List<BaseTagModel> Tags { get; set; } = new List<BaseTagModel>();

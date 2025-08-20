@@ -17,15 +17,12 @@ public class NegotiationService : INegotiationService
 
     public event Action<ItemModel> OnPurchased;
     public event Action<ItemModel> OnCurrentItemChanged;
-    public event Action<long> OnCurrentOfferChanged;
+    public event Action<ItemModel> OnCurrentOfferChanged;
     public event Action OnSkipRequested;
-    public event Action<List<BaseTagModel>> OnTagsRevealed;
+    public event Action<ItemModel> OnTagsRevealed;
 
     public ItemModel CurrentItem => _customerService.CurrentCustomer?.OwnedItem;
     public Customer CurrentCustomer => _customerService.CurrentCustomer;
-
-    public long CurrentNpcOffer { get; private set; }
-    private long _agreedOffer;
     private readonly HashSet<long> _rejectedOffers = new();
 
     [Inject]
@@ -47,23 +44,22 @@ public class NegotiationService : INegotiationService
         _playerService = playerService;
     }
 
-    public long GetCurrentOffer() => _agreedOffer;
+    public long GetCurrentOffer() => CurrentItem?.CurrentOffer ?? 0;
 
     public void ShowNextCustomer()
     {
         _customerService.ShowNextCustomer();
         GenerateInitialNpcOffer();
-        _agreedOffer = CurrentNpcOffer;
         _rejectedOffers.Clear();
         _history.Add(new TextRecord(HistoryRecordSource.Customer,
-            string.Format(_localizationService.GetLocalization("dialog_customer_initial_offer"), CurrentItem.Name, CurrentNpcOffer)));
+            string.Format(_localizationService.GetLocalization("dialog_customer_initial_offer"), CurrentItem.Name, CurrentItem.CurrentOffer)));
         OnCurrentItemChanged?.Invoke(CurrentItem);
     }
 
     private void GenerateInitialNpcOffer()
     {
         if (CurrentItem == null) return;
-        CurrentNpcOffer = _customerService.EvaluateCurrentItem();
+        CurrentItem.CurrentOffer = _customerService.EvaluateCurrentItem();
     }
 
     public bool TryPurchase(long offeredPrice)
@@ -97,7 +93,7 @@ public class NegotiationService : INegotiationService
         var minAcceptable = (long)(CurrentItem.BasePrice * 0.6f * (1f - CurrentCustomer.UncertaintyLevel));
         var maxAcceptable = (long)(CurrentItem.BasePrice * 0.95f);
 
-        Debug.Log($"NPC offer: {CurrentNpcOffer}, Player offer: {playerOffer}, Min: {minAcceptable}, Max: {maxAcceptable}");
+        Debug.Log($"NPC offer: {CurrentItem.CurrentOffer}, Player offer: {playerOffer}, Min: {minAcceptable}, Max: {maxAcceptable}");
 
         if (playerOffer < minAcceptable)
             return false;
@@ -144,7 +140,7 @@ public class NegotiationService : INegotiationService
 
     public bool MakeDiscountOffer(float discount)
     {
-        var newOffer = Mathf.RoundToInt(_agreedOffer * (1f - discount));
+        var newOffer = Mathf.RoundToInt(CurrentItem.CurrentOffer * (1f - discount));
         _history.Add(new TextRecord(HistoryRecordSource.Player,
             string.Format(_localizationService.GetLocalization("dialog_player_counter_offer"), newOffer)));
         Debug.Log($"Trying discount: {discount * 100}% => New offer: {newOffer}");
@@ -152,11 +148,11 @@ public class NegotiationService : INegotiationService
 
         if (accepted)
         {
-            _agreedOffer = newOffer;
+            CurrentItem.CurrentOffer = newOffer;
             Debug.Log($"Counter offer accepted: {newOffer}");
             _history.Add(new TextRecord(HistoryRecordSource.Customer,
                 string.Format(_localizationService.GetLocalization("dialog_customer_counter_accepted"), newOffer)));
-            OnCurrentOfferChanged?.Invoke(_agreedOffer);
+            OnCurrentOfferChanged?.Invoke(CurrentItem);
         }
         else
         {
@@ -175,8 +171,7 @@ public class NegotiationService : INegotiationService
         _history.Add(new TextRecord(HistoryRecordSource.Player,
             string.Format(_localizationService.GetLocalization("dialog_player_analyzed_item"), CurrentItem.Name, revealedTags.Count)));
 
-        var allRevealed = CurrentItem.Tags.Where(tag => tag.IsRevealedToPlayer).ToList();
         // Notify that tags were revealed
-        OnTagsRevealed?.Invoke(allRevealed);
+        OnTagsRevealed?.Invoke(CurrentItem);
     }
 }

@@ -2,20 +2,18 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Zenject;
+using PawnShop.Controllers;
+using System.Collections.Generic;
 using System;
 
 public class NegotiationController : MonoBehaviour
 {
     [SerializeField] private Button _buyButton;
     [SerializeField] private Button _skipButton;
-
     [SerializeField] private Button _askDiscountButton;
     [SerializeField] private Button _askButton;
-
     [SerializeField] private Button _analyzeButton;
-
-    [SerializeField] private IndicatorController _currentOfferIndicator;
-    [SerializeField] private TMP_Text _itemNameLabel;
+    [SerializeField] private ItemDetailsController _itemDetailsController;
 
     private INegotiationService _negotiationService;
 
@@ -40,6 +38,18 @@ public class NegotiationController : MonoBehaviour
         _discountButton = new DiscountButton { Discount = 0.10f, Button = _askDiscountButton };
         _discountButton.Button.onClick.AddListener(() => OnDiscountClicked(_discountButton.Discount));
         _negotiationService.OnCurrentItemChanged += OnItemChanged;
+        _negotiationService.OnCurrentOfferChanged += OnCurrentOfferChanged;
+        _negotiationService.OnTagsRevealed += OnTagsRevealed;
+    }
+
+    private void OnTagsRevealed(ItemModel item)
+    {
+        _itemDetailsController?.UpdateItemDetails(item);
+    }
+
+    private void OnCurrentOfferChanged(ItemModel item)
+    {
+        _itemDetailsController?.UpdateItemDetails(item);
     }
 
     private void OnAnalyzeClicked()
@@ -50,7 +60,10 @@ public class NegotiationController : MonoBehaviour
     private void OnDestroy()
     {
         if (_negotiationService != null)
+        {
             _negotiationService.OnCurrentItemChanged -= OnItemChanged;
+            _negotiationService.OnCurrentOfferChanged -= OnCurrentOfferChanged;
+        }
     }
 
     private void OnItemChanged(ItemModel item)
@@ -61,10 +74,8 @@ public class NegotiationController : MonoBehaviour
             return;
         }
 
-        if (_itemNameLabel != null) _itemNameLabel.text = item.Name;
-        _currentOfferIndicator.SetValue(_negotiationService.GetCurrentOffer(), animate: true);
-
         _discountButton.Button.interactable = true;
+        _itemDetailsController.UpdateItemDetails(item);
     }
 
     private void OnBuyClicked()
@@ -96,7 +107,6 @@ public class NegotiationController : MonoBehaviour
         var response = _negotiationService.MakeDiscountOffer(discount);
         if (response)
         {
-            _currentOfferIndicator.SetValue(_negotiationService.GetCurrentOffer(), animate: true);
             Debug.Log($"Discount offer accepted: {_negotiationService.GetCurrentOffer()}");
         }
         else

@@ -5,11 +5,10 @@ public interface INegotiationService
 {
     event Action<ItemModel> OnPurchased;
     event Action<ItemModel> OnCurrentItemChanged;
-    event Action<long> OnCurrentOfferChanged;
+    event Action<ItemModel> OnCurrentOfferChanged;
     event Action OnSkipRequested;
-    event Action<List<BaseTagModel>> OnTagsRevealed;
+    event Action<ItemModel> OnTagsRevealed;
     ItemModel CurrentItem { get; }
-    long CurrentNpcOffer { get; }
     long GetCurrentOffer();
     bool MakeDiscountOffer(float discount);
     bool TryPurchase(long offeredPrice);
