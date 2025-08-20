@@ -91,6 +91,11 @@ public class ProjectInstaller : MonoInstaller
         .To<ItemProcessingService>()
         .AsSingle();
 
+        // Evaluation
+        Container.Bind<IEvaluationService>()
+            .To<EvaluationService>()
+            .AsSingle();
+
         // Tags
         Container.Bind<ITagRepositoryService>()
             .To<TagRepositoryService>()
