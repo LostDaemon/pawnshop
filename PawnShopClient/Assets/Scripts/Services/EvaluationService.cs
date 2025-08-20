@@ -1,6 +1,5 @@
 using System;
 using System.Linq;
-using UnityEngine;
 
 public class EvaluationService : IEvaluationService
 {
@@ -8,15 +7,26 @@ public class EvaluationService : IEvaluationService
     {
         if (item == null) return 0;
 
-        // Start with base price
         long finalPrice = item.BasePrice;
 
-        // Apply modifiers from revealed tags
+        bool isPlayer = character is Player;
+        bool isCustomer = character is Customer;
+
         if (item.Tags != null)
         {
             foreach (var tag in item.Tags)
             {
-                if (tag.IsRevealed)
+                bool isTagRevealed = false;
+                if (isPlayer)
+                {
+                    isTagRevealed = tag.IsRevealedToPlayer;
+                }
+                else if (isCustomer)
+                {
+                    isTagRevealed = tag.IsRevealedToCustomer;
+                }
+
+                if (isTagRevealed)
                 {
                     finalPrice = (long)(finalPrice * tag.PriceMultiplier);
                 }

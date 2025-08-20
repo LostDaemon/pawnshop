@@ -8,7 +8,8 @@ public abstract class BaseTagModel
     public SkillType[] RequiredSkills { get; set; }
     public float PriceMultiplier { get; set; }
     public float AppearanceChance { get; set; }
-    public bool IsRevealed { get; set; }
+    public bool IsRevealedToPlayer { get; set; }
+    public bool IsRevealedToCustomer { get; set; }
     public bool Hidden { get; set; }
     public Color Color { get; set; }
 
@@ -22,7 +23,8 @@ public abstract class BaseTagModel
             RequiredSkills = prototype.RequiredSkills;
             PriceMultiplier = prototype.PriceMultiplier;
             AppearanceChance = prototype.AppearanceChance;
-            IsRevealed = prototype.IsRevealed;
+            IsRevealedToPlayer = prototype.IsRevealedToPlayer;
+            IsRevealedToCustomer = prototype.IsRevealedToCustomer;
             Hidden = prototype.Hidden;
             Color = prototype.Color;
         }

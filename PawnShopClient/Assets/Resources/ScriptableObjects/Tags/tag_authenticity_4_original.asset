@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
   m_Name: tag_authenticity_4_original
   m_EditorClassIdentifier: 
+  ClassId: 30021c01-2610-4666-9929-d09b2654e4b5
   TagType: 12
   DisplayName: Original
   Description: The Masterpeace
-  Hidden: 0
-  Color: {r: 1, g: 0, b: 0, a: 1}
-  IsRevealed: 0
   RequiredSkills: 020000002a00000030000000
+  IsRevealed: 0
+  Hidden: 0
   PriceMultiplier: 5
   AppearanceChance: 0.01
+  Color: {r: 1, g: 0, b: 0, a: 1}

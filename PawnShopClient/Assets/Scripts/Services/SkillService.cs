@@ -16,29 +16,6 @@ public class SkillService : ISkillService
     {
         _skillRepository = skillRepository;
         _playerService = playerService;
-        InitializeSkills();
-    }
-
-    private void InitializeSkills()
-    {
-        // Initialize all skills as not learned
-        foreach (SkillType skill in Enum.GetValues(typeof(SkillType)))
-        {
-            if (skill != SkillType.Undefined)
-            {
-                var prototype = _skillRepository.GetSkill(skill);
-                if (prototype != null)
-                {
-                    PlayerSkills[skill] = new Skill(prototype);
-                }
-                else
-                {
-                    Debug.LogWarning($"[SkillService] No prototype found for skill {skill}");
-                }
-            }
-        }
-
-        Debug.Log($"[SkillService] Skills initialized. Loaded {PlayerSkills.Count} skills.");
     }
 
     public bool IsSkillLearnedTo(SkillType skillType, int level)

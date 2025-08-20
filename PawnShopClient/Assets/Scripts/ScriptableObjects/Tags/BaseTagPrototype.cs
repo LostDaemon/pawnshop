@@ -1,25 +1,20 @@
 using UnityEngine;
 
-public abstract class BaseTagPrototype : ScriptableObject
+public abstract class BaseTagPrototype : BasePrototype
 {
-    [Header("Basic Information")]
+    [Header("Tag Properties")]
     public TagType TagType;
     public string DisplayName;
+    [TextArea(3, 5)]
     public string Description;
-    public bool Hidden;
+    public SkillType[] RequiredSkills;
+    [Tooltip("Whether this tag is revealed to the player by default (visible without inspection)")]
+    public bool IsRevealedToPlayer = false;
+    [Tooltip("Whether this tag is revealed to the customer by default (visible without inspection)")]
+    public bool IsRevealedToCustomer = false;
+    public bool Hidden = false;
+    public float PriceMultiplier = 1f;
+    [Range(0f, 1f)]
+    public float AppearanceChance = 1f;
     public Color Color = Color.white;
-    
-    [Tooltip("Whether this tag is revealed by default (visible without inspection)")]
-    public bool IsRevealed = false;
-
-    [Header("Requirements")]
-    public SkillType[] RequiredSkills = new SkillType[0];
-
-    [Tooltip("Multiplier that affects item price when this tag is present")]
-    [Range(0.0f, 10.0f)]
-    public float PriceMultiplier = 1.0f;
-
-    [Tooltip("Probability of this tag appearing on an item (0.0 to 1.0)")]
-    [Range(0.0f, 1.0f)]
-    public float AppearanceChance = 0.5f;
 }

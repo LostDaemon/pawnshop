@@ -11,13 +11,15 @@ public class NegotiationService : INegotiationService
     private readonly ICustomerService _customerService;
     private readonly INegotiationHistoryService _history;
     private readonly ILocalizationService _localizationService;
+    private readonly IItemInspectionService _inspectionService;
+    private readonly IPlayerService _playerService;
     private readonly System.Random _random = new();
 
     public event Action<ItemModel> OnPurchased;
     public event Action<ItemModel> OnCurrentItemChanged;
     public event Action<long> OnCurrentOfferChanged;
     public event Action OnSkipRequested;
-    public event Action OnTagsRevealed;
+    public event Action<List<BaseTagModel>> OnTagsRevealed;
 
     public ItemModel CurrentItem => _customerService.CurrentCustomer?.OwnedItem;
     public Customer CurrentCustomer => _customerService.CurrentCustomer;
@@ -32,13 +34,17 @@ public class NegotiationService : INegotiationService
         [Inject(Id = StorageType.InventoryStorage)] IGameStorageService<ItemModel> inventory,
         ICustomerService customerService,
         INegotiationHistoryService history,
-        ILocalizationService localizationService)
+        ILocalizationService localizationService,
+        IItemInspectionService inspectionService,
+        IPlayerService playerService)
     {
         _wallet = wallet;
         _inventory = inventory;
         _customerService = customerService;
         _history = history;
         _localizationService = localizationService;
+        _inspectionService = inspectionService;
+        _playerService = playerService;
     }
 
     public long GetCurrentOffer() => _agreedOffer;
@@ -163,74 +169,14 @@ public class NegotiationService : INegotiationService
 
     public void AnalyzeItem()
     {
-        // Temporary implementation - reveals all tags
-        // TODO: Replace with complex analysis logic in the future
+        var revealedTags = _inspectionService.Inspect(_playerService.Player, CurrentItem);
 
-        if (CurrentItem?.Tags == null)
-            return;
+        // Add to history
+        _history.Add(new TextRecord(HistoryRecordSource.Player,
+            string.Format(_localizationService.GetLocalization("dialog_player_analyzed_item"), CurrentItem.Name, revealedTags.Count)));
 
-        int revealedCount = 0;
-        foreach (var tag in CurrentItem.Tags)
-        {
-            if (tag != null && !tag.IsRevealed)
-            {
-                tag.IsRevealed = true;
-                revealedCount++;
-                Debug.Log($"Tag revealed through analysis: {tag.TagType} - {tag.DisplayName}");
-            }
-        }
-
-        if (revealedCount > 0)
-        {
-            Debug.Log($"Analysis complete: {revealedCount} tags revealed");
-
-            // Add to history
-            _history.Add(new TextRecord(HistoryRecordSource.Player,
-                string.Format(_localizationService.GetLocalization("dialog_player_analyzed_item"), CurrentItem.Name, revealedCount)));
-
-            // Trigger UI update event
-            OnCurrentItemChanged?.Invoke(CurrentItem);
-
-            // Notify that tags were revealed
-            OnTagsRevealed?.Invoke();
-        }
-        else
-        {
-            Debug.Log("Analysis complete: no new tags to reveal");
-            _history.Add(new TextRecord(HistoryRecordSource.Player,
-                _localizationService.GetLocalization("dialog_player_analysis_no_new_info")));
-        }
-    }
-
-    public List<BaseTagModel> GetVisibleTags()
-    {
-        if (CurrentItem?.Tags == null)
-            return new List<BaseTagModel>();
-
-        return CurrentItem.Tags.Where(tag => tag != null && IsTagVisible(tag)).ToList();
-    }
-
-    public bool IsTagVisible(BaseTagModel tag)
-    {
-        if (tag == null)
-            return false;
-
-        // Tag is visible if it's marked as revealed by default
-        // or if it was revealed through gameplay mechanics
-        return tag.IsRevealed;
-    }
-
-    public void RevealTag(BaseTagModel tag)
-    {
-        if (tag == null)
-            return;
-
-        tag.IsRevealed = true;
-        Debug.Log($"Tag revealed: {tag.TagType} - {tag.DisplayName}");
-
-        // You can add additional logic here, such as:
-        // - Adding to history
-        // - Triggering events
-        // - Updating UI
+        var allRevealed = CurrentItem.Tags.Where(tag => tag.IsRevealedToPlayer).ToList();
+        // Notify that tags were revealed
+        OnTagsRevealed?.Invoke(allRevealed);
     }
 }

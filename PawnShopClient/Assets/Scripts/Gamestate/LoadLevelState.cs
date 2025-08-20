@@ -9,10 +9,11 @@ public class LoadLevelState : IGameState
     private ITagRepositoryService _tagRepositoryService;
     private ILocalizationService _localizationService;
     private ILanguageRepositoryService _languageRepositoryService;
+    private IPlayerService _playerService;
 
-    
+
     [Inject]
-    public void Construct(GameStateMachine stateMachine, ISceneLoader sceneLoader, IItemRepositoryService itemRepositoryService, ISkillRepositoryService skillRepositoryService, ITagRepositoryService tagRepositoryService, ILocalizationService localizationService, ILanguageRepositoryService languageRepositoryService)
+    public void Construct(GameStateMachine stateMachine, ISceneLoader sceneLoader, IItemRepositoryService itemRepositoryService, ISkillRepositoryService skillRepositoryService, ITagRepositoryService tagRepositoryService, ILocalizationService localizationService, ILanguageRepositoryService languageRepositoryService, IPlayerService playerService)
     {
         _stateMachine = stateMachine;
         _sceneLoader = sceneLoader;
@@ -21,7 +22,7 @@ public class LoadLevelState : IGameState
         _tagRepositoryService = tagRepositoryService;
         _localizationService = localizationService;
         _languageRepositoryService = languageRepositoryService;
-
+        _playerService = playerService;
     }
 
     public void Enter()
@@ -30,6 +31,9 @@ public class LoadLevelState : IGameState
         _skillRepositoryService.Load();
         _tagRepositoryService.Load();
         _languageRepositoryService.Load();
+
+        // Initialize player after loading skill prototypes
+        _playerService.InitializePlayer();
 
         // Set default language after loading language prototypes
         _localizationService.SwitchLocalization(Language.Russian);

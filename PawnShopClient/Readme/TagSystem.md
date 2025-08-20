@@ -282,7 +282,8 @@ public abstract class BaseTagModel
     public SkillRequirement[] RequiredSkills { get; set; }
     public float PriceMultiplier { get; set; }
     public float AppearanceChance { get; set; }
-    public bool IsRevealed { get; set; }
+    public bool IsRevealedToPlayer { get; set; }
+    public bool IsRevealedToCustomer { get; set; }
     public bool Hidden { get; set; }
     public Color Color { get; set; }
 }
@@ -414,8 +415,11 @@ bool hasFeatureTag = item.Tags.Any(t => t.TagType == TagType.Feature);
 // Get all condition tags
 var conditionTags = item.Tags.Where(t => t.TagType == TagType.Condition);
 
-// Check if tag is revealed
-bool isRevealed = item.Tags.Any(t => t.TagType == TagType.Authenticity && t.IsRevealed);
+// Check if tag is revealed to player
+bool isRevealedToPlayer = item.Tags.Any(t => t.TagType == TagType.Authenticity && t.IsRevealedToPlayer);
+
+// Check if tag is revealed to customer
+bool isRevealedToCustomer = item.Tags.Any(t => t.TagType == TagType.Authenticity && t.IsRevealedToCustomer);
 
 // Calculate price multiplier from tags
 float totalMultiplier = item.Tags.Aggregate(1f, (mult, tag) => mult * tag.PriceMultiplier);
