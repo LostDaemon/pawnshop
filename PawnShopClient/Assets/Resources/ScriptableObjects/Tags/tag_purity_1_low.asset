@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
   m_Name: tag_purity_1_low
   m_EditorClassIdentifier: 
+  ClassId: 37a57f86-8b9f-4794-b485-4a59b7802da7
   TagType: 13
   DisplayName: Low 35-55%
   Description: Low purity, common and unimpressive
-  Hidden: 0
-  Color: {r: 0.54509807, g: 0.27058825, b: 0.07450981, a: 1}
-  IsRevealed: 0
   RequiredSkills: 02000000
+  IsRevealedToPlayer: 0
+  IsRevealedToCustomer: 0
+  Hidden: 0
   PriceMultiplier: 0.8
   AppearanceChance: 0.33
+  Color: {r: 0.54509807, g: 0.27058825, b: 0.07450981, a: 1}

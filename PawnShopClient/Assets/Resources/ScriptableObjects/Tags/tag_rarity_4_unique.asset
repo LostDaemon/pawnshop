@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
   m_Name: tag_rarity_4_unique
   m_EditorClassIdentifier: 
+  ClassId: 770741e4-5c77-4e99-9fdf-064d1e1fb6c0
   TagType: 2
   DisplayName: Unique
-  Description: 
-  Hidden: 0
-  Color: {r: 1, g: 0.5019608, b: 0, a: 1}
-  IsRevealed: 0
+  Description: One-of-a-kind item, exceptional value
   RequiredSkills: 02000000
+  IsRevealedToPlayer: 0
+  IsRevealedToCustomer: 0
+  Hidden: 0
   PriceMultiplier: 3
   AppearanceChance: 0.01
+  Color: {r: 1, g: 0.5019608, b: 0, a: 1}

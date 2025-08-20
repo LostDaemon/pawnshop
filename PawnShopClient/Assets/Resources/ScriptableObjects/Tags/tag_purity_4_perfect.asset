@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
   m_Name: tag_purity_4_perfect
   m_EditorClassIdentifier: 
+  ClassId: 6abf11b0-65b1-4ed8-ac3a-0a88d72be840
   TagType: 13
   DisplayName: Perfect 99.99...%
   Description: Near perfect purity, exceptional and unique
-  Hidden: 0
-  Color: {r: 0.85490197, g: 0.4392157, b: 0.8392157, a: 1}
-  IsRevealed: 0
   RequiredSkills: 02000000
+  IsRevealedToPlayer: 0
+  IsRevealedToCustomer: 0
+  Hidden: 0
   PriceMultiplier: 3
   AppearanceChance: 0.05
+  Color: {r: 0.85490197, g: 0.4392157, b: 0.8392157, a: 1}

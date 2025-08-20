@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
   m_Name: tag_rarity_0_common
   m_EditorClassIdentifier: 
+  ClassId: 1945e20e-6773-402c-9d56-3c7c5dada130
   TagType: 2
   DisplayName: Common
-  Description: 
-  Hidden: 0
-  Color: {r: 1, g: 1, b: 1, a: 1}
-  IsRevealed: 0
+  Description: Everyday item, easy to find
   RequiredSkills: 02000000
+  IsRevealedToPlayer: 0
+  IsRevealedToCustomer: 0
+  Hidden: 0
   PriceMultiplier: 1
   AppearanceChance: 0.6
+  Color: {r: 1, g: 1, b: 1, a: 1}

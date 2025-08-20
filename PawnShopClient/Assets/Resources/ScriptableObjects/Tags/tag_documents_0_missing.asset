@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
   m_Name: tag_documents_0_missing
   m_EditorClassIdentifier: 
+  ClassId: 836db213-e748-4719-a014-eed276925d0d
   TagType: 7
   DisplayName: Missing
   Description: Should have docs, but they vanished
-  Hidden: 0
-  Color: {r: 1, g: 0.6666667, b: 0, a: 1}
-  IsRevealed: 0
   RequiredSkills: 02000000
+  IsRevealedToPlayer: 0
+  IsRevealedToCustomer: 0
+  Hidden: 0
   PriceMultiplier: 0.2
   AppearanceChance: 0.3
+  Color: {r: 1, g: 0.6666667, b: 0, a: 1}

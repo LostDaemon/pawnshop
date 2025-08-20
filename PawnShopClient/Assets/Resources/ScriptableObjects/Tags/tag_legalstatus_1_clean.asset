@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
   m_Name: tag_legalstatus_1_clean
   m_EditorClassIdentifier: 
+  ClassId: 4ef5df09-b104-4fe0-9351-47b2c471129d
   TagType: 8
   DisplayName: Clean
   Description: All good, could sell it to grandma
-  Hidden: 0
-  Color: {r: 0, g: 0.8, b: 0, a: 1}
-  IsRevealed: 0
   RequiredSkills: 01000000
+  IsRevealedToPlayer: 0
+  IsRevealedToCustomer: 0
+  Hidden: 0
   PriceMultiplier: 1
   AppearanceChance: 0.4
+  Color: {r: 0, g: 0.8, b: 0, a: 1}
