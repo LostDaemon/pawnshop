@@ -2,7 +2,7 @@
 
 ## Overview
 
-The Tag System is a flexible framework for adding metadata to items in the game. Tags can affect item prices, mechanics, and provide additional information to players.
+The Tag System is a flexible framework for adding metadata to items in the game. Tags can affect item prices, mechanics, and provide additional information to players. The system integrates with skills to determine which tags are visible to different characters.
 
 ## Architecture
 
@@ -132,6 +132,95 @@ Each rarity tag is configured as a separate SimpleTagPrototype with:
 - **Rare**: Price multiplier 1.5x, low appearance chance
 - **Very Rare**: Price multiplier 2.0x, very low appearance chance
 - **Unique**: Price multiplier 3.0x, extremely low appearance chance
+
+## Skill Integration
+
+### Skill Requirements for Tag Visibility
+
+Tags can require specific skills to be revealed to characters:
+
+```csharp
+[System.Serializable]
+public struct SkillRequirement
+{
+    public SkillType SkillType;
+    public int RequiredLevel;
+}
+```
+
+### Player Skills
+
+The player starts with all skills at level 2 by default:
+
+```csharp
+// In PlayerService.InitializePlayerSkills()
+Player.Skills[skillType].Level = 2; // TODO: Load from config later
+```
+
+**Available Skill Types:**
+
+- **NegotiationAmateur** (1) - Basic negotiation skills
+- **NegotiationAdvanced** (2) - Advanced negotiation techniques
+- **NegotiationExpert** (3) - Expert-level negotiation mastery
+- **InspectionAmateur** (4) - Basic item inspection
+- **InspectionAdvanced** (5) - Advanced inspection techniques
+- **InspectionExpert** (6) - Expert-level inspection mastery
+- **RestorationAmateur** (7) - Basic item restoration
+- **RestorationAdvanced** (8) - Advanced restoration techniques
+- **RestorationExpert** (9) - Expert-level restoration mastery
+- **KnowledgeAmateur** (10) - Basic knowledge skills
+- **KnowledgeAdvanced** (11) - Advanced knowledge techniques
+- **KnowledgeExpert** (12) - Expert-level knowledge mastery
+
+### Customer Skills
+
+Customers have randomly generated skill levels that affect their ability to see tags:
+
+```csharp
+// In CustomerFactoryService.GenerateRandomCustomer()
+var customer = new Customer();
+// Skills are initialized with random levels
+```
+
+### Tag Revelation Logic
+
+Tags are revealed based on skill requirements and character type:
+
+```csharp
+// In ItemInspectionService.Inspect()
+foreach (var skillType in tag.RequiredSkills)
+{
+    if (character.Skills.TryGetValue(skillType, out var skill))
+    {
+        int skillLevel = skill.Level;
+        float chance = skillLevel * 20f; // 20% per skill level
+
+        var randomValue = UnityEngine.Random.Range(0f, 1f) * 100f;
+        if (randomValue <= chance)
+        {
+            if (isPlayer)
+            {
+                tag.IsRevealedToPlayer = true;
+            }
+            else if (isCustomer)
+            {
+                tag.IsRevealedToCustomer = true;
+            }
+
+            revealedTags.Add(tag);
+            break;
+        }
+    }
+}
+```
+
+**Skill Level Impact:**
+
+- **Level 1**: 20% chance to reveal tag
+- **Level 2**: 40% chance to reveal tag
+- **Level 3**: 60% chance to reveal tag
+- **Level 4**: 80% chance to reveal tag
+- **Level 5**: 100% chance to reveal tag
 
 ## Item Integration
 
@@ -451,4 +540,44 @@ if (!string.IsNullOrEmpty(tagDescription))
 {
     Debug.Log($"Condition description: {tagDescription}");
 }
+```
+
+## Integration with Other Systems
+
+### Evaluation System
+
+Tags affect item evaluation through price multipliers:
+
+```csharp
+// In EvaluationService.Evaluate()
+foreach (var tag in item.Tags)
+{
+    bool isTagRevealed = isPlayer ? tag.IsRevealedToPlayer : tag.IsRevealedToCustomer;
+
+    if (isTagRevealed)
+    {
+        finalPrice = (long)(finalPrice * tag.PriceMultiplier);
+    }
+}
+```
+
+### Inspection System
+
+Tags are revealed through the inspection process:
+
+```csharp
+// In ItemInspectionService.Inspect()
+var revealedTags = new List<BaseTagModel>();
+// Tags are revealed based on character skills
+return revealedTags; // Only newly revealed tags
+```
+
+### Negotiation System
+
+Revealed tags affect negotiation outcomes:
+
+```csharp
+// In NegotiationService
+public event Action<List<BaseTagModel>> OnTagsRevealed;
+// Tags revealed during inspection trigger UI updates
 ```

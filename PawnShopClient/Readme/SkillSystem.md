@@ -73,6 +73,67 @@ Based on the `SkillType` enum:
 - **`KnowledgeAdvanced`** (11) - Advanced knowledge techniques
 - **`KnowledgeExpert`** (12) - Expert-level knowledge mastery
 
+## Character Skills
+
+### Player Skills
+
+The player starts with all skills at level 2 by default:
+
+```csharp
+// In PlayerService.InitializePlayerSkills()
+Player.Skills[skillType].Level = 2; // TODO: Load from config later
+```
+
+**Player Skill Characteristics:**
+
+- **Starting Level**: All skills begin at level 2
+- **Skill Learning**: Skills can be learned through gameplay progression
+- **Skill Reset**: All skills can be reset to unlearned state
+- **Dependency Management**: Skills respect prerequisite requirements
+
+### Customer Skills
+
+Customers have randomly generated skill levels that affect their behavior:
+
+```csharp
+// In CustomerFactoryService.GenerateRandomCustomer()
+var customer = new Customer();
+// Skills are initialized with random levels
+```
+
+**Customer Skill Characteristics:**
+
+- **Random Generation**: Skill levels are randomly assigned
+- **Tag Visibility**: Skills determine which item tags customers can see
+- **Negotiation Behavior**: Skills affect customer negotiation strategies
+- **Item Knowledge**: Skills influence customer understanding of item value
+
+### Skill Impact on Gameplay
+
+#### Tag Visibility
+
+Skills determine which item tags are visible to characters:
+
+```csharp
+// In ItemInspectionService.Inspect()
+float chance = skillLevel * 20f; // 20% per skill level
+var randomValue = UnityEngine.Random.Range(0f, 1f) * 100f;
+
+if (randomValue <= chance)
+{
+    // Tag is revealed based on skill level
+    tag.IsRevealedToPlayer = true; // or IsRevealedToCustomer
+}
+```
+
+**Skill Level Effectiveness:**
+
+- **Level 1**: 20% chance to reveal hidden tags
+- **Level 2**: 40% chance to reveal hidden tags
+- **Level 3**: 60% chance to reveal hidden tags
+- **Level 4**: 80% chance to reveal hidden tags
+- **Level 5**: 100% chance to reveal hidden tags
+
 ## Dependency System
 
 ### Skill Requirements
@@ -98,6 +159,15 @@ public bool CanLearnSkill(SkillType skill)
 - **Prerequisite Checking**: Skills require specific skills to be learned first
 - **Dependency Validation**: Cannot learn skills without meeting requirements
 - **Hierarchical Structure**: Skills form a learning tree
+
+### Example Skill Dependencies
+
+```csharp
+// Advanced skills require basic skills first
+NegotiationAdvanced requires NegotiationAmateur level 2
+InspectionExpert requires InspectionAmateur level 3
+KnowledgeExpert requires KnowledgeAmateur level 4
+```
 
 ## Event System
 
@@ -303,3 +373,21 @@ Container.Bind<ISkillService>()
 - **Condition Assessment**: Skills affect ability to evaluate items
 - **Fake Detection**: Skills improve counterfeit identification
 - **Value Estimation**: Skills enhance price assessment accuracy
+
+### With Evaluation System
+
+- **Price Accuracy**: Higher skill levels provide more accurate evaluations
+- **Tag Recognition**: Skills unlock access to hidden item properties
+- **Value Calculation**: Skills influence final price calculations
+
+### With Inspection System
+
+- **Tag Revelation**: Skills determine which tags become visible
+- **Inspection Success**: Higher skill levels increase inspection effectiveness
+- **Hidden Properties**: Skills unlock access to concealed item features
+
+### With Negotiation System
+
+- **Customer Behavior**: Customer skills affect their negotiation strategies
+- **Price Expectations**: Skills influence customer price understanding
+- **Deal Success**: Skills affect negotiation outcome probabilities
