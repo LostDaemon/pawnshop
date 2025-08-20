@@ -6,7 +6,7 @@ public class ItemInspectionService : IItemInspectionService
     public List<BaseTagModel> Inspect(ICharacter character, ItemModel item)
     {
         var revealedTags = new List<BaseTagModel>();
-        
+
         if (item?.Tags == null) return revealedTags;
 
         foreach (var tag in item.Tags)
@@ -15,9 +15,9 @@ public class ItemInspectionService : IItemInspectionService
 
             foreach (var skillType in tag.RequiredSkills)
             {
-                int skillLevel = character.GetSkillLevel(skillType);
+                int skillLevel = character.Skills[skillType].Level;
                 float chance = skillLevel * 20f;
-                
+
                 if (Random.Range(0f, 100f) <= chance)
                 {
                     revealedTags.Add(tag);
@@ -25,7 +25,7 @@ public class ItemInspectionService : IItemInspectionService
                 }
             }
         }
-        
+
         return revealedTags;
     }
 }

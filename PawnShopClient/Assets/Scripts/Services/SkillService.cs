@@ -124,7 +124,7 @@ public class SkillService : ISkillService
 
     public int GetSkillLevel(SkillType skillType)
     {
-        return _skills.TryGetValue(skillType, out var skill) ? skill.Level : 0;
+        return PlayerSkills.TryGetValue(skillType, out var skill) ? skill.Level : 0;
     }
 
     public int GetSkillMaxLevel(SkillType skillType)
