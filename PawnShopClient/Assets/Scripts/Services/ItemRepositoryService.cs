@@ -27,16 +27,16 @@ public class ItemRepositoryService : IItemRepositoryService
     {
         int index = _random.Next(_items.Count);
         var itemPrototype = _items[index];
-        
+
         return GetItem(itemPrototype.ClassId);
     }
 
     public ItemModel GetItem(string classId)
     {
         Debug.Log($"[ItemRepositoryService] Getting item with classId: {classId}");
-        
+
         var itemPrototype = _items.FirstOrDefault(item => item.ClassId == classId);
-        if (itemPrototype == null) 
+        if (itemPrototype == null)
         {
             Debug.LogWarning($"[ItemRepositoryService] Item prototype not found for classId: {classId}");
             return null;
@@ -97,7 +97,7 @@ public class ItemRepositoryService : IItemRepositoryService
     private void ProcessOverridedTags(ItemModel item, ItemPrototype prototype)
     {
         Debug.Log($"[ItemRepositoryService] Using overrided tags for item: {prototype.Name}");
-        
+
         foreach (var overridedTag in prototype.OverridedTags)
         {
             if (overridedTag != null)
@@ -120,13 +120,13 @@ public class ItemRepositoryService : IItemRepositoryService
     private void ProcessRandomTagGeneration(ItemModel item, ItemPrototype prototype)
     {
         Debug.Log($"[ItemRepositoryService] Using random tag generation for item: {prototype.Name}");
-        
+
         // First, add all required tags (ignoring probability)
         Debug.Log($"[ItemRepositoryService] Adding required tags for item: {prototype.Name}");
         foreach (var requiredTagType in prototype.requiredTags)
         {
             Debug.Log($"[ItemRepositoryService] Processing required tag type: {requiredTagType}");
-            
+
             // Get all tags of this type
             var availableTags = _tagRepository.GetTagPrototypesByType(requiredTagType);
             if (availableTags.Count > 0)
@@ -134,7 +134,7 @@ public class ItemRepositoryService : IItemRepositoryService
                 // Select one tag with weighted probability, but one must be selected
                 var selectedTag = SelectRequiredTagByProbability(availableTags);
                 Debug.Log($"[ItemRepositoryService] Selected required tag with weighted probability: {selectedTag.DisplayName}");
-                
+
                 var tagModel = CreateTagModelFromPrototype(selectedTag);
                 if (tagModel != null)
                 {
@@ -151,7 +151,7 @@ public class ItemRepositoryService : IItemRepositoryService
                 Debug.LogWarning($"[ItemRepositoryService] Failed to get tag prototype for required tag type: {requiredTagType}");
             }
         }
-        
+
         // Then, process available tags based on probability and max count
         Debug.Log($"[ItemRepositoryService] Processing allowed tags for item: {prototype.Name}");
         foreach (var tagLimit in prototype.allowedTags)
@@ -163,7 +163,7 @@ public class ItemRepositoryService : IItemRepositoryService
             int currentCount = item.Tags.Count(t => t.TagType == tagLimit.TagType);
             int remainingSlots = maxCount - currentCount;
 
-            if (remainingSlots <= 0) 
+            if (remainingSlots <= 0)
             {
                 Debug.Log($"[ItemRepositoryService] No remaining slots for tag type: {tagLimit.TagType}");
                 continue;
@@ -242,29 +242,24 @@ public class ItemRepositoryService : IItemRepositoryService
         return result;
     }
 
-    private BaseTagPrototype GetTagPrototype(TagType tagType)
-    {
-        return _tagRepository?.GetTagPrototype(tagType);
-    }
-
     private BaseTagPrototype SelectRequiredTagByProbability(IReadOnlyCollection<BaseTagPrototype> availableTags)
     {
         if (availableTags == null || availableTags.Count == 0) return null;
-        
+
         // Calculate total weight (sum of all AppearanceChance values)
         float totalWeight = availableTags.Sum(tag => tag.AppearanceChance);
-        
+
         if (totalWeight <= 0)
         {
             // If all AppearanceChance are 0, select random
             int randomIndex = Random.Range(0, availableTags.Count);
             return availableTags.ElementAt(randomIndex);
         }
-        
+
         // Select based on weighted probability
         float randomValue = Random.Range(0f, totalWeight);
         float currentWeight = 0f;
-        
+
         foreach (var tag in availableTags)
         {
             currentWeight += tag.AppearanceChance;
@@ -273,7 +268,7 @@ public class ItemRepositoryService : IItemRepositoryService
                 return tag;
             }
         }
-        
+
         // Fallback to last tag (shouldn't happen, but just in case)
         return availableTags.Last();
     }

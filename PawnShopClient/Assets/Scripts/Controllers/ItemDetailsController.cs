@@ -16,6 +16,7 @@ namespace PawnShop.Controllers
         [SerializeField] private IndicatorController itemPriceIndicator;
         [SerializeField] private Image itemImage;
         [SerializeField] private TextMeshProUGUI itemTagsText;
+        [SerializeField] private TextMeshProUGUI TagDescription;
 
         [Header("Settings")]
         [SerializeField] private Color fallbackTagColor = Color.black;
@@ -24,13 +25,17 @@ namespace PawnShop.Controllers
         private Dictionary<string, Action> tagClickHandlers;
         private ISpriteService spriteService;
         private INegotiationService negotiationService;
+        private ITagRepositoryService tagRepository;
+        private List<BaseTagModel> currentDisplayedTags;
 
         [Inject]
-        private void Construct(ISpriteService spriteService, INegotiationService negotiationService)
+        private void Construct(ISpriteService spriteService, INegotiationService negotiationService, ITagRepositoryService tagRepository)
         {
             this.spriteService = spriteService;
             this.negotiationService = negotiationService;
+            this.tagRepository = tagRepository;
             tagClickHandlers = new Dictionary<string, Action>();
+            currentDisplayedTags = new List<BaseTagModel>();
         }
 
         private void Awake()
@@ -39,11 +44,6 @@ namespace PawnShop.Controllers
             if (itemTagsText != null)
             {
                 itemTagsText.richText = true;
-                Debug.Log("[ItemDetailsController] Enabled rich text support for tags text");
-
-                // Test rich text with a simple example
-                itemTagsText.text = "<color=#FF0000>Red</color> <color=#00FF00>Green</color> <color=#0000FF>Blue</color>";
-                Debug.Log("[ItemDetailsController] Tested rich text with simple colors");
             }
 
             // Add click event handler to tags text
@@ -160,9 +160,7 @@ namespace PawnShop.Controllers
                 }
             }
 
-            // Update item tags with HTML formatting
-            UpdateTagsDisplay(new List<BaseTagModel>());
-
+            ClearTags();
             // Final check - ensure rich text is enabled
             if (itemTagsText != null && !itemTagsText.richText)
             {
@@ -170,19 +168,31 @@ namespace PawnShop.Controllers
             }
         }
 
+        private void ClearTags()
+        {
+            if (itemTagsText != null)
+            {
+                itemTagsText.text = "No visible tags";
+            }
+            if (TagDescription != null) TagDescription.text = "";
+            currentDisplayedTags.Clear();
+        }
+
         private void UpdateTagsDisplay(List<BaseTagModel> tags)
         {
-            if (tags == null || tags.Count == 0)
+            // Store the current displayed tags for click handling
+            currentDisplayedTags = tags ?? new List<BaseTagModel>();
+
+            if (currentDisplayedTags.Count == 0)
             {
-                Debug.Log("[ItemDetailsController] No visible tags found, displaying 'No visible tags'");
-                itemTagsText.text = "No visible tags";
+                ClearTags();
                 return;
             }
 
             string formattedTags = "";
-            for (int i = 0; i < tags.Count; i++)
+            for (int i = 0; i < currentDisplayedTags.Count; i++)
             {
-                var tag = tags[i];
+                var tag = currentDisplayedTags[i];
                 if (tag == null) continue;
 
                 // Create clickable link for each tag
@@ -195,32 +205,12 @@ namespace PawnShop.Controllers
                 formattedTags += $"<color=#{tagColor}><link=\"{tagId}\">{formattedTag}</link></color>";
 
                 // Add space between tags
-                if (i < tags.Count - 1)
+                if (i < currentDisplayedTags.Count - 1)
                 {
                     formattedTags += " ";
                 }
             }
-
-            Debug.Log($"[ItemDetailsController] Final formatted tags: {formattedTags}");
-
-            // Try different approaches to set rich text
-            try
-            {
-                // Method 1: Direct text assignment
-                itemTagsText.text = formattedTags;
-
-                // Method 2: Force mesh update
-                itemTagsText.ForceMeshUpdate();
-
-                // Method 3: Mark for rebuild
-                itemTagsText.SetAllDirty();
-
-                Debug.Log("[ItemDetailsController] Text set successfully with all update methods");
-            }
-            catch (System.Exception e)
-            {
-                Debug.LogError($"[ItemDetailsController] Error setting rich text: {e.Message}");
-            }
+            itemTagsText.text = formattedTags;
         }
 
         private string GetTagColorHex(BaseTagModel tag)
@@ -245,6 +235,8 @@ namespace PawnShop.Controllers
             if (itemPriceIndicator != null) itemPriceIndicator.SetValue(0, false);
             if (itemImage != null) itemImage.enabled = false;
             if (itemTagsText != null) itemTagsText.text = "";
+            if (TagDescription != null) TagDescription.text = "";
+            currentDisplayedTags.Clear();
         }
 
         private void OnTagsTextClicked()
@@ -286,11 +278,32 @@ namespace PawnShop.Controllers
             // Extract tag index from linkId (format: "tag_X")
             if (linkId.StartsWith("tag_") && int.TryParse(linkId.Substring(4), out int tagIndex))
             {
-                if (currentItem != null && currentItem.Tags != null && tagIndex < currentItem.Tags.Count)
+                if (currentDisplayedTags != null && tagIndex < currentDisplayedTags.Count)
                 {
-                    var tag = currentItem.Tags[tagIndex];
-                    string tagName = !string.IsNullOrEmpty(tag.DisplayName) ? tag.DisplayName : tag.TagType.ToString();
+                    var clickedTag = currentDisplayedTags[tagIndex];
+                    string tagName = !string.IsNullOrEmpty(clickedTag.DisplayName) ? clickedTag.DisplayName : clickedTag.TagType.ToString();
                     Debug.Log($"Default tag click handler: {tagName}");
+
+                    // Get tag prototype from repository by ClassId to get full description
+                    var tagPrototype = tagRepository.GetTagPrototypeByClassId(clickedTag.ClassId);
+                    if (tagPrototype != null)
+                    {
+                        // Display tag description from prototype in TagDescription TMP
+                        if (TagDescription != null)
+                        {
+                            string description = !string.IsNullOrEmpty(tagPrototype.Description) ? tagPrototype.Description : $"No description available for {tagName}";
+                            TagDescription.text = description;
+                        }
+                    }
+                    else
+                    {
+                        // Fallback to tag model description if prototype not found
+                        if (TagDescription != null)
+                        {
+                            string description = !string.IsNullOrEmpty(clickedTag.Description) ? clickedTag.Description : $"No description available for {tagName}";
+                            TagDescription.text = description;
+                        }
+                    }
 
                     // Add your default tag handling logic here
                     // For example, show tooltip, highlight related items, etc.

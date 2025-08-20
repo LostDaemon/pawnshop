@@ -2,6 +2,7 @@ using UnityEngine;
 
 public abstract class BaseTagModel
 {
+    public string ClassId { get; set; }
     public TagType TagType { get; set; }
     public string DisplayName { get; set; }
     public string Description { get; set; }
@@ -17,6 +18,7 @@ public abstract class BaseTagModel
     {
         if (prototype != null)
         {
+            ClassId = prototype.ClassId;
             TagType = prototype.TagType;
             DisplayName = prototype.DisplayName;
             Description = prototype.Description;
@@ -24,7 +26,7 @@ public abstract class BaseTagModel
             PriceMultiplier = prototype.PriceMultiplier;
             AppearanceChance = prototype.AppearanceChance;
             IsRevealedToPlayer = prototype.IsRevealedToPlayer;
-            IsRevealedToCustomer = prototype.IsRevealedToCustomer;
+            IsRevealedToCustomer = prototype.IsRevealedToPlayer;
             Hidden = prototype.Hidden;
             Color = prototype.Color;
         }

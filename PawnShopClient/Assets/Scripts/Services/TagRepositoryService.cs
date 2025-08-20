@@ -33,14 +33,11 @@ public class TagRepositoryService : ITagRepositoryService
         Debug.Log($"[TagRepositoryService] Loaded {_allTags.Count} tag prototypes across {_tagsByType.Count} tag types");
     }
 
-    public BaseTagPrototype GetTagPrototype(TagType tagType)
+    public BaseTagPrototype GetTagPrototypeByClassId(string classId)
     {
-        if (_tagsByType.TryGetValue(tagType, out var tags) && tags.Count > 0)
-        {
-            // Return first tag of this type (or could implement random selection logic)
-            return tags[0];
-        }
-        return null;
+        if (string.IsNullOrEmpty(classId)) return null;
+        
+        return _allTags.FirstOrDefault(tag => tag.ClassId == classId);
     }
 
     public IReadOnlyCollection<BaseTagPrototype> GetAllTagPrototypes()
