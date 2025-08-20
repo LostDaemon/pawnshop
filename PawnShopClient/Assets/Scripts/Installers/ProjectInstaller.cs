@@ -101,6 +101,11 @@ public class ProjectInstaller : MonoInstaller
             .To<ItemInspectionService>()
             .AsSingle();
 
+        // Player
+        Container.Bind<IPlayerService>()
+            .To<PlayerService>()
+            .AsSingle();
+
         // Tags
         Container.Bind<ITagRepositoryService>()
             .To<TagRepositoryService>()

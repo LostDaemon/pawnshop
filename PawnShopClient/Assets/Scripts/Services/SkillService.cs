@@ -5,14 +5,17 @@ using UnityEngine;
 
 public class SkillService : ISkillService
 {
-    private readonly Dictionary<SkillType, Skill> _skills = new();
     private readonly ISkillRepositoryService _skillRepository;
+    private readonly IPlayerService _playerService;
 
     public event Action<SkillType, int> OnSkillLevelChanged;
 
-    public SkillService(ISkillRepositoryService skillRepository)
+    public Dictionary<SkillType, Skill> PlayerSkills => _playerService.Player.Skills;
+
+    public SkillService(ISkillRepositoryService skillRepository, IPlayerService playerService)
     {
         _skillRepository = skillRepository;
+        _playerService = playerService;
         InitializeSkills();
     }
 
@@ -26,7 +29,7 @@ public class SkillService : ISkillService
                 var prototype = _skillRepository.GetSkill(skill);
                 if (prototype != null)
                 {
-                    _skills[skill] = new Skill(prototype);
+                    PlayerSkills[skill] = new Skill(prototype);
                 }
                 else
                 {
@@ -35,7 +38,7 @@ public class SkillService : ISkillService
             }
         }
 
-        Debug.Log($"[SkillService] Skills initialized. Loaded {_skills.Count} skills.");
+        Debug.Log($"[SkillService] Skills initialized. Loaded {PlayerSkills.Count} skills.");
     }
 
     public bool IsSkillLearnedTo(SkillType skillType, int level)
@@ -43,7 +46,7 @@ public class SkillService : ISkillService
         if (skillType == SkillType.Undefined)
             return false;
 
-        return _skills.TryGetValue(skillType, out var skill) && skill.Level >= level;
+        return PlayerSkills.TryGetValue(skillType, out var skill) && skill.Level >= level;
     }
 
     public bool IsSkillLearned(SkillType skillType)
@@ -62,7 +65,7 @@ public class SkillService : ISkillService
             return false;
         }
 
-        var skill = _skills[skillType];
+        var skill = PlayerSkills[skillType];
         skill.Level++;
         OnSkillLevelChanged?.Invoke(skillType, skill.Level);
 
@@ -79,9 +82,9 @@ public class SkillService : ISkillService
     private void NotifySkillsAvailabilityChanged()
     {
         // Check all skills that might have become available
-        foreach (var skill in _skills.Keys)
+        foreach (var skill in PlayerSkills.Keys)
         {
-            if (_skills[skill].Level == 0 && CanLearnSkill(skill))
+            if (PlayerSkills[skill].Level == 0 && CanLearnSkill(skill))
             {
                 // This skill just became available
                 OnSkillLevelChanged?.Invoke(skill, 0); // Notify that it's now available
@@ -94,7 +97,7 @@ public class SkillService : ISkillService
         if (skillType == SkillType.Undefined)
             return false;
 
-        var skill = _skills.GetValueOrDefault(skillType);
+        var skill = PlayerSkills.GetValueOrDefault(skillType);
         if (skill == null)
             return false;
 
@@ -126,7 +129,7 @@ public class SkillService : ISkillService
 
     public int GetSkillMaxLevel(SkillType skillType)
     {
-        if (!_skills.TryGetValue(skillType, out var skill))
+        if (!PlayerSkills.TryGetValue(skillType, out var skill))
             return 0;
 
         var prototype = _skillRepository.GetSkill(skillType);
@@ -135,7 +138,7 @@ public class SkillService : ISkillService
 
     public IReadOnlyCollection<SkillRequirement> GetRequiredSkills(SkillType skillType)
     {
-        var skill = _skills.GetValueOrDefault(skillType);
+        var skill = PlayerSkills.GetValueOrDefault(skillType);
         return skill?.RequiredSkills ?? new List<SkillRequirement>().AsReadOnly();
     }
 
@@ -143,7 +146,7 @@ public class SkillService : ISkillService
     {
         var learnableSkills = new List<SkillType>();
 
-        foreach (var skill in _skills.Keys)
+        foreach (var skill in PlayerSkills.Keys)
         {
             if (CanLearnSkill(skill))
             {
@@ -156,24 +159,24 @@ public class SkillService : ISkillService
 
     public IReadOnlyCollection<SkillType> GetLearnedSkills()
     {
-        return _skills.Where(kvp => kvp.Value.Level > 0).Select(kvp => kvp.Key).ToList().AsReadOnly();
+        return PlayerSkills.Where(kvp => kvp.Value.Level > 0).Select(kvp => kvp.Key).ToList().AsReadOnly();
     }
 
     public IReadOnlyDictionary<SkillType, bool> GetAllSkills()
     {
-        return _skills.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Level > 0);
+        return PlayerSkills.ToDictionary(kvp => kvp.Key, kvp => kvp.Value.Level > 0);
     }
 
     // Get skill information
     public Skill GetSkillInfo(SkillType skillType)
     {
-        return _skills.GetValueOrDefault(skillType);
+        return PlayerSkills.GetValueOrDefault(skillType);
     }
 
     // Get all skills with their info
     public IReadOnlyCollection<Skill> GetAllSkillInfos()
     {
-        return _skills.Values;
+        return PlayerSkills.Values;
     }
 
     // Additional utility methods
@@ -183,7 +186,7 @@ public class SkillService : ISkillService
     /// </summary>
     public int GetLearnedSkillsCount()
     {
-        return _skills.Values.Count(skill => skill.Level > 0);
+        return PlayerSkills.Values.Count(skill => skill.Level > 0);
     }
 
     /// <summary>
@@ -192,7 +195,7 @@ public class SkillService : ISkillService
     public void ResetAllSkills()
     {
         // First, notify about all skills becoming unavailable
-        foreach (var skill in _skills.Values)
+        foreach (var skill in PlayerSkills.Values)
         {
             if (skill.Level > 0)
             {
@@ -201,7 +204,7 @@ public class SkillService : ISkillService
         }
 
         // Then reset all skills
-        foreach (var skill in _skills.Values)
+        foreach (var skill in PlayerSkills.Values)
         {
             skill.Level = 0;
         }
@@ -226,7 +229,7 @@ public class SkillService : ISkillService
             return false;
         }
 
-        _skills[skillType].Level = 0;
+        PlayerSkills[skillType].Level = 0;
         OnSkillLevelChanged?.Invoke(skillType, 0); // Notify that it's now unavailable
 
         // Notify about skills that may have become unavailable after unlearning this skill
@@ -242,9 +245,9 @@ public class SkillService : ISkillService
     private void NotifySkillsAvailabilityChangedAfterUnlearn(SkillType unlearnedSkill)
     {
         // Check all skills that might have become unavailable
-        foreach (var skill in _skills.Keys)
+        foreach (var skill in PlayerSkills.Keys)
         {
-            var skillData = _skills[skill];
+            var skillData = PlayerSkills[skill];
             // Check if this skill depends on the unlearned skill
             if (skillData.RequiredSkills.Any(req => req.SkillType == unlearnedSkill))
             {
