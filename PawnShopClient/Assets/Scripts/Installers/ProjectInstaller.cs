@@ -61,6 +61,15 @@ public class ProjectInstaller : MonoInstaller
             .To<StorageRouterService<ItemModel>>()
             .AsSingle();
 
+        // Skills
+        Container.Bind<ISkillRepositoryService>()
+            .To<SkillRepositoryService>()
+            .AsSingle();
+            
+        Container.Bind<ISkillService>()
+            .To<SkillService>()
+            .AsSingle();
+
         Container.Bind<ICustomerFactoryService>()
             .To<CustomerFactoryService>()
             .AsSingle();
@@ -81,15 +90,6 @@ public class ProjectInstaller : MonoInstaller
         Container.Bind<IItemProcessingService>()
         .To<ItemProcessingService>()
         .AsSingle();
-
-        // Skills
-        Container.Bind<ISkillRepositoryService>()
-            .To<SkillRepositoryService>()
-            .AsSingle();
-            
-        Container.Bind<ISkillService>()
-            .To<SkillService>()
-            .AsSingle();
 
         // Tags
         Container.Bind<ITagRepositoryService>()
