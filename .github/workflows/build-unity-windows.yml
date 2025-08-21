@@ -60,8 +60,6 @@ jobs:
           projectPath: PawnShopClient
           unityVersion: 6000.2.0f1
           targetPlatform: StandaloneWindows64
-        env:
-          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
