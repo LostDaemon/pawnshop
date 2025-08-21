@@ -1,0 +1,85 @@
+name: Build-Unity-Windows
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build Unity Project
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Cache Library
+        uses: actions/cache@v4
+        with:
+          path: PawnShopClient/Library
+          key: Library-${{ runner.os }}-Windows64
+          restore-keys: |
+            Library-${{ runner.os }}-
+            Library-
+
+      - name: Cache Packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            PawnShopClient/Packages
+            PawnShopClient/Packages.meta
+          key: Packages-${{ hashFiles('PawnShopClient/Packages/packages-lock.json') }}
+          restore-keys: |
+            Packages-
+
+      - name: Cache Unity Cache
+        uses: actions/cache@v4
+        with:
+          path: PawnShopClient/.unity
+          key: UnityCache-${{ hashFiles('PawnShopClient/Packages/packages-lock.json') }}
+          restore-keys: |
+            UnityCache-
+
+      - name: Cache Build
+        uses: actions/cache@v4
+        with:
+          path: build
+          key: Builds-${{ hashFiles('PawnShopClient/Assets/**', 'PawnShopClient/Packages/**', 'PawnShopClient/ProjectSettings/**') }}
+          restore-keys: |
+            Builds-
+
+      - name: Build
+        uses: game-ci/unity-builder@v4
+        with:
+          projectPath: PawnShopClient
+          unityVersion: 6000.2.0f1
+          targetPlatform: StandaloneWindows64
+          allowDirtyBuild: true
+        env:
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
+
+      - name: List Build Contents
+        run: |
+          echo "=== Checking build directory contents ==="
+          echo "Current directory: $(pwd)"
+          echo "--- PawnShopClient contents ---"
+          ls -la PawnShopClient/ || echo "PawnShopClient directory not found"
+          echo "--- Builds directory ---"
+          ls -la PawnShopClient/Builds/ || echo "Builds directory not found"
+          echo "--- Windows build directory ---"
+          ls -la PawnShopClient/Builds/Windows/ || echo "Windows build directory not found"
+          echo "--- Root directory ---"
+          ls -la || echo "Cannot list root directory"
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: Windows-Build
+          path: build
+          retention-days: 30
