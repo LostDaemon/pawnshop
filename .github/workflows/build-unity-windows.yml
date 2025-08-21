@@ -61,7 +61,9 @@ jobs:
           unityVersion: 6000.2.0f1
           targetPlatform: StandaloneWindows64
         env:
-          UNITY_SERIAL: ${{ secrets.UNITY_SERIAL }}
+          UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
+          UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
+          UNITY_PASSWORD: ${{ secrets.UNITY_PASSWORD }}
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
