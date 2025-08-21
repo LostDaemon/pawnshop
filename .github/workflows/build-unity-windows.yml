@@ -60,6 +60,7 @@ jobs:
           projectPath: PawnShopClient
           unityVersion: 6000.2.0f1
           targetPlatform: StandaloneWindows64
+          allowDirtyBuild: true
         env:
           UNITY_EMAIL: ${{ secrets.UNITY_EMAIL }}
           UNITY_LICENSE: ${{ secrets.UNITY_LICENSE }}
