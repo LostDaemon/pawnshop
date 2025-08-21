@@ -1,0 +1,41 @@
+name: Unity Windows Build
+
+on:
+  push:
+    branches: [main]
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    name: Build Windows
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Cache Library
+        uses: actions/cache@v3
+        with:
+          path: Library
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          restore-keys: |
+            Library-
+
+      - name: Unity Builder
+        uses: game-ci/unity-builder@v3
+        with:
+          targetPlatform: StandaloneWindows64
+          buildName: PawnShopClient-Windows
+          buildPath: Builds/Windows
+          buildFile: PawnShopClient.exe
+
+      - name: Upload Windows Build
+        uses: actions/upload-artifact@v3
+        with:
+          name: Windows-Build
+          path: Builds/Windows
+          retention-days: 90
