@@ -39,9 +39,7 @@ jobs:
       - name: Cache Unity Cache
         uses: actions/cache@v4
         with:
-          path: |
-            PawnShopClient/.unity/cache
-            PawnShopClient/.unity/packages
+          path: PawnShopClient/.unity
           key: UnityCache-${{ hashFiles('PawnShopClient/Packages/packages-lock.json') }}
           restore-keys: |
             UnityCache-
