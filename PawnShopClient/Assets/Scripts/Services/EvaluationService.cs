@@ -1,37 +1,37 @@
 using System;
 using System.Linq;
+using System.Collections.Generic;
 
 public class EvaluationService : IEvaluationService
 {
-    public long Evaluate(ICharacter character, ItemModel item)
+    public long EvaluateByPlayer(ItemModel item)
+    {
+        var tags = item.Tags.Where(tag => tag.IsRevealedToPlayer).ToList();
+        return Evaluate(item, tags);
+    }
+
+    public long EvaluateByCustomer(ItemModel item)
+    {
+        var tags = item.Tags.Where(tag => tag.IsRevealedToCustomer).ToList();
+        return Evaluate(item, tags);
+    }
+
+    private long Evaluate(ItemModel item, List<BaseTagModel> tags)
     {
         if (item == null) return 0;
 
         long finalPrice = item.BasePrice;
 
-        bool isPlayer = character is Player;
-        bool isCustomer = character is Customer;
 
-        if (item.Tags != null)
+        if (tags != null)
         {
-            foreach (var tag in item.Tags)
+            foreach (var tag in tags)
             {
-                bool isTagRevealed = false;
-                if (isPlayer)
-                {
-                    isTagRevealed = tag.IsRevealedToPlayer;
-                }
-                else if (isCustomer)
-                {
-                    isTagRevealed = tag.IsRevealedToCustomer;
-                }
-
-                if (isTagRevealed)
-                {
-                    finalPrice = (long)(finalPrice * tag.PriceMultiplier);
-                }
+                finalPrice = (long)(finalPrice * tag.PriceMultiplier);
             }
         }
+
+
 
         return Math.Max(0, finalPrice);
     }

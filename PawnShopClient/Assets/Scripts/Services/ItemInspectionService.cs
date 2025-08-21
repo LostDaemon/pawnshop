@@ -1,8 +1,31 @@
 using System.Collections.Generic;
+using Zenject;
 
 public class ItemInspectionService : IItemInspectionService
 {
-    public List<BaseTagModel> Inspect(ICharacter character, ItemModel item)
+    private readonly IPlayerService _playerService;
+    private readonly ICustomerService _customerService;
+
+    [Inject]
+    public ItemInspectionService(IPlayerService playerService, ICustomerService customerService)
+    {
+        _playerService = playerService;
+        _customerService = customerService;
+    }
+
+    public List<BaseTagModel> InspectByPlayer(ItemModel item)
+    {
+        var player = _playerService.Player;
+        return InspectInternal(player, item);
+    }
+
+    public List<BaseTagModel> InspectByCustomer(ItemModel item)
+    {
+        var customer = _customerService.CurrentCustomer;
+        return InspectInternal(customer, item);
+    }
+
+    private List<BaseTagModel> InspectInternal(ICharacter character, ItemModel item)
     {
         var revealedTags = new List<BaseTagModel>();
 

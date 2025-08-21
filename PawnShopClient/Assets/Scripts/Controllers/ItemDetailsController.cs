@@ -37,6 +37,7 @@ namespace PawnShop.Controllers
         /// <param name="item">Item to display</param>
         public void UpdateItemDetails(ItemModel item)
         {
+
             if (item == null)
             {
                 Debug.LogError("ItemDetailsController: Attempted to show null item details.");
@@ -129,6 +130,7 @@ namespace PawnShop.Controllers
         {
             ClearTags();
             var currentDisplayedTags = item.Tags.FindAll(c => c.IsRevealedToPlayer);
+
             if (currentDisplayedTags == null || currentDisplayedTags.Count == 0)
             {
                 return;
