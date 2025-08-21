@@ -27,7 +27,7 @@ The main evaluation method processes items and returns their estimated value:
 public interface IEvaluationService
 {
     /// <summary>
-    /// Evaluate an item and return its estimated value
+    /// Evaluate an item and return it's estimated value
     /// </summary>
     /// <param name="character">Character performing the evaluation</param>
     /// <param name="item">Item to be evaluated</param>
