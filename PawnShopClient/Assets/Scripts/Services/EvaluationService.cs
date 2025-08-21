@@ -16,7 +16,7 @@ public class EvaluationService : IEvaluationService
         return Evaluate(item, tags);
     }
 
-    private long Evaluate(ItemModel item, List<BaseTagModel> tags)
+    public long Evaluate(ItemModel item, List<BaseTagModel> tags)
     {
         if (item == null) return 0;
 

@@ -107,7 +107,6 @@ public class CounterOfferDialogController : MonoBehaviour
 
         if (revealedTags.Count == 0)
         {
-            Debug.Log("CounterOfferDialogController: No revealed tags to display.");
             return;
         }
 
@@ -118,7 +117,6 @@ public class CounterOfferDialogController : MonoBehaviour
 
             if (listItemController == null)
             {
-                Debug.LogError($"CounterOfferDialogController: TagSelectorListItemController component not found on prefab instance for tag {tag.DisplayName}.");
                 Destroy(listItemObject);
                 continue;
             }
@@ -129,8 +127,6 @@ public class CounterOfferDialogController : MonoBehaviour
             // Store reference
             _tagListItems.Add(listItemController);
         }
-
-        Debug.Log($"CounterOfferDialogController: Created {_tagListItems.Count} tag list items.");
     }
 
     private void ClearTagListItems()
