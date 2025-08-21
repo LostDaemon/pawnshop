@@ -22,20 +22,20 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            Library
-            Library.meta
-          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**', 'Packages/packages-lock.json') }}
+            PawnShopClient/Library
+            PawnShopClient/Library.meta
+          key: Library-${{ hashFiles('PawnShopClient/Assets/**', 'PawnShopClient/Packages/**', 'PawnShopClient/ProjectSettings/**', 'PawnShopClient/Packages/packages-lock.json') }}
           restore-keys: |
             Library-
-            Library-${{ hashFiles('Assets/**', 'Packages/**') }}-
+            Library-${{ hashFiles('PawnShopClient/Assets/**', 'PawnShopClient/Packages/**') }}-
 
       - name: Cache Packages
         uses: actions/cache@v4
         with:
           path: |
-            Packages
-            Packages.meta
-          key: Packages-${{ hashFiles('Packages/packages-lock.json') }}
+            PawnShopClient/Packages
+            PawnShopClient/Packages.meta
+          key: Packages-${{ hashFiles('PawnShopClient/Packages/packages-lock.json') }}
           restore-keys: |
             Packages-
 
@@ -43,27 +43,27 @@ jobs:
         uses: actions/cache@v4
         with:
           path: |
-            .unity/cache
-            .unity/packages
-          key: UnityCache-${{ hashFiles('Packages/packages-lock.json') }}
+            PawnShopClient/.unity/cache
+            PawnShopClient/.unity/packages
+          key: UnityCache-${{ hashFiles('PawnShopClient/Packages/packages-lock.json') }}
           restore-keys: |
             UnityCache-
 
       - name: Cache Build
         uses: actions/cache@v4
         with:
-          path: Builds
-          key: Builds-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          path: PawnShopClient/Builds
+          key: Builds-${{ hashFiles('PawnShopClient/Assets/**', 'PawnShopClient/Packages/**', 'PawnShopClient/ProjectSettings/**') }}
           restore-keys: |
             Builds-
 
       - name: Unity Builder
         uses: game-ci/unity-builder@v3
         with:
+          projectPath: PawnShopClient
           targetPlatform: StandaloneWindows64
           buildName: PawnShopClient
-          buildPath: Builds/Windows
-          buildFile: PawnShopClient.exe
+          buildsPath: Builds/Windows
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v4
