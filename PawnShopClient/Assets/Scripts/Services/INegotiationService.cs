@@ -10,12 +10,12 @@ public interface INegotiationService
     event Action<ItemModel> OnTagsRevealed;
     ItemModel CurrentItem { get; }
     long GetCurrentOffer();
-    bool MakeDiscountOffer(float discount);
+    bool MakeCounterOffer(long newOffer);
     bool TryPurchase(long offeredPrice);
-    bool TryCounterOffer(long playerOffer);
     void RequestSkip();
     void AskAboutItemOrigin();
     void ShowNextCustomer();
+    void DeclareTags(List<BaseTagModel> tags);
 
     /// <summary>
     /// Analyze the current item (placeholder for future complex logic)

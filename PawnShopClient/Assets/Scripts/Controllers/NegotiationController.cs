@@ -14,6 +14,7 @@ public class NegotiationController : MonoBehaviour
     [SerializeField] private Button _askButton;
     [SerializeField] private Button _analyzeButton;
     [SerializeField] private ItemDetailsController _itemDetailsController;
+    [SerializeField] private CounterOfferDialogController _counterOfferDialogController;
 
     private INegotiationService _negotiationService;
 
@@ -40,6 +41,28 @@ public class NegotiationController : MonoBehaviour
         _negotiationService.OnCurrentItemChanged += OnItemChanged;
         _negotiationService.OnCurrentOfferChanged += OnCurrentOfferChanged;
         _negotiationService.OnTagsRevealed += OnTagsRevealed;
+
+        // Set up counter offer dialog events
+        if (_counterOfferDialogController != null)
+        {
+            _counterOfferDialogController.OnTagsConfirmed += OnTagsConfirmed;
+            _counterOfferDialogController.OnDialogCancelled += OnDialogCancelled;
+        }
+    }
+
+    /// <summary>
+    /// Show the counter offer dialog
+    /// </summary>
+    public void ShowCounterOfferDialog()
+    {
+        if (_counterOfferDialogController != null)
+        {
+            _counterOfferDialogController.Show();
+        }
+        else
+        {
+            Debug.LogWarning("CounterOfferDialogController is not assigned");
+        }
     }
 
     private void OnTagsRevealed(ItemModel item)
@@ -63,6 +86,12 @@ public class NegotiationController : MonoBehaviour
         {
             _negotiationService.OnCurrentItemChanged -= OnItemChanged;
             _negotiationService.OnCurrentOfferChanged -= OnCurrentOfferChanged;
+        }
+
+        if (_counterOfferDialogController != null)
+        {
+            _counterOfferDialogController.OnTagsConfirmed -= OnTagsConfirmed;
+            _counterOfferDialogController.OnDialogCancelled -= OnDialogCancelled;
         }
     }
 
@@ -104,14 +133,29 @@ public class NegotiationController : MonoBehaviour
 
     private void OnDiscountClicked(float discount)
     {
-        var response = _negotiationService.MakeDiscountOffer(discount);
-        if (response)
-        {
-            Debug.Log($"Discount offer accepted: {_negotiationService.GetCurrentOffer()}");
-        }
-        else
-        {
-            _discountButton.Button.interactable = false;
-        }
+        ShowCounterOfferDialog();
+
+        // var response = _negotiationService.MakeDiscountOffer(discount);
+        // if (response)
+        // {
+        //     Debug.Log($"Discount offer accepted: {_negotiationService.GetCurrentOffer()}");
+        // }
+        // else
+        // {
+        //     _discountButton.Button.interactable = false;
+        // }
+    }
+
+    private void OnTagsConfirmed(List<BaseTagModel> selectedTags)
+    {
+        Debug.Log($"Counter offer dialog: {selectedTags.Count} tags confirmed");
+        // TODO: Implement counter offer logic based on selected tags
+        _counterOfferDialogController?.Hide();
+    }
+
+    private void OnDialogCancelled()
+    {
+        Debug.Log("Counter offer dialog cancelled");
+        _counterOfferDialogController?.Hide();
     }
 }
