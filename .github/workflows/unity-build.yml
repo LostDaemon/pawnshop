@@ -19,15 +19,38 @@ jobs:
           lfs: true
 
       - name: Cache Library
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
-          path: Library
-          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
+          path: |
+            Library
+            Library.meta
+          key: Library-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**', 'Packages/packages-lock.json') }}
           restore-keys: |
             Library-
+            Library-${{ hashFiles('Assets/**', 'Packages/**') }}-
+
+      - name: Cache Packages
+        uses: actions/cache@v4
+        with:
+          path: |
+            Packages
+            Packages.meta
+          key: Packages-${{ hashFiles('Packages/packages-lock.json') }}
+          restore-keys: |
+            Packages-
+
+      - name: Cache Unity Cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            .unity/cache
+            .unity/packages
+          key: UnityCache-${{ hashFiles('Packages/packages-lock.json') }}
+          restore-keys: |
+            UnityCache-
 
       - name: Cache Build
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: Builds
           key: Builds-${{ hashFiles('Assets/**', 'Packages/**', 'ProjectSettings/**') }}
@@ -43,7 +66,7 @@ jobs:
           buildFile: PawnShopClient.exe
 
       - name: Upload Build Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Windows-Build
           path: Builds/Windows
