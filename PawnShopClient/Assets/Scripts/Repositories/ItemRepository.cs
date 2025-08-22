@@ -57,7 +57,7 @@ namespace PawnShop.Repositories
                 Id = System.Guid.NewGuid().ToString(),
                 ClassId = itemPrototype.ClassId,
                 Name = itemPrototype.Name,
-                ImageId = itemPrototype.ImageId,
+                Image = itemPrototype.Image,
                 BasePrice = itemPrototype.BasePrice,
                 IsFake = isFake,
                 Scale = itemPrototype.Scale,

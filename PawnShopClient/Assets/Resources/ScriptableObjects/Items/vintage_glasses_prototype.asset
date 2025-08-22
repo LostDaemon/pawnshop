@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClassId: ff752421-5a6d-4a3c-83e9-00609c53620b
   Name: Vintage Glasses
-  ImageId: item_vintage_glasses
+  Image: {fileID: -3598727966044058003, guid: 422082d6fa3b33c4aa49675b78e5a5f3, type: 3}
   BasePrice: 180
   Scale: 0.5
   Description: Stylish round-frame glasses with gold accents. Slightly scratched.

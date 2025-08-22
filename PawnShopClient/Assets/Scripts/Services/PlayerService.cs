@@ -36,7 +36,6 @@ namespace PawnShop.Services
                     {
                         Player.Skills[skillType] = new Skill(prototype);
                         Player.Skills[skillType].Level = 2; // TODO: Load from config later
-                        UnityEngine.Debug.LogWarning($"[PlayerService] Skill {skillType} initialized with level {Player.Skills[skillType].Level}.");
                     }
                     else
                     {

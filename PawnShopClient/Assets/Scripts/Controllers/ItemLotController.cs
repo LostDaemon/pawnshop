@@ -6,7 +6,6 @@ namespace PawnShop.Controllers
     public class ItemLotController : MonoBehaviour
     {
         private SpriteRenderer _renderer;
-        private static Sprite[] _cachedAtlas;
 
         public ItemModel Item { get; private set; }
         public Transform Anchor { get; private set; }
@@ -27,22 +26,15 @@ namespace PawnShop.Controllers
                 return;
             }
 
-            var sprite = LoadSprite(item.ImageId);
-            if (sprite != null)
-                _renderer.sprite = sprite;
+            if (item.Image != null)
+                _renderer.sprite = item.Image;
             else
-                Debug.LogWarning($"Sprite '{item.ImageId}' not found in atlas.");
+                Debug.LogWarning($"Sprite not found for item: {item.Name}");
 
             transform.localScale = Vector3.one * item.Scale * 0.5f;
         }
 
-        private Sprite LoadSprite(string imageId)
-        {
-            if (_cachedAtlas == null)
-                _cachedAtlas = Resources.LoadAll<Sprite>("Sprites/ItemsAtlas");
 
-            return System.Array.Find(_cachedAtlas, s => s.name == imageId);
-        }
 
         private void OnMouseDown()
         {

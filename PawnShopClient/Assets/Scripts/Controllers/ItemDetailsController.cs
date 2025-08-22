@@ -102,7 +102,7 @@ namespace PawnShop.Controllers
                 return;
             }
 
-            var sprite = _spriteService.GetSprite(item.ImageId);
+            var sprite = item.Image;
 
             if (sprite != null)
             {

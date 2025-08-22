@@ -45,7 +45,7 @@ namespace PawnShop.Controllers
             {
 
 
-                var sprite = _spriteService.GetSprite(Item.ImageId);
+                var sprite = Item.Image;
 
                 if (sprite != null)
                 {
@@ -54,7 +54,6 @@ namespace PawnShop.Controllers
                 }
                 else
                 {
-                    Debug.LogWarning($"SellItemInfoController: Sprite '{Item.ImageId}' not found.");
                     _image.sprite = null;
                 }
             }

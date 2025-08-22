@@ -37,15 +37,13 @@ namespace PawnShop.Controllers
             Debug.Log($"INIT: {item.Name}");
             _item = item;
 
-            var sprite = _spriteService.GetSprite(_item.ImageId);
-
-            if (_image == null || sprite == null)
+            if (_image == null || _item.Image == null)
             {
-                Debug.LogWarning($"Sprite for item '{item.Name}' with ID '{item.ImageId}' not found.");
+                Debug.LogWarning($"Sprite for item '{item.Name}' not found.");
                 _image.sprite = null;
             }
 
-            _image.sprite = sprite;
+            _image.sprite = _item.Image;
             _image.preserveAspect = true;
         }
 

@@ -16,10 +16,11 @@ namespace PawnShop.Gamestate
         private ILocalizationService _localizationService;
         private ILanguageRepository _languageRepository;
         private IPlayerService _playerService;
+        private AssetBundleLoader _assetBundleLoader;
 
 
         [Inject]
-        public void Construct(GameStateMachine stateMachine, ISceneLoader sceneLoader, IItemRepository itemRepository, ISkillRepository skillRepository, ITagRepository tagRepository, ILocalizationService localizationService, ILanguageRepository languageRepository, IPlayerService playerService)
+        public void Construct(GameStateMachine stateMachine, ISceneLoader sceneLoader, IItemRepository itemRepository, ISkillRepository skillRepository, ITagRepository tagRepository, ILocalizationService localizationService, ILanguageRepository languageRepository, IPlayerService playerService, AssetBundleLoader assetBundleLoader)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
@@ -29,6 +30,7 @@ namespace PawnShop.Gamestate
             _localizationService = localizationService;
             _languageRepository = languageRepository;
             _playerService = playerService;
+            _assetBundleLoader = assetBundleLoader;
         }
 
         public void Enter()
@@ -37,6 +39,9 @@ namespace PawnShop.Gamestate
             _skillRepository.Load();
             _tagRepository.Load();
             _languageRepository.Load();
+
+            // Load AssetBundles after repositories
+            _assetBundleLoader.LoadAllBundles();
 
             // Initialize player after loading skill prototypes
             _playerService.InitializePlayer();

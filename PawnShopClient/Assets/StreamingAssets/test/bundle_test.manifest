@@ -1,0 +1,31 @@
+ManifestFileVersion: 0
+UnityVersion: 6000.0.29f1
+CRC: 1945877942
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 2ff879de51cca80ff6a2f7cf5289ac4e
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: 553120d8a27e347e995a7356c4d0feed
+  IncrementalBuildHash:
+    serializedVersion: 2
+    Hash: fb212ed9bc7b61fdab4e18951e7a1b67
+HashAppended: 0
+ClassTypes:
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 114
+  Script: {fileID: 11500000, guid: 69d55aed6d3dd144ca9771529f6b2710, type: 3}
+- Class: 115
+  Script: {instanceID: 0}
+- Class: 213
+  Script: {instanceID: 0}
+SerializeReferenceClassIdentifiers:
+- AssemblyName: Assembly-CSharp
+  ClassName: PawnShop.ScriptableObjects.ItemPrototype/TagLimit
+Assets:
+- Assets/BundleSources/Test/Atlas.png
+- Assets/BundleSources/Test/test_item_pic_1.asset
+- Assets/BundleSources/Test/test_item_vase_2.asset
+Dependencies: []

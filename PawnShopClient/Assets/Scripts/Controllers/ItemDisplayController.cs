@@ -47,13 +47,10 @@ namespace PawnShop.Controllers
                 return;
             }
 
-            var sprites = Resources.LoadAll<Sprite>("Sprites/ItemsAtlas");
-            var sprite = System.Array.Find(sprites, s => s.name == item.ImageId);
-
-            if (sprite != null)
-                renderer.sprite = sprite;
+            if (item.Image != null)
+                renderer.sprite = item.Image;
             else
-                Debug.LogWarning($"Sprite not found: {item.ImageId}");
+                Debug.LogWarning($"Sprite not found for item: {item.Name}");
 
             Debug.Log($"Item displayed in scene: {item.Name}");
         }

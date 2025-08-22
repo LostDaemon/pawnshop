@@ -47,8 +47,7 @@ namespace PawnShop.Installers
 
             Container.Bind<ISpriteService>()
                 .To<SpriteService>()
-                .AsSingle()
-                .WithArguments("Sprites/ItemsAtlas");
+                .AsSingle();
 
             // Inventory
             Container.Bind<IGameStorageService<ItemModel>>()
@@ -95,6 +94,9 @@ namespace PawnShop.Installers
                     .To<SellService>()
                     .AsSingle()
                     .WithArguments(DefaultSellSlots);
+                    
+            // Asset Bundle System
+            Container.Bind<AssetBundleLoader>().AsSingle();
 
             Container.Bind<INegotiationService>()
             .To<NegotiationService>()

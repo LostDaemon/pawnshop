@@ -1,6 +1,7 @@
 
 using System.Collections.Generic;
 using PawnShop.Models.Tags;
+using UnityEngine;
 
 namespace PawnShop.Models
 {
@@ -14,7 +15,7 @@ namespace PawnShop.Models
         public int Condition { get; set; }
         public bool Inspected { get; set; } //TODO: Temporary variable. To be replaced by "tags" [{TagType, Revealed}]
         public string Name { get; set; }
-        public string ImageId { get; set; }
+        public Sprite Image { get; set; }
         public long BasePrice { get; set; }
         public float Scale { get; set; }
         public string Description { get; set; }

@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClassId: f9061f0e-ce16-4feb-ac7a-1ac2f3a3cf05
   Name: Family Picture
-  ImageId: item_picture
+  Image: {fileID: -603440584505561332, guid: 422082d6fa3b33c4aa49675b78e5a5f3, type: 3}
   BasePrice: 100
   Scale: 0.5
   Description: A faded old photograph in a wooden frame. Sentimental value.

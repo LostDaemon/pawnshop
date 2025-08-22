@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClassId: fd7fc063-9479-485a-a20b-6efa07cf329b
   Name: Old Book
-  ImageId: item_old_book
+  Image: {fileID: -5317649579687031756, guid: 422082d6fa3b33c4aa49675b78e5a5f3, type: 3}
   BasePrice: 120
   Scale: 0.6
   Description: A dusty book with worn leather cover. First edition adds slight value.

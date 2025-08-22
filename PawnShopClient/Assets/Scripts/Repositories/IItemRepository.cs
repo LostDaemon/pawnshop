@@ -9,6 +9,6 @@ namespace PawnShop.Repositories
         ItemModel GetItem(string classId);
         public void Load();
         public void AddItem(ItemPrototype itemPrototype);
-        public void RemoveItem(ItemPrototype itemPrototype);
+        public void RemoveItem(ItemPrototype itemPrototype);       
     }
 }

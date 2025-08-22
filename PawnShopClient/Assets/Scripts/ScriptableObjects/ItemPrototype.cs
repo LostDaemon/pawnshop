@@ -10,7 +10,7 @@ namespace PawnShop.ScriptableObjects
     {
         [Header("Basic Information")]
         public string Name;
-        public string ImageId;
+        public Sprite Image;
         public long BasePrice;
         public float Scale;
         [TextArea(3, 5)]

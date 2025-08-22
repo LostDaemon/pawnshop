@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClassId: a2895c5b-558b-40be-82dc-64da5ab1b6c5
   Name: Vintage Ink Pen
-  ImageId: item_ink_pen
+  Image: {fileID: 7379742905897664813, guid: 422082d6fa3b33c4aa49675b78e5a5f3, type: 3}
   BasePrice: 250
   Scale: 0.3
   Description: A well-preserved ink pen "Porker" from the 1950s. Might appeal to

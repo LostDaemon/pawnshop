@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClassId: a2895c5b-558b-40be-82dc-64da5ab1b6c6
   Name: Golden Ingot
-  ImageId: item_golden_ingot
+  Image: {fileID: -4536002638273010439, guid: 422082d6fa3b33c4aa49675b78e5a5f3, type: 3}
   BasePrice: 3500
   Scale: 0.5
   Description: A solid ingot of gold. Very high market value.
