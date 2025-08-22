@@ -1,4 +1,9 @@
-public interface IStorageLocatorService
+using PawnShop.Models;
+
+namespace PawnShop.Services
 {
-    IGameStorageService<ItemModel> Get(StorageType type);
+    public interface IStorageLocatorService
+    {
+        IGameStorageService<ItemModel> Get(StorageType type);
+    }
 }

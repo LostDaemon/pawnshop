@@ -1,36 +1,41 @@
+using PawnShop.Models;
+using PawnShop.Services;
 using UnityEngine;
 
-public class GameLoopState : IGameState
+namespace PawnShop.Gamestate
 {
-    private readonly INegotiationService _negotiationService;
-
-    public GameLoopState(
-        INegotiationService purchaseService)
+    public class GameLoopState : IGameState
     {
-        _negotiationService = purchaseService;
-    }
+        private readonly INegotiationService _negotiationService;
 
-    public void Enter()
-    {
-        _negotiationService.OnPurchased += OnItemPurchased;
-        _negotiationService.OnSkipRequested += ShowNextCustomer;
-        ShowNextCustomer();
-    }
+        public GameLoopState(
+            INegotiationService purchaseService)
+        {
+            _negotiationService = purchaseService;
+        }
 
-    public void Exit()
-    {
-        _negotiationService.OnPurchased -= OnItemPurchased;
-        _negotiationService.OnSkipRequested -= ShowNextCustomer;
-    }
+        public void Enter()
+        {
+            _negotiationService.OnPurchased += OnItemPurchased;
+            _negotiationService.OnSkipRequested += ShowNextCustomer;
+            ShowNextCustomer();
+        }
 
-    private void ShowNextCustomer()
-    {
-        _negotiationService.ShowNextCustomer();
-    }
+        public void Exit()
+        {
+            _negotiationService.OnPurchased -= OnItemPurchased;
+            _negotiationService.OnSkipRequested -= ShowNextCustomer;
+        }
 
-    private void OnItemPurchased(ItemModel _)
-    {
-        Debug.Log("[GameLoop] Item purchased.");
-        ShowNextCustomer();
+        private void ShowNextCustomer()
+        {
+            _negotiationService.ShowNextCustomer();
+        }
+
+        private void OnItemPurchased(ItemModel _)
+        {
+            Debug.Log("[GameLoop] Item purchased.");
+            ShowNextCustomer();
+        }
     }
 }

@@ -1,6 +1,9 @@
 using UnityEngine;
 
-public interface ISpriteService
+namespace PawnShop.Services
 {
-    Sprite GetSprite(string id);
+    public interface ISpriteService
+    {
+        Sprite GetSprite(string id);
+    }
 }

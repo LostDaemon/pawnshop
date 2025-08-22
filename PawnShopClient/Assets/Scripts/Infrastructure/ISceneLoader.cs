@@ -1,6 +1,9 @@
 using System;
 
-public interface ISceneLoader
+namespace PawnShop.Infrastructure
 {
-    void Load(string sceneName, Action onLoaded = null);
+    public interface ISceneLoader
+    {
+        void Load(string sceneName, Action onLoaded = null);
+    }
 }

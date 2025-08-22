@@ -1,6 +1,11 @@
-public class SimpleTagModel : BaseTagModel
+using PawnShop.ScriptableObjects.Tags;
+
+namespace PawnShop.Models.Tags
 {
-    public SimpleTagModel(SimpleTagPrototype prototype) : base(prototype)
+    public class SimpleTagModel : BaseTagModel
     {
+        public SimpleTagModel(SimpleTagPrototype prototype) : base(prototype)
+        {
+        }
     }
 }

@@ -1,32 +1,35 @@
 using System.Linq;
 using UnityEngine;
 
-public class SpriteService : ISpriteService
+namespace PawnShop.Services
 {
-    private readonly string _atlasPath;
-    private static Sprite[] _cachedSprites;
-
-    public SpriteService(string atlasPath)
+    public class SpriteService : ISpriteService
     {
-        _atlasPath = atlasPath;
-        if (_cachedSprites == null)
-            _cachedSprites = Resources.LoadAll<Sprite>(_atlasPath);
-    }
+        private readonly string _atlasPath;
+        private static Sprite[] _cachedSprites;
 
-    public Sprite GetSprite(string id)
-    {
-        if (string.IsNullOrEmpty(id))
+        public SpriteService(string atlasPath)
         {
-            Debug.LogWarning("Sprite ID is null or empty.");
-            return null;
+            _atlasPath = atlasPath;
+            if (_cachedSprites == null)
+                _cachedSprites = Resources.LoadAll<Sprite>(_atlasPath);
         }
 
-        var result = _cachedSprites.FirstOrDefault(s => s.name == id);
-        if (result == null)
+        public Sprite GetSprite(string id)
         {
-            Debug.LogWarning($"Sprite '{id}' not found in atlas '{_atlasPath}'.");
-        }
+            if (string.IsNullOrEmpty(id))
+            {
+                Debug.LogWarning("Sprite ID is null or empty.");
+                return null;
+            }
 
-        return result;
+            var result = _cachedSprites.FirstOrDefault(s => s.name == id);
+            if (result == null)
+            {
+                Debug.LogWarning($"Sprite '{id}' not found in atlas '{_atlasPath}'.");
+            }
+
+            return result;
+        }
     }
 }

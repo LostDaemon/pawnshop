@@ -1,18 +1,22 @@
+using PawnShop.Gamestate;
 using UnityEngine;
 using Zenject;
 
-public class GameBootstrapper : MonoBehaviour
+namespace PawnShop.Infrastructure
 {
-    private GameStateMachine _stateMachine;
-
-    [Inject]
-    public void Construct(GameStateMachine stateMachine)
+    public class GameBootstrapper : MonoBehaviour
     {
-        _stateMachine = stateMachine;
-    }
+        private GameStateMachine _stateMachine;
 
-    private void Start()
-    {
-        _stateMachine.Enter<BootstrapState>();
+        [Inject]
+        public void Construct(GameStateMachine stateMachine)
+        {
+            _stateMachine = stateMachine;
+        }
+
+        private void Start()
+        {
+            _stateMachine.Enter<BootstrapState>();
+        }
     }
 }

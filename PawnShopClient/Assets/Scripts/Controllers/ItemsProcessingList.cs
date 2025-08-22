@@ -1,24 +1,29 @@
+using PawnShop.Models;
+using PawnShop.Services;
 using Zenject;
 
-public class ItemsProcessingList : BaseListController
+namespace PawnShop.Controllers
 {
-    private IItemProcessingService _itemProcessingService;
-
-    [Inject]
-    public void Construct(DiContainer container, IStorageLocatorService storageLocatorService, IItemProcessingService itemProcessingService)
+    public class ItemsProcessingList : BaseListController
     {
-        base.Construct(container, storageLocatorService);
-        _itemProcessingService = itemProcessingService;
-    }
+        private IItemProcessingService _itemProcessingService;
 
-    public void Inspect()
-    {
-        if (SelectedItem == null)
+        [Inject]
+        public void Construct(DiContainer container, IStorageLocatorService storageLocatorService, IItemProcessingService itemProcessingService)
         {
-            return;
+            base.Construct(container, storageLocatorService);
+            _itemProcessingService = itemProcessingService;
         }
 
-        _itemProcessingService.Process(SelectedItem, ItemProcess.Inspect);
-        SelectedItem = null;
+        public void Inspect()
+        {
+            if (SelectedItem == null)
+            {
+                return;
+            }
+
+            _itemProcessingService.Process(SelectedItem, ItemProcess.Inspect);
+            SelectedItem = null;
+        }
     }
 }

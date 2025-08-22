@@ -1,12 +1,16 @@
+using PawnShop.Services;
 using UnityEngine;
 using Zenject;
 
-public class TimeDriverController : MonoBehaviour
+namespace PawnShop.Controllers
 {
-    [Inject] private ITimeService _timeService;
-
-    private void Update()
+    public class TimeDriverController : MonoBehaviour
     {
-        _timeService.Tick(Time.deltaTime);
+        [Inject] private ITimeService _timeService;
+
+        private void Update()
+        {
+            _timeService.Tick(Time.deltaTime);
+        }
     }
 }

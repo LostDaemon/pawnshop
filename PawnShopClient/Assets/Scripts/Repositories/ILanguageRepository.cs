@@ -1,5 +1,11 @@
-public interface ILanguageRepository
+using PawnShop.Models;
+using PawnShop.ScriptableObjects;
+
+namespace PawnShop.Repositories
 {
-    LanguagePrototype GetLanguage(Language language);
-    void Load();
+    public interface ILanguageRepository
+    {
+        LanguagePrototype GetLanguage(Language language);
+        void Load();
+    }
 }

@@ -1,20 +1,23 @@
 using System;
 using UnityEngine.SceneManagement;
 
-public class SceneLoader : ISceneLoader
+namespace PawnShop.Infrastructure
 {
-    public void Load(string sceneName, Action onLoaded = null)
+    public class SceneLoader : ISceneLoader
     {
-        var operation = SceneManager.LoadSceneAsync(sceneName);
-
-        if (onLoaded != null)
+        public void Load(string sceneName, Action onLoaded = null)
         {
-            operation.completed += HandleCompleted;
+            var operation = SceneManager.LoadSceneAsync(sceneName);
 
-            void HandleCompleted(UnityEngine.AsyncOperation op)
+            if (onLoaded != null)
             {
-                operation.completed -= HandleCompleted;
-                onLoaded();
+                operation.completed += HandleCompleted;
+
+                void HandleCompleted(UnityEngine.AsyncOperation op)
+                {
+                    operation.completed -= HandleCompleted;
+                    onLoaded();
+                }
             }
         }
     }

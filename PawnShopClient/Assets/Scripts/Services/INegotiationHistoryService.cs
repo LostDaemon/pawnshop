@@ -1,9 +1,13 @@
 using System;
 using System.Collections.Generic;
+using PawnShop.Models;
 
-public interface INegotiationHistoryService
+namespace PawnShop.Services
 {
-    event Action<IHistoryRecord> OnRecordAdded;
-    IReadOnlyList<IHistoryRecord> History { get; }
-    void Add(IHistoryRecord record);
+    public interface INegotiationHistoryService
+    {
+        event Action<IHistoryRecord> OnRecordAdded;
+        IReadOnlyList<IHistoryRecord> History { get; }
+        void Add(IHistoryRecord record);
+    }
 }

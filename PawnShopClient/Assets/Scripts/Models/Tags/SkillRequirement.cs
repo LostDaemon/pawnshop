@@ -1,6 +1,9 @@
-[System.Serializable]
-public struct SkillRequirement
+namespace PawnShop.Models.Tags
 {
-    public SkillType SkillType;
-    public int RequiredLevel;
+    [System.Serializable]
+    public struct SkillRequirement
+    {
+        public SkillType SkillType;
+        public int RequiredLevel;
+    }
 }

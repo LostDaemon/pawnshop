@@ -1,31 +1,36 @@
+using PawnShop.Models;
+using PawnShop.Services;
 using UnityEngine;
 using Zenject;
 
-public class MoneyLabelController : MonoBehaviour
+namespace PawnShop.Controllers
 {
-    [SerializeField] private IndicatorController _indicator;
-
-    private IWalletService _wallet;
-
-    [Inject]
-    public void Construct(IWalletService wallet)
+    public class MoneyLabelController : MonoBehaviour
     {
-        _wallet = wallet;
-        _wallet.OnBalanceChanged += OnBalanceChanged;
+        [SerializeField] private IndicatorController _indicator;
 
-        // init
-        _indicator.SetValue(_wallet.GetBalance(CurrencyType.Money), animate: false);
-    }
+        private IWalletService _wallet;
 
-    private void OnDestroy()
-    {
-        if (_wallet != null)
-            _wallet.OnBalanceChanged -= OnBalanceChanged;
-    }
+        [Inject]
+        public void Construct(IWalletService wallet)
+        {
+            _wallet = wallet;
+            _wallet.OnBalanceChanged += OnBalanceChanged;
 
-    private void OnBalanceChanged(CurrencyType currency, long newValue)
-    {
-        if (currency == CurrencyType.Money)
-            _indicator.SetValue(newValue, animate: true);
+            // init
+            _indicator.SetValue(_wallet.GetBalance(CurrencyType.Money), animate: false);
+        }
+
+        private void OnDestroy()
+        {
+            if (_wallet != null)
+                _wallet.OnBalanceChanged -= OnBalanceChanged;
+        }
+
+        private void OnBalanceChanged(CurrencyType currency, long newValue)
+        {
+            if (currency == CurrencyType.Money)
+                _indicator.SetValue(newValue, animate: true);
+        }
     }
 }

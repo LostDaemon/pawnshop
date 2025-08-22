@@ -1,25 +1,30 @@
 using System.Collections.Generic;
 using System.Linq;
+using PawnShop.Models;
+using PawnShop.ScriptableObjects;
 using UnityEngine;
 
-public class LanguageRepository : ILanguageRepository
+namespace PawnShop.Repositories
 {
-    private readonly List<LanguagePrototype> _languages;
-
-    public LanguageRepository()
+    public class LanguageRepository : ILanguageRepository
     {
-        _languages = new List<LanguagePrototype>();
-    }
+        private readonly List<LanguagePrototype> _languages;
 
-    public void Load()
-    {
-        _languages.Clear();
-        _languages.AddRange(Resources.LoadAll<LanguagePrototype>(@"ScriptableObjects\L10n").ToList());
-        Debug.Log($"Loaded {_languages.Count} language prototypes.");
-    }
+        public LanguageRepository()
+        {
+            _languages = new List<LanguagePrototype>();
+        }
 
-    public LanguagePrototype GetLanguage(Language language)
-    {
-        return _languages.FirstOrDefault(lang => lang.Language == language);
+        public void Load()
+        {
+            _languages.Clear();
+            _languages.AddRange(Resources.LoadAll<LanguagePrototype>(@"ScriptableObjects\L10n").ToList());
+            Debug.Log($"Loaded {_languages.Count} language prototypes.");
+        }
+
+        public LanguagePrototype GetLanguage(Language language)
+        {
+            return _languages.FirstOrDefault(lang => lang.Language == language);
+        }
     }
 }

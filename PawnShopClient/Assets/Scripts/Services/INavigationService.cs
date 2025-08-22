@@ -1,18 +1,22 @@
 using System;
+using PawnShop.Models;
 using UnityEngine;
 
-public interface INavigationService
+namespace PawnShop.Services
 {
-    Vector2Int CurrentPosition { get; }
-    ScreenId CurrentScreen { get; }
+    public interface INavigationService
+    {
+        Vector2Int CurrentPosition { get; }
+        ScreenId CurrentScreen { get; }
 
-    event Action<Vector2Int> OnPositionChanged;
-    event Action<Vector3> OnWorldPositionChanged;
-    event Action<ScreenId> OnScreenChanged;
+        event Action<Vector2Int> OnPositionChanged;
+        event Action<Vector3> OnWorldPositionChanged;
+        event Action<ScreenId> OnScreenChanged;
 
-    void MoveLeft();
-    void MoveRight();
-    void MoveUp();
-    void MoveDown();
-    void MoveTo(Vector2Int newPosition);
+        void MoveLeft();
+        void MoveRight();
+        void MoveUp();
+        void MoveDown();
+        void MoveTo(Vector2Int newPosition);
+    }
 }

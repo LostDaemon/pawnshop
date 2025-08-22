@@ -1,12 +1,17 @@
-public class NumericTagModel : BaseTagModel
-{
-    public float NumericValue { get; set; }
+using PawnShop.ScriptableObjects.Tags;
 
-    public NumericTagModel(NumericTagPrototype prototype) : base(prototype)
+namespace PawnShop.Models.Tags
+{
+    public class NumericTagModel : BaseTagModel
     {
-        if (prototype != null)
+        public float NumericValue { get; set; }
+
+        public NumericTagModel(NumericTagPrototype prototype) : base(prototype)
         {
-            NumericValue = prototype.DefaultNumericValue;
+            if (prototype != null)
+            {
+                NumericValue = prototype.DefaultNumericValue;
+            }
         }
     }
 }

@@ -1,23 +1,27 @@
+using PawnShop.Models;
 using UnityEngine;
 
-public abstract class BaseItemInfoController : MonoBehaviour
+namespace PawnShop.Controllers
 {
-    protected ItemModel Item { get; private set; }
-
-    public void SetItem(ItemModel item)
+    public abstract class BaseItemInfoController : MonoBehaviour
     {
-        Item = item;
-        OnItemChanged();
-    }
+        protected ItemModel Item { get; private set; }
 
-    protected abstract void OnItemChanged();
+        public void SetItem(ItemModel item)
+        {
+            Item = item;
+            OnItemChanged();
+        }
 
-    private void Awake()
-    {
-        OnAwake();
-    }
+        protected abstract void OnItemChanged();
 
-    protected virtual void OnAwake()
-    {
+        private void Awake()
+        {
+            OnAwake();
+        }
+
+        protected virtual void OnAwake()
+        {
+        }
     }
 }

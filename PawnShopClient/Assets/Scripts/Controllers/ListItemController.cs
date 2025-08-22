@@ -1,53 +1,58 @@
 using System;
+using PawnShop.Models;
+using PawnShop.Services;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class ListItemController : MonoBehaviour
+namespace PawnShop.Controllers
 {
-    private Image _image;
-    private ISpriteService _spriteService;
-    private ItemModel _item;
-
-    public event Action<ItemModel> OnClick;
-    public ItemModel Item => _item;
-
-    [Inject]
-    public void Construct(ISpriteService spriteService)
+    public class ListItemController : MonoBehaviour
     {
-        _spriteService = spriteService;
-    }
+        private Image _image;
+        private ISpriteService _spriteService;
+        private ItemModel _item;
 
-    private void Awake()
-    {
-        _image = GetComponentInChildren<Image>();
-        if (_image == null)
+        public event Action<ItemModel> OnClick;
+        public ItemModel Item => _item;
+
+        [Inject]
+        public void Construct(ISpriteService spriteService)
         {
-            Debug.LogError("Image component not found on ListItemController.");
-            return;
-        }
-    }
-
-    public void Init(ItemModel item)
-    {
-        Debug.Log($"INIT: {item.Name}");
-        _item = item;
-
-        var sprite = _spriteService.GetSprite(_item.ImageId);
-
-        if (_image == null || sprite == null)
-        {
-            Debug.LogWarning($"Sprite for item '{item.Name}' with ID '{item.ImageId}' not found.");
-            _image.sprite = null;
+            _spriteService = spriteService;
         }
 
-        _image.sprite = sprite;
-        _image.preserveAspect = true;
-    }
+        private void Awake()
+        {
+            _image = GetComponentInChildren<Image>();
+            if (_image == null)
+            {
+                Debug.LogError("Image component not found on ListItemController.");
+                return;
+            }
+        }
 
-    public void OnClicked()
-    {
-        Debug.Log($"Item clicked");
-        OnClick?.Invoke(_item);
+        public void Init(ItemModel item)
+        {
+            Debug.Log($"INIT: {item.Name}");
+            _item = item;
+
+            var sprite = _spriteService.GetSprite(_item.ImageId);
+
+            if (_image == null || sprite == null)
+            {
+                Debug.LogWarning($"Sprite for item '{item.Name}' with ID '{item.ImageId}' not found.");
+                _image.sprite = null;
+            }
+
+            _image.sprite = sprite;
+            _image.preserveAspect = true;
+        }
+
+        public void OnClicked()
+        {
+            Debug.Log($"Item clicked");
+            OnClick?.Invoke(_item);
+        }
     }
 }

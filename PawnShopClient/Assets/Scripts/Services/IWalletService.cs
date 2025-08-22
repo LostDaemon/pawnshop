@@ -1,8 +1,12 @@
 using System;
+using PawnShop.Models;
 
-public interface IWalletService
+namespace PawnShop.Services
 {
-    long GetBalance(CurrencyType currency);
-    bool TransactionAttempt(CurrencyType currency, long amount);
-    event Action<CurrencyType, long> OnBalanceChanged;
+    public interface IWalletService
+    {
+        long GetBalance(CurrencyType currency);
+        bool TransactionAttempt(CurrencyType currency, long amount);
+        event Action<CurrencyType, long> OnBalanceChanged;
+    }
 }

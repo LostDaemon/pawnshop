@@ -1,13 +1,16 @@
-public class TextRecord : IHistoryRecord
+namespace PawnShop.Models
 {
-    public HistoryRecordSource Source { get; }
-    public string Text { get; }
-
-    public TextRecord(HistoryRecordSource source, string text)
+    public class TextRecord : IHistoryRecord
     {
-        Source = source;
-        Text = text;
-    }
+        public HistoryRecordSource Source { get; }
+        public string Text { get; }
 
-    public string Message => $"{Source}: {Text}";
+        public TextRecord(HistoryRecordSource source, string text)
+        {
+            Source = source;
+            Text = text;
+        }
+
+        public string Message => $"{Source}: {Text}";
+    }
 }

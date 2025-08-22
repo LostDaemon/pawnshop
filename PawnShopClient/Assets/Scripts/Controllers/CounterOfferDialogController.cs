@@ -5,237 +5,243 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Zenject;
+using PawnShop.Models;
+using PawnShop.Services;
+using PawnShop.Models.Tags;
 
-public class CounterOfferDialogController : MonoBehaviour
+namespace PawnShop.Controllers
 {
-    [Header("UI References")]
-    [SerializeField] private Transform _contentRoot;
-    [SerializeField] private GameObject _tagListItemPrefab;
-    [SerializeField] private Button _confirmButton;
-    [SerializeField] private Button _cancelButton;
-    [SerializeField] private TMP_InputField _offerInputField;
-
-    private INegotiationService _negotiationService;
-    private List<TagSelectorListItemController> _tagListItems = new List<TagSelectorListItemController>();
-    private ItemModel _currentItem;
-
-    public event Action<List<BaseTagModel>> OnTagsConfirmed;
-    public event Action OnDialogCancelled;
-
-    /// <summary>
-    /// Get the current offer value from input field
-    /// </summary>
-    public string CurrentOfferText => _offerInputField?.text ?? string.Empty;
-
-    [Inject]
-    public void Construct(INegotiationService negotiationService)
+    public class CounterOfferDialogController : MonoBehaviour
     {
-        _negotiationService = negotiationService;
+        [Header("UI References")]
+        [SerializeField] private Transform _contentRoot;
+        [SerializeField] private GameObject _tagListItemPrefab;
+        [SerializeField] private Button _confirmButton;
+        [SerializeField] private Button _cancelButton;
+        [SerializeField] private TMP_InputField _offerInputField;
 
-        // Subscribe to negotiation service events
-        _negotiationService.OnCurrentItemChanged += OnCurrentItemChanged;
-        _negotiationService.OnTagsRevealed += OnTagsRevealed;
+        private INegotiationService _negotiationService;
+        private List<TagSelectorListItemController> _tagListItems = new List<TagSelectorListItemController>();
+        private ItemModel _currentItem;
 
-        // Set up button listeners
-        if (_confirmButton != null)
-            _confirmButton.onClick.AddListener(OnConfirmClicked);
+        public event Action<List<BaseTagModel>> OnTagsConfirmed;
+        public event Action OnDialogCancelled;
 
-        if (_cancelButton != null)
-            _cancelButton.onClick.AddListener(OnCancelClicked);
-    }
+        /// <summary>
+        /// Get the current offer value from input field
+        /// </summary>
+        public string CurrentOfferText => _offerInputField?.text ?? string.Empty;
 
-    private void OnDestroy()
-    {
-        if (_negotiationService != null)
+        [Inject]
+        public void Construct(INegotiationService negotiationService)
         {
-            _negotiationService.OnCurrentItemChanged -= OnCurrentItemChanged;
-            _negotiationService.OnTagsRevealed -= OnTagsRevealed;
+            _negotiationService = negotiationService;
+
+            // Subscribe to negotiation service events
+            _negotiationService.OnCurrentItemChanged += OnCurrentItemChanged;
+            _negotiationService.OnTagsRevealed += OnTagsRevealed;
+
+            // Set up button listeners
+            if (_confirmButton != null)
+                _confirmButton.onClick.AddListener(OnConfirmClicked);
+
+            if (_cancelButton != null)
+                _cancelButton.onClick.AddListener(OnCancelClicked);
         }
 
-        if (_confirmButton != null)
-            _confirmButton.onClick.RemoveListener(OnConfirmClicked);
-
-        if (_cancelButton != null)
-            _cancelButton.onClick.RemoveListener(OnCancelClicked);
-
-        ClearTagListItems();
-    }
-
-    private void OnCurrentItemChanged(ItemModel item)
-    {
-        _currentItem = item;
-        RefreshTagsDisplay();
-    }
-
-    private void OnTagsRevealed(ItemModel item)
-    {
-        _currentItem = item;
-        RefreshTagsDisplay();
-    }
-
-    /// <summary>
-    /// Refresh the tags display for the current item
-    /// </summary>
-    public void RefreshTagsDisplay()
-    {
-        ClearTagListItems();
-
-        if (_currentItem == null)
+        private void OnDestroy()
         {
-            Debug.LogWarning("CounterOfferDialogController: No current item to display tags for.");
-            return;
-        }
-
-        CreateTagListItems();
-    }
-
-    private void CreateTagListItems()
-    {
-        if (_tagListItemPrefab == null)
-        {
-            Debug.LogError("CounterOfferDialogController: Tag list item prefab is not assigned.");
-            return;
-        }
-
-        if (_contentRoot == null)
-        {
-            Debug.LogError("CounterOfferDialogController: Content root is not assigned.");
-            return;
-        }
-
-        var revealedTags = _currentItem.Tags.Where(tag => tag.IsRevealedToPlayer).ToList();
-
-        if (revealedTags.Count == 0)
-        {
-            return;
-        }
-
-        foreach (var tag in revealedTags)
-        {
-            var listItemObject = Instantiate(_tagListItemPrefab, _contentRoot);
-            var listItemController = listItemObject.GetComponent<TagSelectorListItemController>();
-
-            if (listItemController == null)
+            if (_negotiationService != null)
             {
-                Destroy(listItemObject);
-                continue;
+                _negotiationService.OnCurrentItemChanged -= OnCurrentItemChanged;
+                _negotiationService.OnTagsRevealed -= OnTagsRevealed;
             }
 
-            // Initialize the list item with tag data
-            listItemController.Init(tag);
+            if (_confirmButton != null)
+                _confirmButton.onClick.RemoveListener(OnConfirmClicked);
 
-            // Store reference
-            _tagListItems.Add(listItemController);
+            if (_cancelButton != null)
+                _cancelButton.onClick.RemoveListener(OnCancelClicked);
+
+            ClearTagListItems();
         }
-    }
 
-    private void ClearTagListItems()
-    {
-        foreach (var listItem in _tagListItems)
+        private void OnCurrentItemChanged(ItemModel item)
         {
-            if (listItem != null)
-                Destroy(listItem.gameObject);
+            _currentItem = item;
+            RefreshTagsDisplay();
         }
 
-        _tagListItems.Clear();
-    }
-
-    private void OnConfirmClicked()
-    {
-
-        if (string.IsNullOrEmpty(CurrentOfferText))
+        private void OnTagsRevealed(ItemModel item)
         {
-            return;
+            _currentItem = item;
+            RefreshTagsDisplay();
         }
 
-        if (long.TryParse(CurrentOfferText, out var newOffer) == false)
+        /// <summary>
+        /// Refresh the tags display for the current item
+        /// </summary>
+        public void RefreshTagsDisplay()
         {
-            return;
+            ClearTagListItems();
+
+            if (_currentItem == null)
+            {
+                Debug.LogWarning("CounterOfferDialogController: No current item to display tags for.");
+                return;
+            }
+
+            CreateTagListItems();
         }
 
-        var selectedTags = GetSelectedTags();
+        private void CreateTagListItems()
+        {
+            if (_tagListItemPrefab == null)
+            {
+                Debug.LogError("CounterOfferDialogController: Tag list item prefab is not assigned.");
+                return;
+            }
 
-        // Declare selected tags to the customer
-        _negotiationService.DeclareTags(selectedTags);
-        _negotiationService.MakeCounterOffer(newOffer);
-        OnTagsConfirmed?.Invoke(selectedTags);
-    }
+            if (_contentRoot == null)
+            {
+                Debug.LogError("CounterOfferDialogController: Content root is not assigned.");
+                return;
+            }
 
-    private void OnCancelClicked()
-    {
-        OnDialogCancelled?.Invoke();
-        Debug.Log("CounterOfferDialogController: Dialog cancelled.");
-    }
+            var revealedTags = _currentItem.Tags.Where(tag => tag.IsRevealedToPlayer).ToList();
 
-    /// <summary>
-    /// Get the list of currently selected tags
-    /// </summary>
-    /// <returns>List of selected tag models</returns>
-    public List<BaseTagModel> GetSelectedTags()
-    {
-        var selectedTags = new List<BaseTagModel>();
+            if (revealedTags.Count == 0)
+            {
+                return;
+            }
 
-        if (_currentItem == null || _tagListItems.Count == 0)
+            foreach (var tag in revealedTags)
+            {
+                var listItemObject = Instantiate(_tagListItemPrefab, _contentRoot);
+                var listItemController = listItemObject.GetComponent<TagSelectorListItemController>();
+
+                if (listItemController == null)
+                {
+                    Destroy(listItemObject);
+                    continue;
+                }
+
+                // Initialize the list item with tag data
+                listItemController.Init(tag);
+
+                // Store reference
+                _tagListItems.Add(listItemController);
+            }
+        }
+
+        private void ClearTagListItems()
+        {
+            foreach (var listItem in _tagListItems)
+            {
+                if (listItem != null)
+                    Destroy(listItem.gameObject);
+            }
+
+            _tagListItems.Clear();
+        }
+
+        private void OnConfirmClicked()
+        {
+
+            if (string.IsNullOrEmpty(CurrentOfferText))
+            {
+                return;
+            }
+
+            if (long.TryParse(CurrentOfferText, out var newOffer) == false)
+            {
+                return;
+            }
+
+            var selectedTags = GetSelectedTags();
+
+            // Declare selected tags to the customer
+            _negotiationService.DeclareTags(selectedTags);
+            _negotiationService.MakeCounterOffer(newOffer);
+            OnTagsConfirmed?.Invoke(selectedTags);
+        }
+
+        private void OnCancelClicked()
+        {
+            OnDialogCancelled?.Invoke();
+            Debug.Log("CounterOfferDialogController: Dialog cancelled.");
+        }
+
+        /// <summary>
+        /// Get the list of currently selected tags
+        /// </summary>
+        /// <returns>List of selected tag models</returns>
+        public List<BaseTagModel> GetSelectedTags()
+        {
+            var selectedTags = new List<BaseTagModel>();
+
+            if (_currentItem == null || _tagListItems.Count == 0)
+                return selectedTags;
+
+            foreach (var listItem in _tagListItems)
+            {
+                if (listItem != null && listItem.GetToggleState())
+                {
+                    selectedTags.Add(listItem.Tag);
+                }
+            }
+
             return selectedTags;
+        }
 
-        foreach (var listItem in _tagListItems)
+        /// <summary>
+        /// Set the current item and refresh the display
+        /// </summary>
+        /// <param name="item">Item to display tags for</param>
+        public void SetItem(ItemModel item)
         {
-            if (listItem != null && listItem.GetToggleState())
+            _currentItem = item;
+            RefreshTagsDisplay();
+        }
+
+        /// <summary>
+        /// Show the dialog
+        /// </summary>
+        public void Show()
+        {
+            gameObject.SetActive(true);
+            RefreshTagsDisplay();
+        }
+
+        /// <summary>
+        /// Hide the dialog
+        /// </summary>
+        public void Hide()
+        {
+            gameObject.SetActive(false);
+        }
+
+        /// <summary>
+        /// Set the offer value in the input field
+        /// </summary>
+        /// <param name="offerValue">Offer value to display</param>
+        public void SetOfferValue(string offerValue)
+        {
+            if (_offerInputField != null)
             {
-                selectedTags.Add(listItem.Tag);
+                _offerInputField.text = offerValue;
             }
         }
 
-        return selectedTags;
-    }
-
-    /// <summary>
-    /// Set the current item and refresh the display
-    /// </summary>
-    /// <param name="item">Item to display tags for</param>
-    public void SetItem(ItemModel item)
-    {
-        _currentItem = item;
-        RefreshTagsDisplay();
-    }
-
-    /// <summary>
-    /// Show the dialog
-    /// </summary>
-    public void Show()
-    {
-        gameObject.SetActive(true);
-        RefreshTagsDisplay();
-    }
-
-    /// <summary>
-    /// Hide the dialog
-    /// </summary>
-    public void Hide()
-    {
-        gameObject.SetActive(false);
-    }
-
-    /// <summary>
-    /// Set the offer value in the input field
-    /// </summary>
-    /// <param name="offerValue">Offer value to display</param>
-    public void SetOfferValue(string offerValue)
-    {
-        if (_offerInputField != null)
+        /// <summary>
+        /// Clear the offer input field
+        /// </summary>
+        public void ClearOfferInput()
         {
-            _offerInputField.text = offerValue;
-        }
-    }
-
-    /// <summary>
-    /// Clear the offer input field
-    /// </summary>
-    public void ClearOfferInput()
-    {
-        if (_offerInputField != null)
-        {
-            _offerInputField.text = string.Empty;
+            if (_offerInputField != null)
+            {
+                _offerInputField.text = string.Empty;
+            }
         }
     }
 }

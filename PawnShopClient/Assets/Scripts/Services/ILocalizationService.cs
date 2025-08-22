@@ -1,6 +1,11 @@
-public interface ILocalizationService
+using PawnShop.Models;
+
+namespace PawnShop.Services
 {
-    void SwitchLocalization(Language language);
-    string GetLocalization(string key);
-    event System.Action OnLocalizationSwitch;
+    public interface ILocalizationService
+    {
+        void SwitchLocalization(Language language);
+        string GetLocalization(string key);
+        event System.Action OnLocalizationSwitch;
+    }
 }

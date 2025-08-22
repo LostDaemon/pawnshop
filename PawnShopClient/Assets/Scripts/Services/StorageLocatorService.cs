@@ -1,25 +1,29 @@
 using System;
 using System.Collections.Generic;
+using PawnShop.Models;
 using Zenject;
 
-public class StorageLocatorService : IStorageLocatorService
+namespace PawnShop.Services
 {
-    private readonly Dictionary<StorageType, IGameStorageService<ItemModel>> _map = new();
-
-    [Inject]
-    public void Construct(
-        [Inject(Id = StorageType.InventoryStorage)] IGameStorageService<ItemModel> inventory,
-        [Inject(Id = StorageType.SellStorage)] IGameStorageService<ItemModel> sell)
+    public class StorageLocatorService : IStorageLocatorService
     {
-        _map[StorageType.InventoryStorage] = inventory;
-        _map[StorageType.SellStorage] = sell;
-    }
+        private readonly Dictionary<StorageType, IGameStorageService<ItemModel>> _map = new();
 
-    public IGameStorageService<ItemModel> Get(StorageType type)
-    {
-        if (_map.TryGetValue(type, out var storage))
-            return storage;
+        [Inject]
+        public void Construct(
+            [Inject(Id = StorageType.InventoryStorage)] IGameStorageService<ItemModel> inventory,
+            [Inject(Id = StorageType.SellStorage)] IGameStorageService<ItemModel> sell)
+        {
+            _map[StorageType.InventoryStorage] = inventory;
+            _map[StorageType.SellStorage] = sell;
+        }
 
-        throw new NotSupportedException($"Storage type {type} not found in locator service.");
+        public IGameStorageService<ItemModel> Get(StorageType type)
+        {
+            if (_map.TryGetValue(type, out var storage))
+                return storage;
+
+            throw new NotSupportedException($"Storage type {type} not found in locator service.");
+        }
     }
 }

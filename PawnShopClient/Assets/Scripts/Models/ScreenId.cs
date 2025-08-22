@@ -1,8 +1,11 @@
-public enum ScreenId
+namespace PawnShop.Models
 {
-    Negotiation,
-    TradeHall,
-    Storage,
-    Settings,
-    Workshop,
+    public enum ScreenId
+    {
+        Negotiation,
+        TradeHall,
+        Storage,
+        Settings,
+        Workshop,
+    }
 }

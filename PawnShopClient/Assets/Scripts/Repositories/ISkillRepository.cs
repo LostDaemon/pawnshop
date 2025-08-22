@@ -1,11 +1,16 @@
 using System.Collections.Generic;
+using PawnShop.Models;
+using PawnShop.ScriptableObjects;
 
-public interface ISkillRepository
+namespace PawnShop.Repositories
 {
-    SkillPrototype GetSkill(SkillType skillType);
-    IReadOnlyCollection<SkillPrototype> GetAllSkills();
-    IReadOnlyCollection<SkillPrototype> GetSkillsByCategory(string category);
-    void Load();
-    void AddSkill(SkillPrototype skillPrototype);
-    void RemoveSkill(SkillPrototype skillPrototype);
+    public interface ISkillRepository
+    {
+        SkillPrototype GetSkill(SkillType skillType);
+        IReadOnlyCollection<SkillPrototype> GetAllSkills();
+        IReadOnlyCollection<SkillPrototype> GetSkillsByCategory(string category);
+        void Load();
+        void AddSkill(SkillPrototype skillPrototype);
+        void RemoveSkill(SkillPrototype skillPrototype);
+    }
 }

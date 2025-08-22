@@ -1,161 +1,154 @@
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro;
 using Zenject;
-using PawnShop.Controllers;
 using System.Collections.Generic;
-using System;
+using PawnShop.Models;
+using PawnShop.Models.Tags;
+using PawnShop.Services;
 
-public class NegotiationController : MonoBehaviour
+namespace PawnShop.Controllers
 {
-    [SerializeField] private Button _buyButton;
-    [SerializeField] private Button _skipButton;
-    [SerializeField] private Button _askDiscountButton;
-    [SerializeField] private Button _askButton;
-    [SerializeField] private Button _analyzeButton;
-    [SerializeField] private ItemDetailsController _itemDetailsController;
-    [SerializeField] private CounterOfferDialogController _counterOfferDialogController;
-
-    private INegotiationService _negotiationService;
-
-    private struct DiscountButton
+    public class NegotiationController : MonoBehaviour
     {
-        public float Discount;
-        public Button Button;
-    }
+        [SerializeField] private Button _buyButton;
+        [SerializeField] private Button _skipButton;
+        [SerializeField] private Button _askDiscountButton;
+        [SerializeField] private Button _askButton;
+        [SerializeField] private Button _analyzeButton;
+        [SerializeField] private ItemDetailsController _itemDetailsController;
+        [SerializeField] private CounterOfferDialogController _counterOfferDialogController;
 
-    private DiscountButton _discountButton;
+        private INegotiationService _negotiationService;
 
-    [Inject]
-    public void Construct(INegotiationService negotiationService)
-    {
-        _negotiationService = negotiationService;
-
-        _buyButton?.onClick.AddListener(OnBuyClicked);
-        _skipButton?.onClick.AddListener(OnSkipClicked);
-        _askButton?.onClick.AddListener(OnAskClicked);
-        _analyzeButton?.onClick.AddListener(OnAnalyzeClicked);
-
-        _discountButton = new DiscountButton { Discount = 0.10f, Button = _askDiscountButton };
-        _discountButton.Button.onClick.AddListener(() => OnDiscountClicked(_discountButton.Discount));
-        _negotiationService.OnCurrentItemChanged += OnItemChanged;
-        _negotiationService.OnCurrentOfferChanged += OnCurrentOfferChanged;
-        _negotiationService.OnTagsRevealed += OnTagsRevealed;
-
-        // Set up counter offer dialog events
-        if (_counterOfferDialogController != null)
+        private struct DiscountButton
         {
-            _counterOfferDialogController.OnTagsConfirmed += OnTagsConfirmed;
-            _counterOfferDialogController.OnDialogCancelled += OnDialogCancelled;
-        }
-    }
-
-    /// <summary>
-    /// Show the counter offer dialog
-    /// </summary>
-    public void ShowCounterOfferDialog()
-    {
-        if (_counterOfferDialogController != null)
-        {
-            _counterOfferDialogController.Show();
-        }
-        else
-        {
-            Debug.LogWarning("CounterOfferDialogController is not assigned");
-        }
-    }
-
-    private void OnTagsRevealed(ItemModel item)
-    {
-        _itemDetailsController?.UpdateItemDetails(item);
-    }
-
-    private void OnCurrentOfferChanged(ItemModel item)
-    {
-        _itemDetailsController?.UpdateItemDetails(item);
-    }
-
-    private void OnAnalyzeClicked()
-    {
-        _negotiationService.AnalyzeItem();
-    }
-
-    private void OnDestroy()
-    {
-        if (_negotiationService != null)
-        {
-            _negotiationService.OnCurrentItemChanged -= OnItemChanged;
-            _negotiationService.OnCurrentOfferChanged -= OnCurrentOfferChanged;
+            public float Discount;
+            public Button Button;
         }
 
-        if (_counterOfferDialogController != null)
+        private DiscountButton _discountButton;
+
+        [Inject]
+        public void Construct(INegotiationService negotiationService)
         {
-            _counterOfferDialogController.OnTagsConfirmed -= OnTagsConfirmed;
-            _counterOfferDialogController.OnDialogCancelled -= OnDialogCancelled;
-        }
-    }
+            _negotiationService = negotiationService;
 
-    private void OnItemChanged(ItemModel item)
-    {
-        if (item == null)
+            _buyButton?.onClick.AddListener(OnBuyClicked);
+            _skipButton?.onClick.AddListener(OnSkipClicked);
+            _askButton?.onClick.AddListener(OnAskClicked);
+            _analyzeButton?.onClick.AddListener(OnAnalyzeClicked);
+
+            _discountButton = new DiscountButton { Discount = 0.10f, Button = _askDiscountButton };
+            _discountButton.Button.onClick.AddListener(() => OnDiscountClicked(_discountButton.Discount));
+            _negotiationService.OnCurrentItemChanged += OnItemChanged;
+            _negotiationService.OnCurrentOfferChanged += OnCurrentOfferChanged;
+            _negotiationService.OnTagsRevealed += OnTagsRevealed;
+
+            // Set up counter offer dialog events
+            if (_counterOfferDialogController != null)
+            {
+                _counterOfferDialogController.OnTagsConfirmed += OnTagsConfirmed;
+                _counterOfferDialogController.OnDialogCancelled += OnDialogCancelled;
+            }
+        }
+
+        /// <summary>
+        /// Show the counter offer dialog
+        /// </summary>
+        public void ShowCounterOfferDialog()
         {
-            Debug.LogError("NegotiationController: Received null item in OnItemChanged.");
-            return;
+            if (_counterOfferDialogController != null)
+            {
+                _counterOfferDialogController.Show();
+            }
+            else
+            {
+                Debug.LogWarning("CounterOfferDialogController is not assigned");
+            }
         }
 
-        _discountButton.Button.interactable = true;
-        _itemDetailsController.UpdateItemDetails(item);
-    }
-
-    private void OnBuyClicked()
-    {
-        long offer = _negotiationService.GetCurrentOffer();
-
-        if (_negotiationService.TryPurchase(offer))
+        private void OnTagsRevealed(ItemModel item)
         {
-            Debug.Log("Purchase confirmed.");
+            _itemDetailsController?.UpdateItemDetails(item);
         }
-        else
+
+        private void OnCurrentOfferChanged(ItemModel item)
         {
-            Debug.Log("Purchase failed.");
+            _itemDetailsController?.UpdateItemDetails(item);
         }
-    }
 
-    private void OnSkipClicked()
-    {
-        _negotiationService.RequestSkip();
-    }
+        private void OnAnalyzeClicked()
+        {
+            _negotiationService.AnalyzeItem();
+        }
 
-    private void OnAskClicked()
-    {
-        _negotiationService.AskAboutItemOrigin();
-    }
+        private void OnDestroy()
+        {
+            if (_negotiationService != null)
+            {
+                _negotiationService.OnCurrentItemChanged -= OnItemChanged;
+                _negotiationService.OnCurrentOfferChanged -= OnCurrentOfferChanged;
+            }
 
-    private void OnDiscountClicked(float discount)
-    {
-        ShowCounterOfferDialog();
+            if (_counterOfferDialogController != null)
+            {
+                _counterOfferDialogController.OnTagsConfirmed -= OnTagsConfirmed;
+                _counterOfferDialogController.OnDialogCancelled -= OnDialogCancelled;
+            }
+        }
 
-        // var response = _negotiationService.MakeDiscountOffer(discount);
-        // if (response)
-        // {
-        //     Debug.Log($"Discount offer accepted: {_negotiationService.GetCurrentOffer()}");
-        // }
-        // else
-        // {
-        //     _discountButton.Button.interactable = false;
-        // }
-    }
+        private void OnItemChanged(ItemModel item)
+        {
+            if (item == null)
+            {
+                Debug.LogError("NegotiationController: Received null item in OnItemChanged.");
+                return;
+            }
 
-    private void OnTagsConfirmed(List<BaseTagModel> selectedTags)
-    {
-        Debug.Log($"Counter offer dialog: {selectedTags.Count} tags confirmed");
-        // TODO: Implement counter offer logic based on selected tags
-        _counterOfferDialogController?.Hide();
-    }
+            _discountButton.Button.interactable = true;
+            _itemDetailsController.UpdateItemDetails(item);
+        }
 
-    private void OnDialogCancelled()
-    {
-        Debug.Log("Counter offer dialog cancelled");
-        _counterOfferDialogController?.Hide();
+        private void OnBuyClicked()
+        {
+            long offer = _negotiationService.GetCurrentOffer();
+
+            if (_negotiationService.TryPurchase(offer))
+            {
+                Debug.Log("Purchase confirmed.");
+            }
+            else
+            {
+                Debug.Log("Purchase failed.");
+            }
+        }
+
+        private void OnSkipClicked()
+        {
+            _negotiationService.RequestSkip();
+        }
+
+        private void OnAskClicked()
+        {
+            _negotiationService.AskAboutItemOrigin();
+        }
+
+        private void OnDiscountClicked(float discount)
+        {
+            ShowCounterOfferDialog();
+        }
+
+        private void OnTagsConfirmed(List<BaseTagModel> selectedTags)
+        {
+            Debug.Log($"Counter offer dialog: {selectedTags.Count} tags confirmed");
+            // TODO: Implement counter offer logic based on selected tags
+            _counterOfferDialogController?.Hide();
+        }
+
+        private void OnDialogCancelled()
+        {
+            Debug.Log("Counter offer dialog cancelled");
+            _counterOfferDialogController?.Hide();
+        }
     }
 }

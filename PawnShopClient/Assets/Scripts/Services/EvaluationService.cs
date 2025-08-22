@@ -1,38 +1,43 @@
 using System;
 using System.Linq;
 using System.Collections.Generic;
+using PawnShop.Models;
+using PawnShop.Models.Tags;
 
-public class EvaluationService : IEvaluationService
+namespace PawnShop.Services
 {
-    public long EvaluateByPlayer(ItemModel item)
+    public class EvaluationService : IEvaluationService
     {
-        var tags = item.Tags.Where(tag => tag.IsRevealedToPlayer).ToList();
-        return Evaluate(item, tags);
-    }
-
-    public long EvaluateByCustomer(ItemModel item)
-    {
-        var tags = item.Tags.Where(tag => tag.IsRevealedToCustomer).ToList();
-        return Evaluate(item, tags);
-    }
-
-    public long Evaluate(ItemModel item, List<BaseTagModel> tags)
-    {
-        if (item == null) return 0;
-
-        long finalPrice = item.BasePrice;
-
-
-        if (tags != null)
+        public long EvaluateByPlayer(ItemModel item)
         {
-            foreach (var tag in tags)
-            {
-                finalPrice = (long)(finalPrice * tag.PriceMultiplier);
-            }
+            var tags = item.Tags.Where(tag => tag.IsRevealedToPlayer).ToList();
+            return Evaluate(item, tags);
         }
 
+        public long EvaluateByCustomer(ItemModel item)
+        {
+            var tags = item.Tags.Where(tag => tag.IsRevealedToCustomer).ToList();
+            return Evaluate(item, tags);
+        }
+
+        public long Evaluate(ItemModel item, List<BaseTagModel> tags)
+        {
+            if (item == null) return 0;
+
+            long finalPrice = item.BasePrice;
 
 
-        return Math.Max(0, finalPrice);
+            if (tags != null)
+            {
+                foreach (var tag in tags)
+                {
+                    finalPrice = (long)(finalPrice * tag.PriceMultiplier);
+                }
+            }
+
+
+
+            return Math.Max(0, finalPrice);
+        }
     }
 }

@@ -1,5 +1,8 @@
-public interface IGameState
+namespace PawnShop.Gamestate
 {
-    void Enter();
-    void Exit();
+    public interface IGameState
+    {
+        void Enter();
+        void Exit();
+    }
 }

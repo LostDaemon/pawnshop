@@ -1,39 +1,43 @@
+using PawnShop.Services;
 using UnityEngine;
 
-public class NavigationController : MonoBehaviour
+namespace PawnShop.Controllers
 {
-    private INavigationService navigationService;
-
-    public void Initialize(INavigationService service)
+    public class NavigationController : MonoBehaviour
     {
-        navigationService = service;
+        private INavigationService navigationService;
 
-        // Инициализируем все панели на сцене
-        var uiScreens = FindObjectsByType<ScreenUIController>(FindObjectsSortMode.None);
-        foreach (var screen in uiScreens)
+        public void Initialize(INavigationService service)
         {
-            screen.Initialize(navigationService);
-            Debug.Log($"[UI] Found screen: {screen.name}");
+            navigationService = service;
+
+            // Инициализируем все панели на сцене
+            var uiScreens = FindObjectsByType<ScreenUIController>(FindObjectsSortMode.None);
+            foreach (var screen in uiScreens)
+            {
+                screen.Initialize(navigationService);
+                Debug.Log($"[UI] Found screen: {screen.name}");
+            }
         }
+
+        private void Update()
+        {
+            if (navigationService == null)
+                return;
+
+            if (Input.GetKeyDown(KeyCode.W))
+                navigationService.MoveUp();
+
+            if (Input.GetKeyDown(KeyCode.S))
+                navigationService.MoveDown();
+
+            if (Input.GetKeyDown(KeyCode.A))
+                navigationService.MoveLeft();
+
+            if (Input.GetKeyDown(KeyCode.D))
+                navigationService.MoveRight();
+        }
+
+        public INavigationService GetService() => navigationService;
     }
-
-    private void Update()
-    {
-        if (navigationService == null)
-            return;
-
-        if (Input.GetKeyDown(KeyCode.W))
-            navigationService.MoveUp();
-
-        if (Input.GetKeyDown(KeyCode.S))
-            navigationService.MoveDown();
-
-        if (Input.GetKeyDown(KeyCode.A))
-            navigationService.MoveLeft();
-
-        if (Input.GetKeyDown(KeyCode.D))
-            navigationService.MoveRight();
-    }
-
-    public INavigationService GetService() => navigationService;
 }

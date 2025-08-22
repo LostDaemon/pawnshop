@@ -1,6 +1,9 @@
-public enum StorageType
+namespace PawnShop.Models
 {
-    Undefined = 0,
-    InventoryStorage,
-    SellStorage
+    public enum StorageType
+    {
+        Undefined = 0,
+        InventoryStorage,
+        SellStorage
+    }
 }

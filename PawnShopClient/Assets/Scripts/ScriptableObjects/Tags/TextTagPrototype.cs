@@ -1,7 +1,10 @@
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "TextTag", menuName = "ScriptableObjects/Tags/TextTag", order = 2)]
-public class TextTagPrototype : BaseTagPrototype
+namespace PawnShop.ScriptableObjects.Tags
 {
-    public string DefaultTextValue;
+    [CreateAssetMenu(fileName = "TextTag", menuName = "ScriptableObjects/Tags/TextTag", order = 2)]
+    public class TextTagPrototype : BaseTagPrototype
+    {
+        public string DefaultTextValue;
+    }
 }

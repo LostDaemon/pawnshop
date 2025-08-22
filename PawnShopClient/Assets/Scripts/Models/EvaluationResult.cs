@@ -1,6 +1,9 @@
-public enum EvaluationResult
+namespace PawnShop.Models
 {
-    TooLow,
-    Fair,
-    TooHigh
+    public enum EvaluationResult
+    {
+        TooLow,
+        Fair,
+        TooHigh
+    }
 }

@@ -1,9 +1,14 @@
 using System.Collections.Generic;
+using PawnShop.Models.Tags;
+using PawnShop.ScriptableObjects.Tags;
 
-public interface ITagRepository
+namespace PawnShop.Repositories
 {
-    void Load();
-    BaseTagPrototype GetTagPrototypeByClassId(string classId);
-    IReadOnlyCollection<BaseTagPrototype> GetAllTagPrototypes();
-    IReadOnlyCollection<BaseTagPrototype> GetTagPrototypesByType(TagType tagType);
+    public interface ITagRepository
+    {
+        void Load();
+        BaseTagPrototype GetTagPrototypeByClassId(string classId);
+        IReadOnlyCollection<BaseTagPrototype> GetAllTagPrototypes();
+        IReadOnlyCollection<BaseTagPrototype> GetTagPrototypesByType(TagType tagType);
+    }
 }

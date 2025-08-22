@@ -1,6 +1,9 @@
-public class Player : BaseCharacter
+namespace PawnShop.Models.Characters
 {
-    public Player()
+    public class Player : BaseCharacter
     {
+        public Player()
+        {
+        }
     }
 }

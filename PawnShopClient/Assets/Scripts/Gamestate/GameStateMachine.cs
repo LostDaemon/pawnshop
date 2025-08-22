@@ -2,30 +2,33 @@ using System;
 using System.Collections.Generic;
 using Zenject;
 
-public class GameStateMachine
+namespace PawnShop.Gamestate
 {
-    private readonly DiContainer _container;
-    private readonly Dictionary<Type, IGameState> _states = new();
-    private IGameState _activeState;
-
-    public GameStateMachine(DiContainer container)
+    public class GameStateMachine
     {
-        _container = container;
-    }
+        private readonly DiContainer _container;
+        private readonly Dictionary<Type, IGameState> _states = new();
+        private IGameState _activeState;
 
-    public void Enter<TState>() where TState : IGameState
-    {
-        _activeState?.Exit();
-
-        var stateType = typeof(TState);
-
-        if (!_states.TryGetValue(stateType, out var newState))
+        public GameStateMachine(DiContainer container)
         {
-            newState = _container.Instantiate<TState>();
-            _states.Add(stateType, newState);
+            _container = container;
         }
 
-        _activeState = newState;
-        _activeState.Enter();
+        public void Enter<TState>() where TState : IGameState
+        {
+            _activeState?.Exit();
+
+            var stateType = typeof(TState);
+
+            if (!_states.TryGetValue(stateType, out var newState))
+            {
+                newState = _container.Instantiate<TState>();
+                _states.Add(stateType, newState);
+            }
+
+            _activeState = newState;
+            _activeState.Enter();
+        }
     }
 }

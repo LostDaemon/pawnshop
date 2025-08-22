@@ -1,33 +1,37 @@
 using System;
 using System.Collections.Generic;
+using PawnShop.Models;
 
-public class WalletService : IWalletService
+namespace PawnShop.Services
 {
-    private readonly Dictionary<CurrencyType, long> _balances = new();
-
-    public event Action<CurrencyType, long> OnBalanceChanged;
-
-    public WalletService(long initialMoney)
+    public class WalletService : IWalletService
     {
-        _balances[CurrencyType.Money] = initialMoney;
-    }
+        private readonly Dictionary<CurrencyType, long> _balances = new();
 
-    public long GetBalance(CurrencyType currency)
-    {
-        return _balances.TryGetValue(currency, out var value) ? value : 0L;
-    }
+        public event Action<CurrencyType, long> OnBalanceChanged;
 
-    public bool TransactionAttempt(CurrencyType currency, long amount)
-    {
-        long current = GetBalance(currency);
-        long updated = current + amount;
+        public WalletService(long initialMoney)
+        {
+            _balances[CurrencyType.Money] = initialMoney;
+        }
 
-        if (updated < 0)
-            return false;
+        public long GetBalance(CurrencyType currency)
+        {
+            return _balances.TryGetValue(currency, out var value) ? value : 0L;
+        }
 
-        _balances[currency] = updated;
-        OnBalanceChanged?.Invoke(currency, updated);
+        public bool TransactionAttempt(CurrencyType currency, long amount)
+        {
+            long current = GetBalance(currency);
+            long updated = current + amount;
 
-        return true;
+            if (updated < 0)
+                return false;
+
+            _balances[currency] = updated;
+            OnBalanceChanged?.Invoke(currency, updated);
+
+            return true;
+        }
     }
 }

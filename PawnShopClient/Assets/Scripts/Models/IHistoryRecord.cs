@@ -1,5 +1,8 @@
-public interface IHistoryRecord
+namespace PawnShop.Models
 {
-    public HistoryRecordSource Source { get; }
-    public string Message { get; }
+    public interface IHistoryRecord
+    {
+        public HistoryRecordSource Source { get; }
+        public string Message { get; }
+    }
 }

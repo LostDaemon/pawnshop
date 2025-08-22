@@ -1,1 +1,6 @@
-public class InventoryStorage : GameStorageService<ItemModel> { }
+using PawnShop.Models;
+
+namespace PawnShop.Services
+{
+    public class InventoryStorage : GameStorageService<ItemModel> { }
+}

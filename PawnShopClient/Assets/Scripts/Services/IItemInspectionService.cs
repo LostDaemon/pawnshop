@@ -1,7 +1,12 @@
 using System.Collections.Generic;
+using PawnShop.Models;
+using PawnShop.Models.Tags;
 
-public interface IItemInspectionService
+namespace PawnShop.Services
 {
-    public List<BaseTagModel> InspectByPlayer(ItemModel item);
-    public List<BaseTagModel> InspectByCustomer(ItemModel item);
+    public interface IItemInspectionService
+    {
+        public List<BaseTagModel> InspectByPlayer(ItemModel item);
+        public List<BaseTagModel> InspectByCustomer(ItemModel item);
+    }
 }

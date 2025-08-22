@@ -1,12 +1,17 @@
-public class TextTagModel : BaseTagModel
-{
-    public string TextValue { get; set; }
+using PawnShop.ScriptableObjects.Tags;
 
-    public TextTagModel(TextTagPrototype prototype) : base(prototype)
+namespace PawnShop.Models.Tags
+{
+    public class TextTagModel : BaseTagModel
     {
-        if (prototype != null)
+        public string TextValue { get; set; }
+
+        public TextTagModel(TextTagPrototype prototype) : base(prototype)
         {
-            TextValue = prototype.DefaultTextValue;
+            if (prototype != null)
+            {
+                TextValue = prototype.DefaultTextValue;
+            }
         }
     }
 }

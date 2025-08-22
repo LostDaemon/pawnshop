@@ -1,98 +1,103 @@
 using System.Collections.Generic;
+using PawnShop.Models;
+using PawnShop.Repositories;
 using UnityEngine;
 
-public class LocalizationService : ILocalizationService
+namespace PawnShop.Services
 {
-    private readonly ILanguageRepository _languageRepository;
-    private Dictionary<string, string[]> _localizationDictionary;
-    private Language _currentLanguage;
-
-    public event System.Action OnLocalizationSwitch;
-
-    public LocalizationService(ILanguageRepository languageRepository)
+    public class LocalizationService : ILocalizationService
     {
-        _languageRepository = languageRepository;
-        _localizationDictionary = new Dictionary<string, string[]>();
-    }
+        private readonly ILanguageRepository _languageRepository;
+        private Dictionary<string, string[]> _localizationDictionary;
+        private Language _currentLanguage;
 
-    public void SwitchLocalization(Language language)
-    {
-        var languagePrototype = _languageRepository.GetLanguage(language);
-        if (languagePrototype == null)
+        public event System.Action OnLocalizationSwitch;
+
+        public LocalizationService(ILanguageRepository languageRepository)
         {
-            Debug.LogWarning($"Language {language} not found in prototypes");
-            return;
+            _languageRepository = languageRepository;
+            _localizationDictionary = new Dictionary<string, string[]>();
         }
 
-        LoadLocalizationFile(languagePrototype.fileName);
-        _currentLanguage = language;
-        OnLocalizationSwitch?.Invoke();
-    }
-
-    public string GetLocalization(string key)
-    {
-        if (_localizationDictionary.TryGetValue(key, out string[] values))
+        public void SwitchLocalization(Language language)
         {
-            if (values == null || values.Length == 0)
+            var languagePrototype = _languageRepository.GetLanguage(language);
+            if (languagePrototype == null)
             {
-                Debug.LogWarning($"Localization key '{key}' has no values for language {_currentLanguage}");
-                return $"[{key}]";
+                Debug.LogWarning($"Language {language} not found in prototypes");
+                return;
             }
 
-            // If only one value, return it directly
-            if (values.Length == 1)
+            LoadLocalizationFile(languagePrototype.fileName);
+            _currentLanguage = language;
+            OnLocalizationSwitch?.Invoke();
+        }
+
+        public string GetLocalization(string key)
+        {
+            if (_localizationDictionary.TryGetValue(key, out string[] values))
             {
-                return values[0];
+                if (values == null || values.Length == 0)
+                {
+                    Debug.LogWarning($"Localization key '{key}' has no values for language {_currentLanguage}");
+                    return $"[{key}]";
+                }
+
+                // If only one value, return it directly
+                if (values.Length == 1)
+                {
+                    return values[0];
+                }
+
+                // If multiple values, return a random one
+                return values[Random.Range(0, values.Length)];
             }
 
-            // If multiple values, return a random one
-            return values[Random.Range(0, values.Length)];
+            Debug.LogWarning($"Localization key '{key}' not found for language {_currentLanguage}");
+            return $"[{key}]";
         }
 
-        Debug.LogWarning($"Localization key '{key}' not found for language {_currentLanguage}");
-        return $"[{key}]";
-    }
-
-    private void LoadLocalizationFile(string fileName)
-    {
-        _localizationDictionary.Clear();
-
-        var textAsset = Resources.Load<TextAsset>($"L10n/{fileName}");
-        if (textAsset == null)
+        private void LoadLocalizationFile(string fileName)
         {
-            Debug.LogError($"Localization file not found: L10n/{fileName}");
-            return;
-        }
+            _localizationDictionary.Clear();
 
-        try
-        {
-            var jsonContent = textAsset.text;
-            var localizationData = JsonUtility.FromJson<LocalizationData>(jsonContent);
-
-            foreach (var entry in localizationData.entries)
+            var textAsset = Resources.Load<TextAsset>($"L10n/{fileName}");
+            if (textAsset == null)
             {
-                _localizationDictionary[entry.key] = entry.values;
-                // Debug.Log($"Loaded localization entry: {entry.key} = {entry.values[0]}");
+                Debug.LogError($"Localization file not found: L10n/{fileName}");
+                return;
             }
 
-            Debug.Log($"Loaded {_localizationDictionary.Count} localization entries from {fileName}");
+            try
+            {
+                var jsonContent = textAsset.text;
+                var localizationData = JsonUtility.FromJson<LocalizationData>(jsonContent);
+
+                foreach (var entry in localizationData.entries)
+                {
+                    _localizationDictionary[entry.key] = entry.values;
+                    // Debug.Log($"Loaded localization entry: {entry.key} = {entry.values[0]}");
+                }
+
+                Debug.Log($"Loaded {_localizationDictionary.Count} localization entries from {fileName}");
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError($"Failed to load localization file {fileName}: {e.Message}");
+            }
         }
-        catch (System.Exception e)
+
+        [System.Serializable]
+        private class LocalizationData
         {
-            Debug.LogError($"Failed to load localization file {fileName}: {e.Message}");
+            public LocalizationEntry[] entries;
         }
-    }
 
-    [System.Serializable]
-    private class LocalizationData
-    {
-        public LocalizationEntry[] entries;
-    }
-
-    [System.Serializable]
-    private class LocalizationEntry
-    {
-        public string key;
-        public string[] values;
+        [System.Serializable]
+        private class LocalizationEntry
+        {
+            public string key;
+            public string[] values;
+        }
     }
 }

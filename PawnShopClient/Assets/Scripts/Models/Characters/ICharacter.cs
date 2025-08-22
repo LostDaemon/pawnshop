@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 
-public interface ICharacter
+namespace PawnShop.Models.Characters
 {
-    public Dictionary<SkillType, Skill> Skills { get; set; }
+    public interface ICharacter
+    {
+        public Dictionary<SkillType, Skill> Skills { get; set; }
+    }
 }

@@ -1,4 +1,9 @@
-public interface ICustomerFactoryService
+using PawnShop.Models.Characters;
+
+namespace PawnShop.Services
 {
-    Customer GenerateRandomCustomer();
+    public interface ICustomerFactoryService
+    {
+        Customer GenerateRandomCustomer();
+    }
 }

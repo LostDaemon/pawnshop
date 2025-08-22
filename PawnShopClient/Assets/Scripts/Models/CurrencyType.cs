@@ -1,4 +1,7 @@
-public enum CurrencyType
+namespace PawnShop.Models
 {
-    Money
+    public enum CurrencyType
+    {
+        Money
+    }
 }

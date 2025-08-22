@@ -1,19 +1,22 @@
 using Zenject;
 
-public class BootstrapState : IGameState
+namespace PawnShop.Gamestate
 {
-    private GameStateMachine _stateMachine;
-
-    [Inject]
-    public void Construct(GameStateMachine stateMachine)
+    public class BootstrapState : IGameState
     {
-        _stateMachine = stateMachine;
-    }
+        private GameStateMachine _stateMachine;
 
-    public void Enter()
-    {
-        _stateMachine.Enter<LoadLevelState>();
-    }
+        [Inject]
+        public void Construct(GameStateMachine stateMachine)
+        {
+            _stateMachine = stateMachine;
+        }
 
-    public void Exit() { }
+        public void Enter()
+        {
+            _stateMachine.Enter<LoadLevelState>();
+        }
+
+        public void Exit() { }
+    }
 }

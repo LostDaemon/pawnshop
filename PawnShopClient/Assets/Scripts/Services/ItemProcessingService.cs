@@ -1,12 +1,17 @@
-public class ItemProcessingService : IItemProcessingService
+using PawnShop.Models;
+
+namespace PawnShop.Services
 {
-    public void Process(ItemModel item, ItemProcess itemProcess)
+    public class ItemProcessingService : IItemProcessingService
     {
-        switch (itemProcess)
+        public void Process(ItemModel item, ItemProcess itemProcess)
         {
-            case ItemProcess.Inspect:
-                item.Inspected = true;
-                break;
+            switch (itemProcess)
+            {
+                case ItemProcess.Inspect:
+                    item.Inspected = true;
+                    break;
+            }
         }
     }
 }

@@ -1,12 +1,16 @@
 using System;
+using PawnShop.Models;
 
-public interface ITimeService
+namespace PawnShop.Services
 {
-    GameTime CurrentTime { get; }
-    float TimeMultiplier { get; set; } // 1x, 10x, etc
+    public interface ITimeService
+    {
+        GameTime CurrentTime { get; }
+        float TimeMultiplier { get; set; } // 1x, 10x, etc
 
-    event Action<GameTime> OnTimeChanged;
+        event Action<GameTime> OnTimeChanged;
 
-    void Tick(float deltaTime);
-    void Schedule(GameTime time, Action callback);
+        void Tick(float deltaTime);
+        void Schedule(GameTime time, Action callback);
+    }
 }

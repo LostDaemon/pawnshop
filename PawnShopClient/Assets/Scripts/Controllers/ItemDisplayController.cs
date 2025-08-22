@@ -1,56 +1,61 @@
+using PawnShop.Models;
+using PawnShop.Services;
 using UnityEngine;
 using Zenject;
 
-public class ItemDisplayController : MonoBehaviour
+namespace PawnShop.Controllers
 {
-    [Inject] private INegotiationService _purchaseService;
-
-    [SerializeField] private Transform _spawnPoint;
-
-    private GameObject _current;
-
-    private void Start()
+    public class ItemDisplayController : MonoBehaviour
     {
-        _purchaseService.OnCurrentItemChanged += OnItemChanged;
+        [Inject] private INegotiationService _purchaseService;
 
-        if (_purchaseService.CurrentItem != null)
-            OnItemChanged(_purchaseService.CurrentItem);
-    }
+        [SerializeField] private Transform _spawnPoint;
 
-    private void OnDestroy()
-    {
-        if (_purchaseService != null)
-            _purchaseService.OnCurrentItemChanged -= OnItemChanged;
-    }
+        private GameObject _current;
 
-    private void OnItemChanged(ItemModel item)
-    {
-        if (_current != null)
-            Destroy(_current);
-
-        var prefab = Resources.Load<GameObject>("UI/ItemPrefab");
-
-        Vector3 spawnPosition = _spawnPoint != null ? _spawnPoint.position : Vector3.zero;
-        Transform parent = _spawnPoint != null ? _spawnPoint : null;
-
-        _current = Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
-        _current.transform.localScale = Vector3.one * item.Scale;
-
-        var renderer = _current.GetComponent<SpriteRenderer>();
-        if (renderer == null)
+        private void Start()
         {
-            Debug.LogError("ItemPrefab must have a SpriteRenderer");
-            return;
+            _purchaseService.OnCurrentItemChanged += OnItemChanged;
+
+            if (_purchaseService.CurrentItem != null)
+                OnItemChanged(_purchaseService.CurrentItem);
         }
 
-        var sprites = Resources.LoadAll<Sprite>("Sprites/ItemsAtlas");
-        var sprite = System.Array.Find(sprites, s => s.name == item.ImageId);
+        private void OnDestroy()
+        {
+            if (_purchaseService != null)
+                _purchaseService.OnCurrentItemChanged -= OnItemChanged;
+        }
 
-        if (sprite != null)
-            renderer.sprite = sprite;
-        else
-            Debug.LogWarning($"Sprite not found: {item.ImageId}");
+        private void OnItemChanged(ItemModel item)
+        {
+            if (_current != null)
+                Destroy(_current);
 
-        Debug.Log($"Item displayed in scene: {item.Name}");
+            var prefab = Resources.Load<GameObject>("UI/ItemPrefab");
+
+            Vector3 spawnPosition = _spawnPoint != null ? _spawnPoint.position : Vector3.zero;
+            Transform parent = _spawnPoint != null ? _spawnPoint : null;
+
+            _current = Instantiate(prefab, spawnPosition, Quaternion.identity, parent);
+            _current.transform.localScale = Vector3.one * item.Scale;
+
+            var renderer = _current.GetComponent<SpriteRenderer>();
+            if (renderer == null)
+            {
+                Debug.LogError("ItemPrefab must have a SpriteRenderer");
+                return;
+            }
+
+            var sprites = Resources.LoadAll<Sprite>("Sprites/ItemsAtlas");
+            var sprite = System.Array.Find(sprites, s => s.name == item.ImageId);
+
+            if (sprite != null)
+                renderer.sprite = sprite;
+            else
+                Debug.LogWarning($"Sprite not found: {item.ImageId}");
+
+            Debug.Log($"Item displayed in scene: {item.Name}");
+        }
     }
 }

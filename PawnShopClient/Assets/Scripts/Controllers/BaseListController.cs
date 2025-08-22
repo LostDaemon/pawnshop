@@ -1,120 +1,125 @@
 using System.Collections.Generic;
 using System.Linq;
+using PawnShop.Models;
+using PawnShop.Services;
 using UnityEngine;
 using Zenject;
 
-public class BaseListController : MonoBehaviour
+namespace PawnShop.Controllers
 {
-    [SerializeField] private StorageType _sourceStorageType;
-    [SerializeField] private Transform _contentRoot;
-    [SerializeField] private GameObject _itemPrefab;
-    [SerializeField] private BaseItemInfoController _itemInfo;
-    private IGameStorageService<ItemModel> _storage;
-    private IStorageLocatorService _storageLocatorService;
-    private DiContainer _container;
-    protected List<ListItemController> RenderedItems = new();
-    public ItemModel SelectedItem;
-
-    [Inject]
-    public void Construct(DiContainer container, IStorageLocatorService storageLocatorService)
+    public class BaseListController : MonoBehaviour
     {
-        Debug.Log($"[BaseListController] Construct called for {gameObject.name} with storage type {_sourceStorageType}");
-        
-        // Unsubscribe from previous storage if exists
-        if (_storage != null)
-        {
-            _storage.OnItemAdded -= OnItemAdded;
-            _storage.OnItemRemoved -= OnItemRemoved;
-            Debug.Log($"[BaseListController] Unsubscribed from previous storage for {gameObject.name}");
-        }
-        
-        _storageLocatorService = storageLocatorService;
-        _container = container;
-        _storage = _storageLocatorService.Get(_sourceStorageType);
-        Debug.Log($"Storage of type {_sourceStorageType} found: {_storage != null}");
-        _storage.OnItemAdded += OnItemAdded;
-        _storage.OnItemRemoved += OnItemRemoved;
-        Debug.Log($"[BaseListController] Subscribed to storage events for {gameObject.name}");
-    }
+        [SerializeField] private StorageType _sourceStorageType;
+        [SerializeField] private Transform _contentRoot;
+        [SerializeField] private GameObject _itemPrefab;
+        [SerializeField] private BaseItemInfoController _itemInfo;
+        private IGameStorageService<ItemModel> _storage;
+        private IStorageLocatorService _storageLocatorService;
+        private DiContainer _container;
+        protected List<ListItemController> RenderedItems = new();
+        public ItemModel SelectedItem;
 
-    private void Awake()
-    {
-        if (_storage == null)
+        [Inject]
+        public void Construct(DiContainer container, IStorageLocatorService storageLocatorService)
         {
-            Debug.LogError($"Storage of type {_sourceStorageType} not found.");
-            return;
-        }
+            Debug.Log($"[BaseListController] Construct called for {gameObject.name} with storage type {_sourceStorageType}");
 
-        foreach (var item in _storage.All)
-            AddItem(item);
-    }
+            // Unsubscribe from previous storage if exists
+            if (_storage != null)
+            {
+                _storage.OnItemAdded -= OnItemAdded;
+                _storage.OnItemRemoved -= OnItemRemoved;
+                Debug.Log($"[BaseListController] Unsubscribed from previous storage for {gameObject.name}");
+            }
 
-    private void OnDestroy()
-    {
-        if (_storage != null)
-        {
-            _storage.OnItemAdded -= OnItemAdded;
-            _storage.OnItemRemoved -= OnItemRemoved;
+            _storageLocatorService = storageLocatorService;
+            _container = container;
+            _storage = _storageLocatorService.Get(_sourceStorageType);
+            Debug.Log($"Storage of type {_sourceStorageType} found: {_storage != null}");
+            _storage.OnItemAdded += OnItemAdded;
+            _storage.OnItemRemoved += OnItemRemoved;
+            Debug.Log($"[BaseListController] Subscribed to storage events for {gameObject.name}");
         }
 
-        foreach (var item in RenderedItems)
+        private void Awake()
         {
-            item.OnClick -= OnItemClicked;
-            Destroy(item.gameObject);
-        }
-    }
+            if (_storage == null)
+            {
+                Debug.LogError($"Storage of type {_sourceStorageType} not found.");
+                return;
+            }
 
-    private void OnItemAdded(ItemModel item) => AddItem(item);
-    private void OnItemRemoved(ItemModel item) => RemoveItem(item);
-
-    private void AddItem(ItemModel item)
-    {
-        var controller = _container.InstantiatePrefabForComponent<ListItemController>(_itemPrefab, _contentRoot);
-        if (controller == null)
-        {
-            Debug.LogError($"Failed to instantiate ItemController for item {item.Name}");
-            return;
-        }
-        Debug.Log($"Adding item {item.Name} with id {item.Id} to list.");
-        Debug.Log($"GameStorageService: {_storage.All.Count} items in storage.");
-        controller.OnClick += OnItemClicked;
-        controller.Init(item);
-        RenderedItems.Add(controller);
-    }
-
-    private void OnItemClicked(ItemModel item)
-    {
-        if (item == null)
-        {
-            Debug.LogError("Item is null in OnItemClicked.");
-            return;
+            foreach (var item in _storage.All)
+                AddItem(item);
         }
 
-        SelectedItem = item;
-        RenderItemInfo(item);
-    }
-
-    private void RenderItemInfo(ItemModel item)
-    {
-        if (_itemInfo != null)
+        private void OnDestroy()
         {
-            _itemInfo.gameObject.SetActive(true);
-            _itemInfo.SetItem(SelectedItem);
-        }
-    }
+            if (_storage != null)
+            {
+                _storage.OnItemAdded -= OnItemAdded;
+                _storage.OnItemRemoved -= OnItemRemoved;
+            }
 
-    private void RemoveItem(ItemModel item)
-    {
-        var toDelete = RenderedItems.FirstOrDefault(c => c.Item == item);
-
-        if (toDelete == null)
-        {
-            Debug.LogWarning($"Item {item.Name} not found in rendered items.");
-            return;
+            foreach (var item in RenderedItems)
+            {
+                item.OnClick -= OnItemClicked;
+                Destroy(item.gameObject);
+            }
         }
 
-        RenderedItems.Remove(toDelete);
-        toDelete.OnClick -= OnItemClicked;
-        Destroy(toDelete.gameObject);
+        private void OnItemAdded(ItemModel item) => AddItem(item);
+        private void OnItemRemoved(ItemModel item) => RemoveItem(item);
+
+        private void AddItem(ItemModel item)
+        {
+            var controller = _container.InstantiatePrefabForComponent<ListItemController>(_itemPrefab, _contentRoot);
+            if (controller == null)
+            {
+                Debug.LogError($"Failed to instantiate ItemController for item {item.Name}");
+                return;
+            }
+            Debug.Log($"Adding item {item.Name} with id {item.Id} to list.");
+            Debug.Log($"GameStorageService: {_storage.All.Count} items in storage.");
+            controller.OnClick += OnItemClicked;
+            controller.Init(item);
+            RenderedItems.Add(controller);
+        }
+
+        private void OnItemClicked(ItemModel item)
+        {
+            if (item == null)
+            {
+                Debug.LogError("Item is null in OnItemClicked.");
+                return;
+            }
+
+            SelectedItem = item;
+            RenderItemInfo(item);
+        }
+
+        private void RenderItemInfo(ItemModel item)
+        {
+            if (_itemInfo != null)
+            {
+                _itemInfo.gameObject.SetActive(true);
+                _itemInfo.SetItem(SelectedItem);
+            }
+        }
+
+        private void RemoveItem(ItemModel item)
+        {
+            var toDelete = RenderedItems.FirstOrDefault(c => c.Item == item);
+
+            if (toDelete == null)
+            {
+                Debug.LogWarning($"Item {item.Name} not found in rendered items.");
+                return;
+            }
+
+            RenderedItems.Remove(toDelete);
+            toDelete.OnClick -= OnItemClicked;
+            Destroy(toDelete.gameObject);
+        }
     }
 }

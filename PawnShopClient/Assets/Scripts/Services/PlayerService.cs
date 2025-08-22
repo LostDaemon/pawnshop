@@ -1,45 +1,51 @@
 using System.Collections.Generic;
+using PawnShop.Models;
+using PawnShop.Models.Characters;
+using PawnShop.Repositories;
 using Zenject;
 
-public class PlayerService : IPlayerService
+namespace PawnShop.Services
 {
-    private readonly ISkillRepository _skillRepository;
-
-    public Player Player { get; private set; }
-
-    [Inject]
-    public PlayerService(ISkillRepository skillRepository)
+    public class PlayerService : IPlayerService
     {
-        _skillRepository = skillRepository;
-    }
+        private readonly ISkillRepository _skillRepository;
 
-    public void InitializePlayer()
-    {
-        Player = new Player();
-        InitializePlayerSkills();
-    }
+        public Player Player { get; private set; }
 
-    private void InitializePlayerSkills()
-    {
-        // Initialize all skills as not learned
-        foreach (SkillType skillType in System.Enum.GetValues(typeof(SkillType)))
+        [Inject]
+        public PlayerService(ISkillRepository skillRepository)
         {
-            if (skillType != SkillType.Undefined)
-            {
-                var prototype = _skillRepository.GetSkill(skillType);
-                if (prototype != null)
-                {
-                    Player.Skills[skillType] = new Skill(prototype);
-                    Player.Skills[skillType].Level = 2; // TODO: Load from config later
-                    UnityEngine.Debug.LogWarning($"[PlayerService] Skill {skillType} initialized with level {Player.Skills[skillType].Level}.");
-                }
-                else
-                {
-                    UnityEngine.Debug.LogWarning($"[PlayerService] No prototype found for skill {skillType}");
-                }
-            }
+            _skillRepository = skillRepository;
         }
 
-        UnityEngine.Debug.Log($"[PlayerService] Player initialized with {Player.Skills.Count} skills.");
+        public void InitializePlayer()
+        {
+            Player = new Player();
+            InitializePlayerSkills();
+        }
+
+        private void InitializePlayerSkills()
+        {
+            // Initialize all skills as not learned
+            foreach (SkillType skillType in System.Enum.GetValues(typeof(SkillType)))
+            {
+                if (skillType != SkillType.Undefined)
+                {
+                    var prototype = _skillRepository.GetSkill(skillType);
+                    if (prototype != null)
+                    {
+                        Player.Skills[skillType] = new Skill(prototype);
+                        Player.Skills[skillType].Level = 2; // TODO: Load from config later
+                        UnityEngine.Debug.LogWarning($"[PlayerService] Skill {skillType} initialized with level {Player.Skills[skillType].Level}.");
+                    }
+                    else
+                    {
+                        UnityEngine.Debug.LogWarning($"[PlayerService] No prototype found for skill {skillType}");
+                    }
+                }
+            }
+
+            UnityEngine.Debug.Log($"[PlayerService] Player initialized with {Player.Skills.Count} skills.");
+        }
     }
 }

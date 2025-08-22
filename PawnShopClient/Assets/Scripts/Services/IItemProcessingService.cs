@@ -1,4 +1,9 @@
-public interface IItemProcessingService
+using PawnShop.Models;
+
+namespace PawnShop.Services
 {
-    void Process(ItemModel item, ItemProcess itemProcess);
+    public interface IItemProcessingService
+    {
+        void Process(ItemModel item, ItemProcess itemProcess);
+    }
 }

@@ -1,103 +1,107 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using PawnShop.Models;
 using Zenject;
 
-public class SellService : ISellService
+namespace PawnShop.Services
 {
-    private readonly IGameStorageService<ItemModel> _sellStorage;
-    private readonly IGameStorageService<ItemModel> _inventoryStorage;
-    private readonly ITimeService _timeService;
-    private readonly IWalletService _wallet;
-    private readonly Dictionary<ItemModel, GameTime> _scheduledSales = new();
-    private int _maxSlots;
-
-    public int MaxSlots => _maxSlots;
-    public IReadOnlyList<ItemModel> DisplayedItems => _sellStorage.All.ToList();
-    public IReadOnlyDictionary<ItemModel, GameTime> ScheduledSales => _scheduledSales;
-    public event Action<ItemModel> OnStartSelling;
-    public event Action<ItemModel> OnSold;
-
-    [Inject]
-    public SellService(
-        [Inject(Id = StorageType.InventoryStorage)] IGameStorageService<ItemModel> inventoryStorage,
-        [Inject(Id = StorageType.SellStorage)] IGameStorageService<ItemModel> sellStorage,
-        ITimeService timeService,
-        IWalletService walletService, int initialSlots)
+    public class SellService : ISellService
     {
-        _inventoryStorage = inventoryStorage;
-        _sellStorage = sellStorage;
-        _timeService = timeService;
-        _wallet = walletService;
-        _maxSlots = initialSlots;
-    }
+        private readonly IGameStorageService<ItemModel> _sellStorage;
+        private readonly IGameStorageService<ItemModel> _inventoryStorage;
+        private readonly ITimeService _timeService;
+        private readonly IWalletService _wallet;
+        private readonly Dictionary<ItemModel, GameTime> _scheduledSales = new();
+        private int _maxSlots;
 
-    public void ConfigureSlots(int count)
-    {
-        _maxSlots = count;
-    }
+        public int MaxSlots => _maxSlots;
+        public IReadOnlyList<ItemModel> DisplayedItems => _sellStorage.All.ToList();
+        public IReadOnlyDictionary<ItemModel, GameTime> ScheduledSales => _scheduledSales;
+        public event Action<ItemModel> OnStartSelling;
+        public event Action<ItemModel> OnSold;
 
-    public bool ScheduleForSale(ItemModel item)
-    {
-        if (item == null)
-            return false;
-
-        if (_sellStorage.All.Count >= _maxSlots)
+        [Inject]
+        public SellService(
+            [Inject(Id = StorageType.InventoryStorage)] IGameStorageService<ItemModel> inventoryStorage,
+            [Inject(Id = StorageType.SellStorage)] IGameStorageService<ItemModel> sellStorage,
+            ITimeService timeService,
+            IWalletService walletService, int initialSlots)
         {
-            UnityEngine.Debug.LogWarning($"Cannot add {item.Name} with id {item.Id} to sell storage, max slots reached.");
-            return false;
+            _inventoryStorage = inventoryStorage;
+            _sellStorage = sellStorage;
+            _timeService = timeService;
+            _wallet = walletService;
+            _maxSlots = initialSlots;
         }
 
-        if (!_inventoryStorage.Withdraw(item))
-            return false;
+        public void ConfigureSlots(int count)
+        {
+            _maxSlots = count;
+        }
 
-        _sellStorage.Put(item);
+        public bool ScheduleForSale(ItemModel item)
+        {
+            if (item == null)
+                return false;
 
-        int delayHours = UnityEngine.Random.Range(1, 4);
-        var scheduleTime = AddHours(_timeService.CurrentTime, delayHours);
-        _timeService.Schedule(scheduleTime, () => SellScheduledItem(item));
-        UnityEngine.Debug.Log($"Item {item.Name} with id {item.Id} scheduled for sale at {scheduleTime.Day} {scheduleTime.Hour}:{scheduleTime.Minute}");
+            if (_sellStorage.All.Count >= _maxSlots)
+            {
+                UnityEngine.Debug.LogWarning($"Cannot add {item.Name} with id {item.Id} to sell storage, max slots reached.");
+                return false;
+            }
 
-        OnStartSelling?.Invoke(item);
-        return true;
-    }
+            if (!_inventoryStorage.Withdraw(item))
+                return false;
 
-    private bool SellScheduledItem(ItemModel item)
-    {
-        UnityEngine.Debug.Log($"Trying to fire shcheduled sale for {item.Name} with id {item.Id} at {_timeService.CurrentTime.Day} {_timeService.CurrentTime.Hour}:{_timeService.CurrentTime.Minute}");
+            _sellStorage.Put(item);
 
-        if (item == null || !_sellStorage.All.Any(i => i.Id == item.Id))
-            return false;
+            int delayHours = UnityEngine.Random.Range(1, 4);
+            var scheduleTime = AddHours(_timeService.CurrentTime, delayHours);
+            _timeService.Schedule(scheduleTime, () => SellScheduledItem(item));
+            UnityEngine.Debug.Log($"Item {item.Name} with id {item.Id} scheduled for sale at {scheduleTime.Day} {scheduleTime.Hour}:{scheduleTime.Minute}");
 
-        _sellStorage.Withdraw(item);
-        _wallet.TransactionAttempt(CurrencyType.Money, item.SellPrice);
-        _scheduledSales.Remove(item);
-        OnSold?.Invoke(item);
-        UnityEngine.Debug.Log($"Item {item.Name} with id {item.Id} sold for {item.SellPrice} at {_timeService.CurrentTime.Day} {_timeService.CurrentTime.Hour}:{_timeService.CurrentTime.Minute}");
-        return true;
-    }
+            OnStartSelling?.Invoke(item);
+            return true;
+        }
 
-    public bool RemoveFromSelling(ItemModel item)
-    {
-        if (item == null || !_sellStorage.All.Contains(item))
-            return false;
+        private bool SellScheduledItem(ItemModel item)
+        {
+            UnityEngine.Debug.Log($"Trying to fire shcheduled sale for {item.Name} with id {item.Id} at {_timeService.CurrentTime.Day} {_timeService.CurrentTime.Hour}:{_timeService.CurrentTime.Minute}");
 
-        if (!_sellStorage.Withdraw(item))
-            return false;
+            if (item == null || !_sellStorage.All.Any(i => i.Id == item.Id))
+                return false;
 
-        _inventoryStorage.Put(item);
-        _scheduledSales.Remove(item);
-        UnityEngine.Debug.Log($"Item {item.Name} with id {item.Id} removed from selling.");
-        return true;
-    }
+            _sellStorage.Withdraw(item);
+            _wallet.TransactionAttempt(CurrencyType.Money, item.SellPrice);
+            _scheduledSales.Remove(item);
+            OnSold?.Invoke(item);
+            UnityEngine.Debug.Log($"Item {item.Name} with id {item.Id} sold for {item.SellPrice} at {_timeService.CurrentTime.Day} {_timeService.CurrentTime.Hour}:{_timeService.CurrentTime.Minute}");
+            return true;
+        }
 
-    private GameTime AddHours(GameTime time, int hours)
-    {
-        const int MinutesInDay = 24 * 60;
-        int totalMinutes = time.Hour * 60 + time.Minute + hours * 60;
-        int newDay = time.Day + totalMinutes / MinutesInDay;
-        totalMinutes %= MinutesInDay;
+        public bool RemoveFromSelling(ItemModel item)
+        {
+            if (item == null || !_sellStorage.All.Contains(item))
+                return false;
 
-        return new GameTime(newDay, totalMinutes / 60, totalMinutes % 60);
+            if (!_sellStorage.Withdraw(item))
+                return false;
+
+            _inventoryStorage.Put(item);
+            _scheduledSales.Remove(item);
+            UnityEngine.Debug.Log($"Item {item.Name} with id {item.Id} removed from selling.");
+            return true;
+        }
+
+        private GameTime AddHours(GameTime time, int hours)
+        {
+            const int MinutesInDay = 24 * 60;
+            int totalMinutes = time.Hour * 60 + time.Minute + hours * 60;
+            int newDay = time.Day + totalMinutes / MinutesInDay;
+            totalMinutes %= MinutesInDay;
+
+            return new GameTime(newDay, totalMinutes / 60, totalMinutes % 60);
+        }
     }
 }

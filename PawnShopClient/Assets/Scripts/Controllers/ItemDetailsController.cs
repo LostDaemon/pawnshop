@@ -1,10 +1,12 @@
-using System;
-using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using Zenject;
+using PawnShop.Models;
+using PawnShop.Services;
+using PawnShop.Repositories;
+using PawnShop.Models.Tags;
 
 namespace PawnShop.Controllers
 {

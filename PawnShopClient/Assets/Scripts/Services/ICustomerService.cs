@@ -1,11 +1,15 @@
 using System;
+using PawnShop.Models.Characters;
 
-public interface ICustomerService
+namespace PawnShop.Services
 {
-    Customer CurrentCustomer { get; }
-    void ChangeMood(float delta);
-    void IncreaseUncertainty(float delta);
-    void ShowNextCustomer();
-    long EvaluateCurrentItem();
-    event Action<Customer> OnCustomerChanged;
+    public interface ICustomerService
+    {
+        Customer CurrentCustomer { get; }
+        void ChangeMood(float delta);
+        void IncreaseUncertainty(float delta);
+        void ShowNextCustomer();
+        long EvaluateCurrentItem();
+        event Action<Customer> OnCustomerChanged;
+    }
 }

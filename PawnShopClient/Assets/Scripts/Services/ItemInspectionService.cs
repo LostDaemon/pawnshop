@@ -1,91 +1,97 @@
 using System.Collections.Generic;
+using PawnShop.Models;
+using PawnShop.Models.Characters;
+using PawnShop.Models.Tags;
 using Zenject;
 
-public class ItemInspectionService : IItemInspectionService
+namespace PawnShop.Services
 {
-    private readonly IPlayerService _playerService;
-    private readonly ICustomerService _customerService;
-
-    [Inject]
-    public ItemInspectionService(IPlayerService playerService, ICustomerService customerService)
+    public class ItemInspectionService : IItemInspectionService
     {
-        _playerService = playerService;
-        _customerService = customerService;
-    }
+        private readonly IPlayerService _playerService;
+        private readonly ICustomerService _customerService;
 
-    public List<BaseTagModel> InspectByPlayer(ItemModel item)
-    {
-        var player = _playerService.Player;
-        return InspectInternal(player, item);
-    }
-
-    public List<BaseTagModel> InspectByCustomer(ItemModel item)
-    {
-        var customer = _customerService.CurrentCustomer;
-        return InspectInternal(customer, item);
-    }
-
-    private List<BaseTagModel> InspectInternal(ICharacter character, ItemModel item)
-    {
-        var revealedTags = new List<BaseTagModel>();
-
-        if (item?.Tags == null)
+        [Inject]
+        public ItemInspectionService(IPlayerService playerService, ICustomerService customerService)
         {
-            return revealedTags;
+            _playerService = playerService;
+            _customerService = customerService;
         }
 
-        bool isPlayer = character is Player;
-        bool isCustomer = character is Customer;
-
-        foreach (var tag in item.Tags)
+        public List<BaseTagModel> InspectByPlayer(ItemModel item)
         {
-            bool isTagRevealed = false;
-            if (isPlayer)
+            var player = _playerService.Player;
+            return InspectInternal(player, item);
+        }
+
+        public List<BaseTagModel> InspectByCustomer(ItemModel item)
+        {
+            var customer = _customerService.CurrentCustomer;
+            return InspectInternal(customer, item);
+        }
+
+        private List<BaseTagModel> InspectInternal(ICharacter character, ItemModel item)
+        {
+            var revealedTags = new List<BaseTagModel>();
+
+            if (item?.Tags == null)
             {
-                isTagRevealed = tag.IsRevealedToPlayer;
-            }
-            else if (isCustomer)
-            {
-                isTagRevealed = tag.IsRevealedToCustomer;
+                return revealedTags;
             }
 
-            if (isTagRevealed)
-            {
-                //revealedTags.Add(tag);
-                continue;
-            }
+            bool isPlayer = character is Player;
+            bool isCustomer = character is Customer;
 
-            if (tag.RequiredSkills == null || tag.RequiredSkills.Length == 0)
+            foreach (var tag in item.Tags)
             {
-                continue;
-            }
-
-            foreach (var skillType in tag.RequiredSkills)
-            {
-                if (character.Skills.TryGetValue(skillType, out var skill))
+                bool isTagRevealed = false;
+                if (isPlayer)
                 {
-                    int skillLevel = skill.Level;
-                    float chance = skillLevel * 20f;
+                    isTagRevealed = tag.IsRevealedToPlayer;
+                }
+                else if (isCustomer)
+                {
+                    isTagRevealed = tag.IsRevealedToCustomer;
+                }
 
-                    var randomValue = UnityEngine.Random.Range(0f, 1f) * 100f;
-                    if (randomValue <= chance)
+                if (isTagRevealed)
+                {
+                    //revealedTags.Add(tag);
+                    continue;
+                }
+
+                if (tag.RequiredSkills == null || tag.RequiredSkills.Length == 0)
+                {
+                    continue;
+                }
+
+                foreach (var skillType in tag.RequiredSkills)
+                {
+                    if (character.Skills.TryGetValue(skillType, out var skill))
                     {
-                        if (isPlayer)
-                        {
-                            tag.IsRevealedToPlayer = true;
-                        }
-                        else if (isCustomer)
-                        {
-                            tag.IsRevealedToCustomer = true;
-                        }
+                        int skillLevel = skill.Level;
+                        float chance = skillLevel * 20f;
 
-                        revealedTags.Add(tag);
-                        break;
+                        var randomValue = UnityEngine.Random.Range(0f, 1f) * 100f;
+                        if (randomValue <= chance)
+                        {
+                            if (isPlayer)
+                            {
+                                tag.IsRevealedToPlayer = true;
+                            }
+                            else if (isCustomer)
+                            {
+                                tag.IsRevealedToCustomer = true;
+                            }
+
+                            revealedTags.Add(tag);
+                            break;
+                        }
                     }
                 }
             }
-        }
 
-        return revealedTags; //Only newly revealed tags
+            return revealedTags; //Only newly revealed tags
+        }
     }
 }

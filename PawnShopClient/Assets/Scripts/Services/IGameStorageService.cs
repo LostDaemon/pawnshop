@@ -1,17 +1,18 @@
 using System;
 using System.Collections.Generic;
 
-
-public interface IGameStorageService { }
-
-
-public interface IGameStorageService<T> : IGameStorageService
+namespace PawnShop.Services
 {
-    void Put(T item);
-    bool Withdraw(T item);
-    IReadOnlyList<T> All { get; }
-    void Empty();
+    public interface IGameStorageService { }
 
-    event Action<T> OnItemAdded;
-    event Action<T> OnItemRemoved;
+    public interface IGameStorageService<T> : IGameStorageService
+    {
+        void Put(T item);
+        bool Withdraw(T item);
+        IReadOnlyList<T> All { get; }
+        void Empty();
+
+        event Action<T> OnItemAdded;
+        event Action<T> OnItemRemoved;
+    }
 }

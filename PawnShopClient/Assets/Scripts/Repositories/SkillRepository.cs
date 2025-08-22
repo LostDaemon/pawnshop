@@ -1,60 +1,65 @@
 using System.Collections.Generic;
 using System.Linq;
+using PawnShop.Models;
+using PawnShop.ScriptableObjects;
 using UnityEngine;
 
-public class SkillRepository : ISkillRepository
+namespace PawnShop.Repositories
 {
-    private readonly List<SkillPrototype> _skills;
-
-    public SkillRepository()
+    public class SkillRepository : ISkillRepository
     {
-        _skills = new List<SkillPrototype>();
-    }
+        private readonly List<SkillPrototype> _skills;
 
-    public void Load()
-    {
-        _skills.Clear();
-        _skills.AddRange(Resources.LoadAll<SkillPrototype>(@"ScriptableObjects\Skills").ToList());
-        Debug.Log($"Loaded {_skills.Count} skill prototypes.");
-    }
-
-    public SkillPrototype GetSkill(SkillType skillType)
-    {
-        return _skills.FirstOrDefault(s => s.skillType == skillType);
-    }
-
-    public IReadOnlyCollection<SkillPrototype> GetAllSkills()
-    {
-        return _skills.AsReadOnly();
-    }
-
-    public IReadOnlyCollection<SkillPrototype> GetSkillsByCategory(string category)
-    {
-        if (category == "Negotiation")
+        public SkillRepository()
         {
-            return _skills.Where(s => s.skillType.ToString().StartsWith("Negotiation")).ToList().AsReadOnly();
-        }
-        else if (category == "Inspection")
-        {
-            return _skills.Where(s => s.skillType.ToString().StartsWith("Inspection")).ToList().AsReadOnly();
+            _skills = new List<SkillPrototype>();
         }
 
-        return new List<SkillPrototype>().AsReadOnly();
-    }
-
-    public void AddSkill(SkillPrototype skillPrototype)
-    {
-        if (skillPrototype != null && !_skills.Contains(skillPrototype))
+        public void Load()
         {
-            _skills.Add(skillPrototype);
+            _skills.Clear();
+            _skills.AddRange(Resources.LoadAll<SkillPrototype>(@"ScriptableObjects\Skills").ToList());
+            Debug.Log($"Loaded {_skills.Count} skill prototypes.");
         }
-    }
 
-    public void RemoveSkill(SkillPrototype skillPrototype)
-    {
-        if (skillPrototype != null)
+        public SkillPrototype GetSkill(SkillType skillType)
         {
-            _skills.Remove(skillPrototype);
+            return _skills.FirstOrDefault(s => s.skillType == skillType);
+        }
+
+        public IReadOnlyCollection<SkillPrototype> GetAllSkills()
+        {
+            return _skills.AsReadOnly();
+        }
+
+        public IReadOnlyCollection<SkillPrototype> GetSkillsByCategory(string category)
+        {
+            if (category == "Negotiation")
+            {
+                return _skills.Where(s => s.skillType.ToString().StartsWith("Negotiation")).ToList().AsReadOnly();
+            }
+            else if (category == "Inspection")
+            {
+                return _skills.Where(s => s.skillType.ToString().StartsWith("Inspection")).ToList().AsReadOnly();
+            }
+
+            return new List<SkillPrototype>().AsReadOnly();
+        }
+
+        public void AddSkill(SkillPrototype skillPrototype)
+        {
+            if (skillPrototype != null && !_skills.Contains(skillPrototype))
+            {
+                _skills.Add(skillPrototype);
+            }
+        }
+
+        public void RemoveSkill(SkillPrototype skillPrototype)
+        {
+            if (skillPrototype != null)
+            {
+                _skills.Remove(skillPrototype);
+            }
         }
     }
 }

@@ -1,9 +1,12 @@
-public enum ItemProcess
+namespace PawnShop.Models
 {
-    Undefined = 0,
-    Inspect,
-    Clean,
-    Repair,
-    RemoveMarkings,
-    FabricateDocs
+    public enum ItemProcess
+    {
+        Undefined = 0,
+        Inspect,
+        Clean,
+        Repair,
+        RemoveMarkings,
+        FabricateDocs
+    }
 }

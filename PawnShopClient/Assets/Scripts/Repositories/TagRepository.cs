@@ -1,56 +1,61 @@
 using System.Collections.Generic;
 using System.Linq;
+using PawnShop.Models.Tags;
+using PawnShop.ScriptableObjects.Tags;
 using UnityEngine;
 
-public class TagRepository : ITagRepository
+namespace PawnShop.Repositories
 {
-    private readonly Dictionary<TagType, List<BaseTagPrototype>> _tagsByType = new();
-    private readonly List<BaseTagPrototype> _allTags = new();
-
-    public void Load()
+    public class TagRepository : ITagRepository
     {
-        _tagsByType.Clear();
-        _allTags.Clear();
+        private readonly Dictionary<TagType, List<BaseTagPrototype>> _tagsByType = new();
+        private readonly List<BaseTagPrototype> _allTags = new();
 
-        // Load all tag prototypes from Resources
-        var tagPrototypes = Resources.LoadAll<BaseTagPrototype>("ScriptableObjects/Tags");
-        
-        foreach (var tagPrototype in tagPrototypes)
+        public void Load()
         {
-            if (tagPrototype == null) continue;
+            _tagsByType.Clear();
+            _allTags.Clear();
 
-            // Add to all tags list
-            _allTags.Add(tagPrototype);
+            // Load all tag prototypes from Resources
+            var tagPrototypes = Resources.LoadAll<BaseTagPrototype>("ScriptableObjects/Tags");
 
-            // Group by tag type
-            if (!_tagsByType.ContainsKey(tagPrototype.TagType))
+            foreach (var tagPrototype in tagPrototypes)
             {
-                _tagsByType[tagPrototype.TagType] = new List<BaseTagPrototype>();
+                if (tagPrototype == null) continue;
+
+                // Add to all tags list
+                _allTags.Add(tagPrototype);
+
+                // Group by tag type
+                if (!_tagsByType.ContainsKey(tagPrototype.TagType))
+                {
+                    _tagsByType[tagPrototype.TagType] = new List<BaseTagPrototype>();
+                }
+                _tagsByType[tagPrototype.TagType].Add(tagPrototype);
             }
-            _tagsByType[tagPrototype.TagType].Add(tagPrototype);
+
+            Debug.Log($"[TagRepository] Loaded {_allTags.Count} tag prototypes across {_tagsByType.Count} tag types");
         }
 
-        Debug.Log($"[TagRepository] Loaded {_allTags.Count} tag prototypes across {_tagsByType.Count} tag types");
-    }
-
-    public BaseTagPrototype GetTagPrototypeByClassId(string classId)
-    {
-        if (string.IsNullOrEmpty(classId)) return null;
-        
-        return _allTags.FirstOrDefault(tag => tag.ClassId == classId);
-    }
-
-    public IReadOnlyCollection<BaseTagPrototype> GetAllTagPrototypes()
-    {
-        return _allTags.AsReadOnly();
-    }
-
-    public IReadOnlyCollection<BaseTagPrototype> GetTagPrototypesByType(TagType tagType)
-    {
-        if (_tagsByType.TryGetValue(tagType, out var tags))
+        public BaseTagPrototype GetTagPrototypeByClassId(string classId)
         {
-            return tags.AsReadOnly();
+            if (string.IsNullOrEmpty(classId)) return null;
+
+            return _allTags.FirstOrDefault(tag => tag.ClassId == classId);
         }
-        return new List<BaseTagPrototype>().AsReadOnly();
+
+        public IReadOnlyCollection<BaseTagPrototype> GetAllTagPrototypes()
+        {
+            return _allTags.AsReadOnly();
+        }
+
+        public IReadOnlyCollection<BaseTagPrototype> GetTagPrototypesByType(TagType tagType)
+        {
+            if (_tagsByType.TryGetValue(tagType, out var tags))
+            {
+                return tags.AsReadOnly();
+            }
+            return new List<BaseTagPrototype>().AsReadOnly();
+        }
     }
 }

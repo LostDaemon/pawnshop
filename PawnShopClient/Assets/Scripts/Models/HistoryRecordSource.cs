@@ -1,7 +1,10 @@
-public enum HistoryRecordSource
+namespace PawnShop.Models
 {
-    None = 0,
-    Player,
-    Customer,
-    System
+    public enum HistoryRecordSource
+    {
+        None = 0,
+        Player,
+        Customer,
+        System
+    }
 }

@@ -1,41 +1,44 @@
 using System.Linq;
 
-public class StorageRouterService<T> : IStorageRouterService<T>
+namespace PawnShop.Services
 {
-    public IGameStorageService<T> Source { get; private set; }
-    public IGameStorageService<T> Target { get; private set; }
-    public T Payload { get; private set; }
-
-    public void SetPayload(T payload)
+    public class StorageRouterService<T> : IStorageRouterService<T>
     {
-        Payload = payload;
-    }
+        public IGameStorageService<T> Source { get; private set; }
+        public IGameStorageService<T> Target { get; private set; }
+        public T Payload { get; private set; }
 
-    public void SetSource(IGameStorageService<T> source)
-    {
-        Source = source;
-    }
-
-    public void SetTarget(IGameStorageService<T> target)
-    {
-        Target = target;
-    }
-
-    public void Transfer(T item, IGameStorageService<T> source, IGameStorageService<T> target)
-    {
-        if (!source.All.Contains(item))
+        public void SetPayload(T payload)
         {
-            UnityEngine.Debug.LogWarning("Item not found in source storage.");
-            return;
+            Payload = payload;
         }
 
-        if (source.Withdraw(item))
+        public void SetSource(IGameStorageService<T> source)
         {
-            target.Put(item);
+            Source = source;
         }
-        else
+
+        public void SetTarget(IGameStorageService<T> target)
         {
-            UnityEngine.Debug.LogWarning("Failed to withdraw item from source storage.");
+            Target = target;
+        }
+
+        public void Transfer(T item, IGameStorageService<T> source, IGameStorageService<T> target)
+        {
+            if (!source.All.Contains(item))
+            {
+                UnityEngine.Debug.LogWarning("Item not found in source storage.");
+                return;
+            }
+
+            if (source.Withdraw(item))
+            {
+                target.Put(item);
+            }
+            else
+            {
+                UnityEngine.Debug.LogWarning("Failed to withdraw item from source storage.");
+            }
         }
     }
 }

@@ -1,5 +1,10 @@
-public interface IPlayerService
+using PawnShop.Models.Characters;
+
+namespace PawnShop.Services
 {
-    Player Player { get; }
-    void InitializePlayer();
+    public interface IPlayerService
+    {
+        Player Player { get; }
+        void InitializePlayer();
+    }
 }
