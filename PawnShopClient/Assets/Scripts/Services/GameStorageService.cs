@@ -13,8 +13,12 @@ public class GameStorageService<T> : IGameStorageService<T>
     public void Put(T item)
     {
         _items.Add(item);
+        
+        // Log subscribers count
+        var subscriberCount = OnItemAdded?.GetInvocationList()?.Length ?? 0;
+        Debug.Log($"[Storage] Put called. Subscribers to OnItemAdded: {subscriberCount}");
+        
         OnItemAdded?.Invoke(item);
-        Debug.Log($"[Storage] Item added. Total items: {_items.Count}");
     }
 
     public bool Withdraw(T item)

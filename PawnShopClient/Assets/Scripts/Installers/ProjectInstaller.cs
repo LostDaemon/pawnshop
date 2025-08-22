@@ -5,6 +5,12 @@ public class ProjectInstaller : MonoInstaller
     private const long StartingMoney = 10000L; // TODO: Load from config later
     private const int DefaultSellSlots = 12;
 
+    private void Awake()
+    {
+        // Make this installer persist between scenes
+        DontDestroyOnLoad(gameObject);
+    }
+
     public override void InstallBindings()
     {
         // --- Core Game ---
@@ -65,7 +71,7 @@ public class ProjectInstaller : MonoInstaller
         Container.Bind<ISkillRepositoryService>()
             .To<SkillRepositoryService>()
             .AsSingle();
-            
+
         Container.Bind<ISkillService>()
             .To<SkillService>()
             .AsSingle();

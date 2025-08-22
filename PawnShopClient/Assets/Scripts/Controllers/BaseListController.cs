@@ -18,12 +18,23 @@ public class BaseListController : MonoBehaviour
     [Inject]
     public void Construct(DiContainer container, IStorageLocatorService storageLocatorService)
     {
+        Debug.Log($"[BaseListController] Construct called for {gameObject.name} with storage type {_sourceStorageType}");
+        
+        // Unsubscribe from previous storage if exists
+        if (_storage != null)
+        {
+            _storage.OnItemAdded -= OnItemAdded;
+            _storage.OnItemRemoved -= OnItemRemoved;
+            Debug.Log($"[BaseListController] Unsubscribed from previous storage for {gameObject.name}");
+        }
+        
         _storageLocatorService = storageLocatorService;
         _container = container;
         _storage = _storageLocatorService.Get(_sourceStorageType);
         Debug.Log($"Storage of type {_sourceStorageType} found: {_storage != null}");
         _storage.OnItemAdded += OnItemAdded;
         _storage.OnItemRemoved += OnItemRemoved;
+        Debug.Log($"[BaseListController] Subscribed to storage events for {gameObject.name}");
     }
 
     private void Awake()
