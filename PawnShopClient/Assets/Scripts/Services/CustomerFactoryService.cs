@@ -6,12 +6,12 @@ using UnityEngine;
 public class CustomerFactoryService : ICustomerFactoryService
 {
     private readonly System.Random _random = new();
-    private readonly IItemRepositoryService _itemRepository;
-    private readonly ISkillRepositoryService _skillRepository;
+    private readonly IItemRepository _itemRepository;
+    private readonly ISkillRepository _skillRepository;
 
     public CustomerFactoryService(
-        IItemRepositoryService itemRepository,
-        ISkillRepositoryService skillRepository)
+        IItemRepository itemRepository,
+        ISkillRepository skillRepository)
     {
         _itemRepository = itemRepository;
         _skillRepository = skillRepository;

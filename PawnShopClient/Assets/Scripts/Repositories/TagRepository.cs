@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class TagRepositoryService : ITagRepositoryService
+public class TagRepository : ITagRepository
 {
     private readonly Dictionary<TagType, List<BaseTagPrototype>> _tagsByType = new();
     private readonly List<BaseTagPrototype> _allTags = new();
@@ -30,7 +30,7 @@ public class TagRepositoryService : ITagRepositoryService
             _tagsByType[tagPrototype.TagType].Add(tagPrototype);
         }
 
-        Debug.Log($"[TagRepositoryService] Loaded {_allTags.Count} tag prototypes across {_tagsByType.Count} tag types");
+        Debug.Log($"[TagRepository] Loaded {_allTags.Count} tag prototypes across {_tagsByType.Count} tag types");
     }
 
     public BaseTagPrototype GetTagPrototypeByClassId(string classId)

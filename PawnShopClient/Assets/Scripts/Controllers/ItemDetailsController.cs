@@ -22,10 +22,10 @@ namespace PawnShop.Controllers
         [SerializeField] private Color fallbackTagColor = Color.black;
 
         private ISpriteService _spriteService;
-        private ITagRepositoryService _tagRepository;
+        private ITagRepository _tagRepository;
 
         [Inject]
-        private void Construct(ISpriteService spriteService, ITagRepositoryService tagRepository)
+        private void Construct(ISpriteService spriteService, ITagRepository tagRepository)
         {
             _spriteService = spriteService;
             _tagRepository = tagRepository;

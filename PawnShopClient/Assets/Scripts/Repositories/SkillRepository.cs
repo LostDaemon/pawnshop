@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class SkillRepositoryService : ISkillRepositoryService
+public class SkillRepository : ISkillRepository
 {
     private readonly List<SkillPrototype> _skills;
 
-    public SkillRepositoryService()
+    public SkillRepository()
     {
         _skills = new List<SkillPrototype>();
     }

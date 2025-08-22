@@ -4,33 +4,33 @@ public class LoadLevelState : IGameState
 {
     private ISceneLoader _sceneLoader;
     private GameStateMachine _stateMachine;
-    private IItemRepositoryService _itemRepositoryService;
-    private ISkillRepositoryService _skillRepositoryService;
-    private ITagRepositoryService _tagRepositoryService;
+    private IItemRepository _itemRepository;
+    private ISkillRepository _skillRepository;
+    private ITagRepository _tagRepository;
     private ILocalizationService _localizationService;
-    private ILanguageRepositoryService _languageRepositoryService;
+    private ILanguageRepository _languageRepository;
     private IPlayerService _playerService;
 
 
     [Inject]
-    public void Construct(GameStateMachine stateMachine, ISceneLoader sceneLoader, IItemRepositoryService itemRepositoryService, ISkillRepositoryService skillRepositoryService, ITagRepositoryService tagRepositoryService, ILocalizationService localizationService, ILanguageRepositoryService languageRepositoryService, IPlayerService playerService)
+    public void Construct(GameStateMachine stateMachine, ISceneLoader sceneLoader, IItemRepository itemRepository, ISkillRepository skillRepository, ITagRepository tagRepository, ILocalizationService localizationService, ILanguageRepository languageRepository, IPlayerService playerService)
     {
         _stateMachine = stateMachine;
         _sceneLoader = sceneLoader;
-        _itemRepositoryService = itemRepositoryService;
-        _skillRepositoryService = skillRepositoryService;
-        _tagRepositoryService = tagRepositoryService;
+        _itemRepository = itemRepository;
+        _skillRepository = skillRepository;
+        _tagRepository = tagRepository;
         _localizationService = localizationService;
-        _languageRepositoryService = languageRepositoryService;
+        _languageRepository = languageRepository;
         _playerService = playerService;
     }
 
     public void Enter()
     {
-        _itemRepositoryService.Load();
-        _skillRepositoryService.Load();
-        _tagRepositoryService.Load();
-        _languageRepositoryService.Load();
+        _itemRepository.Load();
+        _skillRepository.Load();
+        _tagRepository.Load();
+        _languageRepository.Load();
 
         // Initialize player after loading skill prototypes
         _playerService.InitializePlayer();

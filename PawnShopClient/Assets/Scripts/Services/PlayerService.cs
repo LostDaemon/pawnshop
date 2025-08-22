@@ -3,12 +3,12 @@ using Zenject;
 
 public class PlayerService : IPlayerService
 {
-    private readonly ISkillRepositoryService _skillRepository;
+    private readonly ISkillRepository _skillRepository;
 
     public Player Player { get; private set; }
 
     [Inject]
-    public PlayerService(ISkillRepositoryService skillRepository)
+    public PlayerService(ISkillRepository skillRepository)
     {
         _skillRepository = skillRepository;
     }

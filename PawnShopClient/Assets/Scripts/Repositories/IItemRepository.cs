@@ -1,4 +1,4 @@
-public interface IItemRepositoryService
+public interface IItemRepository
 {
     ItemModel GetRandomItem();
     ItemModel GetItem(string classId);

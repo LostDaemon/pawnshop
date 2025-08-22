@@ -3,13 +3,13 @@ using UnityEngine;
 
 public class LocalizationService : ILocalizationService
 {
-    private readonly ILanguageRepositoryService _languageRepository;
+    private readonly ILanguageRepository _languageRepository;
     private Dictionary<string, string[]> _localizationDictionary;
     private Language _currentLanguage;
 
     public event System.Action OnLocalizationSwitch;
 
-    public LocalizationService(ILanguageRepositoryService languageRepository)
+    public LocalizationService(ILanguageRepository languageRepository)
     {
         _languageRepository = languageRepository;
         _localizationDictionary = new Dictionary<string, string[]>();

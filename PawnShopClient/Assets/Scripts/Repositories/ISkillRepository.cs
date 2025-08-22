@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public interface ISkillRepositoryService
+public interface ISkillRepository
 {
     SkillPrototype GetSkill(SkillType skillType);
     IReadOnlyCollection<SkillPrototype> GetAllSkills();

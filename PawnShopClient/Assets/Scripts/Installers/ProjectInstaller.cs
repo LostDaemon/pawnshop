@@ -59,8 +59,8 @@ public class ProjectInstaller : MonoInstaller
                   .To<StorageLocatorService>()
                   .AsSingle();
 
-        Container.Bind<IItemRepositoryService>()
-            .To<ItemRepositoryService>()
+        Container.Bind<IItemRepository>()
+            .To<ItemRepository>()
             .AsSingle();
 
         Container.Bind<IStorageRouterService<ItemModel>>()
@@ -68,8 +68,8 @@ public class ProjectInstaller : MonoInstaller
             .AsSingle();
 
         // Skills
-        Container.Bind<ISkillRepositoryService>()
-            .To<SkillRepositoryService>()
+        Container.Bind<ISkillRepository>()
+            .To<SkillRepository>()
             .AsSingle();
 
         Container.Bind<ISkillService>()
@@ -113,13 +113,13 @@ public class ProjectInstaller : MonoInstaller
             .AsSingle();
 
         // Tags
-        Container.Bind<ITagRepositoryService>()
-            .To<TagRepositoryService>()
+        Container.Bind<ITagRepository>()
+            .To<TagRepository>()
             .AsSingle();
 
         // Languages
-        Container.Bind<ILanguageRepositoryService>()
-            .To<LanguageRepositoryService>()
+        Container.Bind<ILanguageRepository>()
+            .To<LanguageRepository>()
             .AsSingle();
     }
 }

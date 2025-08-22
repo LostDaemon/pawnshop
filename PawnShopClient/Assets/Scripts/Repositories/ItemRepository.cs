@@ -2,13 +2,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class ItemRepositoryService : IItemRepositoryService
+public class ItemRepository : IItemRepository
 {
     private readonly List<ItemPrototype> _items;
     private readonly System.Random _random;
-    private readonly ITagRepositoryService _tagRepository;
+    private readonly ITagRepository _tagRepository;
 
-    public ItemRepositoryService(ITagRepositoryService tagRepository)
+    public ItemRepository(ITagRepository tagRepository)
     {
         _random = new System.Random();
         _items = new List<ItemPrototype>();
@@ -17,10 +17,10 @@ public class ItemRepositoryService : IItemRepositoryService
 
     public void Load()
     {
-        Debug.Log("[ItemRepositoryService] Loading item prototypes...");
+        Debug.Log("[ItemRepository] Loading item prototypes...");
         _items.Clear();
         _items.AddRange(Resources.LoadAll<ItemPrototype>(@"ScriptableObjects\Items").ToList());
-        Debug.Log($"[ItemRepositoryService] Loaded {_items.Count} item prototypes.");
+        Debug.Log($"[ItemRepository] Loaded {_items.Count} item prototypes.");
     }
 
     public ItemModel GetRandomItem()
@@ -33,16 +33,16 @@ public class ItemRepositoryService : IItemRepositoryService
 
     public ItemModel GetItem(string classId)
     {
-        Debug.Log($"[ItemRepositoryService] Getting item with classId: {classId}");
+        Debug.Log($"[ItemRepository] Getting item with classId: {classId}");
 
         var itemPrototype = _items.FirstOrDefault(item => item.ClassId == classId);
         if (itemPrototype == null)
         {
-            Debug.LogWarning($"[ItemRepositoryService] Item prototype not found for classId: {classId}");
+            Debug.LogWarning($"[ItemRepository] Item prototype not found for classId: {classId}");
             return null;
         }
 
-        Debug.Log($"[ItemRepositoryService] Found item prototype: {itemPrototype.Name}");
+        Debug.Log($"[ItemRepository] Found item prototype: {itemPrototype.Name}");
 
         bool isFake = _random.NextDouble() < 0.25;
 
@@ -62,12 +62,12 @@ public class ItemRepositoryService : IItemRepositoryService
             Condition = _random.Next(0, 100)
         };
 
-        Debug.Log($"[ItemRepositoryService] Created ItemModel: {result.Name}, Tags count before initialization: {result.Tags?.Count ?? 0}");
+        Debug.Log($"[ItemRepository] Created ItemModel: {result.Name}, Tags count before initialization: {result.Tags?.Count ?? 0}");
 
         // Initialize tags for the item
         InitializeItemTags(result, itemPrototype);
 
-        Debug.Log($"[ItemRepositoryService] Final ItemModel: {result.Name}, Tags count: {result.Tags?.Count ?? 0}");
+        Debug.Log($"[ItemRepository] Final ItemModel: {result.Name}, Tags count: {result.Tags?.Count ?? 0}");
 
         return result;
     }
@@ -76,11 +76,11 @@ public class ItemRepositoryService : IItemRepositoryService
     {
         if (prototype == null) return;
 
-        Debug.Log($"[ItemRepositoryService] Initializing tags for item: {prototype.Name}");
-        Debug.Log($"[ItemRepositoryService] Required tags count: {prototype.requiredTags?.Count ?? 0}");
-        Debug.Log($"[ItemRepositoryService] Override tags generation: {prototype.OverrideTagsGeneration}");
-        Debug.Log($"[ItemRepositoryService] Overrided tags count: {prototype.OverridedTags?.Count ?? 0}");
-        Debug.Log($"[ItemRepositoryService] Allowed tags count: {prototype.allowedTags?.Count ?? 0}");
+        Debug.Log($"[ItemRepository] Initializing tags for item: {prototype.Name}");
+        Debug.Log($"[ItemRepository] Required tags count: {prototype.requiredTags?.Count ?? 0}");
+        Debug.Log($"[ItemRepository] Override tags generation: {prototype.OverrideTagsGeneration}");
+        Debug.Log($"[ItemRepository] Overrided tags count: {prototype.OverridedTags?.Count ?? 0}");
+        Debug.Log($"[ItemRepository] Allowed tags count: {prototype.allowedTags?.Count ?? 0}");
 
         if (prototype.OverrideTagsGeneration)
         {
@@ -91,27 +91,27 @@ public class ItemRepositoryService : IItemRepositoryService
             ProcessRandomTagGeneration(item, prototype);
         }
 
-        Debug.Log($"[ItemRepositoryService] Final tags count for item {item.Name}: {item.Tags.Count}");
+        Debug.Log($"[ItemRepository] Final tags count for item {item.Name}: {item.Tags.Count}");
     }
 
     private void ProcessOverridedTags(ItemModel item, ItemPrototype prototype)
     {
-        Debug.Log($"[ItemRepositoryService] Using overrided tags for item: {prototype.Name}");
+        Debug.Log($"[ItemRepository] Using overrided tags for item: {prototype.Name}");
 
         foreach (var overridedTag in prototype.OverridedTags)
         {
             if (overridedTag != null)
             {
-                Debug.Log($"[ItemRepositoryService] Processing overrided tag: {overridedTag.TagType}");
+                Debug.Log($"[ItemRepository] Processing overrided tag: {overridedTag.TagType}");
                 var tagModel = CreateTagModelFromPrototype(overridedTag);
                 if (tagModel != null)
                 {
                     item.Tags.Add(tagModel);
-                    Debug.Log($"[ItemRepositoryService] Added overrided tag: {tagModel.TagType}");
+                    Debug.Log($"[ItemRepository] Added overrided tag: {tagModel.TagType}");
                 }
                 else
                 {
-                    Debug.LogWarning($"[ItemRepositoryService] Failed to create tag model for overrided tag: {overridedTag.TagType}");
+                    Debug.LogWarning($"[ItemRepository] Failed to create tag model for overrided tag: {overridedTag.TagType}");
                 }
             }
         }
@@ -119,13 +119,13 @@ public class ItemRepositoryService : IItemRepositoryService
 
     private void ProcessRandomTagGeneration(ItemModel item, ItemPrototype prototype)
     {
-        Debug.Log($"[ItemRepositoryService] Using random tag generation for item: {prototype.Name}");
+        Debug.Log($"[ItemRepository] Using random tag generation for item: {prototype.Name}");
 
         // First, add all required tags (ignoring probability)
-        Debug.Log($"[ItemRepositoryService] Adding required tags for item: {prototype.Name}");
+        Debug.Log($"[ItemRepository] Adding required tags for item: {prototype.Name}");
         foreach (var requiredTagType in prototype.requiredTags)
         {
-            Debug.Log($"[ItemRepositoryService] Processing required tag type: {requiredTagType}");
+            Debug.Log($"[ItemRepository] Processing required tag type: {requiredTagType}");
 
             // Get all tags of this type
             var availableTags = _tagRepository.GetTagPrototypesByType(requiredTagType);
@@ -133,22 +133,22 @@ public class ItemRepositoryService : IItemRepositoryService
             {
                 // Select one tag with weighted probability, but one must be selected
                 var selectedTag = SelectRequiredTagByProbability(availableTags);
-                Debug.Log($"[ItemRepositoryService] Selected required tag with weighted probability: {selectedTag.DisplayName}");
+                Debug.Log($"[ItemRepository] Selected required tag with weighted probability: {selectedTag.DisplayName}");
 
                 var tagModel = CreateTagModelFromPrototype(selectedTag);
                 if (tagModel != null)
                 {
                     item.Tags.Add(tagModel);
-                    Debug.Log($"[ItemRepositoryService] Added required tag: {tagModel.TagType} - {tagModel.DisplayName}");
+                    Debug.Log($"[ItemRepository] Added required tag: {tagModel.TagType} - {tagModel.DisplayName}");
                 }
                 else
                 {
-                    Debug.LogWarning($"[ItemRepositoryService] Failed to create tag model for required tag type: {requiredTagType}");
+                    Debug.LogWarning($"[ItemRepository] Failed to create tag model for required tag type: {requiredTagType}");
                 }
             }
             else
             {
-                Debug.LogWarning($"[ItemRepositoryService] Failed to get tag prototype for required tag type: {requiredTagType}");
+                Debug.LogWarning($"[ItemRepository] Failed to get tag prototype for required tag type: {requiredTagType}");
             }
         }
 
@@ -203,7 +203,7 @@ public class ItemRepositoryService : IItemRepositoryService
     {
         if (prototype == null) return null;
 
-        Debug.Log($"[ItemRepositoryService] Creating tag model from prototype: {prototype.TagType}, Type: {prototype.GetType().Name}");
+        Debug.Log($"[ItemRepository] Creating tag model from prototype: {prototype.TagType}, Type: {prototype.GetType().Name}");
 
         BaseTagModel result = prototype switch
         {
@@ -215,11 +215,11 @@ public class ItemRepositoryService : IItemRepositoryService
 
         if (result != null)
         {
-            Debug.Log($"[ItemRepositoryService] Successfully created tag model: {result.TagType}, DisplayName: {result.DisplayName}");
+            Debug.Log($"[ItemRepository] Successfully created tag model: {result.TagType}, DisplayName: {result.DisplayName}");
         }
         else
         {
-            Debug.LogWarning($"[ItemRepositoryService] Failed to create tag model for prototype type: {prototype.GetType().Name}");
+            Debug.LogWarning($"[ItemRepository] Failed to create tag model for prototype type: {prototype.GetType().Name}");
         }
 
         return result;

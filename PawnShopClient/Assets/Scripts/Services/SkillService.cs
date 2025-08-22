@@ -5,14 +5,14 @@ using UnityEngine;
 
 public class SkillService : ISkillService
 {
-    private readonly ISkillRepositoryService _skillRepository;
+    private readonly ISkillRepository _skillRepository;
     private readonly IPlayerService _playerService;
 
     public event Action<SkillType, int> OnSkillLevelChanged;
 
     public Dictionary<SkillType, Skill> PlayerSkills => _playerService.Player.Skills;
 
-    public SkillService(ISkillRepositoryService skillRepository, IPlayerService playerService)
+    public SkillService(ISkillRepository skillRepository, IPlayerService playerService)
     {
         _skillRepository = skillRepository;
         _playerService = playerService;

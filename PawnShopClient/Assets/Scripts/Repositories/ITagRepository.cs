@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-public interface ITagRepositoryService
+public interface ITagRepository
 {
     void Load();
     BaseTagPrototype GetTagPrototypeByClassId(string classId);

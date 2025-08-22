@@ -2,11 +2,11 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class LanguageRepositoryService : ILanguageRepositoryService
+public class LanguageRepository : ILanguageRepository
 {
     private readonly List<LanguagePrototype> _languages;
 
-    public LanguageRepositoryService()
+    public LanguageRepository()
     {
         _languages = new List<LanguagePrototype>();
     }
