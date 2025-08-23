@@ -35,7 +35,7 @@ namespace PawnShop.Services
                     if (prototype != null)
                     {
                         Player.Skills[skillType] = new Skill(prototype);
-                        Player.Skills[skillType].Level = 2; // TODO: Load from config later
+                        Player.Skills[skillType].Level = 5; // TODO: Load from config later
                     }
                     else
                     {
