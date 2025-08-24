@@ -1,10 +1,14 @@
 using System.Collections;
 using UnityEngine;
+using PawnShop.Models;
 
 namespace PawnShop.Controllers
 {
     public class CartController : MonoBehaviour
     {
+        [Header("Cart Type")]
+        [SerializeField] private CartType _cartType = CartType.Undefined;
+        
         [Header("Sprites")]
         [SerializeField] private SpriteRenderer[] _shell;
         
@@ -108,5 +112,10 @@ namespace PawnShop.Controllers
         /// Returns true if fade animation is currently running
         /// </summary>
         public bool IsAnimating => _fadeCoroutine != null;
+        
+        /// <summary>
+        /// Returns the type of this cart
+        /// </summary>
+        public CartType CartType => _cartType;
     }
 }

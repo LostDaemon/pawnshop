@@ -49,7 +49,7 @@ namespace PawnShop.Gamestate
             // Set default language after loading language prototypes
             _localizationService.SwitchLocalization(Language.Russian);
 
-            _sceneLoader.Load("MainScene", () =>
+            _sceneLoader.Load("TrainScene", () =>
             {
                 _stateMachine.Enter<GameLoopState>();
             });

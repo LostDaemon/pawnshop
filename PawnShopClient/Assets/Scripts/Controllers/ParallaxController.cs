@@ -9,6 +9,7 @@ namespace PawnShop.Controllers
         [SerializeField] private Color spriteColor = Color.white;
         [SerializeField] private Sprite[] availableSprites;
         [SerializeField] private Vector3 spriteScale = Vector3.one;
+        [SerializeField] private int layerOrder = 0;
         [SerializeField] private float maxDistance = 10f;
         [SerializeField] private float slowdownCoefficient = 1f;
         [SerializeField] private float speed = 2f;
@@ -54,6 +55,7 @@ namespace PawnShop.Controllers
                 // Set random sprite and color
                 spriteRenderer.sprite = GetRandomSprite();
                 spriteRenderer.color = spriteColor;
+                spriteRenderer.sortingOrder = layerOrder;
                 
                 // Set scale
                 spriteObj.transform.localScale = spriteScale;
@@ -121,6 +123,7 @@ namespace PawnShop.Controllers
             SpriteRenderer spriteRenderer = newSpriteObj.AddComponent<SpriteRenderer>();
             spriteRenderer.sprite = GetRandomSprite();
             spriteRenderer.color = spriteColor;
+            spriteRenderer.sortingOrder = layerOrder;
             
             // Set scale
             newSpriteObj.transform.localScale = spriteScale;
@@ -140,6 +143,7 @@ namespace PawnShop.Controllers
             SpriteRenderer spriteRenderer = newSpriteObj.AddComponent<SpriteRenderer>();
             spriteRenderer.sprite = GetRandomSprite();
             spriteRenderer.color = spriteColor;
+            spriteRenderer.sortingOrder = layerOrder;
             
             // Set scale
             newSpriteObj.transform.localScale = spriteScale;
@@ -168,6 +172,12 @@ namespace PawnShop.Controllers
         {
             spriteScale = newScale;
             UpdateAllSpriteScales();
+        }
+        
+        public void SetLayerOrder(int newLayerOrder)
+        {
+            layerOrder = newLayerOrder;
+            UpdateAllSpriteLayerOrders();
         }
         
         public void SetMaxDistance(float newMaxDistance)
@@ -207,6 +217,21 @@ namespace PawnShop.Controllers
                 if (spriteObj != null)
                 {
                     spriteObj.transform.localScale = spriteScale;
+                }
+            }
+        }
+        
+        private void UpdateAllSpriteLayerOrders()
+        {
+            foreach (GameObject spriteObj in spriteObjects)
+            {
+                if (spriteObj != null)
+                {
+                    SpriteRenderer spriteRenderer = spriteObj.GetComponent<SpriteRenderer>();
+                    if (spriteRenderer != null)
+                    {
+                        spriteRenderer.sortingOrder = layerOrder;
+                    }
                 }
             }
         }
