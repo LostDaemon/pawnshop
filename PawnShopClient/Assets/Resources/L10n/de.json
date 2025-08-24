@@ -53,11 +53,23 @@
       ]
     },
     {
-      "key": "dialog_customer_counter_rejected",
+      "key": "dialog_customer_seller_counter_rejected",
       "values": [
         "Auf keinen Fall. Das ist zu niedrig.",
         "Ich kann nicht so tief gehen.",
-        "Das ist viel zu niedrig für mich."
+        "Das ist viel zu niedrig für mich.",
+        "Das ist ein Witz, oder? Das ist beleidigend.",
+        "Ich behalte es lieber, als es für diesen Preis zu verkaufen."
+      ]
+    },
+    {
+      "key": "dialog_customer_buyer_counter_rejected",
+      "values": [
+        "Das ist viel zu teuer für mich.",
+        "Ich kann mir das nicht leisten.",
+        "Du verlangst zu viel dafür.",
+        "Dieser Preis liegt außerhalb meines Budgets.",
+        "Ich verzichte darauf."
       ]
     },
     {

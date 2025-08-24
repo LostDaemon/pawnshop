@@ -6,11 +6,13 @@
     },
 
     {
-      "key": "dialog_customer_cant_pay",
+      "key": "dialog_customer_deal_joy",
       "values": [
-        "You sure you can pay that?",
-        "Do you have enough money?",
-        "Can you afford that price?"
+        "Excellent! I'm very pleased with this deal!",
+        "Wonderful! This is exactly what I was looking for!",
+        "Fantastic! I'm thrilled with our agreement!",
+        "Magnificent! This deal makes me very happy!",
+        "Amazing! I'm so glad we came to an agreement!"
       ]
     },
     {
@@ -46,11 +48,23 @@
       ]
     },
     {
-      "key": "dialog_customer_counter_rejected",
+      "key": "dialog_customer_seller_counter_rejected",
       "values": [
         "No way. That's too low.",
         "I can't go that low.",
-        "That's much too low for me."
+        "That's much too low for me.",
+        "You're kidding, right? That's insulting.",
+        "I'd rather keep it than sell for that price."
+      ]
+    },
+    {
+      "key": "dialog_customer_buyer_counter_rejected",
+      "values": [
+        "That's way too expensive for me.",
+        "I can't afford that much.",
+        "You're asking too much for this.",
+        "That price is out of my budget.",
+        "I'll pass on this one."
       ]
     },
     {

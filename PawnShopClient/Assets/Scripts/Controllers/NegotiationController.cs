@@ -113,13 +113,13 @@ namespace PawnShop.Controllers
         {
             long offer = _negotiationService.GetCurrentOffer();
 
-            if (_negotiationService.TryPurchase(offer))
+            if (_negotiationService.TryMakeDeal(offer))
             {
-                Debug.Log("Purchase confirmed.");
+                Debug.Log("Deal confirmed.");
             }
             else
             {
-                Debug.Log("Purchase failed.");
+                Debug.Log("Deal failed.");
             }
         }
 

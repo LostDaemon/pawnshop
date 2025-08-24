@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 359138474443697230}
   - component: {fileID: 2426698109296493983}
   - component: {fileID: 147867198657250033}
-  - component: {fileID: 1340383162523918593}
   - component: {fileID: 3958785926941800376}
   m_Layer: 5
   m_Name: DigitsIndicator
@@ -95,19 +94,6 @@ MonoBehaviour:
   _label: {fileID: 8638100817889368962}
   _formatter: '{0}'
   _maxAnimationDuration: 0.05
---- !u!114 &1340383162523918593
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 96069267917264748}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa70a55021f3d554ab275a76f54d9069, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _indicator: {fileID: 147867198657250033}
 --- !u!114 &3958785926941800376
 MonoBehaviour:
   m_ObjectHideFlags: 0

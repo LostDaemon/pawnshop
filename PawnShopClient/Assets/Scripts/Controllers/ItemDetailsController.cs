@@ -16,6 +16,7 @@ namespace PawnShop.Controllers
         [SerializeField] private TextMeshProUGUI itemNameText;
         [SerializeField] private TextMeshProUGUI itemDescriptionText;
         [SerializeField] private IndicatorController itemPriceIndicator;
+        [SerializeField] private GameObject purchasePriceIndicator;
         [SerializeField] private Image itemImage;
         [SerializeField] private TextMeshProUGUI itemTagsText;
         [SerializeField] private TextMeshProUGUI tagDescription;
@@ -51,6 +52,7 @@ namespace PawnShop.Controllers
             UpdateItemImage(item);
             UpdateTagsDisplay(item);
             UpdateOfferIndicator(item);
+            UpdatePurchasePriceIndicator(item);
             tagDescription.text = string.Empty;
         }
 
@@ -116,6 +118,25 @@ namespace PawnShop.Controllers
             if (item != null && itemPriceIndicator != null)
             {
                 itemPriceIndicator.SetValue(item.CurrentOffer, false);
+            }
+        }
+
+        private void UpdatePurchasePriceIndicator(ItemModel item)
+        {
+            if (item != null && purchasePriceIndicator != null)
+            {
+                // Hide purchasePriceIndicator if PurchasePrice is zero
+                bool shouldShow = item.PurchasePrice > 0;
+                purchasePriceIndicator.SetActive(shouldShow);
+                
+                if (shouldShow)
+                {
+                    var indicatorController = purchasePriceIndicator.GetComponentInChildren<IndicatorController>();
+                    if (indicatorController != null)
+                    {
+                        indicatorController.SetValue(item.PurchasePrice, false);
+                    }
+                }
             }
         }
 

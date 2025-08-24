@@ -16,14 +16,14 @@ namespace PawnShop.Gamestate
 
         public void Enter()
         {
-            _negotiationService.OnPurchased += OnItemPurchased;
+            _negotiationService.OnDealSuccess += OnDealSuccess;
             _negotiationService.OnSkipRequested += ShowNextCustomer;
             ShowNextCustomer();
         }
 
         public void Exit()
         {
-            _negotiationService.OnPurchased -= OnItemPurchased;
+            _negotiationService.OnDealSuccess -= OnDealSuccess;
             _negotiationService.OnSkipRequested -= ShowNextCustomer;
         }
 
@@ -32,9 +32,9 @@ namespace PawnShop.Gamestate
             _negotiationService.ShowNextCustomer();
         }
 
-        private void OnItemPurchased(ItemModel _)
+        private void OnDealSuccess()
         {
-            Debug.Log("[GameLoop] Item purchased.");
+            Debug.Log("[GameLoop] Deal successful.");
             ShowNextCustomer();
         }
     }

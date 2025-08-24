@@ -53,11 +53,23 @@
       ]
     },
     {
-      "key": "dialog_customer_counter_rejected",
+      "key": "dialog_customer_seller_counter_rejected",
       "values": [
         "De ninguna manera. Eso es demasiado bajo.",
         "No puedo bajar tanto.",
-        "Eso es demasiado bajo para mí."
+        "Eso es demasiado bajo para mí.",
+        "¿Estás bromeando? Eso es insultante.",
+        "Prefiero quedármelo que venderlo por ese precio."
+      ]
+    },
+    {
+      "key": "dialog_customer_buyer_counter_rejected",
+      "values": [
+        "Es demasiado caro para mí.",
+        "No puedo permitirme eso.",
+        "Estás pidiendo demasiado por esto.",
+        "Ese precio está fuera de mi presupuesto.",
+        "Paso de este."
       ]
     },
     {

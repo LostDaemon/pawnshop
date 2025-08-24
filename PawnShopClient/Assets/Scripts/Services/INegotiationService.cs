@@ -7,7 +7,7 @@ namespace PawnShop.Services
 {
     public interface INegotiationService
     {
-        event Action<ItemModel> OnPurchased;
+        event Action OnDealSuccess;
         event Action<ItemModel> OnCurrentItemChanged;
         event Action<ItemModel> OnCurrentOfferChanged;
         event Action OnSkipRequested;
@@ -15,7 +15,7 @@ namespace PawnShop.Services
         ItemModel CurrentItem { get; }
         long GetCurrentOffer();
         bool MakeCounterOffer(long newOffer);
-        bool TryPurchase(long offeredPrice);
+        bool TryMakeDeal(long offeredPrice);
         void RequestSkip();
         void AskAboutItemOrigin();
         void ShowNextCustomer();
