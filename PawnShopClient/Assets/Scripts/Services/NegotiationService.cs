@@ -74,7 +74,7 @@ namespace PawnShop.Services
             Debug.Log($"Customer knows {tags.Count} tags: {string.Join(", ", tags.Select(t => $"{t.DisplayName}({t.PriceMultiplier:F2}x)"))}");
             Debug.Log($"Item has {positiveTags.Count} positive tags: {string.Join(", ", positiveTags.Select(t => $"{t.DisplayName}({t.PriceMultiplier:F2}x)"))}");
 
-            CurrentItem.CurrentOffer = _evaluationService.Evaluate(CurrentItem, positiveTags); //First offer is based on Customer's overestimation
+            CurrentItem.CurrentOffer = _evaluationService.Evaluate(CurrentItem, positiveTags, EvaluationStrategy.Optimistic); //First offer is based on Customer's overestimation
             Debug.Log($"Generated initial NPC offer: {CurrentItem.CurrentOffer} for item: {CurrentItem.Name}");
         }
 
@@ -175,7 +175,7 @@ namespace PawnShop.Services
 
         private bool ProcessPlayerOffer(long offer)
         {
-            long itemValue = _evaluationService.EvaluateByCustomer(CurrentItem);
+            long itemValue = _evaluationService.EvaluateByCustomer(CurrentItem, EvaluationStrategy.Realistic);
             const float deviationRange = 0.1f; // Add random deviation ±10%
             float deviation = UnityEngine.Random.Range(-deviationRange, deviationRange);
             long adjustedValue = (long)(itemValue * (1 + deviation));
