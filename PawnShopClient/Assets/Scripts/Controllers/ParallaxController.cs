@@ -1,5 +1,7 @@
 using System.Collections.Generic;
+using PawnShop.Services;
 using UnityEngine;
+using Zenject;
 
 namespace PawnShop.Controllers
 {
@@ -12,7 +14,9 @@ namespace PawnShop.Controllers
         [SerializeField] private int layerOrder = 0;
         [SerializeField] private float maxDistance = 10f;
         [SerializeField] private float slowdownCoefficient = 1f;
-        [SerializeField] private float speed = 2f;
+        [SerializeField] private float baseSpeed = 2f;
+        
+        [Inject] private ITrainStateService _trainStateService;
         
         private List<GameObject> spriteObjects;
         private Transform parentTransform;
@@ -20,6 +24,7 @@ namespace PawnShop.Controllers
         private void Start()
         {
             InitializeParallax();
+            SubscribeToTrainEvents();
         }
         
         private void InitializeParallax()
@@ -74,14 +79,16 @@ namespace PawnShop.Controllers
         
         private void MoveSprites()
         {
-            float movement = speed * slowdownCoefficient * Time.deltaTime;
+            // Get speed from train service if available, otherwise use base speed
+            float currentSpeed = _trainStateService != null ? _trainStateService.CurrentSpeed : baseSpeed;
+            float movement = currentSpeed * slowdownCoefficient * Time.deltaTime;
             
             foreach (GameObject spriteObj in spriteObjects)
             {
                 if (spriteObj != null)
                 {
-                                    Vector3 currentPos = spriteObj.transform.localPosition;
-                spriteObj.transform.localPosition = new Vector3(currentPos.x + movement, 0f, 0f);
+                    Vector3 currentPos = spriteObj.transform.localPosition;
+                    spriteObj.transform.localPosition = new Vector3(currentPos.x + movement, 0f, 0f);
                 }
             }
         }
@@ -192,7 +199,7 @@ namespace PawnShop.Controllers
         
         public void SetSpeed(float newSpeed)
         {
-            speed = newSpeed;
+            baseSpeed = newSpeed;
         }
         
         private void UpdateAllSpriteColors()
@@ -234,6 +241,29 @@ namespace PawnShop.Controllers
                     }
                 }
             }
+        }
+
+        private void SubscribeToTrainEvents()
+        {
+            if (_trainStateService != null)
+            {
+                _trainStateService.OnSpeedChanged += OnTrainSpeedChanged;
+            }
+        }
+
+        private void OnTrainSpeedChanged(float newSpeed)
+        {
+            // Parallax will automatically use the new speed in the next MoveSprites call
+            // This method can be used for additional effects if needed
+        }
+
+        private void OnDestroy()
+        {
+            if (_trainStateService != null)
+            {
+                _trainStateService.OnSpeedChanged -= OnTrainSpeedChanged;
+            }
+            StopAllCoroutines();
         }
     }
 }

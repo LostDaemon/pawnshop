@@ -35,6 +35,7 @@ namespace PawnShop.Installers
             Container.Bind<NavigationService2>().AsSingle();
             Container.Bind<ITimeService>().To<TimeService>().AsSingle();
             Container.Bind<ILocalizationService>().To<LocalizationService>().AsSingle();
+            Container.Bind<ITrainStateService>().To<TrainStateService>().AsSingle();
 
             // --- Game Systems ---
             Container.Bind<IWalletService>()
