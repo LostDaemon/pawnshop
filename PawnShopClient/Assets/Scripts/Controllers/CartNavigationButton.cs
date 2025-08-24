@@ -11,10 +11,10 @@ namespace PawnShop.Controllers
         [SerializeField] private Button button;
         [SerializeField] private bool isForward = true; // true = вперед, false = назад
 
-        private NavigationService2 navigationService;
+        private NavigationService navigationService;
 
         [Inject]
-        private void Construct(NavigationService2 navigation)
+        private void Construct(NavigationService navigation)
         {
             navigationService = navigation;
 

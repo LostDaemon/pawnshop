@@ -31,8 +31,7 @@ namespace PawnShop.Installers
             Container.Bind<GameLoopState>().AsSingle();
 
             // --- Services: Utility ---
-            Container.Bind<INavigationService>().To<NavigationService>().AsSingle();
-            Container.Bind<NavigationService2>().AsSingle();
+            Container.Bind<NavigationService>().AsSingle();
             Container.Bind<ITimeService>().To<TimeService>().AsSingle();
             Container.Bind<ILocalizationService>().To<LocalizationService>().AsSingle();
             Container.Bind<ITrainStateService>().To<TrainStateService>().AsSingle();
@@ -96,7 +95,7 @@ namespace PawnShop.Installers
                     .To<SellService>()
                     .AsSingle()
                     .WithArguments(DefaultSellSlots);
-                    
+
             // Asset Bundle System
             Container.Bind<AssetBundleLoader>().AsSingle();
 

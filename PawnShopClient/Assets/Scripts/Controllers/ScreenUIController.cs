@@ -2,39 +2,54 @@ using System.Collections;
 using PawnShop.Models;
 using PawnShop.Services;
 using UnityEngine;
+using Zenject;
 
 namespace PawnShop.Controllers
 {
     [RequireComponent(typeof(CanvasGroup))]
     public class ScreenUIController : MonoBehaviour
     {
-        [SerializeField] private ScreenId screenId; // <- выбирается в инспекторе
+        [SerializeField] private CartType cartType;
         [SerializeField] private float fadeDuration = 0.3f;
 
         private CanvasGroup canvasGroup;
-        private INavigationService navigationService;
+        private NavigationService navigationService;
         private Coroutine fadeRoutine;
 
-        public void Initialize(INavigationService navigation)
+        [Inject]
+        private void Construct(NavigationService navigation)
         {
             navigationService = navigation;
             canvasGroup = GetComponent<CanvasGroup>();
 
-            navigationService.OnScreenChanged += HandleScreenChanged;
+            navigationService.OnCartChanged += HandleCartChanged;
 
-            // Применить начальное состояние
-            SetVisibility(navigationService.CurrentScreen == screenId, instant: true);
+            Debug.Log($"[ScreenUIController2] Construct - Current cart: {navigationService.CurrentCart}, my cart type: {cartType}");
+            bool initialVisibility = navigationService.CurrentCart == cartType;
+            Debug.Log($"[ScreenUIController2] Initial visibility: {initialVisibility}");
+            SetVisibility(initialVisibility, instant: true);
+        }
+
+        public void Initialize(NavigationService navigation)
+        {
+            navigationService = navigation;
+            canvasGroup = GetComponent<CanvasGroup>();
+
+            navigationService.OnCartChanged += HandleCartChanged;
+            SetVisibility(navigationService.CurrentCart == cartType, instant: true);
         }
 
         private void OnDestroy()
         {
             if (navigationService != null)
-                navigationService.OnScreenChanged -= HandleScreenChanged;
+                navigationService.OnCartChanged -= HandleCartChanged;
         }
 
-        private void HandleScreenChanged(ScreenId newScreen)
+        private void HandleCartChanged(CartType newCart)
         {
-            bool shouldShow = newScreen == screenId;
+            Debug.Log($"[ScreenUIController2] Cart changed to: {newCart}, my cart type: {cartType}");
+            bool shouldShow = newCart == cartType;
+            Debug.Log($"[ScreenUIController2] Should show: {shouldShow}");
             SetVisibility(shouldShow, instant: false);
         }
 
@@ -73,5 +88,6 @@ namespace PawnShop.Controllers
             canvasGroup.interactable = visible;
             canvasGroup.blocksRaycasts = visible;
         }
+
     }
 }

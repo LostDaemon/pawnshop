@@ -1,60 +1,32 @@
 using System;
 using PawnShop.Models;
-using UnityEngine;
 
 namespace PawnShop.Services
 {
-    public class NavigationService : INavigationService
+    public class NavigationService
     {
-        public Vector2Int CurrentPosition { get; private set; } = Vector2Int.zero;
-        public Vector2 RoomSize { get; }
+        private CartType _currentCart = CartType.Locomotive;
 
-        public event Action<Vector2Int> OnPositionChanged;
-        public event Action<Vector3> OnWorldPositionChanged;
-        public event Action<ScreenId> OnScreenChanged;
+        public CartType CurrentCart => _currentCart;
 
-        private ScreenId _currentScreen;
-        public ScreenId CurrentScreen
+        public event Action<CartType> OnCartChanged;
+
+        public void SetCart(CartType cartType)
         {
-            get => _currentScreen;
-            private set
-            {
-                if (_currentScreen != value)
-                {
-                    _currentScreen = value;
-                    Debug.Log($"[Navigation] Screen changed to: {_currentScreen}");
-                    OnScreenChanged?.Invoke(_currentScreen);
-                }
-            }
+            _currentCart = cartType;
+            OnCartChanged?.Invoke(_currentCart);
         }
 
-        public NavigationService(Vector2 roomSize)
+        public void NextCart()
         {
-            RoomSize = roomSize;
-            CurrentScreen = ScreenMapper.GetScreen(CurrentPosition);
+            var nextCart = (CartType)((int)_currentCart + 1);
+            SetCart(nextCart);
         }
 
-        public void MoveLeft() => MoveTo(CurrentPosition + Vector2Int.left);
-        public void MoveRight() => MoveTo(CurrentPosition + Vector2Int.right);
-        public void MoveUp() => MoveTo(CurrentPosition + Vector2Int.up);
-        public void MoveDown() => MoveTo(CurrentPosition + Vector2Int.down);
-
-        public void MoveTo(Vector2Int newPosition)
+        public void PreviousCart()
         {
-            if (newPosition == CurrentPosition)
-                return;
-
-            CurrentPosition = newPosition;
-
-            Vector3 worldPosition = new Vector3(
-                CurrentPosition.x * RoomSize.x,
-                CurrentPosition.y * RoomSize.y,
-                0f
-            );
-
-            OnPositionChanged?.Invoke(CurrentPosition);
-            OnWorldPositionChanged?.Invoke(worldPosition);
-            CurrentScreen = ScreenMapper.GetScreen(CurrentPosition);
+            var prevCart = (CartType)((int)_currentCart - 1);
+            SetCart(prevCart);
         }
     }
 }
