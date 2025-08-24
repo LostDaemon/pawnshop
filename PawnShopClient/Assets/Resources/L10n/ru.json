@@ -4,14 +4,7 @@
       "key": "ui_label_loading",
       "values": ["Загрузка..."]
     },
-    {
-      "key": "dialog_customer_initial_offer",
-      "values": [
-        "Я продам '{0}' за {1}.",
-        "Хочу получить {1} за этот '{0}'.",
-        "Прошу {1} за '{0}'."
-      ]
-    },
+
     {
       "key": "dialog_customer_cant_pay",
       "values": [

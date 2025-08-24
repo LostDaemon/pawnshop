@@ -4,14 +4,7 @@
       "key": "ui_label_loading",
       "values": ["Loading..."]
     },
-    {
-      "key": "dialog_customer_initial_offer",
-      "values": [
-        "I'd sell '{0}' for {1}.",
-        "Looking to get {1} for this '{0}'.",
-        "I'm asking {1} for the '{0}'."
-      ]
-    },
+
     {
       "key": "dialog_customer_cant_pay",
       "values": [

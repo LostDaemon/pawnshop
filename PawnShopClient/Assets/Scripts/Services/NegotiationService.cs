@@ -87,13 +87,6 @@ namespace PawnShop.Services
                 Debug.Log($"[NegotiationService] Adding seller intent: {sellerMessage}");
                 _history.Add(new TextRecord(HistoryRecordSource.Customer, sellerMessage));
             }
-
-            // Add initial offer message
-            var offerMessage = string.Format(_localizationService.GetLocalization("dialog_customer_initial_offer"), CurrentItem.Name, CurrentItem.CurrentOffer);
-            Debug.Log($"[NegotiationService] Adding initial offer: {offerMessage}");
-            _history.Add(new TextRecord(HistoryRecordSource.Customer, offerMessage));
-
-
         }
 
         private void GenerateInitialNpcOffer()
