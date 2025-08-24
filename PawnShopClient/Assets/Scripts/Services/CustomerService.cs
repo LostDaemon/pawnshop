@@ -33,7 +33,9 @@ namespace PawnShop.Services
 
         public void ShowNextCustomer()
         {
+            Debug.Log("[CustomerService] ShowNextCustomer called");
             var customer = _customerFactory.GenerateRandomCustomer();
+            Debug.Log($"[CustomerService] Generated customer: Type={customer?.CustomerType}, Item={customer?.OwnedItem?.Name}");
             CurrentCustomer = customer;
             OnCustomerChanged?.Invoke(CurrentCustomer);
         }

@@ -35,6 +35,8 @@ namespace PawnShop.Services
 
         public string GetLocalization(string key)
         {
+            Debug.Log($"[LocalizationService] GetLocalization called for key: '{key}', current language: {_currentLanguage}");
+            
             if (_localizationDictionary.TryGetValue(key, out string[] values))
             {
                 if (values == null || values.Length == 0)
@@ -46,11 +48,14 @@ namespace PawnShop.Services
                 // If only one value, return it directly
                 if (values.Length == 1)
                 {
+                    Debug.Log($"[LocalizationService] Found single value for '{key}': {values[0]}");
                     return values[0];
                 }
 
                 // If multiple values, return a random one
-                return values[Random.Range(0, values.Length)];
+                var selectedValue = values[Random.Range(0, values.Length)];
+                Debug.Log($"[LocalizationService] Found {values.Length} values for '{key}', selected: {selectedValue}");
+                return selectedValue;
             }
 
             Debug.LogWarning($"Localization key '{key}' not found for language {_currentLanguage}");
@@ -59,6 +64,7 @@ namespace PawnShop.Services
 
         private void LoadLocalizationFile(string fileName)
         {
+            Debug.Log($"[LocalizationService] Loading localization file: {fileName}");
             _localizationDictionary.Clear();
 
             var textAsset = Resources.Load<TextAsset>($"L10n/{fileName}");
@@ -71,15 +77,27 @@ namespace PawnShop.Services
             try
             {
                 var jsonContent = textAsset.text;
+                Debug.Log($"[LocalizationService] JSON content length: {jsonContent.Length}");
+                
                 var localizationData = JsonUtility.FromJson<LocalizationData>(jsonContent);
+                Debug.Log($"[LocalizationService] Parsed {localizationData?.entries?.Length ?? 0} entries from JSON");
 
                 foreach (var entry in localizationData.entries)
                 {
                     _localizationDictionary[entry.key] = entry.values;
-                    // Debug.Log($"Loaded localization entry: {entry.key} = {entry.values[0]}");
+                    Debug.Log($"[LocalizationService] Loaded entry: {entry.key} = {entry.values?.Length ?? 0} values");
                 }
 
                 Debug.Log($"Loaded {_localizationDictionary.Count} localization entries from {fileName}");
+                
+                // Check if our new keys are loaded
+                var greetingKey = "dialog_customer_greeting";
+                var buyerKey = "dialog_customer_buyer_intent";
+                var sellerKey = "dialog_customer_seller_intent";
+                
+                Debug.Log($"[LocalizationService] Greeting key exists: {_localizationDictionary.ContainsKey(greetingKey)}");
+                Debug.Log($"[LocalizationService] Buyer key exists: {_localizationDictionary.ContainsKey(buyerKey)}");
+                Debug.Log($"[LocalizationService] Seller key exists: {_localizationDictionary.ContainsKey(sellerKey)}");
             }
             catch (System.Exception e)
             {

@@ -30,6 +30,8 @@ namespace PawnShop.Services
 
         public Customer GenerateRandomCustomer()
         {
+            Debug.Log("[CustomerFactory] GenerateRandomCustomer called");
+            
             var customer = new Customer()
             {
                 UncertaintyLevel = _random.Next(0, 101) / 100f
@@ -37,12 +39,19 @@ namespace PawnShop.Services
 
             // Determine customer type based on inventory
             DetermineCustomerType(customer);
+            Debug.Log($"[CustomerFactory] Customer type determined: {customer.CustomerType}");
 
             // Generate random skill levels for all skills
             GenerateRandomSkills(customer);
 
             customer.OwnedItem = _itemRepository.GetRandomItem();
-            Debug.Log($"[CustomerFactory] Generated customer with item: {customer.OwnedItem.Name}");
+            Debug.Log($"[CustomerFactory] Generated customer with item: {customer.OwnedItem?.Name ?? "NULL"}");
+            
+            if (customer.OwnedItem == null)
+            {
+                Debug.LogError("[CustomerFactory] Failed to get random item from repository!");
+            }
+            
             return customer;
         }
 

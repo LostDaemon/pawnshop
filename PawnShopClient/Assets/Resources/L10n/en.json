@@ -151,6 +151,36 @@
     {
       "key": "dialog_system_shop_opened",
       "values": ["Shop is now open"]
+    },
+    {
+      "key": "dialog_customer_greeting",
+      "values": [
+        "Hello there!",
+        "Good day to you!",
+        "Greetings!",
+        "Welcome!",
+        "Nice to meet you!"
+      ]
+    },
+    {
+      "key": "dialog_customer_buyer_intent",
+      "values": [
+        "I want to buy something from you for {0}",
+        "I'm looking to purchase an item for {0}",
+        "I'd like to buy something for {0}",
+        "I want to make a purchase for {0}",
+        "I'm interested in buying something for {0}"
+      ]
+    },
+    {
+      "key": "dialog_customer_seller_intent",
+      "values": [
+        "I want to offer you something for {0}",
+        "I have something to sell for {0}",
+        "I'd like to offer you an item for {0}",
+        "I want to sell something to you for {0}",
+        "I'm looking to sell an item for {0}"
+      ]
     }
   ]
 }

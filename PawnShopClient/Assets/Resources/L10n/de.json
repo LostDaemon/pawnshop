@@ -139,6 +139,36 @@
     {
       "key": "dialog_system_shop_opened",
       "values": ["Laden ist jetzt geöffnet"]
+    },
+    {
+      "key": "dialog_customer_greeting",
+      "values": [
+        "Hallo!",
+        "Guten Tag!",
+        "Grüße!",
+        "Willkommen!",
+        "Schön, Sie zu treffen!"
+      ]
+    },
+    {
+      "key": "dialog_customer_buyer_intent",
+      "values": [
+        "Ich möchte etwas von Ihnen für {0} kaufen",
+        "Ich suche nach einem Artikel für {0}",
+        "Ich würde gerne etwas für {0} kaufen",
+        "Ich möchte einen Kauf für {0} tätigen",
+        "Ich interessiere mich für den Kauf von etwas für {0}"
+      ]
+    },
+    {
+      "key": "dialog_customer_seller_intent",
+      "values": [
+        "Ich möchte Ihnen etwas für {0} anbieten",
+        "Ich habe etwas zu verkaufen für {0}",
+        "Ich würde Ihnen gerne einen Artikel für {0} anbieten",
+        "Ich möchte Ihnen etwas für {0} verkaufen",
+        "Ich suche nach einem Käufer für einen Artikel für {0}"
+      ]
     }
   ]
 }

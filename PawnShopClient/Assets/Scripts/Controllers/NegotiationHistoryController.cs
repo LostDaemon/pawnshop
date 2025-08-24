@@ -47,6 +47,8 @@ namespace PawnShop.Controllers
         //TODO: Appended records should wait while the previous one is displayed
         private void Append(IHistoryRecord record)
         {
+            Debug.Log($"[NegotiationHistoryController] Appending record: Source={record.Source}, Message={record.Message}");
+            
             GameObject instance = null;
 
             switch (record.Source)
@@ -68,7 +70,10 @@ namespace PawnShop.Controllers
             var text = instance.GetComponentInChildren<TMP_Text>();
 
             if (text != null)
+            {
                 text.text = record.Message;
+                Debug.Log($"[NegotiationHistoryController] Set text to: {record.Message}");
+            }
             else
                 Debug.LogWarning("DialogItem prefab missing TMP_Text");
 

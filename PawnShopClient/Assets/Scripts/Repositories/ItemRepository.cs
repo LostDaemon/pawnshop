@@ -25,14 +25,32 @@ namespace PawnShop.Repositories
         {
             Debug.Log("[ItemRepository] Loading item prototypes...");
             _items.Clear();
-            _items.AddRange(Resources.LoadAll<ItemPrototype>(@"ScriptableObjects\Items").ToList());
+            
+            var loadedItems = Resources.LoadAll<ItemPrototype>(@"ScriptableObjects\Items");
+            Debug.Log($"[ItemRepository] Resources.LoadAll found {loadedItems.Length} items");
+            
+            _items.AddRange(loadedItems.ToList());
             Debug.Log($"[ItemRepository] Loaded {_items.Count} item prototypes.");
+            
+            if (_items.Count == 0)
+            {
+                Debug.LogError("[ItemRepository] No item prototypes loaded! Check ScriptableObjects/Items folder.");
+            }
         }
 
         public ItemModel GetRandomItem()
         {
+            Debug.Log($"[ItemRepository] GetRandomItem called, available items: {_items.Count}");
+            
+            if (_items.Count == 0)
+            {
+                Debug.LogError("[ItemRepository] No items available in repository!");
+                return null;
+            }
+            
             int index = _random.Next(_items.Count);
             var itemPrototype = _items[index];
+            Debug.Log($"[ItemRepository] Selected item prototype: {itemPrototype?.Name ?? "NULL"}");
 
             return GetItem(itemPrototype.ClassId);
         }

@@ -55,12 +55,45 @@ namespace PawnShop.Services
 
         public void ShowNextCustomer()
         {
+            Debug.Log("[NegotiationService] ShowNextCustomer called");
             _customerService.ShowNextCustomer();
-            GenerateInitialNpcOffer();
 
-            _history.Add(new TextRecord(HistoryRecordSource.Customer,
-                string.Format(_localizationService.GetLocalization("dialog_customer_initial_offer"), CurrentItem.Name, CurrentItem.CurrentOffer)));
+            Debug.Log($"[NegotiationService] CurrentCustomer: {CurrentCustomer?.CustomerType}, CurrentItem: {CurrentItem?.Name}");
+
+            // Check if customer and item are available
+            if (CurrentCustomer == null || CurrentItem == null)
+            {
+                Debug.LogWarning("[NegotiationService] Customer or item is null in ShowNextCustomer");
+                return;
+            }
+
+            GenerateInitialNpcOffer();
             OnCurrentItemChanged?.Invoke(CurrentItem);
+            // Add customer greeting
+            var greetingMessage = _localizationService.GetLocalization("dialog_customer_greeting");
+            Debug.Log($"[NegotiationService] Adding greeting: {greetingMessage}");
+            _history.Add(new TextRecord(HistoryRecordSource.Customer, greetingMessage));
+
+            // Add customer intent message based on type
+            if (CurrentCustomer.CustomerType == CustomerType.Buyer)
+            {
+                var buyerMessage = string.Format(_localizationService.GetLocalization("dialog_customer_buyer_intent"), CurrentItem.CurrentOffer);
+                Debug.Log($"[NegotiationService] Adding buyer intent: {buyerMessage}");
+                _history.Add(new TextRecord(HistoryRecordSource.Customer, buyerMessage));
+            }
+            else
+            {
+                var sellerMessage = string.Format(_localizationService.GetLocalization("dialog_customer_seller_intent"), CurrentItem.CurrentOffer);
+                Debug.Log($"[NegotiationService] Adding seller intent: {sellerMessage}");
+                _history.Add(new TextRecord(HistoryRecordSource.Customer, sellerMessage));
+            }
+
+            // Add initial offer message
+            var offerMessage = string.Format(_localizationService.GetLocalization("dialog_customer_initial_offer"), CurrentItem.Name, CurrentItem.CurrentOffer);
+            Debug.Log($"[NegotiationService] Adding initial offer: {offerMessage}");
+            _history.Add(new TextRecord(HistoryRecordSource.Customer, offerMessage));
+
+
         }
 
         private void GenerateInitialNpcOffer()
