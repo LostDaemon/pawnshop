@@ -93,14 +93,7 @@ namespace PawnShop.Services
         {
             if (CurrentItem == null) return;
             // Use evaluation service to get customer's initial offer based on revealed tags
-            var tags = _inspectionService.InspectByCustomer(CurrentItem);
-            var positiveTags = tags.Where(tag => tag.IsRevealedToCustomer && tag.PriceMultiplier > 1).ToList();
-
-
-            Debug.Log($"Customer knows {tags.Count} tags: {string.Join(", ", tags.Select(t => $"{t.DisplayName}({t.PriceMultiplier:F2}x)"))}");
-            Debug.Log($"Item has {positiveTags.Count} positive tags: {string.Join(", ", positiveTags.Select(t => $"{t.DisplayName}({t.PriceMultiplier:F2}x)"))}");
-
-            CurrentItem.CurrentOffer = _evaluationService.Evaluate(CurrentItem, positiveTags, EvaluationStrategy.Optimistic); //First offer is based on Customer's overestimation
+            CurrentItem.CurrentOffer = _evaluationService.EvaluateByCustomer(CurrentItem, EvaluationStrategy.Optimistic); //First offer is based on Customer's overestimation
             Debug.Log($"Generated initial NPC offer: {CurrentItem.CurrentOffer} for item: {CurrentItem.Name}");
         }
 
