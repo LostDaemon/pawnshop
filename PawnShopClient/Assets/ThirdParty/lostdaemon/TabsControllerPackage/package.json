@@ -1,0 +1,38 @@
+{
+  "name": "com.lostdaemon.easiesttabs",
+  "version": "1.0.0",
+  "displayName": "Easiest Tabs",
+  "description": "Simple and efficient tabs for native Unity Canvas UI",
+  "unity": "2019.4",
+  "keywords": [
+    "ui",
+    "tabs",
+    "canvas",
+    "controller",
+    "navigation",
+    "interface"
+  ],
+  "author": {
+    "name": "Anatolii Nikolaev aka LostDaemon",
+    "email": "lost_daemon@hotmail.com",
+    "url": "https://github.com/lostdaemon"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lostdaemon/easiest-unity-tabs-controller.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lostdaemon/easiest-unity-tabs-controller/issues"
+  },
+  "homepage": "https://github.com/lostdaemon/easiest-unity-tabs-controller#readme",
+  "documentationUrl": "https://github.com/lostdaemon/easiest-unity-tabs-controller/blob/master/README.md",
+  "changelogUrl": "https://github.com/lostdaemon/easiest-unity-tabs-controller/blob/master/CHANGELOG.md",
+  "samples": [
+    {
+      "displayName": "DemoScene",
+      "description": "Basic example showing how to set up tabs with TabsController",
+      "path": "DemoScene"
+    }
+  ]
+}
