@@ -7,6 +7,7 @@ using PawnShop.Models;
 using PawnShop.Services;
 using PawnShop.Repositories;
 using PawnShop.Models.Tags;
+using PawnShop.Helpers;
 
 namespace PawnShop.Controllers
 {
@@ -159,22 +160,15 @@ namespace PawnShop.Controllers
                 return;
             }
 
+            // Use helper to render tags with clickable links
             string formattedTags = "";
             for (int i = 0; i < currentDisplayedTags.Count; i++)
             {
                 var tag = currentDisplayedTags[i];
                 if (tag == null) continue;
 
-                // Create clickable link for each tag
-
-                string tagColor = GetTagColorHex(tag);
-
-                // Format as [TagType: DisplayName]
-                string tagDisplayName = !string.IsNullOrEmpty(tag.DisplayName) ? tag.DisplayName : tag.TagType.ToString();
-                string formattedTag = $"[{tag.TagType}: {tagDisplayName}]";
-                formattedTags += $"<color=#{tagColor}><link=\"{tag.ClassId}\">{formattedTag}</link></color>";
-
-                // Add space between tags
+                formattedTags += TagTextRenderHelper.RenderTag(tag);
+                
                 if (i < currentDisplayedTags.Count - 1)
                 {
                     formattedTags += " ";
@@ -183,18 +177,7 @@ namespace PawnShop.Controllers
             itemTagsText.text = formattedTags;
         }
 
-        private string GetTagColorHex(BaseTagModel tag)
-        {
-            // Use the tag's own color if available, otherwise use fallback color
-            if (tag != null && tag.Color != Color.clear)
-            {
-                string colorHex = ColorUtility.ToHtmlStringRGB(tag.Color);
-                return colorHex;
-            }
 
-            string fallbackHex = ColorUtility.ToHtmlStringRGB(fallbackTagColor);
-            return fallbackHex;
-        }
 
         private void OnTagsTextClicked()
         {

@@ -4,6 +4,7 @@ using System.Linq;
 using PawnShop.Models;
 using PawnShop.Models.Characters;
 using PawnShop.Models.Tags;
+using PawnShop.Helpers;
 using UnityEngine;
 using Zenject;
 
@@ -66,6 +67,9 @@ namespace PawnShop.Services
                 Debug.LogWarning($"[NegotiationService] Customer or item is null in ShowNextCustomer: You paid {CurrentItem?.PurchasePrice}");
                 return;
             }
+
+            // Let customer inspect the item to reveal tags based on their skills before evaluation
+            _inspectionService.InspectByCustomer(CurrentItem);
 
             GenerateInitialNpcOffer();
             OnCurrentItemChanged?.Invoke(CurrentItem);
@@ -163,16 +167,115 @@ namespace PawnShop.Services
             if (CurrentItem == null || CurrentCustomer == null)
                 return;
 
-            if (CurrentItem.IsFake)
+            // Get customer's knowledge about the item
+            var customerKnownTags = CurrentItem.Tags.Where(t => t.IsRevealedToCustomer).ToList();
+            
+            if (customerKnownTags.Count == 0)
             {
-                _customerService.IncreaseUncertainty(0.25f);
-                _history.Add(new TextRecord(HistoryRecordSource.Customer, _localizationService.GetLocalization("dialog_customer_uncertain_origin")));
+                // Customer doesn't know anything about the item
+                string noKnowledgeKey = CurrentCustomer.CustomerType == CustomerType.Seller 
+                    ? "dialog_customer_seller_knows_nothing" 
+                    : "dialog_customer_buyer_knows_no_negative";
+                
+                if (CurrentCustomer.CustomerType == CustomerType.Seller)
+                {
+                    _history.Add(new TextRecord(HistoryRecordSource.Customer, 
+                        _localizationService.GetLocalization(noKnowledgeKey)));
+                }
+                else
+                {
+                    // For buyer, show their offer when they know nothing
+                    string neutralMessage = string.Format(
+                        _localizationService.GetLocalization(noKnowledgeKey), 
+                        CurrentItem.CurrentOffer);
+                    _history.Add(new TextRecord(HistoryRecordSource.Customer, neutralMessage));
+                }
+                return;
+            }
+
+            if (CurrentCustomer.CustomerType == CustomerType.Seller)
+            {
+                // Seller logic: show positive tags they know about
+                HandleSellerKnowledge(customerKnownTags);
             }
             else
             {
-                _history.Add(new TextRecord(HistoryRecordSource.Customer, _localizationService.GetLocalization("dialog_customer_family_item")));
+                // Buyer logic: show negative tags they see and justify their offer
+                HandleBuyerKnowledge(customerKnownTags);
             }
         }
+
+        private void HandleSellerKnowledge(List<BaseTagModel> customerKnownTags)
+        {
+            // Get positive tags (tags with positive price multiplier)
+            var positiveTags = customerKnownTags.Where(t => t.PriceMultiplier > 1.0f).ToList();
+            
+            if (positiveTags.Count == 0)
+            {
+                // Customer knows about the item but no positive aspects - treat as knowing nothing
+                _history.Add(new TextRecord(HistoryRecordSource.Customer, 
+                    _localizationService.GetLocalization("dialog_customer_seller_knows_nothing")));
+                return;
+            }
+
+            // Format positive tags with colors using helper
+            string formattedTags = "";
+            for (int i = 0; i < positiveTags.Count; i++)
+            {
+                var tag = positiveTags[i];
+                formattedTags += TagTextRenderHelper.RenderTag(tag);
+                
+                if (i < positiveTags.Count - 1)
+                {
+                    formattedTags += " ";
+                }
+            }
+
+            // Add customer's knowledge to history
+            string customerKnowledgeMessage = string.Format(
+                _localizationService.GetLocalization("dialog_customer_seller_knows_item_positive"), 
+                formattedTags);
+            
+            _history.Add(new TextRecord(HistoryRecordSource.Customer, customerKnowledgeMessage));
+        }
+
+        private void HandleBuyerKnowledge(List<BaseTagModel> customerKnownTags)
+        {
+            // Get negative tags (tags with negative price multiplier)
+            var negativeTags = customerKnownTags.Where(t => t.PriceMultiplier < 1.0f).ToList();
+            
+            if (negativeTags.Count == 0)
+            {
+                               // Buyer sees no negative aspects - neutral positive response
+               string neutralMessage = string.Format(
+                   _localizationService.GetLocalization("dialog_customer_buyer_knows_no_negative"), 
+                   CurrentItem.CurrentOffer);
+                _history.Add(new TextRecord(HistoryRecordSource.Customer, neutralMessage));
+                return;
+            }
+
+            // Format negative tags with colors using helper
+            string formattedTags = "";
+            for (int i = 0; i < negativeTags.Count; i++)
+            {
+                var tag = negativeTags[i];
+                formattedTags += TagTextRenderHelper.RenderTag(tag);
+                
+                if (i < negativeTags.Count - 1)
+                {
+                    formattedTags += " ";
+                }
+            }
+
+            // Add buyer's justification for their offer based on negative tags
+            string buyerMessage = string.Format(
+                _localizationService.GetLocalization("dialog_customer_buyer_knows_negative"), 
+                formattedTags, CurrentItem.CurrentOffer);
+            
+            _history.Add(new TextRecord(HistoryRecordSource.Customer, buyerMessage));
+        }
+
+
 
         public bool MakeCounterOffer(long newOffer)
         {

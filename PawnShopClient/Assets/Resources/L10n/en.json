@@ -100,6 +100,56 @@
       "values": ["Item loaded successfully"]
     },
     {
+      "key": "dialog_customer_seller_knows_nothing",
+      "values": [
+        "I inherited this, but I don't know what it is.",
+        "I found this thing by chance, no idea what it is.",
+        "It came into my possession somehow, but I'm no expert.",
+        "I got it from relatives, but the history is unknown.",
+        "I acquired it somewhere by chance, but forgot the details.",
+        "I thought it might be worth something.",
+        "Maybe someone will find it useful.",
+        "I don't need it, but maybe someone else will.",
+        "Perhaps you have a buyer for such an item?",
+        "I hope it's not just junk."
+      ]
+    },
+
+    {
+      "key": "dialog_customer_seller_knows_item_positive",
+      "values": [
+        "As long as I can remember, this has been in our living room. {0}",
+        "It came to my father from his grandfather. {0}",
+        "This item has always been in our family. {0}",
+        "I've known this thing since childhood. {0}",
+        "My grandfather told me many interesting things about it. {0}",
+        "It's been passed down through generations. {0}",
+        "It's connected to many family stories. {0}",
+        "This item has always been special to us. {0}",
+        "I remember how my grandmother carefully kept it. {0}"
+      ]
+    },
+    {
+      "key": "dialog_customer_buyer_knows_negative",
+      "values": [
+        "This is an interesting specimen, however I can see that {0}, so I can only offer {1}.",
+        "A curious thing, but {0} reduce its value. My offer: {1}.",
+        "Good item, but {0} make me cautious. I offer {1}.",
+        "A nice thing, but {0} don't allow me to offer more than {1}.",
+        "Interesting item, but {0} limit my assessment. I can only give {1}."
+      ]
+    },
+    {
+      "key": "dialog_customer_buyer_knows_no_negative",
+      "values": [
+        "I like this little thing, could you sell it to me for {0}?",
+        "This thing appeals to me, would you agree to {0}?",
+        "Very nice specimen, what do you say about {0}?",
+        "Wonderful thing, would the price {0} suit you?",
+        "Excellent item, I can offer {0}."
+      ]
+    },
+    {
       "key": "dialog_system_negotiation_started",
       "values": ["Negotiation started"]
     },

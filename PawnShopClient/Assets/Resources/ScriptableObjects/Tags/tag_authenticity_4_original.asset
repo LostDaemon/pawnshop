@@ -17,8 +17,9 @@ MonoBehaviour:
   DisplayName: Original
   Description: The Masterpeace
   RequiredSkills: 020000002a00000030000000
-  IsRevealed: 0
+  IsRevealedToPlayer: 0
+  IsRevealedToCustomer: 0
   Hidden: 0
-  PriceMultiplier: 5
+  PriceMultiplier: 3
   AppearanceChance: 0.01
   Color: {r: 1, g: 0, b: 0, a: 1}

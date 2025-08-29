@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
   m_Name: tag_authenticity_2_follower_copy
   m_EditorClassIdentifier: 
+  ClassId: b418a3b9-cddb-4515-8401-f89f896c6ca4
   TagType: 12
   DisplayName: Follower Copy
   Description: Copy made by master's followers
-  Hidden: 0
-  Color: {r: 0.6666667, g: 0, b: 1, a: 1}
-  IsRevealed: 0
   RequiredSkills: 020000002a00000030000000
-  PriceMultiplier: 1
+  IsRevealedToPlayer: 0
+  IsRevealedToCustomer: 0
+  Hidden: 0
+  PriceMultiplier: 1.5
   AppearanceChance: 0.15
+  Color: {r: 0.6666667, g: 0, b: 1, a: 1}
