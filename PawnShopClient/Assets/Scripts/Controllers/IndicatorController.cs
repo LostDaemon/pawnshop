@@ -5,21 +5,20 @@ namespace PawnShop.Controllers
 {
     public class IndicatorController : MonoBehaviour
     {
+        [SerializeField] private TextMeshProUGUI _label;
         [SerializeField] private string _formatter = "{0}";
         [Tooltip("Maximum animation duration in seconds.")]
         [Range(0.01f, 2f)]
         [SerializeField] private float _maxAnimationDuration = 1f;
 
-        private TextMeshProUGUI _label;
         private float _targetValue = 0;
         private float _displayValue = 0;
 
         private void Start()
         {
-            _label = GetComponentInChildren<TextMeshProUGUI>();
             if (_label == null)
             {
-                Debug.LogError("IndicatorController: TextMeshProUGUI not found.");
+                Debug.LogError("IndicatorController: Label field is not assigned.");
             }
             else
             {

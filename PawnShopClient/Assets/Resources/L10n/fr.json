@@ -53,11 +53,23 @@
       ]
     },
     {
-      "key": "dialog_customer_counter_rejected",
+      "key": "dialog_customer_seller_counter_rejected",
       "values": [
         "Pas question. C'est trop bas.",
         "Je ne peux pas descendre si bas.",
-        "C'est beaucoup trop bas pour moi."
+        "C'est beaucoup trop bas pour moi.",
+        "Tu plaisantes, non ? C'est insultant.",
+        "Je préfère le garder que de le vendre à ce prix."
+      ]
+    },
+    {
+      "key": "dialog_customer_buyer_counter_rejected",
+      "values": [
+        "C'est beaucoup trop cher pour moi.",
+        "Je ne peux pas me permettre ça.",
+        "Tu demandes trop pour ça.",
+        "Ce prix dépasse mon budget.",
+        "Je vais passer mon tour."
       ]
     },
     {

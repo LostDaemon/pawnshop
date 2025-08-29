@@ -4,37 +4,93 @@ using System.Linq;
 using PawnShop.Models;
 using PawnShop.Models.Characters;
 using PawnShop.Repositories;
+using PawnShop.Services;
 using UnityEngine;
 
 namespace PawnShop.Services
 {
     public class CustomerFactoryService : ICustomerFactoryService
     {
+        private const float BUYER_CHANCE = 0.5f;
+        
         private readonly System.Random _random = new();
         private readonly IItemRepository _itemRepository;
         private readonly ISkillRepository _skillRepository;
+        private readonly IStorageLocatorService _storageLocator;
 
         public CustomerFactoryService(
             IItemRepository itemRepository,
-            ISkillRepository skillRepository)
+            ISkillRepository skillRepository,
+            IStorageLocatorService storageLocator)
         {
             _itemRepository = itemRepository;
             _skillRepository = skillRepository;
+            _storageLocator = storageLocator;
         }
 
         public Customer GenerateRandomCustomer()
         {
+            Debug.Log("[CustomerFactory] GenerateRandomCustomer called");
+            
             var customer = new Customer()
             {
                 UncertaintyLevel = _random.Next(0, 101) / 100f
             };
 
+            // Determine customer type based on inventory
+            DetermineCustomerType(customer);
+            Debug.Log($"[CustomerFactory] Customer type determined: {customer.CustomerType}");
+
             // Generate random skill levels for all skills
             GenerateRandomSkills(customer);
 
-            customer.OwnedItem = _itemRepository.GetRandomItem();
-            Debug.Log($"[CustomerFactory] Generated customer with item: {customer.OwnedItem.Name}");
+            // Generate item based on customer type
+            if (customer.CustomerType == CustomerType.Buyer)
+            {
+                // Buyer wants to buy an item from player's inventory
+                customer.OwnedItem = GetRandomItemFromInventory();
+                Debug.Log($"[CustomerFactory] Buyer customer - selected item from inventory: {customer.OwnedItem?.Name ?? "NULL"}");
+            }
+            else
+            {
+                // Seller brings their own item to sell to player
+                customer.OwnedItem = _itemRepository.GetRandomItem();
+                Debug.Log($"[CustomerFactory] Seller customer - generated random item: {customer.OwnedItem?.Name ?? "NULL"}");
+            }
+            
+            if (customer.OwnedItem == null)
+            {
+                Debug.LogError("[CustomerFactory] Failed to get item for customer!");
+            }
+            
             return customer;
+        }
+
+        private void DetermineCustomerType(Customer customer)
+        {
+            try
+            {
+                var inventoryStorage = _storageLocator.Get(StorageType.InventoryStorage);
+                var inventoryItemCount = inventoryStorage.All.Count;
+
+                if (inventoryItemCount > 0)
+                {
+                    // 50% chance to be buyer if inventory has items
+                    customer.CustomerType = _random.NextDouble() < BUYER_CHANCE ? CustomerType.Buyer : CustomerType.Seller;
+                    Debug.Log($"[CustomerFactory] Generated {customer.CustomerType} customer (inventory items: {inventoryItemCount})");
+                }
+                else
+                {
+                    // Always seller if inventory is empty (no items to buy)
+                    customer.CustomerType = CustomerType.Seller;
+                    Debug.Log($"[CustomerFactory] Generated {customer.CustomerType} customer - inventory is empty, no items to buy");
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.LogWarning($"[CustomerFactory] Failed to determine customer type: {ex.Message}. Defaulting to Seller.");
+                customer.CustomerType = CustomerType.Seller;
+            }
         }
 
         private void GenerateRandomSkills(Customer customer)
@@ -65,6 +121,37 @@ namespace PawnShop.Services
             }
 
             Debug.Log($"[CustomerFactory] Generated {customer.Skills.Count} random skills for customer");
+        }
+
+        /// <summary>
+        /// Get a random item from player's inventory for buyer customers
+        /// </summary>
+        /// <returns>Random item from inventory or null if inventory is empty</returns>
+        private ItemModel GetRandomItemFromInventory()
+        {
+            try
+            {
+                var inventoryStorage = _storageLocator.Get(StorageType.InventoryStorage);
+                var inventoryItems = inventoryStorage.All;
+
+                if (inventoryItems.Count == 0)
+                {
+                    Debug.LogWarning("[CustomerFactory] Cannot create buyer customer - inventory is empty");
+                    return null;
+                }
+
+                // Select random item from inventory
+                var randomIndex = _random.Next(inventoryItems.Count);
+                var selectedItem = inventoryItems[randomIndex];
+
+                Debug.Log($"[CustomerFactory] Selected item from inventory: {selectedItem.Name} (ID: {selectedItem.Id})");
+                return selectedItem;
+            }
+            catch (Exception ex)
+            {
+                Debug.LogError($"[CustomerFactory] Failed to get item from inventory: {ex.Message}");
+                return null;
+            }
         }
     }
 }

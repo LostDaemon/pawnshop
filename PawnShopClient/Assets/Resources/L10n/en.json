@@ -4,20 +4,15 @@
       "key": "ui_label_loading",
       "values": ["Loading..."]
     },
+
     {
-      "key": "dialog_customer_initial_offer",
+      "key": "dialog_customer_deal_joy",
       "values": [
-        "I'd sell '{0}' for {1}.",
-        "Looking to get {1} for this '{0}'.",
-        "I'm asking {1} for the '{0}'."
-      ]
-    },
-    {
-      "key": "dialog_customer_cant_pay",
-      "values": [
-        "You sure you can pay that?",
-        "Do you have enough money?",
-        "Can you afford that price?"
+        "Excellent! I'm very pleased with this deal!",
+        "Wonderful! This is exactly what I was looking for!",
+        "Fantastic! I'm thrilled with our agreement!",
+        "Magnificent! This deal makes me very happy!",
+        "Amazing! I'm so glad we came to an agreement!"
       ]
     },
     {
@@ -53,11 +48,23 @@
       ]
     },
     {
-      "key": "dialog_customer_counter_rejected",
+      "key": "dialog_customer_seller_counter_rejected",
       "values": [
         "No way. That's too low.",
         "I can't go that low.",
-        "That's much too low for me."
+        "That's much too low for me.",
+        "You're kidding, right? That's insulting.",
+        "I'd rather keep it than sell for that price."
+      ]
+    },
+    {
+      "key": "dialog_customer_buyer_counter_rejected",
+      "values": [
+        "That's way too expensive for me.",
+        "I can't afford that much.",
+        "You're asking too much for this.",
+        "That price is out of my budget.",
+        "I'll pass on this one."
       ]
     },
     {
@@ -151,6 +158,36 @@
     {
       "key": "dialog_system_shop_opened",
       "values": ["Shop is now open"]
+    },
+    {
+      "key": "dialog_customer_greeting",
+      "values": [
+        "Hello there!",
+        "Good day to you!",
+        "Greetings!",
+        "Welcome!",
+        "Nice to meet you!"
+      ]
+    },
+    {
+      "key": "dialog_customer_buyer_intent",
+      "values": [
+        "I want to buy something from you for {0}",
+        "I'm looking to purchase an item for {0}",
+        "I'd like to buy something for {0}",
+        "I want to make a purchase for {0}",
+        "I'm interested in buying something for {0}"
+      ]
+    },
+    {
+      "key": "dialog_customer_seller_intent",
+      "values": [
+        "I want to offer you something for {0}",
+        "I have something to sell for {0}",
+        "I'd like to offer you an item for {0}",
+        "I want to sell something to you for {0}",
+        "I'm looking to sell an item for {0}"
+      ]
     }
   ]
 }

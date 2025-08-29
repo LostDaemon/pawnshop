@@ -20,7 +20,7 @@ namespace PawnShop.Services
         private readonly IPlayerService _playerService;
         private readonly IEvaluationService _evaluationService;
 
-        public event Action<ItemModel> OnPurchased;
+        public event Action OnDealSuccess;
         public event Action<ItemModel> OnCurrentItemChanged;
         public event Action<ItemModel> OnCurrentOfferChanged;
         public event Action OnSkipRequested;
@@ -55,49 +55,97 @@ namespace PawnShop.Services
 
         public void ShowNextCustomer()
         {
+            Debug.Log("[NegotiationService] ShowNextCustomer called");
             _customerService.ShowNextCustomer();
-            GenerateInitialNpcOffer();
 
-            _history.Add(new TextRecord(HistoryRecordSource.Customer,
-                string.Format(_localizationService.GetLocalization("dialog_customer_initial_offer"), CurrentItem.Name, CurrentItem.CurrentOffer)));
+            Debug.Log($"[NegotiationService] CurrentCustomer: {CurrentCustomer?.CustomerType}, CurrentItem: {CurrentItem?.Name}, You paid {CurrentItem?.PurchasePrice}");
+
+            // Check if customer and item are available
+            if (CurrentCustomer == null || CurrentItem == null)
+            {
+                Debug.LogWarning($"[NegotiationService] Customer or item is null in ShowNextCustomer: You paid {CurrentItem?.PurchasePrice}");
+                return;
+            }
+
+            GenerateInitialNpcOffer();
             OnCurrentItemChanged?.Invoke(CurrentItem);
+            // Add customer greeting
+            var greetingMessage = _localizationService.GetLocalization("dialog_customer_greeting");
+            _history.Add(new TextRecord(HistoryRecordSource.Customer, greetingMessage));
+
+            // Add customer intent message based on type
+            if (CurrentCustomer.CustomerType == CustomerType.Buyer)
+            {
+                var buyerMessage = string.Format(_localizationService.GetLocalization("dialog_customer_buyer_intent"), CurrentItem.CurrentOffer);
+                _history.Add(new TextRecord(HistoryRecordSource.Customer, buyerMessage));
+            }
+            else
+            {
+                var sellerMessage = string.Format(_localizationService.GetLocalization("dialog_customer_seller_intent"), CurrentItem.CurrentOffer);
+                Debug.Log($"[NegotiationService] Adding seller intent: {sellerMessage}");
+                _history.Add(new TextRecord(HistoryRecordSource.Customer, sellerMessage));
+            }
         }
 
         private void GenerateInitialNpcOffer()
         {
             if (CurrentItem == null) return;
-            // Use evaluation service to get customer's initial offer based on revealed tags
-            var tags = _inspectionService.InspectByCustomer(CurrentItem);
-            var positiveTags = tags.Where(tag => tag.IsRevealedToCustomer && tag.PriceMultiplier > 1).ToList();
 
+            // Use different evaluation strategies based on customer type
+            var strategy = CurrentCustomer.CustomerType == CustomerType.Seller
+                ? EvaluationStrategy.Optimistic  // Seller overestimates item value
+                : EvaluationStrategy.Pessimistic; // Buyer underestimates item value
 
-            Debug.Log($"Customer knows {tags.Count} tags: {string.Join(", ", tags.Select(t => $"{t.DisplayName}({t.PriceMultiplier:F2}x)"))}");
-            Debug.Log($"Item has {positiveTags.Count} positive tags: {string.Join(", ", positiveTags.Select(t => $"{t.DisplayName}({t.PriceMultiplier:F2}x)"))}");
-
-            CurrentItem.CurrentOffer = _evaluationService.Evaluate(CurrentItem, positiveTags); //First offer is based on Customer's overestimation
-            Debug.Log($"Generated initial NPC offer: {CurrentItem.CurrentOffer} for item: {CurrentItem.Name}");
+            CurrentItem.CurrentOffer = _evaluationService.EvaluateByCustomer(CurrentItem, strategy);
         }
 
-        public bool TryPurchase(long offeredPrice)
+        public bool TryMakeDeal(long offeredPrice)
         {
             if (CurrentItem == null)
                 return false;
 
-            var success = _wallet.TransactionAttempt(CurrencyType.Money, -offeredPrice);
-            if (!success)
+            if (CurrentCustomer.CustomerType == CustomerType.Seller)
             {
-                _history.Add(new TextRecord(HistoryRecordSource.Customer, _localizationService.GetLocalization("dialog_customer_cant_pay")));
-                return false;
-            }
+                // Seller logic: player buys item from customer
+                var success = _wallet.TransactionAttempt(CurrencyType.Money, -offeredPrice);
+                if (!success)
+                {
+                    _history.Add(new TextRecord(HistoryRecordSource.Customer, _localizationService.GetLocalization("dialog_customer_cant_pay")));
+                    return false;
+                }
 
-            CurrentItem.PurchasePrice = offeredPrice;
-            _inventory.Put(CurrentItem);
+                // Reset all customer-revealed tags when player buys the item
+                // This ensures new customers don't know what previous customers knew
+                foreach (var tag in CurrentItem.Tags)
+                {
+                    tag.IsRevealedToCustomer = false;
+                }
+
+                CurrentItem.PurchasePrice = offeredPrice;
+                _inventory.Put(CurrentItem);
+            }
+            else
+            {
+                // Buyer logic: player sells item to customer
+                var success = _wallet.TransactionAttempt(CurrencyType.Money, offeredPrice);
+                if (!success)
+                {
+                    _history.Add(new TextRecord(HistoryRecordSource.Customer, _localizationService.GetLocalization("dialog_customer_deal_joy")));
+                    return false;
+                }
+
+                // Set the sell price for the item being sold
+                CurrentItem.SellPrice = offeredPrice;
+
+                // Remove item from inventory permanently
+                _inventory.Withdraw(CurrentItem);
+            }
 
             CurrentItem.CurrentOffer = offeredPrice;
 
             _history.Add(new TextRecord(HistoryRecordSource.Customer,
                 string.Format(_localizationService.GetLocalization("dialog_customer_deal_accepted"), offeredPrice)));
-            OnPurchased?.Invoke(CurrentItem);
+            OnDealSuccess?.Invoke();
             return true;
         }
 
@@ -144,7 +192,11 @@ namespace PawnShop.Services
             else
             {
                 Debug.Log("Counter offer rejected.");
-                _history.Add(new TextRecord(HistoryRecordSource.Customer, _localizationService.GetLocalization("dialog_customer_counter_rejected")));
+                // Use different rejection messages based on customer type
+                string rejectionKey = CurrentCustomer.CustomerType == CustomerType.Seller 
+                    ? "dialog_customer_seller_counter_rejected" 
+                    : "dialog_customer_buyer_counter_rejected";
+                _history.Add(new TextRecord(HistoryRecordSource.Customer, _localizationService.GetLocalization(rejectionKey)));
             }
 
             return accepted;
@@ -175,14 +227,20 @@ namespace PawnShop.Services
 
         private bool ProcessPlayerOffer(long offer)
         {
-            long itemValue = _evaluationService.EvaluateByCustomer(CurrentItem);
+            long itemValue = _evaluationService.EvaluateByCustomer(CurrentItem, EvaluationStrategy.Realistic);
             const float deviationRange = 0.1f; // Add random deviation ±10%
             float deviation = UnityEngine.Random.Range(-deviationRange, deviationRange);
             long adjustedValue = (long)(itemValue * (1 + deviation));
-            // Make decision based on offer vs adjusted value
-            Debug.Log($"Player offer: {offer}, Adjusted value: {adjustedValue}, Calculated item value: {itemValue}");
 
-            return offer >= adjustedValue;
+            // Different acceptance logic based on customer type
+            if (CurrentCustomer.CustomerType == CustomerType.Seller)
+            {
+                return offer >= adjustedValue; // Seller accepts if offer is at least realistic value
+            }
+            else
+            {
+                return offer <= adjustedValue; // Buyer accepts if offer is at most realistic value
+            }
         }
     }
 }
