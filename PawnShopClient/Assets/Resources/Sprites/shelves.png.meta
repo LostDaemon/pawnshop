@@ -1,0 +1,2205 @@
+fileFormatVersion: 2
+guid: f91e14aeada125c4ab07be554cad1c51
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4774463683687219318
+    second: shelves_0
+  - first:
+      213: 4957412489989203668
+    second: shelves_1
+  - first:
+      213: -981673143100337000
+    second: shelves_2
+  - first:
+      213: 2291192746072323612
+    second: shelves_3
+  - first:
+      213: 1370188764817999769
+    second: shelves_4
+  - first:
+      213: -6491537486099626890
+    second: shelves_5
+  - first:
+      213: -2249132034627429715
+    second: shelves_6
+  - first:
+      213: -7692600912993672573
+    second: shelves_7
+  - first:
+      213: -707490107330645148
+    second: shelves_8
+  - first:
+      213: -2543190676537542710
+    second: shelves_9
+  - first:
+      213: -992308982702899312
+    second: shelves_10
+  - first:
+      213: -3178667087133491429
+    second: shelves_11
+  - first:
+      213: 9029392462459138568
+    second: shelves_12
+  - first:
+      213: 2248016055619459744
+    second: shelves_13
+  - first:
+      213: -1061012358060645447
+    second: shelves_14
+  - first:
+      213: -1406650278952769535
+    second: shelves_15
+  - first:
+      213: -6975837031103607428
+    second: shelves_16
+  - first:
+      213: 4750771203744239314
+    second: shelves_17
+  - first:
+      213: 5453735495509314176
+    second: shelves_18
+  - first:
+      213: -5984624039138648178
+    second: shelves_19
+  - first:
+      213: 5709290964457264589
+    second: shelves_20
+  - first:
+      213: 7791224025031466803
+    second: shelves_21
+  - first:
+      213: 94019624031122842
+    second: shelves_22
+  - first:
+      213: 5675682567115900823
+    second: shelves_23
+  - first:
+      213: -8990744212083727932
+    second: shelves_24
+  - first:
+      213: 2353343696530381534
+    second: shelves_25
+  - first:
+      213: -4168478882994563774
+    second: shelves_26
+  - first:
+      213: -5726840144475008636
+    second: shelves_27
+  - first:
+      213: -579544026019276124
+    second: shelves_28
+  - first:
+      213: -6403238024036007564
+    second: shelves_29
+  - first:
+      213: 5487373746120604901
+    second: shelves_30
+  - first:
+      213: -4105427740961482690
+    second: shelves_31
+  - first:
+      213: 5156624990190499321
+    second: shelves_32
+  - first:
+      213: 4720787169636287533
+    second: shelves_33
+  - first:
+      213: 8879101780534957256
+    second: shelves_34
+  - first:
+      213: -6526147370824273626
+    second: shelves_35
+  - first:
+      213: 5398452429713841094
+    second: shelves_36
+  - first:
+      213: -8400409196338405365
+    second: shelves_37
+  - first:
+      213: 1885167500850831725
+    second: shelves_38
+  - first:
+      213: 4231335860425211151
+    second: shelves_39
+  - first:
+      213: -7506606421261282980
+    second: shelves_40
+  - first:
+      213: -6220461561867142936
+    second: shelves_41
+  - first:
+      213: 6868718502400769290
+    second: shelves_42
+  - first:
+      213: 6035602858534866302
+    second: shelves_43
+  - first:
+      213: -7317273919234016999
+    second: shelves_44
+  - first:
+      213: -3420187819367826212
+    second: shelves_45
+  - first:
+      213: 4435733626875154029
+    second: shelves_46
+  - first:
+      213: 5517144159910345049
+    second: shelves_47
+  - first:
+      213: 5187311108411234200
+    second: shelves_48
+  - first:
+      213: -6897760738257171866
+    second: shelves_49
+  - first:
+      213: -44772625365879280
+    second: shelves_50
+  - first:
+      213: -8400658445219732246
+    second: shelves_51
+  - first:
+      213: -4463769178580452216
+    second: shelves_52
+  - first:
+      213: -8859951707198209045
+    second: shelves_53
+  - first:
+      213: 7002129389970166405
+    second: shelves_54
+  - first:
+      213: 3861675477715452811
+    second: shelves_55
+  - first:
+      213: 4863171904168086510
+    second: shelves_56
+  - first:
+      213: -1223841929555957516
+    second: shelves_57
+  - first:
+      213: 1349820792744024886
+    second: shelves_58
+  - first:
+      213: -3227819139175116485
+    second: shelves_59
+  - first:
+      213: 1684952555321746094
+    second: shelves_60
+  - first:
+      213: 1402067107315115573
+    second: shelves_61
+  - first:
+      213: -4873234154469216019
+    second: shelves_62
+  - first:
+      213: -438069305344813396
+    second: shelves_63
+  - first:
+      213: 5047216238084830772
+    second: shelves_64
+  - first:
+      213: -3966243105004616018
+    second: shelves_65
+  - first:
+      213: -4916912206447636452
+    second: shelves_66
+  - first:
+      213: 5271928282649541233
+    second: shelves_67
+  - first:
+      213: 858530554200923276
+    second: shelves_68
+  - first:
+      213: 1770471059201142648
+    second: shelves_69
+  - first:
+      213: -5170310094728680704
+    second: shelves_70
+  - first:
+      213: 3270742524046510607
+    second: shelves_71
+  - first:
+      213: -6559177774327562695
+    second: shelves_72
+  - first:
+      213: 8126989537515087790
+    second: shelves_73
+  - first:
+      213: -5307092268479770466
+    second: shelves_74
+  - first:
+      213: -5131674893782718731
+    second: shelves_75
+  - first:
+      213: 3224713952900058924
+    second: shelves_76
+  - first:
+      213: -2911610313148041552
+    second: shelves_77
+  - first:
+      213: 4972352457556934948
+    second: shelves_78
+  - first:
+      213: 2535216355672068996
+    second: shelves_79
+  - first:
+      213: -1998797036036628073
+    second: shelves_80
+  - first:
+      213: -7554914202347806310
+    second: shelves_81
+  - first:
+      213: 308141995334338962
+    second: shelves_82
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: shelves_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 89
+        height: 1024
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6700e239c6d424240800000000000000
+      internalID: 4774463683687219318
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_1
+      rect:
+        serializedVersion: 2
+        x: 91
+        y: 0
+        width: 1445
+        height: 1024
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4d624e6e4644cc440800000000000000
+      internalID: 4957412489989203668
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_2
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 1016
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89496fb3a756062f0800000000000000
+      internalID: -981673143100337000
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_3
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 1010
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c16b79dc9a3fbcf10800000000000000
+      internalID: 2291192746072323612
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_4
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 998
+        width: 8
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 997453a0c63e30310800000000000000
+      internalID: 1370188764817999769
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_5
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 1003
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 67446eecc0d69e5a0800000000000000
+      internalID: -6491537486099626890
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_6
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 994
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: daa9417b45a79c0e0800000000000000
+      internalID: -2249132034627429715
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_7
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 991
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 382aa2e0a346e3590800000000000000
+      internalID: -7692600912993672573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_8
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 984
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 463347eee7d7e26f0800000000000000
+      internalID: -707490107330645148
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_9
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 976
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ac7f4e8dd85c4bcd0800000000000000
+      internalID: -2543190676537542710
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_10
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 981
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 09f709adc3c9a32f0800000000000000
+      internalID: -992308982702899312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_11
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 976
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b1fbe24202b13e3d0800000000000000
+      internalID: -3178667087133491429
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_12
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 934
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8027776da98de4d70800000000000000
+      internalID: 9029392462459138568
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_13
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 926
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0aa929c21be823f10800000000000000
+      internalID: 2248016055619459744
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_14
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 864
+        width: 8
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9b3ee7fb1e68641f0800000000000000
+      internalID: -1061012358060645447
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_15
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 840
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 108e0d726039a7ce0800000000000000
+      internalID: -1406650278952769535
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_16
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 846
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c7dcd060e29d03f90800000000000000
+      internalID: -6975837031103607428
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_17
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 830
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 2de84583d312ee140800000000000000
+      internalID: 4750771203744239314
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_18
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 798
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 08a85ccb98f8fab40800000000000000
+      internalID: 5453735495509314176
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_19
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 774
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e8f90e0f42852fca0800000000000000
+      internalID: -5984624039138648178
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_20
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 750
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: dc592df02e97b3f40800000000000000
+      internalID: 5709290964457264589
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_21
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 734
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 33f5d7998fcff1c60800000000000000
+      internalID: 7791224025031466803
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_22
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 725
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a957a4499560e4100800000000000000
+      internalID: 94019624031122842
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_23
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 718
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 79702d6493314ce40800000000000000
+      internalID: 5675682567115900823
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_24
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 712
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4c1a95c26c57a3380800000000000000
+      internalID: -8990744212083727932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_25
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 707
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eda191a9f91c8a020800000000000000
+      internalID: 2353343696530381534
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_26
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 676
+        width: 10
+        height: 13
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 245546d9a869626c0800000000000000
+      internalID: -4168478882994563774
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_27
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 654
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 481de1f0b3d2680b0800000000000000
+      internalID: -5726840144475008636
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_28
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 664
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4aadb6567cb05f7f0800000000000000
+      internalID: -579544026019276124
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_29
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 646
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4714f0561f02327a0800000000000000
+      internalID: -6403238024036007564
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_30
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 638
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5ecb2574951172c40800000000000000
+      internalID: 5487373746120604901
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_31
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 612
+        width: 10
+        height: 19
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e38d4f898379607c0800000000000000
+      internalID: -4105427740961482690
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_32
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 590
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9f5f43c8b13009740800000000000000
+      internalID: 5156624990190499321
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_33
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 550
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d2484624bea938140800000000000000
+      internalID: 4720787169636287533
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_34
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 542
+        width: 9
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8c41351a608e83b70800000000000000
+      internalID: 8879101780534957256
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_35
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 534
+        width: 8
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6217b221b877e65a0800000000000000
+      internalID: -6526147370824273626
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_36
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 526
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 6cb10f1f1e72bea40800000000000000
+      internalID: 5398452429713841094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_37
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 502
+        width: 9
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b00235cd750cb6b80800000000000000
+      internalID: -8400409196338405365
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_38
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 462
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d61235e9ad5792a10800000000000000
+      internalID: 1885167500850831725
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_39
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 443
+        width: 9
+        height: 12
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0d3406eb89b8ba30800000000000000
+      internalID: 4231335860425211151
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_40
+      rect:
+        serializedVersion: 2
+        x: 83
+        y: 438
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c511e084b3d23d790800000000000000
+      internalID: -7506606421261282980
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_41
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 430
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8e8ffe9ba2b7ca9a0800000000000000
+      internalID: -6220461561867142936
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_42
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 416
+        width: 8
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a0d30cdf517925f50800000000000000
+      internalID: 6868718502400769290
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_43
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 398
+        width: 10
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e7d8d4462d4c2c350800000000000000
+      internalID: 6035602858534866302
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_44
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 406
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 91973d79322d37a90800000000000000
+      internalID: -7317273919234016999
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_45
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 390
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cdc76799c4d0980d0800000000000000
+      internalID: -3420187819367826212
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_46
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 333
+        width: 8
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d6e062c6b34ee8d30800000000000000
+      internalID: 4435733626875154029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_47
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 348
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 959b312e165d09c40800000000000000
+      internalID: 5517144159910345049
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_48
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 325
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8971a4438f70df740800000000000000
+      internalID: 5187311108411234200
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_49
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 318
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 66a8b8a872b3640a0800000000000000
+      internalID: -6897760738257171866
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_50
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 300
+        width: 8
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 016b761d88fe06ff0800000000000000
+      internalID: -44772625365879280
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_51
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 278
+        width: 9
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ae4ea4517adda6b80800000000000000
+      internalID: -8400658445219732246
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_52
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 238
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 88cff5705918d02c0800000000000000
+      internalID: -4463769178580452216
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_53
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 230
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be3c5554dd02b0580800000000000000
+      internalID: -8859951707198209045
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_54
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 216
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5829e70d49f8c2160800000000000000
+      internalID: 7002129389970166405
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_55
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 206
+        width: 8
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b83011f036d679530800000000000000
+      internalID: 3861675477715452811
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_56
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 192
+        width: 8
+        height: 15
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: eeb4995a4157d7340800000000000000
+      internalID: 4863171904168086510
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_57
+      rect:
+        serializedVersion: 2
+        x: 79
+        y: 174
+        width: 10
+        height: 20
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4f8a69fcf3a040fe0800000000000000
+      internalID: -1223841929555957516
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_58
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 166
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 63b91fdfbd68bb210800000000000000
+      internalID: 1349820792744024886
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_59
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 150
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b31924a389b7433d0800000000000000
+      internalID: -3227819139175116485
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_60
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 137
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea2e65bfb67226710800000000000000
+      internalID: 1684952555321746094
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_61
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 142
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 536e6ca0b94257310800000000000000
+      internalID: 1402067107315115573
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_62
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 134
+        width: 7
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: de0bf832b5bce5cb0800000000000000
+      internalID: -4873234154469216019
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_63
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 120
+        width: 8
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ca69beba94aabe9f0800000000000000
+      internalID: -438069305344813396
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_64
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 94
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 43631af5d605b0640800000000000000
+      internalID: 5047216238084830772
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_65
+      rect:
+        serializedVersion: 2
+        x: 82
+        y: 102
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea68b59f8e215f8c0800000000000000
+      internalID: -3966243105004616018
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_66
+      rect:
+        serializedVersion: 2
+        x: 156
+        y: 99
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c1018ee266e93cbb0800000000000000
+      internalID: -4916912206447636452
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_67
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 80
+        width: 6
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 17a39a857d6a92940800000000000000
+      internalID: 5271928282649541233
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_68
+      rect:
+        serializedVersion: 2
+        x: 80
+        y: 64
+        width: 9
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c8c17f78dfc1aeb00800000000000000
+      internalID: 858530554200923276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_69
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 72
+        width: 7
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 87f2bc84c0af19810800000000000000
+      internalID: 1770471059201142648
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_70
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 56
+        width: 7
+        height: 18
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 00ba411cc5e5f38b0800000000000000
+      internalID: -5170310094728680704
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_71
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 63
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f0a8e891ff2046d20800000000000000
+      internalID: 3270742524046510607
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_72
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 53
+        width: 6
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93e7196f09e19f4a0800000000000000
+      internalID: -6559177774327562695
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_73
+      rect:
+        serializedVersion: 2
+        x: 946
+        y: 43
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: ea727ecfcedd8c070800000000000000
+      internalID: 8126989537515087790
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_74
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 40
+        width: 7
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e909a0333bb6956b0800000000000000
+      internalID: -5307092268479770466
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_75
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 45
+        width: 8
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5f66a457fd0a8c8b0800000000000000
+      internalID: -5131674893782718731
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_76
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 35
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c2f8ad0414c70cc20800000000000000
+      internalID: 3224713952900058924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_77
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 29
+        width: 7
+        height: 11
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0b67278b8d1e797d0800000000000000
+      internalID: -2911610313148041552
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_78
+      rect:
+        serializedVersion: 2
+        x: 1088
+        y: 35
+        width: 10
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 421c8ba2738510540800000000000000
+      internalID: 4972352457556934948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_79
+      rect:
+        serializedVersion: 2
+        x: 81
+        y: 6
+        width: 8
+        height: 10
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 4831894e7d5ee2320800000000000000
+      internalID: 2535216355672068996
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_80
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 8
+        width: 7
+        height: 8
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 791eee09fa8d244e0800000000000000
+      internalID: -1998797036036628073
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_81
+      rect:
+        serializedVersion: 2
+        x: 1041
+        y: 5
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a9161848f8d872790800000000000000
+      internalID: -7554914202347806310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: shelves_82
+      rect:
+        serializedVersion: 2
+        x: 994
+        y: 0
+        width: 6
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 299884c138db64400800000000000000
+      internalID: 308141995334338962
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable: {}
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

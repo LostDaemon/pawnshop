@@ -1,10 +1,10 @@
 fileFormatVersion: 2
-guid: 1241d86f9b273a5419af09903742f747
+guid: 1bb3388b72fd88a4ab7410edd5dabf4b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8841490917199087839
-    second: table_0
+      213: -8104263025201683167
+    second: bg_wall_door_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -40,9 +40,9 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
-    wrapW: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -53,7 +53,7 @@ TextureImporter:
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 0
+  spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -113,45 +113,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: table_0
+      name: bg_wall_door_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 288
-        width: 465
-        height: 736
+        y: 0
+        width: 1536
+        height: 1024
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 1277183ead6bc4580800000000000000
-      internalID: -8841490917199087839
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: table_1
-      rect:
-        serializedVersion: 2
-        x: 476
-        y: 288
-        width: 353
-        height: 734
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 6b3f952726793a04489d5d619eeeeab4
-      internalID: -73911839
+      spriteID: 125658087bfd78f80800000000000000
+      internalID: -8104263025201683167
       vertices: []
       indices: 
       edges: []
@@ -160,7 +138,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -170,8 +148,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      table_0: -8841490917199087839
-      table_1: -73911839
+      bg_wall_door_0: -8104263025201683167
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

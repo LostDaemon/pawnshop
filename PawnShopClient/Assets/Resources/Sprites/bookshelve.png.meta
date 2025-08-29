@@ -1,10 +1,16 @@
 fileFormatVersion: 2
-guid: 1241d86f9b273a5419af09903742f747
+guid: 898bd7426beb004449858a8b0073bd12
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -8841490917199087839
-    second: table_0
+      213: -4373130886319390674
+    second: bookshelve_0
+  - first:
+      213: 6715717679264509342
+    second: bookshelve_1
+  - first:
+      213: 6240775232393589225
+    second: bookshelve_2
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -40,9 +46,9 @@ TextureImporter:
     filterMode: 1
     aniso: 1
     mipBias: 0
-    wrapU: 0
-    wrapV: 0
-    wrapW: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -53,7 +59,7 @@ TextureImporter:
   spritePivot: {x: 0.5, y: 0.5}
   spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
-  spriteGenerateFallbackPhysicsShape: 0
+  spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
   alphaIsTransparency: 1
   spriteTessellationDetail: -1
@@ -113,45 +119,67 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: table_0
+      name: bookshelve_0
       rect:
         serializedVersion: 2
         x: 0
-        y: 288
-        width: 465
-        height: 736
+        y: 0
+        width: 1536
+        height: 1024
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 1277183ead6bc4580800000000000000
-      internalID: -8841490917199087839
+      spriteID: e20c4a4f0a48f43c0800000000000000
+      internalID: -4373130886319390674
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: table_1
+      name: bookshelve_1
       rect:
         serializedVersion: 2
-        x: 476
-        y: 288
-        width: 353
-        height: 734
+        x: 83
+        y: 408
+        width: 6
+        height: 6
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 6b3f952726793a04489d5d619eeeeab4
-      internalID: -73911839
+      spriteID: e9d2f5cd5a5033d50800000000000000
+      internalID: 6715717679264509342
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: bookshelve_2
+      rect:
+        serializedVersion: 2
+        x: 995
+        y: 146
+        width: 6
+        height: 6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9e130e14200bb9650800000000000000
+      internalID: 6240775232393589225
       vertices: []
       indices: 
       edges: []
@@ -160,7 +188,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -169,9 +197,7 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable:
-      table_0: -8841490917199087839
-      table_1: -73911839
+    nameFileIdTable: {}
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

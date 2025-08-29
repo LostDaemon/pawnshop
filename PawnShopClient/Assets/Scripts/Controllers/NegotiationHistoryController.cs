@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 using System;
+using System.Collections;
 using PawnShop.Services;
 using PawnShop.Models;
 
@@ -10,6 +11,10 @@ namespace PawnShop.Controllers
 {
     public class NegotiationHistoryController : MonoBehaviour
     {
+        [Header("Display Settings")]
+        [SerializeField] private float _minIntervalBetweenMessages = 500f; // Minimum time between messages in milliseconds
+        
+        [Header("UI References")]
         [SerializeField] private Transform _contentRoot;
         [SerializeField] private GameObject _playerDialogItemPrefab;
         [SerializeField] private GameObject _customerDialogItemPrefab;
@@ -19,6 +24,8 @@ namespace PawnShop.Controllers
         private INegotiationHistoryService _historyService;
         private INegotiationService _negotiateService;
         private Action<ItemModel> _onItemChangedHandler;
+        
+        private float _lastMessageTime = 0f;
 
         [Inject]
         public void Construct(INegotiationHistoryService historyService, INegotiationService negotiateService)
@@ -44,11 +51,36 @@ namespace PawnShop.Controllers
                 _negotiateService.OnCurrentItemChanged -= _onItemChangedHandler;
         }
 
-        //TODO: Appended records should wait while the previous one is displayed
         private void Append(IHistoryRecord record)
         {
             Debug.Log($"[NegotiationHistoryController] Appending record: Source={record.Source}, Message={record.Message}");
             
+            float currentTime = Time.time;
+            float timeSinceLastMessage = currentTime - _lastMessageTime;
+            
+            // If enough time has passed or this is the first message, display immediately
+            if (timeSinceLastMessage >= _minIntervalBetweenMessages / 1000f || _lastMessageTime == 0f)
+            {
+                DisplayRecord(record);
+                _lastMessageTime = currentTime;
+            }
+            else
+            {
+                // Wait for the remaining time and then display
+                float remainingTime = (_minIntervalBetweenMessages / 1000f) - timeSinceLastMessage;
+                StartCoroutine(DisplayWithDelay(record, remainingTime));
+            }
+        }
+
+        private IEnumerator DisplayWithDelay(IHistoryRecord record, float delay)
+        {
+            yield return new WaitForSeconds(delay);
+            DisplayRecord(record);
+            _lastMessageTime = Time.time;
+        }
+
+        private void DisplayRecord(IHistoryRecord record)
+        {
             GameObject instance = null;
 
             switch (record.Source)
@@ -83,6 +115,11 @@ namespace PawnShop.Controllers
 
         public void Clear()
         {
+            // Stop any pending display coroutines
+            StopAllCoroutines();
+            _lastMessageTime = 0f;
+            
+            // Clear UI elements
             foreach (Transform child in _contentRoot)
                 Destroy(child.gameObject);
         }
