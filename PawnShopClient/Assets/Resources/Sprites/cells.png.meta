@@ -113,15 +113,15 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: cells_0
+      name: cells_edge
       rect:
         serializedVersion: 2
-        x: 34
-        y: 32
-        width: 954
-        height: 987
+        x: 35
+        y: 0
+        width: 268
+        height: 1024
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -134,11 +134,55 @@ TextureImporter:
       indices: 
       edges: []
       weights: []
+    - serializedVersion: 2
+      name: cells_center
+      rect:
+        serializedVersion: 2
+        x: 331
+        y: 0
+        width: 208
+        height: 1024
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: de565354a97a6074e9eee75ae97404a4
+      internalID: 413200587
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: cell_cover
+      rect:
+        serializedVersion: 2
+        x: 565
+        y: 204
+        width: 215
+        height: 222
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7e6ae0ad227af184386c4b20c5de04b9
+      internalID: -1884846382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 
+    spriteID: a7a0bd37f36ca364b9569f1aa08b296b
     internalID: 0
     vertices: []
     indices: 
@@ -147,7 +191,10 @@ TextureImporter:
     secondaryTextures: []
     spriteCustomMetadata:
       entries: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      cell_cover: -1884846382
+      cells_center: 413200587
+      cells_edge: -1604013942635242318
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

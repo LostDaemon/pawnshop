@@ -1,10 +1,10 @@
 # TabsController for Unity
 
-Simple and efficient tabs controller for Unity UI with button-based navigation.
+Simple and efficient tabs controller for Unity UI with button-based navigation and color customization.
 
 ## Description
 
-TabsController is a MonoBehaviour component that allows you to easily create and manage a tab system in Unity. When clicking on a tab button, all other tabs automatically hide, and the selected one becomes visible.
+TabsController is a MonoBehaviour component that allows you to easily create and manage a tab system in Unity. When clicking on a tab button, all other tabs automatically hide, and the selected one becomes visible. The controller also provides automatic color management for better visual feedback.
 
 ## Features
 
@@ -14,6 +14,9 @@ TabsController is a MonoBehaviour component that allows you to easily create and
 - ✅ Safety (null checks)
 - ✅ Automatic memory cleanup
 - ✅ First tab activates by default
+- ✅ **Color customization for each tab**
+- ✅ **Automatic highlight color for active tab**
+- ✅ **Smart text color contrast calculation**
 
 ## Installation
 
@@ -35,8 +38,17 @@ In the component inspector, configure the `Tabs` list:
 
 - **Button** - button for switching tabs
 - **Tab Content** - GameObject with tab content
+- **Tab Color** - individual color for each tab button
 
-### 3. UI Structure
+### 3. Color Configuration
+
+The TabsController includes a color system:
+
+- **Highlight Color** - color for the active tab button
+- **Individual Tab Colors** - custom color for each tab button
+- **Automatic Text Contrast** - text color automatically adjusts for readability
+
+### 4. UI Structure
 
 Recommended structure:
 
@@ -57,6 +69,12 @@ Canvas
 ### Automatic Switching
 
 After setup, tabs will switch automatically when clicking buttons.
+
+### Color Behavior
+
+- **Active Tab**: Uses the highlight color
+- **Inactive Tabs**: Use their individual tab colors
+- **Text Colors**: Automatically calculated for optimal contrast
 
 ### Programmatic Control
 
@@ -101,10 +119,46 @@ Initializes tabs and subscribes to button events.
 
 Handles tab button click event.
 
+#### `UpdateButtonColors(int activeTabIndex)`
+
+Updates button colors to highlight the active tab.
+
+#### `UpdateButtonTextColor(Button button, Color backgroundColor)`
+
+Updates button text color for optimal contrast.
+
+## Color System Details
+
+### TabData Structure
+
+```csharp
+[System.Serializable]
+public class TabData
+{
+    public Button button;
+    public GameObject tabContent;
+    public Color tabColor; // Individual tab color
+}
+```
+
+### Color Configuration
+
+- **Highlight Color**: Set in inspector, used for active tab
+- **Tab Colors**: Individual colors for each tab button
+- **Text Contrast**: Automatically calculated using luminance formula
+
+### Text Contrast Algorithm
+
+The controller uses the luminance formula to determine optimal text color:
+
+- If background is dark (luminance < 0.5): White text
+- If background is light (luminance >= 0.5): Black text
+
 ## Requirements
 
 - Unity 2019.4 LTS or newer
-- UI Toolkit (built into Unity)
+- UnityEngine.UI
+- TextMeshPro (for text components)
 
 ## Usage Example
 
@@ -114,7 +168,9 @@ Handles tab button click event.
 4. Create GameObjects with content for each tab
 5. Add TabsController to Canvas
 6. Configure tab list in inspector
-7. Run scene - first tab will be active by default
+7. Set individual tab colors
+8. Adjust highlight color if needed
+9. Run scene - first tab will be active by default
 
 ## Troubleshooting
 
@@ -128,6 +184,12 @@ Handles tab button click event.
 
 - Ensure first element in tab list is configured correctly
 - Check that first tab's Tab Content exists
+
+### Color Issues
+
+- Verify TextMeshPro components are attached to buttons
+- Check that tab colors are properly set in inspector
+- Ensure highlight color is visible against your UI theme
 
 ### Console Errors
 
@@ -144,6 +206,6 @@ For issues or improvement suggestions, create an issue in the project repository
 
 ---
 
-**Version:** 1.0.0  
+**Version:** 1.0.1  
 **Date:** 08.2025  
 **Author:** Anatolii Nikolaev aka LostDaemon

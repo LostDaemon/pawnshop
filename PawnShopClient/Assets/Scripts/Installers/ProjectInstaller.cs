@@ -1,3 +1,4 @@
+using PawnShop.Controllers;
 using PawnShop.Gamestate;
 using PawnShop.Infrastructure;
 using PawnShop.Models;
@@ -31,9 +32,9 @@ namespace PawnShop.Installers
             Container.Bind<GameLoopState>().AsSingle();
 
             // --- Services: Utility ---
-            Container.Bind<INavigationService>().To<NavigationService>().AsSingle();
             Container.Bind<ITimeService>().To<TimeService>().AsSingle();
             Container.Bind<ILocalizationService>().To<LocalizationService>().AsSingle();
+            Container.Bind<INavigationService>().To<NavigationService>().AsSingle();
 
             // --- Game Systems ---
             Container.Bind<IWalletService>()
@@ -73,6 +74,11 @@ namespace PawnShop.Installers
                 .To<StorageRouterService<ItemModel>>()
                 .AsSingle();
 
+            // Item Transfer
+            Container.Bind<IItemTransferService>()
+                .To<ItemTransferService>()
+                .AsSingle();
+
             // Skills
             Container.Bind<ISkillRepository>()
                 .To<SkillRepository>()
@@ -94,7 +100,12 @@ namespace PawnShop.Installers
                     .To<SellService>()
                     .AsSingle()
                     .WithArguments(DefaultSellSlots);
-                    
+
+            // Shelf Service
+            Container.Bind<IShelfService>()
+                    .To<ShelfService>()
+                    .AsSingle();
+
             // Asset Bundle System
             Container.Bind<AssetBundleLoader>().AsSingle();
 

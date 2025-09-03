@@ -1,8 +1,8 @@
 using System;
 using PawnShop.Models;
-using PawnShop.Services;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 using Zenject;
 
 namespace PawnShop.Controllers
@@ -10,17 +10,11 @@ namespace PawnShop.Controllers
     public class ListItemController : MonoBehaviour
     {
         private Image _image;
-        private ISpriteService _spriteService;
         private ItemModel _item;
 
         public event Action<ItemModel> OnClick;
         public ItemModel Item => _item;
 
-        [Inject]
-        public void Construct(ISpriteService spriteService)
-        {
-            _spriteService = spriteService;
-        }
 
         private void Awake()
         {
@@ -47,10 +41,20 @@ namespace PawnShop.Controllers
             _image.preserveAspect = true;
         }
 
-        public void OnClicked()
+
+        private StorageTypeMarkerController GetStorageTypeMarker()
         {
-            Debug.Log($"Item clicked");
-            OnClick?.Invoke(_item);
+            var current = transform;
+            while (current != null)
+            {
+                var marker = current.GetComponent<StorageTypeMarkerController>();
+                if (marker != null)
+                {
+                    return marker;
+                }
+                current = current.parent;
+            }
+            return null;
         }
     }
 }

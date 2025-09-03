@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 4924522569301796190}
   - component: {fileID: 1098990263835241804}
   - component: {fileID: 68186765399351445}
+  - component: {fileID: 3073928275930613295}
   m_Layer: 5
   m_Name: ListItem
   m_TagString: Untagged
@@ -120,19 +121,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 4924522569301796190}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 68186765399351445}
-        m_TargetAssemblyTypeName: ListItemController, Assembly-CSharp
-        m_MethodName: OnClicked
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &68186765399351445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -145,3 +134,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c18ba2d1a2289bb4fb8b1c115907e8bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3073928275930613295
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5769400751069965085}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a053f8ed36939a489b82a4f317488c8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  id: transfer_source_f8a8dcbb-4728-41b8-80a9-41b207886686
+  storageType: 0
+  _transferTargets: []
