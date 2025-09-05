@@ -141,6 +141,11 @@ namespace PawnShop.Installers
             Container.Bind<ILanguageRepository>()
                 .To<LanguageRepository>()
                 .AsSingle();
+
+            // Drag and Drop
+            Container.Bind<IDragNDropService>()
+                .To<DragNDropService>()
+                .AsSingle();
         }
     }
 }
