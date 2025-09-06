@@ -13,6 +13,7 @@ namespace PawnShop.Services
         public float TimeMultiplier { get; set; } = 60f; // 1 real second = 1 in-game minute
 
         public event Action<GameTime> OnTimeChanged;
+        public event Action<Action> OnEventTriggered; // Event fired when a scheduled event is triggered
 
         private readonly List<ScheduledEvent> _scheduledEvents = new();
 
@@ -54,7 +55,9 @@ namespace PawnShop.Services
             {
                 if (IsSameOrPast(_scheduledEvents[i].Time, now))
                 {
-                    _scheduledEvents[i].Callback?.Invoke();
+                    var eventCallback = _scheduledEvents[i].Callback;
+                    // Notify subscribers that an event was triggered
+                    OnEventTriggered?.Invoke(eventCallback);
                     _scheduledEvents.RemoveAt(i);
                 }
             }

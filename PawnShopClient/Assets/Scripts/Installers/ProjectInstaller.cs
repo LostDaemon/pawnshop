@@ -34,6 +34,7 @@ namespace PawnShop.Installers
 
             // --- Services: Utility ---
             Container.Bind<ITimeService>().To<TimeService>().AsSingle();
+            Container.Bind<IEventsQueueService>().To<EventsQueueService>().AsSingle();
             Container.Bind<ILocalizationService>().To<LocalizationService>().AsSingle();
             Container.Bind<INavigationService>().To<NavigationService>().AsSingle();
 
