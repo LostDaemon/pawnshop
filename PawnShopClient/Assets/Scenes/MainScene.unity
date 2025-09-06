@@ -1169,6 +1169,10 @@ PrefabInstance:
       propertyPath: _lotTransform
       value: 
       objectReference: {fileID: 1022875247}
+    - target: {fileID: 5168431674199826998, guid: b037c1340c7c1a349bcc8e737af4176e, type: 3}
+      propertyPath: m_BlocksRaycasts
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5191000778688468569, guid: b037c1340c7c1a349bcc8e737af4176e, type: 3}
       propertyPath: _lotTransform
       value: 
@@ -9346,7 +9350,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -12738,9 +12742,9 @@ RectTransform:
   m_LocalScale: {x: 0, y: 0, z: 0}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 360230664}
   - {fileID: 419696761}
   - {fileID: 998029341}
-  - {fileID: 360230664}
   - {fileID: 1803527373}
   - {fileID: 86316157}
   m_Father: {fileID: 0}
