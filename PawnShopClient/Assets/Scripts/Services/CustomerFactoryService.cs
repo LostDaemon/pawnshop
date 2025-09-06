@@ -1,10 +1,8 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using PawnShop.Models;
 using PawnShop.Models.Characters;
 using PawnShop.Repositories;
-using PawnShop.Services;
 using UnityEngine;
 
 namespace PawnShop.Services
@@ -12,7 +10,7 @@ namespace PawnShop.Services
     public class CustomerFactoryService : ICustomerFactoryService
     {
         private const float BUYER_CHANCE = 0.5f;
-        
+
         private readonly System.Random _random = new();
         private readonly IItemRepository _itemRepository;
         private readonly ISkillRepository _skillRepository;
@@ -31,7 +29,7 @@ namespace PawnShop.Services
         public Customer GenerateRandomCustomer()
         {
             Debug.Log("[CustomerFactory] GenerateRandomCustomer called");
-            
+
             var customer = new Customer()
             {
                 UncertaintyLevel = _random.Next(0, 101) / 100f
@@ -48,7 +46,7 @@ namespace PawnShop.Services
             if (customer.CustomerType == CustomerType.Buyer)
             {
                 // Buyer wants to buy an item from player's inventory
-                customer.OwnedItem = GetRandomItemFromInventory();
+                customer.OwnedItem = GetRandomItemFromSell();
                 Debug.Log($"[CustomerFactory] Buyer customer - selected item from inventory: {customer.OwnedItem?.Name ?? "NULL"}");
             }
             else
@@ -57,12 +55,12 @@ namespace PawnShop.Services
                 customer.OwnedItem = _itemRepository.GetRandomItem();
                 Debug.Log($"[CustomerFactory] Seller customer - generated random item: {customer.OwnedItem?.Name ?? "NULL"}");
             }
-            
+
             if (customer.OwnedItem == null)
             {
                 Debug.LogError("[CustomerFactory] Failed to get item for customer!");
             }
-            
+
             return customer;
         }
 
@@ -70,14 +68,14 @@ namespace PawnShop.Services
         {
             try
             {
-                var inventoryStorage = _storageLocator.Get(StorageType.InventoryStorage);
-                var inventoryItemCount = inventoryStorage.All.Count;
+                var sellStorage = _storageLocator.Get(StorageType.SellStorage);
+                var sellItemCount = sellStorage.GetOccupiedSlotsCount();
 
-                if (inventoryItemCount > 0)
+                if (sellItemCount > 0)
                 {
                     // 50% chance to be buyer if inventory has items
                     customer.CustomerType = _random.NextDouble() < BUYER_CHANCE ? CustomerType.Buyer : CustomerType.Seller;
-                    Debug.Log($"[CustomerFactory] Generated {customer.CustomerType} customer (inventory items: {inventoryItemCount})");
+                    Debug.Log($"[CustomerFactory] Generated {customer.CustomerType} customer (inventory items: {sellItemCount})");
                 }
                 else
                 {
@@ -127,22 +125,22 @@ namespace PawnShop.Services
         /// Get a random item from player's inventory for buyer customers
         /// </summary>
         /// <returns>Random item from inventory or null if inventory is empty</returns>
-        private ItemModel GetRandomItemFromInventory()
+        private ItemModel GetRandomItemFromSell()
         {
             try
             {
-                var inventoryStorage = _storageLocator.Get(StorageType.InventoryStorage);
-                var inventoryItems = inventoryStorage.All;
+                var sellStorage = _storageLocator.Get(StorageType.SellStorage);
+                var itemsForSell = sellStorage.All.Where(item => item.Value != null).ToList();
 
-                if (inventoryItems.Count == 0)
+                if (!itemsForSell.Any())
                 {
                     Debug.LogWarning("[CustomerFactory] Cannot create buyer customer - inventory is empty");
                     return null;
                 }
 
-                // Select random item from inventory
-                var randomIndex = _random.Next(inventoryItems.Count);
-                var selectedItem = inventoryItems[randomIndex];
+                // Select random item from occupied slots
+                var randomIndex = _random.Next(itemsForSell.Count);
+                var selectedItem = itemsForSell[randomIndex].Value;
 
                 Debug.Log($"[CustomerFactory] Selected item from inventory: {selectedItem.Name} (ID: {selectedItem.Id})");
                 return selectedItem;

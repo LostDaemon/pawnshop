@@ -33,10 +33,11 @@ namespace PawnShop.Services
             if (sourceStorage == null || targetStorage == null) return false;
 
             // Check if item exists in source storage
-            if (!sourceStorage.All.Contains(item)) return false;
+            if (!sourceStorage.HasItem(item)) return false;
 
-            // Check if target storage can accept the item
-            // This could include capacity checks, type restrictions, etc.
+            // Check if target storage can accept the item (has free slots)
+            if (targetStorage.GetFreeSlotsCount() <= 0) return false;
+
             return true;
         }
 

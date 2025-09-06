@@ -2,12 +2,12 @@ namespace PawnShop.Services
 {
     public interface IStorageRouterService<T>
     {
-        IGameStorageService<T> Source { get; }
-        IGameStorageService<T> Target { get; }
+        ISlotStorageService<T> Source { get; }
+        ISlotStorageService<T> Target { get; }
         T Payload { get; }
-        void SetSource(IGameStorageService<T> source);
+        void SetSource(ISlotStorageService<T> source);
         void SetPayload(T payload);
-        void SetTarget(IGameStorageService<T> target);
-        void Transfer(T item, IGameStorageService<T> source, IGameStorageService<T> target);
+        void SetTarget(ISlotStorageService<T> target);
+        void Transfer(T item, ISlotStorageService<T> source, ISlotStorageService<T> target);
     }
 }

@@ -11,33 +11,29 @@ namespace PawnShop.Controllers
     {
         [SerializeField] private StorageType _sourceStorageType;
         [SerializeField] private Transform _contentRoot;
+        [SerializeField] private GameObject _itemSlotPrefab;
         [SerializeField] private GameObject _itemPrefab;
         [SerializeField] private BaseItemInfoController _itemInfo;
-        private IGameStorageService<ItemModel> _storage;
+        private ISlotStorageService<ItemModel> _storage;
         private IStorageLocatorService _storageLocatorService;
         private DiContainer _container;
-        protected List<ListItemController> RenderedItems = new();
+        protected List<ItemSlotController> RenderedItems = new();
         public ItemModel SelectedItem;
 
         [Inject]
         public void Construct(DiContainer container, IStorageLocatorService storageLocatorService)
         {
-            Debug.Log($"[BaseListController] Construct called for {gameObject.name} with storage type {_sourceStorageType}");
-
-            // Unsubscribe from previous storage if exists
-            if (_storage != null)
-            {
-                _storage.OnItemAdded -= OnItemAdded;
-                _storage.OnItemRemoved -= OnItemRemoved;
-                Debug.Log($"[BaseListController] Unsubscribed from previous storage for {gameObject.name}");
-            }
 
             _storageLocatorService = storageLocatorService;
             _container = container;
             _storage = _storageLocatorService.Get(_sourceStorageType);
             Debug.Log($"Storage of type {_sourceStorageType} found: {_storage != null}");
-            _storage.OnItemAdded += OnItemAdded;
-            _storage.OnItemRemoved += OnItemRemoved;
+
+            // Clear all existing items and rebuild the list
+            ClearAllItems();
+            RebuildList();
+
+
             Debug.Log($"[BaseListController] Subscribed to storage events for {gameObject.name}");
         }
 
@@ -49,41 +45,44 @@ namespace PawnShop.Controllers
                 return;
             }
 
-            foreach (var item in _storage.All)
-                AddItem(item);
+           // RebuildList();
         }
 
         private void OnDestroy()
         {
-            if (_storage != null)
+            // Clear the list and destroy all children
+            RenderedItems.Clear();
+            for (int i = _contentRoot.childCount - 1; i >= 0; i--)
             {
-                _storage.OnItemAdded -= OnItemAdded;
-                _storage.OnItemRemoved -= OnItemRemoved;
-            }
-
-            foreach (var item in RenderedItems)
-            {
-                item.OnClick -= OnItemClicked;
-                Destroy(item.gameObject);
+                var child = _contentRoot.GetChild(i);
+                Destroy(child.gameObject);
             }
         }
 
-        private void OnItemAdded(ItemModel item) => AddItem(item);
-        private void OnItemRemoved(ItemModel item) => RemoveItem(item);
-
-        private void AddItem(ItemModel item)
+        private void AddItemToSlot(ItemSlotController slotController, ItemModel item)
         {
-            var controller = _container.InstantiatePrefabForComponent<ListItemController>(_itemPrefab, _contentRoot);
-            if (controller == null)
+            var itemObject = Instantiate(_itemPrefab, slotController.transform);
+            var itemController = itemObject.GetComponent<ItemController>();
+            if (itemController == null)
             {
                 Debug.LogError($"Failed to instantiate ItemController for item {item.Name}");
                 return;
             }
-            Debug.Log($"Adding item {item.Name} with id {item.Id} to list.");
-            Debug.Log($"GameStorageService: {_storage.All.Count} items in storage.");
-            controller.OnClick += OnItemClicked;
-            controller.Init(item);
-            RenderedItems.Add(controller);
+
+            Debug.Log($"Adding item {item.Name} with id {item.Id} to slot.");
+            itemController.transform.localPosition = Vector3.zero;
+            itemController.OnClick += OnItemClicked;
+            itemController.Init(item);
+        }
+
+        private void RemoveItemFromSlot(ItemSlotController slotController)
+        {
+            var itemController = slotController.GetComponentInChildren<ItemController>();
+            if (itemController != null)
+            {
+                itemController.OnClick -= OnItemClicked;
+                Destroy(itemController.gameObject);
+            }
         }
 
         private void OnItemClicked(ItemModel item)
@@ -107,19 +106,51 @@ namespace PawnShop.Controllers
             }
         }
 
-        private void RemoveItem(ItemModel item)
+        private void ClearAllItems()
         {
-            var toDelete = RenderedItems.FirstOrDefault(c => c.Item == item);
+            // Clear the list first
+            RenderedItems.Clear();
 
-            if (toDelete == null)
+            // Destroy all child objects in content root
+            for (int i = _contentRoot.childCount - 1; i >= 0; i--)
             {
-                Debug.LogWarning($"Item {item.Name} not found in rendered items.");
+                var child = _contentRoot.GetChild(i);
+                Destroy(child.gameObject);
+            }
+        }
+
+        private void RebuildList()
+        {
+            ClearAllItems();
+            Debug.Log($"Rebuilding list for storage type {_sourceStorageType}");
+
+            if (_storage == null)
+            {
+                Debug.LogError($"Storage of type {_sourceStorageType} not found.");
                 return;
             }
 
-            RenderedItems.Remove(toDelete);
-            toDelete.OnClick -= OnItemClicked;
-            Destroy(toDelete.gameObject);
+            var slotsCount = _storage.GetTotalSlotsCount();
+            Debug.Log($"Storage has {slotsCount} slots.");
+            // Create slots for all positions in storage
+            for (int slotId = 0; slotId < slotsCount; slotId++)
+            {
+                var slotController = _container.InstantiatePrefabForComponent<ItemSlotController>(_itemSlotPrefab, _contentRoot);
+                if (slotController == null)
+                {
+                    Debug.LogError($"Failed to instantiate ItemSlotController for slot {slotId}");
+                    continue;
+                }
+                slotController.Init(slotId, _sourceStorageType);
+                RenderedItems.Add(slotController);
+
+                // If slot is not empty, add item to the slot
+                var item = _storage.Get(slotId);
+                if (item != null)
+                {
+                    AddItemToSlot(slotController, item);
+                }
+            }
         }
     }
 }

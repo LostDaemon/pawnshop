@@ -2,5 +2,5 @@ using PawnShop.Models;
 
 namespace PawnShop.Services
 {
-    public class SellStorageService : GameStorageService<ItemModel> { }
+    public class SellStorageService : SlotStorageService<ItemModel> { }
 }

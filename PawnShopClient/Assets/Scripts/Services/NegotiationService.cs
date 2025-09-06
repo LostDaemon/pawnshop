@@ -13,7 +13,8 @@ namespace PawnShop.Services
     public class NegotiationService : INegotiationService
     {
         private readonly IWalletService _wallet;
-        private readonly IGameStorageService<ItemModel> _inventory;
+        private readonly ISlotStorageService<ItemModel> _inventoryStorage;
+        private readonly ISlotStorageService<ItemModel> _sellStorage;
         private readonly ICustomerService _customerService;
         private readonly INegotiationHistoryService _history;
         private readonly ILocalizationService _localizationService;
@@ -34,7 +35,8 @@ namespace PawnShop.Services
         [Inject]
         public NegotiationService(
             IWalletService wallet,
-            [Inject(Id = StorageType.InventoryStorage)] IGameStorageService<ItemModel> inventory,
+            [Inject(Id = StorageType.InventoryStorage)] ISlotStorageService<ItemModel> inventoryStorage,
+            [Inject(Id = StorageType.SellStorage)] ISlotStorageService<ItemModel> sellStorage,
             ICustomerService customerService,
             INegotiationHistoryService history,
             ILocalizationService localizationService,
@@ -43,7 +45,8 @@ namespace PawnShop.Services
             IEvaluationService evaluationService)
         {
             _wallet = wallet;
-            _inventory = inventory;
+            _inventoryStorage = inventoryStorage;
+            _sellStorage = sellStorage;
             _customerService = customerService;
             _history = history;
             _localizationService = localizationService;
@@ -126,7 +129,11 @@ namespace PawnShop.Services
                 }
 
                 CurrentItem.PurchasePrice = offeredPrice;
-                _inventory.Put(CurrentItem);
+                if (!_inventoryStorage.Put(CurrentItem))
+                {
+                    _history.Add(new TextRecord(HistoryRecordSource.Customer, _localizationService.GetLocalization("dialog_customer_inventory_full")));
+                    return false;
+                }
             }
             else
             {
@@ -141,8 +148,8 @@ namespace PawnShop.Services
                 // Set the sell price for the item being sold
                 CurrentItem.SellPrice = offeredPrice;
 
-                // Remove item from inventory permanently
-                _inventory.Withdraw(CurrentItem);
+                // Remove item from sellstorage permanently
+                _sellStorage.Withdraw(CurrentItem);
             }
 
             CurrentItem.CurrentOffer = offeredPrice;
@@ -169,24 +176,24 @@ namespace PawnShop.Services
 
             // Get customer's knowledge about the item
             var customerKnownTags = CurrentItem.Tags.Where(t => t.IsRevealedToCustomer).ToList();
-            
+
             if (customerKnownTags.Count == 0)
             {
                 // Customer doesn't know anything about the item
-                string noKnowledgeKey = CurrentCustomer.CustomerType == CustomerType.Seller 
-                    ? "dialog_customer_seller_knows_nothing" 
+                string noKnowledgeKey = CurrentCustomer.CustomerType == CustomerType.Seller
+                    ? "dialog_customer_seller_knows_nothing"
                     : "dialog_customer_buyer_knows_no_negative";
-                
+
                 if (CurrentCustomer.CustomerType == CustomerType.Seller)
                 {
-                    _history.Add(new TextRecord(HistoryRecordSource.Customer, 
+                    _history.Add(new TextRecord(HistoryRecordSource.Customer,
                         _localizationService.GetLocalization(noKnowledgeKey)));
                 }
                 else
                 {
                     // For buyer, show their offer when they know nothing
                     string neutralMessage = string.Format(
-                        _localizationService.GetLocalization(noKnowledgeKey), 
+                        _localizationService.GetLocalization(noKnowledgeKey),
                         CurrentItem.CurrentOffer);
                     _history.Add(new TextRecord(HistoryRecordSource.Customer, neutralMessage));
                 }
@@ -209,11 +216,11 @@ namespace PawnShop.Services
         {
             // Get positive tags (tags with positive price multiplier)
             var positiveTags = customerKnownTags.Where(t => t.PriceMultiplier > 1.0f).ToList();
-            
+
             if (positiveTags.Count == 0)
             {
                 // Customer knows about the item but no positive aspects - treat as knowing nothing
-                _history.Add(new TextRecord(HistoryRecordSource.Customer, 
+                _history.Add(new TextRecord(HistoryRecordSource.Customer,
                     _localizationService.GetLocalization("dialog_customer_seller_knows_nothing")));
                 return;
             }
@@ -224,7 +231,7 @@ namespace PawnShop.Services
             {
                 var tag = positiveTags[i];
                 formattedTags += TagTextRenderHelper.RenderTag(tag);
-                
+
                 if (i < positiveTags.Count - 1)
                 {
                     formattedTags += " ";
@@ -233,9 +240,9 @@ namespace PawnShop.Services
 
             // Add customer's knowledge to history
             string customerKnowledgeMessage = string.Format(
-                _localizationService.GetLocalization("dialog_customer_seller_knows_item_positive"), 
+                _localizationService.GetLocalization("dialog_customer_seller_knows_item_positive"),
                 formattedTags);
-            
+
             _history.Add(new TextRecord(HistoryRecordSource.Customer, customerKnowledgeMessage));
         }
 
@@ -243,13 +250,13 @@ namespace PawnShop.Services
         {
             // Get negative tags (tags with negative price multiplier)
             var negativeTags = customerKnownTags.Where(t => t.PriceMultiplier < 1.0f).ToList();
-            
+
             if (negativeTags.Count == 0)
             {
-                               // Buyer sees no negative aspects - neutral positive response
-               string neutralMessage = string.Format(
-                   _localizationService.GetLocalization("dialog_customer_buyer_knows_no_negative"), 
-                   CurrentItem.CurrentOffer);
+                // Buyer sees no negative aspects - neutral positive response
+                string neutralMessage = string.Format(
+                    _localizationService.GetLocalization("dialog_customer_buyer_knows_no_negative"),
+                    CurrentItem.CurrentOffer);
                 _history.Add(new TextRecord(HistoryRecordSource.Customer, neutralMessage));
                 return;
             }
@@ -260,7 +267,7 @@ namespace PawnShop.Services
             {
                 var tag = negativeTags[i];
                 formattedTags += TagTextRenderHelper.RenderTag(tag);
-                
+
                 if (i < negativeTags.Count - 1)
                 {
                     formattedTags += " ";
@@ -269,13 +276,11 @@ namespace PawnShop.Services
 
             // Add buyer's justification for their offer based on negative tags
             string buyerMessage = string.Format(
-                _localizationService.GetLocalization("dialog_customer_buyer_knows_negative"), 
+                _localizationService.GetLocalization("dialog_customer_buyer_knows_negative"),
                 formattedTags, CurrentItem.CurrentOffer);
-            
+
             _history.Add(new TextRecord(HistoryRecordSource.Customer, buyerMessage));
         }
-
-
 
         public bool MakeCounterOffer(long newOffer)
         {
@@ -296,8 +301,8 @@ namespace PawnShop.Services
             {
                 Debug.Log("Counter offer rejected.");
                 // Use different rejection messages based on customer type
-                string rejectionKey = CurrentCustomer.CustomerType == CustomerType.Seller 
-                    ? "dialog_customer_seller_counter_rejected" 
+                string rejectionKey = CurrentCustomer.CustomerType == CustomerType.Seller
+                    ? "dialog_customer_seller_counter_rejected"
                     : "dialog_customer_buyer_counter_rejected";
                 _history.Add(new TextRecord(HistoryRecordSource.Customer, _localizationService.GetLocalization(rejectionKey)));
             }

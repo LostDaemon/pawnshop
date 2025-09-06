@@ -181,6 +181,16 @@
         "Ich möchte Ihnen etwas für {0} verkaufen",
         "Ich suche nach einem Käufer für einen Artikel für {0}"
       ]
+    },
+    {
+      "key": "dialog_customer_inventory_full",
+      "values": [
+        "Entschuldigung, aber Ihr Inventar scheint voll zu sein. Ich kann Ihnen das gerade nicht verkaufen.",
+        "Es sieht so aus, als hätten Sie keinen Platz für diesen Gegenstand. Vielleicht beim nächsten Mal?",
+        "Ihr Lager scheint voll zu sein. Ich muss diesen Gegenstand behalten.",
+        "Ich sehe, dass Ihr Inventar voll ist. Vielleicht können wir später Geschäfte machen?",
+        "Leider haben Sie keinen Platz dafür. Kommen Sie zurück, wenn Sie Platz haben!"
+      ]
     }
   ]
 }

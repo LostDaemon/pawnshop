@@ -1,178 +1,150 @@
-using System;
+using UnityEngine;
+using UnityEngine.EventSystems;
 using PawnShop.Models;
 using PawnShop.Services;
-using UnityEngine;
 using Zenject;
 
-namespace PawnShop.Controllers
+public class ItemSlotController : MonoBehaviour, IDropHandler
 {
-    public class ItemSlotController : SlotControllerBase
+    [SerializeField] private StorageType _sourceStorageType;
+    [SerializeField] private int _slotId;
+    [SerializeField] private GameObject _itemPrefab;
+
+
+    private IStorageLocatorService _storageLocatorService;
+    private ISlotStorageService<ItemModel> _storageService;
+    private DiContainer _container;
+    private bool _isInitialized = false;
+
+    [Inject]
+    public void Construct(DiContainer container, IStorageLocatorService storageLocatorService)
     {
-        [SerializeField] private GameObject _coverImage;
-        [SerializeField] private GameObject _selectionMarker;
-        [SerializeField] public SpriteRenderer _spriteRenderer;
+        _storageLocatorService = storageLocatorService;
+        _container = container;
+    }
 
-        private IGameStorageService<ItemModel> _sellStorageService;
-        private IStorageLocatorService _storageLocatorService;
-        private IShelfService _shelfService;
-        private ItemModel _currentItem;
-        private bool _isEnabled = true;
+    public void OnDrop(PointerEventData eventData)
+    {
+        Debug.Log("OnDrop");
+        var droppedObject = eventData.pointerDrag;
+        Debug.Log($"Dropped Object: {(droppedObject != null ? droppedObject.name : "None")}");
 
-        public event Action<ItemModel> OnTransferCancelled;
-        
-        public bool IsEnabled 
-        { 
-            get => _isEnabled; 
-            set 
-            { 
-                _isEnabled = value; 
-                UpdateCoverVisibility();
-            } 
-        }
-
-        [Inject]
-        public void Construct(IStorageLocatorService storageLocatorService, IShelfService shelfService)
+        if (droppedObject != null)
         {
-            _storageLocatorService = storageLocatorService;
-            _shelfService = shelfService;
-            _sellStorageService = _storageLocatorService.Get(StorageType.SellStorage);
-        }
-
-        protected override void OnAwake()
-        {
-            // Auto-assign SpriteRenderer if not set in inspector
-            if (_spriteRenderer == null)
+            var draggableItem = droppedObject.GetComponent<ItemController>();
+            Debug.Log($"Draggable Item: {(draggableItem != null ? "Found" : "Not Found")}");
+            if (draggableItem != null)
             {
-                var itemImageChild = transform.Find("item_image");
-                _spriteRenderer = itemImageChild?.GetComponent<SpriteRenderer>();
-            }
-
-            // Auto-assign cover image if not set
-            if (_coverImage == null)
-            {
-                _coverImage = transform.Find("cover_image")?.gameObject;
-            }
-
-            // Auto-assign selection marker if not set
-            if (_selectionMarker == null)
-            {
-                _selectionMarker = transform.Find("selection_marker")?.gameObject;
-            }
-
-            if (_spriteRenderer != null)
-            {
-                // Initialize slot as transparent
-                var color = _spriteRenderer.color;
-                color.a = 0f;
-                _spriteRenderer.color = color;
-            }
-
-            // Initialize cover visibility
-            UpdateCoverVisibility();
-        }
-
-        protected override void OnInteraction()
-        {
-            if (!IsEnabled)
-            {
-                return;
-            }
-        }
-
-        private StorageTypeMarkerController GetStorageTypeMarker()
-        {
-            var current = transform;
-            while (current != null)
-            {
-                var marker = current.GetComponent<StorageTypeMarkerController>();
-                if (marker != null)
+                // Get the payload from DraggableItemController
+                var itemModel = draggableItem.Payload as ItemModel;
+                if (itemModel != null)
                 {
-                    return marker;
+                    HandleItemDrop(itemModel, draggableItem);
                 }
-                current = current.parent;
             }
-            return null;
+        }
+    }
+
+    private void HandleItemDrop(ItemModel itemModel, ItemController draggableItem)
+    {
+
+        if (!_isInitialized)
+        {
+            Init(_slotId, _sourceStorageType);
+        }
+
+        Debug.Log($"[InventorySlotController] Handling item drop: {itemModel?.Name} to slot {_slotId}, storage {_sourceStorageType}");
+
+        // Check if slot is already occupied
+        if (_storageService.HasItem(_slotId))
+        {
+            Debug.LogWarning($"[InventorySlotController] Slot {_slotId} is already occupied. Drop rejected.");
+            return;
+        }
+
+        // Add item to this slot
+        _storageService.Put(_slotId, itemModel);
+        Debug.Log($"[InventorySlotController] Added item {itemModel.Name} to slot {_slotId} in storage {_sourceStorageType}");
+
+        // Update DraggableItemController parent
+        var previousSlot = draggableItem.CurrentParent.GetComponent<ItemSlotController>();
+        if (previousSlot != null)
+        {
+            previousSlot.InformDropSuccess();
+        }
+
+        draggableItem.CurrentParent = this.transform;
+    }
+
+    public void Init(int slotId, StorageType sourceStorageType)
+    {
+        _slotId = slotId;
+        _sourceStorageType = sourceStorageType;
+        _storageService = _storageLocatorService.Get(_sourceStorageType);
+        
+        // Subscribe to storage changes for this specific slot
+        if (_storageService != null)
+        {
+            _storageService.OnItemChanged += OnStorageItemChanged;
         }
         
-        private void UpdateCoverVisibility()
+        _isInitialized = true;
+    }
+
+
+    public void InformDropSuccess()
+    {
+        if (!_isInitialized)
         {
-            if (_coverImage != null)
-            {
-                _coverImage.SetActive(!IsEnabled);
-            }
+            Init(_slotId, _sourceStorageType);
+        }
+        _storageService.Withdraw(_slotId);
+    }
+
+    public void UpdateVisual()
+    {
+        if (!_isInitialized)
+        {
+            Init(_slotId, _sourceStorageType);
         }
 
-        private void ShowSelectionMarker()
+        // Clear existing visual representation
+        ClearSlot();
+
+        var itemModel = _storageService.Get(_slotId);
+        if (itemModel != null)
         {
-            if (_selectionMarker != null)
-            {
-                _selectionMarker.SetActive(true);
-            }
+            var itemObject = Instantiate(_itemPrefab, transform);
+            var item = itemObject.GetComponent<ItemController>();
+            item.Init(itemModel);
         }
+    }
 
-        private void HideSelectionMarker()
+    private void OnStorageItemChanged(int slotId)
+    {
+        // Only react to changes in this specific slot
+        if (slotId == _slotId)
         {
-            if (_selectionMarker != null)
-            {
-                _selectionMarker.SetActive(false);
-            }
+            Debug.Log($"[ItemSlotController] Item changed in slot {_slotId}");
+            UpdateVisual();
         }
+    }
 
-        private void SetSlotItem(ItemModel item)
+    private void ClearSlot()
+    {
+        // Remove all child objects (item representations)
+        foreach (Transform child in transform)
         {
-            _currentItem = item;
-            HideSelectionMarker();
-            SetItemImage(item);
+            Destroy(child.gameObject);
         }
+    }
 
-        private void SetItemImage(ItemModel item)
+    private void OnDestroy()
+    {
+        // Unsubscribe from storage events to prevent memory leaks
+        if (_storageService != null)
         {
-            if (item == null || _spriteRenderer == null)
-            {
-                return;
-            }
-
-            if (item.Image != null)
-            {
-                _spriteRenderer.sprite = item.Image;
-                
-                var color = _spriteRenderer.color;
-                color.a = 1f;
-                _spriteRenderer.color = color;
-
-                if (item.Scale != 0)
-                {
-                    _spriteRenderer.transform.localScale = Vector3.one * item.Scale;
-                }
-                else
-                {
-                    _spriteRenderer.transform.localScale = Vector3.one;
-                }
-            }
-            else
-            {
-                ClearSlot();
-            }
-        }
-
-        private void ClearSlot()
-        {
-            if (_spriteRenderer != null)
-            {
-                _spriteRenderer.sprite = null;
-                _spriteRenderer.transform.localScale = Vector3.one;
-                
-                // Set alpha to 0 (fully transparent) when clearing slot
-                var color = _spriteRenderer.color;
-                color.a = 0f;
-                _spriteRenderer.color = color;
-            }
-        }
-
-        private void OnDestroy()
-        {
-            // Unregister mapping from ShelfService
-            _shelfService.UnregisterMapping(Id);
+            _storageService.OnItemChanged -= OnStorageItemChanged;
         }
     }
 }

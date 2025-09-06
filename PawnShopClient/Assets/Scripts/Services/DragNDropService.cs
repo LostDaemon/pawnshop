@@ -1,55 +1,55 @@
 using UnityEngine;
-using UnityEngine.EventSystems;
+using PawnShop.Models;
 using Zenject;
 
 namespace PawnShop.Services
 {
-    public class DragNDropService : IDragNDropService
+    public class DragNDropService<TPayload> : IDragNDropService<TPayload> where TPayload : class
     {
-        private ITransferPoint<object> _currentDragSource;
+        private TPayload _currentDragItem;
+        private StorageType _currentSourceStorage;
         private bool _isDragging;
         
         public bool IsDragging => _isDragging;
-        public ITransferPoint<object> CurrentDragSource => _currentDragSource;
+        public TPayload CurrentDragItem => _currentDragItem;
+        public StorageType CurrentSourceStorage => _currentSourceStorage;
         
-        public void StartDrag(ITransferPoint<object> source, PointerEventData eventData)
+        public void StartDrag(TPayload payload, StorageType sourceStorageType)
         {
-            Debug.Log($"[DragNDropService] StartDrag from {source.GetType().Name}");
-            _currentDragSource = source;
+            Debug.Log($"[DragNDropService] StartDrag payload: {payload} from storage: {sourceStorageType}");
+            _currentDragItem = payload;
+            _currentSourceStorage = sourceStorageType;
             _isDragging = true;
         }
         
-        public void UpdateDrag(PointerEventData eventData)
+        public void UpdateDrag(TPayload payload)
         {
             if (!_isDragging) return;
             
-            Debug.Log($"[DragNDropService] UpdateDrag at position: {eventData.position}");
+            Debug.Log($"[DragNDropService] UpdateDrag payload: {payload}");
         }
         
-        public void EndDrag(PointerEventData eventData)
+        public void EndDrag(TPayload payload)
         {
             if (!_isDragging) return;
             
-            Debug.Log($"[DragNDropService] EndDrag from {_currentDragSource?.GetType().Name}");
-            _currentDragSource = null;
+            Debug.Log($"[DragNDropService] EndDrag payload: {payload}");
+            _currentDragItem = null;
+            _currentSourceStorage = StorageType.Undefined;
             _isDragging = false;
         }
         
-        public void HandleDrop(ITransferPoint<object> target, PointerEventData eventData)
+        public void HandleDrop(TPayload payload, StorageType targetStorageType)
         {
-            if (!_isDragging || _currentDragSource == null) return;
+            if (!_isDragging || _currentDragItem == null) return;
             
-            Debug.Log($"[DragNDropService] HandleDrop from {_currentDragSource.GetType().Name} to {target.GetType().Name}");
+            Debug.Log($"[DragNDropService] HandleDrop payload: {payload} from {_currentSourceStorage} to {targetStorageType}");
             
-            // Transfer payload from source to target
-            var payload = _currentDragSource.GetPayload();
-            if (payload != null)
-            {
-                target.SetPayload(payload);
-                _currentDragSource.SetPayload(null);
-            }
+            // Here you can add transfer logic between storages
+            // For example, using IItemTransferService
             
-            _currentDragSource = null;
+            _currentDragItem = null;
+            _currentSourceStorage = StorageType.Undefined;
             _isDragging = false;
         }
     }

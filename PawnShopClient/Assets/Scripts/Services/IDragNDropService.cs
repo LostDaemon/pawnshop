@@ -1,14 +1,15 @@
-using UnityEngine.EventSystems;
+using PawnShop.Models;
 
 namespace PawnShop.Services
 {
-    public interface IDragNDropService
+    public interface IDragNDropService<TPayload> where TPayload : class
     {
-        void StartDrag(ITransferPoint<object> source, PointerEventData eventData);
-        void UpdateDrag(PointerEventData eventData);
-        void EndDrag(PointerEventData eventData);
-        void HandleDrop(ITransferPoint<object> target, PointerEventData eventData);
+        void StartDrag(TPayload payload, StorageType sourceStorageType);
+        void UpdateDrag(TPayload payload);
+        void EndDrag(TPayload payload);
+        void HandleDrop(TPayload payload, StorageType targetStorageType);
         bool IsDragging { get; }
-        ITransferPoint<object> CurrentDragSource { get; }
+        TPayload CurrentDragItem { get; }
+        StorageType CurrentSourceStorage { get; }
     }
 }

@@ -8,23 +8,23 @@ namespace PawnShop.Services
 {
     public class SellService : ISellService
     {
-        private readonly IGameStorageService<ItemModel> _sellStorage;
-        private readonly IGameStorageService<ItemModel> _inventoryStorage;
+        private readonly ISlotStorageService<ItemModel> _sellStorage;
+        private readonly ISlotStorageService<ItemModel> _inventoryStorage;
         private readonly ITimeService _timeService;
         private readonly IWalletService _wallet;
         private readonly Dictionary<ItemModel, GameTime> _scheduledSales = new();
         private int _maxSlots;
 
         public int MaxSlots => _maxSlots;
-        public IReadOnlyList<ItemModel> DisplayedItems => _sellStorage.All.ToList();
+        public IReadOnlyList<ItemModel> DisplayedItems => _sellStorage.All.Values.Where(item => item != null).ToList();
         public IReadOnlyDictionary<ItemModel, GameTime> ScheduledSales => _scheduledSales;
         public event Action<ItemModel> OnStartSelling;
         public event Action<ItemModel> OnSold;
 
         [Inject]
         public SellService(
-            [Inject(Id = StorageType.InventoryStorage)] IGameStorageService<ItemModel> inventoryStorage,
-            [Inject(Id = StorageType.SellStorage)] IGameStorageService<ItemModel> sellStorage,
+            [Inject(Id = StorageType.InventoryStorage)] ISlotStorageService<ItemModel> inventoryStorage,
+            [Inject(Id = StorageType.SellStorage)] ISlotStorageService<ItemModel> sellStorage,
             ITimeService timeService,
             IWalletService walletService, int initialSlots)
         {
@@ -45,7 +45,7 @@ namespace PawnShop.Services
             if (item == null)
                 return false;
 
-            if (_sellStorage.All.Count >= _maxSlots)
+            if (_sellStorage.GetOccupiedSlotsCount() >= _maxSlots)
             {
                 UnityEngine.Debug.LogWarning($"Cannot add {item.Name} with id {item.Id} to sell storage, max slots reached.");
                 return false;
@@ -54,7 +54,8 @@ namespace PawnShop.Services
             if (!_inventoryStorage.Withdraw(item))
                 return false;
 
-            _sellStorage.Put(item);
+            if (!_sellStorage.Put(item))
+                return false;
 
             int delayHours = UnityEngine.Random.Range(1, 4);
             var scheduleTime = AddHours(_timeService.CurrentTime, delayHours);
@@ -69,7 +70,7 @@ namespace PawnShop.Services
         {
             UnityEngine.Debug.Log($"Trying to fire shcheduled sale for {item.Name} with id {item.Id} at {_timeService.CurrentTime.Day} {_timeService.CurrentTime.Hour}:{_timeService.CurrentTime.Minute}");
 
-            if (item == null || !_sellStorage.All.Any(i => i.Id == item.Id))
+            if (item == null || !_sellStorage.HasItem(item))
                 return false;
 
             _sellStorage.Withdraw(item);
@@ -82,7 +83,7 @@ namespace PawnShop.Services
 
         public bool RemoveFromSelling(ItemModel item)
         {
-            if (item == null || !_sellStorage.All.Contains(item))
+            if (item == null || !_sellStorage.HasItem(item))
                 return false;
 
             if (!_sellStorage.Withdraw(item))

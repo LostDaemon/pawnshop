@@ -238,6 +238,16 @@
         "I want to sell something to you for {0}",
         "I'm looking to sell an item for {0}"
       ]
+    },
+    {
+      "key": "dialog_customer_inventory_full",
+      "values": [
+        "I'm sorry, but your inventory seems to be full. I can't sell this to you right now.",
+        "It looks like you don't have space for this item. Maybe next time?",
+        "Your storage appears to be full. I'll have to keep this item.",
+        "I can see your inventory is at capacity. Perhaps we can do business later?",
+        "Unfortunately, you don't have room for this. Come back when you have space!"
+      ]
     }
   ]
 }

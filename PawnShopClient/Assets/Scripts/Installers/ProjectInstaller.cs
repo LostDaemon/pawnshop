@@ -12,6 +12,7 @@ namespace PawnShop.Installers
     {
         private const long StartingMoney = 10000L; // TODO: Load from config later
         private const int DefaultSellSlots = 12;
+        private const int DefaultInventorySlots = 50;
 
         private void Awake()
         {
@@ -51,13 +52,13 @@ namespace PawnShop.Installers
                 .AsSingle();
 
             // Inventory
-            Container.Bind<IGameStorageService<ItemModel>>()
+            Container.Bind<ISlotStorageService<ItemModel>>()
                 .WithId(StorageType.InventoryStorage)
                 .To<InventoryStorage>()
                 .AsSingle();
 
             // Sell storage
-            Container.Bind<IGameStorageService<ItemModel>>()
+            Container.Bind<ISlotStorageService<ItemModel>>()
                 .WithId(StorageType.SellStorage)
                 .To<SellStorageService>()
                 .AsSingle();
@@ -143,8 +144,8 @@ namespace PawnShop.Installers
                 .AsSingle();
 
             // Drag and Drop
-            Container.Bind<IDragNDropService>()
-                .To<DragNDropService>()
+            Container.Bind<IDragNDropService<ItemModel>>()
+                .To<DragNDropService<ItemModel>>()
                 .AsSingle();
         }
     }

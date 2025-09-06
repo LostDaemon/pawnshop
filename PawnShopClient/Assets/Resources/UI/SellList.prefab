@@ -276,10 +276,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _sourceStorageType: 2
-  _targetStorageType: 1
   _contentRoot: {fileID: 2406523485204579521}
   _itemPrefab: {fileID: 5769400751069965085, guid: a58094846fc8f944693f5a1617193ac9, type: 3}
-  _title: {fileID: 0}
+  _itemInfo: {fileID: 0}
 --- !u!1 &8468600163643311120
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,7 +369,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Content: {fileID: 2406523485204579521}
-  m_Horizontal: 1
+  m_Horizontal: 0
   m_Vertical: 1
   m_MovementType: 2
   m_Elasticity: 0.1

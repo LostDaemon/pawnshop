@@ -17,10 +17,14 @@ namespace PawnShop.Gamestate
         private ILanguageRepository _languageRepository;
         private IPlayerService _playerService;
         private AssetBundleLoader _assetBundleLoader;
+        private IStorageLocatorService _storageLocatorService;
+
+        private const int DefaultInventorySlots = 50;
+        private const int DefaultSellSlots = 12;
 
 
         [Inject]
-        public void Construct(GameStateMachine stateMachine, ISceneLoader sceneLoader, IItemRepository itemRepository, ISkillRepository skillRepository, ITagRepository tagRepository, ILocalizationService localizationService, ILanguageRepository languageRepository, IPlayerService playerService, AssetBundleLoader assetBundleLoader)
+        public void Construct(GameStateMachine stateMachine, ISceneLoader sceneLoader, IItemRepository itemRepository, ISkillRepository skillRepository, ITagRepository tagRepository, ILocalizationService localizationService, ILanguageRepository languageRepository, IPlayerService playerService, AssetBundleLoader assetBundleLoader, IStorageLocatorService storageLocatorService)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
@@ -31,6 +35,7 @@ namespace PawnShop.Gamestate
             _languageRepository = languageRepository;
             _playerService = playerService;
             _assetBundleLoader = assetBundleLoader;
+            _storageLocatorService = storageLocatorService;
         }
 
         public void Enter()
@@ -46,6 +51,9 @@ namespace PawnShop.Gamestate
             // Initialize player after loading skill prototypes
             _playerService.InitializePlayer();
 
+            // Initialize storage sizes
+            InitializeStorageSizes();
+
             // Set default language after loading language prototypes
             _localizationService.SwitchLocalization(Language.Russian);
 
@@ -53,6 +61,15 @@ namespace PawnShop.Gamestate
             {
                 _stateMachine.Enter<GameLoopState>();
             });
+        }
+
+        private void InitializeStorageSizes()
+        {
+            var inventoryStorage = _storageLocatorService.Get(StorageType.InventoryStorage);
+            inventoryStorage.AddSlots(DefaultInventorySlots);
+
+            var sellStorage = _storageLocatorService.Get(StorageType.SellStorage);
+            sellStorage.AddSlots(DefaultSellSlots);
         }
 
         public void Exit() { }
