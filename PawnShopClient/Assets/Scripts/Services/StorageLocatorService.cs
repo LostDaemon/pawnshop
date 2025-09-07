@@ -12,10 +12,12 @@ namespace PawnShop.Services
         [Inject]
         public void Construct(
             [Inject(Id = StorageType.InventoryStorage)] ISlotStorageService<ItemModel> inventory,
-            [Inject(Id = StorageType.SellStorage)] ISlotStorageService<ItemModel> sell)
+            [Inject(Id = StorageType.SellStorage)] ISlotStorageService<ItemModel> sell,
+            [Inject(Id = StorageType.WorkshopStorage)] ISlotStorageService<ItemModel> workshop)
         {
             _map[StorageType.InventoryStorage] = inventory;
             _map[StorageType.SellStorage] = sell;
+            _map[StorageType.WorkshopStorage] = workshop;
         }
 
         public ISlotStorageService<ItemModel> Get(StorageType type)
