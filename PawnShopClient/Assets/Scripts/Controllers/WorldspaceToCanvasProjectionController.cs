@@ -24,6 +24,11 @@ namespace PawnShop.Controllers
             UpdateProjection();
         }
         
+        public void SetWorldSpaceObject(Transform worldSpaceObject)
+        {
+            _worldSpaceObject = worldSpaceObject;
+        }
+        
         private void UpdateProjection()
         {
             if (_worldSpaceObject == null || _canvasRectTransform == null || _thisRectTransform == null)

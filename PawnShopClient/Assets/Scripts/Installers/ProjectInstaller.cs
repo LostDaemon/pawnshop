@@ -63,6 +63,12 @@ namespace PawnShop.Installers
                 .To<SellStorageService>()
                 .AsSingle();
 
+            // Workshop storage
+            Container.Bind<ISlotStorageService<ItemModel>>()
+                .WithId(StorageType.WorkshopStorage)
+                .To<WorkshopStorageService>()
+                .AsSingle();
+
             Container.Bind<IStorageLocatorService>()
                       .To<StorageLocatorService>()
                       .AsSingle();
