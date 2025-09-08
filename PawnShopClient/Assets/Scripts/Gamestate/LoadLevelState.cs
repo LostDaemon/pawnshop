@@ -2,6 +2,7 @@ using PawnShop.Infrastructure;
 using PawnShop.Models;
 using PawnShop.Repositories;
 using PawnShop.Services;
+using PawnShop.Services.EventSystem;
 using Zenject;
 
 namespace PawnShop.Gamestate
@@ -18,13 +19,14 @@ namespace PawnShop.Gamestate
         private IPlayerService _playerService;
         private AssetBundleLoader _assetBundleLoader;
         private IStorageLocatorService _storageLocatorService;
+        private ISystemEventInitializer _systemEventInitializer;
 
         private const int DefaultInventorySlots = 50;
         private const int DefaultSellSlots = 12;
 
 
         [Inject]
-        public void Construct(GameStateMachine stateMachine, ISceneLoader sceneLoader, IItemRepository itemRepository, ISkillRepository skillRepository, ITagRepository tagRepository, ILocalizationService localizationService, ILanguageRepository languageRepository, IPlayerService playerService, AssetBundleLoader assetBundleLoader, IStorageLocatorService storageLocatorService)
+        public void Construct(GameStateMachine stateMachine, ISceneLoader sceneLoader, IItemRepository itemRepository, ISkillRepository skillRepository, ITagRepository tagRepository, ILocalizationService localizationService, ILanguageRepository languageRepository, IPlayerService playerService, AssetBundleLoader assetBundleLoader, IStorageLocatorService storageLocatorService, ISystemEventInitializer systemEventInitializer)
         {
             _stateMachine = stateMachine;
             _sceneLoader = sceneLoader;
@@ -36,6 +38,7 @@ namespace PawnShop.Gamestate
             _playerService = playerService;
             _assetBundleLoader = assetBundleLoader;
             _storageLocatorService = storageLocatorService;
+            _systemEventInitializer = systemEventInitializer;
         }
 
         public void Enter()
@@ -56,6 +59,9 @@ namespace PawnShop.Gamestate
 
             // Set default language after loading language prototypes
             _localizationService.SwitchLocalization(Language.Russian);
+
+            // Initialize system events
+            _systemEventInitializer.InitializeSystemEvents();
 
             _sceneLoader.Load("MainScene", () =>
             {

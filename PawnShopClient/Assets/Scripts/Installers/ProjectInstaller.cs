@@ -2,8 +2,10 @@ using PawnShop.Controllers;
 using PawnShop.Gamestate;
 using PawnShop.Infrastructure;
 using PawnShop.Models;
+using PawnShop.Models.EventsSystem;
 using PawnShop.Repositories;
 using PawnShop.Services;
+using PawnShop.Services.EventSystem;
 using Zenject;
 
 namespace PawnShop.Installers
@@ -11,8 +13,8 @@ namespace PawnShop.Installers
     public class ProjectInstaller : MonoInstaller
     {
         private const long StartingMoney = 10000L; // TODO: Load from config later
-        private const int DefaultSellSlots = 12;
-        private const int DefaultInventorySlots = 50;
+        // Time settings
+        private static readonly GameTime InitialTime = new(1, 7, 50);
 
         private void Awake()
         {
@@ -34,6 +36,7 @@ namespace PawnShop.Installers
 
             // --- Services: Utility ---
             Container.Bind<ITimeService>().To<TimeService>().AsSingle();
+            Container.Bind<GameTime>().FromInstance(InitialTime).WhenInjectedInto<TimeService>();
             Container.Bind<IEventsQueueService>().To<EventsQueueService>().AsSingle();
             Container.Bind<ILocalizationService>().To<LocalizationService>().AsSingle();
             Container.Bind<INavigationService>().To<NavigationService>().AsSingle();
@@ -104,11 +107,6 @@ namespace PawnShop.Installers
                     .To<CustomerService>()
                     .AsSingle();
 
-            Container.Bind<ISellService>()
-                    .To<SellService>()
-                    .AsSingle()
-                    .WithArguments(DefaultSellSlots);
-
             // Shelf Service
             Container.Bind<IShelfService>()
                     .To<ShelfService>()
@@ -153,6 +151,24 @@ namespace PawnShop.Installers
             // Drag and Drop
             Container.Bind<IDragNDropService<ItemModel>>()
                 .To<DragNDropService<ItemModel>>()
+                .AsSingle();
+
+            // --- Event System ---
+            Container.Bind<IEventProcessingService>()
+                .To<EventProcessingService>()
+                .AsSingle();
+
+            Container.Bind<ISystemEventInitializer>()
+                .To<SystemEventInitializer>()
+                .AsSingle();
+
+            // Event Processors
+            Container.Bind<EventProcessorBase<SystemEvent>>()
+                .To<SystemEventProcessor>()
+                .AsSingle();
+
+            Container.Bind<EventProcessorBase<CustomerEvent>>()
+                .To<CustomerEventProcessor>()
                 .AsSingle();
         }
     }

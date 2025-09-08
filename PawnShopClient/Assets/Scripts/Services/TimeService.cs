@@ -1,21 +1,31 @@
 using System;
 using System.Collections.Generic;
 using PawnShop.Models;
+using PawnShop.Models.EventsSystem;
+using PawnShop.Services.EventSystem;
+using Zenject;
 
 namespace PawnShop.Services
 {
-    public class TimeService : ITimeService
+    public partial class TimeService : ITimeService
     {
         private const int MinutesInDay = 24 * 60;
         private float _timeAccumulator;
+        private readonly IEventsQueueService _eventsQueueService;
 
-        public GameTime CurrentTime { get; private set; } = new(1, 8, 0); // Day 1, 08:00
+        public GameTime CurrentTime { get; private set; }
         public float TimeMultiplier { get; set; } = 60f; // 1 real second = 1 in-game minute
 
         public event Action<GameTime> OnTimeChanged;
-        public event Action<Action> OnEventTriggered; // Event fired when a scheduled event is triggered
 
-        private readonly List<ScheduledEvent> _scheduledEvents = new();
+        private readonly List<IGameEvent> _scheduledEvents = new();
+
+        [Inject]
+        public TimeService(IEventsQueueService eventsQueueService, GameTime initialTime)
+        {
+            _eventsQueueService = eventsQueueService;
+            CurrentTime = initialTime;
+        }
 
         public void Tick(float deltaTime)
         {
@@ -44,9 +54,9 @@ namespace PawnShop.Services
             return new GameTime(newDay, totalMinutes / 60, totalMinutes % 60);
         }
 
-        public void Schedule(GameTime time, Action callback)
+        public void Schedule(IGameEvent gameEvent)
         {
-            _scheduledEvents.Add(new ScheduledEvent { Time = time, Callback = callback });
+            _scheduledEvents.Add(gameEvent);
         }
 
         private void TriggerEvents(GameTime now)
@@ -55,9 +65,9 @@ namespace PawnShop.Services
             {
                 if (IsSameOrPast(_scheduledEvents[i].Time, now))
                 {
-                    var eventCallback = _scheduledEvents[i].Callback;
-                    // Notify subscribers that an event was triggered
-                    OnEventTriggered?.Invoke(eventCallback);
+                    var eventToTrigger = _scheduledEvents[i];
+                    // Push event to queue instead of firing event
+                    _eventsQueueService.Push(eventToTrigger);
                     _scheduledEvents.RemoveAt(i);
                 }
             }
@@ -68,12 +78,6 @@ namespace PawnShop.Services
             return a.Day < b.Day ||
                    (a.Day == b.Day && a.Hour < b.Hour) ||
                    (a.Day == b.Day && a.Hour == b.Hour && a.Minute <= b.Minute);
-        }
-
-        private class ScheduledEvent
-        {
-            public GameTime Time;
-            public Action Callback;
         }
     }
 }

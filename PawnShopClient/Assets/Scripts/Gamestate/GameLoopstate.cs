@@ -18,7 +18,8 @@ namespace PawnShop.Gamestate
         {
             _negotiationService.OnDealSuccess += OnDealSuccess;
             _negotiationService.OnSkipRequested += ShowNextCustomer;
-            ShowNextCustomer();
+            // Don't show customer immediately - wait for scheduled events
+            // ShowNextCustomer(); // Removed - customers will come via event system
         }
 
         public void Exit()
