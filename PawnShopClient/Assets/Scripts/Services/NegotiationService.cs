@@ -25,7 +25,6 @@ namespace PawnShop.Services
         public event Action OnDealSuccess;
         public event Action OnNegotiationStarted;
         public event Action<ItemModel> OnCurrentOfferChanged;
-        public event Action OnSkipRequested;
         public event Action<ItemModel> OnTagsRevealed;
 
         public ItemModel CurrentItem => _customerService.CurrentCustomer?.OwnedItem;
@@ -168,12 +167,6 @@ namespace PawnShop.Services
 
 
 
-        public void RequestSkip()
-        {
-            _history.Add(new TextRecord(HistoryRecordSource.Player,
-                string.Format(_localizationService.GetLocalization("dialog_player_skip_item"), CurrentItem?.Name)));
-            OnSkipRequested?.Invoke();
-        }
 
         public void AskAboutItemOrigin()
         {

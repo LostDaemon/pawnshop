@@ -17,15 +17,15 @@ namespace PawnShop.Gamestate
 
         public void Enter()
         {
-            _negotiationService.OnDealSuccess += NextCustomer;
-            _negotiationService.OnSkipRequested += NextCustomer;
+          //  _negotiationService.OnDealSuccess += NextCustomer;
+          //  _customerService.OnCustomerSkipped += NextCustomer;
             NextCustomer();
         }
 
         public void Exit()
         {
-            _negotiationService.OnDealSuccess -= NextCustomer;
-            _negotiationService.OnSkipRequested -= NextCustomer;
+          //  _negotiationService.OnDealSuccess -= NextCustomer;
+          //  _customerService.OnCustomerSkipped -= NextCustomer;
         }
 
         private void NextCustomer()

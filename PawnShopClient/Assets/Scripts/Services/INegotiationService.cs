@@ -10,13 +10,11 @@ namespace PawnShop.Services
         event Action OnDealSuccess;
         event Action OnNegotiationStarted;
         event Action<ItemModel> OnCurrentOfferChanged;
-        event Action OnSkipRequested;
         event Action<ItemModel> OnTagsRevealed;
         ItemModel CurrentItem { get; }
         long GetCurrentOffer();
         bool MakeCounterOffer(long newOffer);
         bool TryMakeDeal(long offeredPrice);
-        void RequestSkip();
         void AskAboutItemOrigin();
         void DeclareTags(List<BaseTagModel> tags);
 

@@ -7,7 +7,8 @@ namespace PawnShop.Services
     {
         Customer CurrentCustomer { get; }
         void NextCustomer();
-        long EvaluateCurrentItem();
+        void RequestSkip();
+        void ClearCustomer();
         event Action<Customer> OnCustomerChanged;
     }
 }

@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using PawnShop.Models;
+using PawnShop.Models.Events;
 
 namespace PawnShop.Services
 {
@@ -13,8 +14,9 @@ namespace PawnShop.Services
         public float TimeMultiplier { get; set; } = 60f; // 1 real second = 1 in-game minute
 
         public event Action<GameTime> OnTimeChanged;
+        public event Action<IGameEvent> OnEventTriggered;
 
-        private readonly List<ScheduledEvent> _scheduledEvents = new();
+        private readonly List<IGameEvent> _scheduledEvents = new();
 
         public void Tick(float deltaTime)
         {
@@ -43,9 +45,9 @@ namespace PawnShop.Services
             return new GameTime(newDay, totalMinutes / 60, totalMinutes % 60);
         }
 
-        public void Schedule(GameTime time, Action callback)
+        public void Schedule(IGameEvent gameEvent)
         {
-            _scheduledEvents.Add(new ScheduledEvent { Time = time, Callback = callback });
+            _scheduledEvents.Add(gameEvent);
         }
 
         private void TriggerEvents(GameTime now)
@@ -54,7 +56,7 @@ namespace PawnShop.Services
             {
                 if (IsSameOrPast(_scheduledEvents[i].Time, now))
                 {
-                    _scheduledEvents[i].Callback?.Invoke();
+                    OnEventTriggered?.Invoke(_scheduledEvents[i]);
                     _scheduledEvents.RemoveAt(i);
                 }
             }
@@ -65,12 +67,6 @@ namespace PawnShop.Services
             return a.Day < b.Day ||
                    (a.Day == b.Day && a.Hour < b.Hour) ||
                    (a.Day == b.Day && a.Hour == b.Hour && a.Minute <= b.Minute);
-        }
-
-        private class ScheduledEvent
-        {
-            public GameTime Time;
-            public Action Callback;
         }
     }
 }

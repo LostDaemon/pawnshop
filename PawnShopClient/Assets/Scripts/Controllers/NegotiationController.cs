@@ -12,7 +12,6 @@ namespace PawnShop.Controllers
     public class NegotiationController : MonoBehaviour
     {
         [SerializeField] private Button _buyButton;
-        [SerializeField] private Button _skipButton;
         [SerializeField] private Button _askDiscountButton;
         [SerializeField] private Button _askButton;
         [SerializeField] private Button _analyzeButton;
@@ -35,7 +34,6 @@ namespace PawnShop.Controllers
             _negotiationService = negotiationService;
 
             _buyButton?.onClick.AddListener(OnBuyClicked);
-            _skipButton?.onClick.AddListener(OnSkipClicked);
             _askButton?.onClick.AddListener(OnAskClicked);
             _analyzeButton?.onClick.AddListener(OnAnalyzeClicked);
 
@@ -96,7 +94,9 @@ namespace PawnShop.Controllers
             {
                 _negotiationService.OnNegotiationStarted -= OnNegotiationStarted;
                 _negotiationService.OnCurrentOfferChanged -= OnCurrentOfferChanged;
+                _negotiationService.OnTagsRevealed -= OnTagsRevealed;
             }
+
 
             if (_counterOfferDialogController != null)
             {
@@ -119,10 +119,6 @@ namespace PawnShop.Controllers
             }
         }
 
-        private void OnSkipClicked()
-        {
-            _negotiationService.RequestSkip();
-        }
 
         private void OnAskClicked()
         {
