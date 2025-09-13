@@ -23,7 +23,7 @@ namespace PawnShop.Services
         private readonly IEvaluationService _evaluationService;
 
         public event Action OnDealSuccess;
-        public event Action<ItemModel> OnCurrentItemChanged;
+        public event Action OnNegotiationStarted;
         public event Action<ItemModel> OnCurrentOfferChanged;
         public event Action OnSkipRequested;
         public event Action<ItemModel> OnTagsRevealed;
@@ -53,29 +53,33 @@ namespace PawnShop.Services
             _inspectionService = inspectionService;
             _playerService = playerService;
             _evaluationService = evaluationService;
+
+            // Subscribe to customer change event
+            _customerService.OnCustomerChanged += OnCustomerChanged;
         }
 
         public long GetCurrentOffer() => CurrentItem?.CurrentOffer ?? 0;
 
-        public void ShowNextCustomer()
+        private void OnCustomerChanged(Customer customer)
         {
-            Debug.Log("[NegotiationService] ShowNextCustomer called");
-            _customerService.ShowNextCustomer();
+            Debug.Log($"[NegotiationService] Customer changed to: {customer?.CustomerType}");
 
-            Debug.Log($"[NegotiationService] CurrentCustomer: {CurrentCustomer?.CustomerType}, CurrentItem: {CurrentItem?.Name}, You paid {CurrentItem?.PurchasePrice}");
-
-            // Check if customer and item are available
-            if (CurrentCustomer == null || CurrentItem == null)
+            // Clear current negotiation state when customer changes
+            if (customer != null)
             {
-                Debug.LogWarning($"[NegotiationService] Customer or item is null in ShowNextCustomer: You paid {CurrentItem?.PurchasePrice}");
-                return;
+                StartNegotiation(customer);
             }
+        }
+
+        private void StartNegotiation(Customer customer)
+        {
+            Debug.Log($"[NegotiationService] CurrentCustomer: {CurrentCustomer?.CustomerType}, CurrentItem: {CurrentItem?.Name}, You paid {CurrentItem?.PurchasePrice}");
 
             // Let customer inspect the item to reveal tags based on their skills before evaluation
             _inspectionService.InspectByCustomer(CurrentItem);
 
             GenerateInitialNpcOffer();
-            OnCurrentItemChanged?.Invoke(CurrentItem);
+
             // Add customer greeting
             var greetingMessage = _localizationService.GetLocalization("dialog_customer_greeting");
             _history.Add(new TextRecord(HistoryRecordSource.Customer, greetingMessage));
@@ -92,6 +96,8 @@ namespace PawnShop.Services
                 Debug.Log($"[NegotiationService] Adding seller intent: {sellerMessage}");
                 _history.Add(new TextRecord(HistoryRecordSource.Customer, sellerMessage));
             }
+
+            OnNegotiationStarted?.Invoke();
         }
 
         private void GenerateInitialNpcOffer()

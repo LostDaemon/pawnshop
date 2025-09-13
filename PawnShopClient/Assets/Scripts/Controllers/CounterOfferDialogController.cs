@@ -38,7 +38,7 @@ namespace PawnShop.Controllers
             _negotiationService = negotiationService;
 
             // Subscribe to negotiation service events
-            _negotiationService.OnCurrentItemChanged += OnCurrentItemChanged;
+            _negotiationService.OnNegotiationStarted += OnNegotiationStarted;
             _negotiationService.OnTagsRevealed += OnTagsRevealed;
 
             // Set up button listeners
@@ -49,41 +49,14 @@ namespace PawnShop.Controllers
                 _cancelButton.onClick.AddListener(OnCancelClicked);
         }
 
-        private void OnDestroy()
-        {
-            if (_negotiationService != null)
-            {
-                _negotiationService.OnCurrentItemChanged -= OnCurrentItemChanged;
-                _negotiationService.OnTagsRevealed -= OnTagsRevealed;
-            }
-
-            if (_confirmButton != null)
-                _confirmButton.onClick.RemoveListener(OnConfirmClicked);
-
-            if (_cancelButton != null)
-                _cancelButton.onClick.RemoveListener(OnCancelClicked);
-
-            ClearTagListItems();
-        }
-
-        private void OnCurrentItemChanged(ItemModel item)
-        {
-            _currentItem = item;
-            RefreshTagsDisplay();
-        }
-
-        private void OnTagsRevealed(ItemModel item)
-        {
-            _currentItem = item;
-            RefreshTagsDisplay();
-        }
-
         /// <summary>
         /// Refresh the tags display for the current item
         /// </summary>
         public void RefreshTagsDisplay()
         {
             ClearTagListItems();
+
+            _currentItem = _negotiationService.CurrentItem;
 
             if (_currentItem == null)
             {
@@ -242,6 +215,33 @@ namespace PawnShop.Controllers
             {
                 _offerInputField.text = string.Empty;
             }
+        }
+
+        private void OnNegotiationStarted()
+        {
+            RefreshTagsDisplay();
+        }
+
+        private void OnDestroy()
+        {
+            if (_negotiationService != null)
+            {
+                _negotiationService.OnNegotiationStarted -= OnNegotiationStarted;
+                _negotiationService.OnTagsRevealed -= OnTagsRevealed;
+            }
+
+            if (_confirmButton != null)
+                _confirmButton.onClick.RemoveListener(OnConfirmClicked);
+
+            if (_cancelButton != null)
+                _cancelButton.onClick.RemoveListener(OnCancelClicked);
+
+            ClearTagListItems();
+        }
+
+        private void OnTagsRevealed(ItemModel item)
+        {
+            RefreshTagsDisplay();
         }
     }
 }

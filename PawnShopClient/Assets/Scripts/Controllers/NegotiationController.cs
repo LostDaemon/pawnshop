@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using PawnShop.Models;
 using PawnShop.Models.Tags;
 using PawnShop.Services;
+using System;
 
 namespace PawnShop.Controllers
 {
@@ -40,7 +41,7 @@ namespace PawnShop.Controllers
 
             _discountButton = new DiscountButton { Discount = 0.10f, Button = _askDiscountButton };
             _discountButton.Button.onClick.AddListener(() => OnDiscountClicked(_discountButton.Discount));
-            _negotiationService.OnCurrentItemChanged += OnItemChanged;
+            _negotiationService.OnNegotiationStarted += OnNegotiationStarted;
             _negotiationService.OnCurrentOfferChanged += OnCurrentOfferChanged;
             _negotiationService.OnTagsRevealed += OnTagsRevealed;
 
@@ -50,6 +51,13 @@ namespace PawnShop.Controllers
                 _counterOfferDialogController.OnTagsConfirmed += OnTagsConfirmed;
                 _counterOfferDialogController.OnDialogCancelled += OnDialogCancelled;
             }
+        }
+
+        private void OnNegotiationStarted()
+        {
+            var item = _negotiationService.CurrentItem;
+            _discountButton.Button.interactable = true;
+            _itemDetailsController.UpdateItemDetails(item);
         }
 
         /// <summary>
@@ -86,7 +94,7 @@ namespace PawnShop.Controllers
         {
             if (_negotiationService != null)
             {
-                _negotiationService.OnCurrentItemChanged -= OnItemChanged;
+                _negotiationService.OnNegotiationStarted -= OnNegotiationStarted;
                 _negotiationService.OnCurrentOfferChanged -= OnCurrentOfferChanged;
             }
 
@@ -95,18 +103,6 @@ namespace PawnShop.Controllers
                 _counterOfferDialogController.OnTagsConfirmed -= OnTagsConfirmed;
                 _counterOfferDialogController.OnDialogCancelled -= OnDialogCancelled;
             }
-        }
-
-        private void OnItemChanged(ItemModel item)
-        {
-            if (item == null)
-            {
-                Debug.LogError("NegotiationController: Received null item in OnItemChanged.");
-                return;
-            }
-
-            _discountButton.Button.interactable = true;
-            _itemDetailsController.UpdateItemDetails(item);
         }
 
         private void OnBuyClicked()

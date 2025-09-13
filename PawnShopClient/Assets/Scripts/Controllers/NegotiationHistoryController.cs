@@ -6,6 +6,7 @@ using System;
 using System.Collections;
 using PawnShop.Services;
 using PawnShop.Models;
+using PawnShop.Models.Characters;
 
 namespace PawnShop.Controllers
 {
@@ -13,7 +14,7 @@ namespace PawnShop.Controllers
     {
         [Header("Display Settings")]
         [SerializeField] private float _minIntervalBetweenMessages = 500f; // Minimum time between messages in milliseconds
-        
+
         [Header("UI References")]
         [SerializeField] private Transform _contentRoot;
         [SerializeField] private GameObject _playerDialogItemPrefab;
@@ -22,24 +23,23 @@ namespace PawnShop.Controllers
         [SerializeField] private ScrollRect _scrollRect;
 
         private INegotiationHistoryService _historyService;
-        private INegotiationService _negotiateService;
-        private Action<ItemModel> _onItemChangedHandler;
-        
+        private ICustomerService _customerService;
+        private Action<Customer> _onItemChangedHandler;
+
         private float _lastMessageTime = 0f;
 
         [Inject]
-        public void Construct(INegotiationHistoryService historyService, INegotiationService negotiateService)
+        public void Construct(INegotiationHistoryService historyService, ICustomerService customerService)
         {
             _historyService = historyService;
-            _negotiateService = negotiateService;
+            _customerService = customerService;
 
             foreach (var record in _historyService.History)
                 Append(record);
 
             _historyService.OnRecordAdded += Append;
-
             _onItemChangedHandler = _ => Clear();
-            _negotiateService.OnCurrentItemChanged += _onItemChangedHandler;
+            _customerService.OnCustomerChanged += _onItemChangedHandler;
         }
 
         private void OnDestroy()
@@ -47,17 +47,17 @@ namespace PawnShop.Controllers
             if (_historyService != null)
                 _historyService.OnRecordAdded -= Append;
 
-            if (_negotiateService != null)
-                _negotiateService.OnCurrentItemChanged -= _onItemChangedHandler;
+            if (_customerService != null)
+                _customerService.OnCustomerChanged -= _onItemChangedHandler;
         }
 
         private void Append(IHistoryRecord record)
         {
             Debug.Log($"[NegotiationHistoryController] Appending record: Source={record.Source}, Message={record.Message}");
-            
+
             float currentTime = Time.time;
             float timeSinceLastMessage = currentTime - _lastMessageTime;
-            
+
             // If enough time has passed or this is the first message, display immediately
             if (timeSinceLastMessage >= _minIntervalBetweenMessages / 1000f || _lastMessageTime == 0f)
             {
@@ -118,7 +118,7 @@ namespace PawnShop.Controllers
             // Stop any pending display coroutines
             StopAllCoroutines();
             _lastMessageTime = 0f;
-            
+
             // Clear UI elements
             foreach (Transform child in _contentRoot)
                 Destroy(child.gameObject);

@@ -8,7 +8,7 @@ namespace PawnShop.Services
     public interface INegotiationService
     {
         event Action OnDealSuccess;
-        event Action<ItemModel> OnCurrentItemChanged;
+        event Action OnNegotiationStarted;
         event Action<ItemModel> OnCurrentOfferChanged;
         event Action OnSkipRequested;
         event Action<ItemModel> OnTagsRevealed;
@@ -18,7 +18,6 @@ namespace PawnShop.Services
         bool TryMakeDeal(long offeredPrice);
         void RequestSkip();
         void AskAboutItemOrigin();
-        void ShowNextCustomer();
         void DeclareTags(List<BaseTagModel> tags);
 
         /// <summary>

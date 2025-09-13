@@ -16,7 +16,7 @@ namespace PawnShop.Services
             _customerFactory = customerFactory;
         }
 
-        public void ShowNextCustomer()
+        public void NextCustomer()
         {
             Debug.Log("[CustomerService] ShowNextCustomer called");
             var customer = _customerFactory.GenerateRandomCustomer();

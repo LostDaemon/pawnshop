@@ -1,4 +1,3 @@
-using PawnShop.Models;
 using PawnShop.Services;
 using UnityEngine;
 using Zenject;
@@ -7,28 +6,37 @@ namespace PawnShop.Controllers
 {
     public class ItemDisplayController : MonoBehaviour
     {
-        [Inject] private INegotiationService _purchaseService;
+        private INegotiationService _negotiationService;
 
         [SerializeField] private Transform _spawnPoint;
 
         private GameObject _current;
 
-        private void Start()
+        [Inject]
+        public void Construct(INegotiationService negotiationService)
         {
-            _purchaseService.OnCurrentItemChanged += OnItemChanged;
-
-            if (_purchaseService.CurrentItem != null)
-                OnItemChanged(_purchaseService.CurrentItem);
+            _negotiationService = negotiationService;
+            _negotiationService.OnNegotiationStarted += OnItemChanged;
         }
 
         private void OnDestroy()
         {
-            if (_purchaseService != null)
-                _purchaseService.OnCurrentItemChanged -= OnItemChanged;
+            if (_negotiationService != null)
+            {
+                _negotiationService.OnNegotiationStarted -= OnItemChanged;
+            }
         }
 
-        private void OnItemChanged(ItemModel item)
+        private void OnItemChanged()
         {
+            if (_negotiationService == null)
+            {
+                Debug.LogError("[ItemDisplayController] NegotiationService is null in OnItemChanged()");
+                return;
+            }
+
+            var item = _negotiationService.CurrentItem;
+
             if (_current != null)
                 Destroy(_current);
 
