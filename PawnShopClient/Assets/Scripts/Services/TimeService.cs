@@ -2,16 +2,19 @@ using System;
 using System.Collections.Generic;
 using PawnShop.Models;
 using PawnShop.Models.Events;
+using UnityEngine;
 
 namespace PawnShop.Services
 {
     public class TimeService : ITimeService
     {
         private const int MinutesInDay = 24 * 60;
+        private const float SecondsPerMinute = 60f;
+        private const float BaseTimeMultiplier = 60f;
         private float _timeAccumulator;
 
         public GameTime CurrentTime { get; private set; } = new(1, 8, 0); // Day 1, 08:00
-        public float TimeMultiplier { get; set; } = 60f; // 1 real second = 1 in-game minute
+        public float TimeMultiplier { get; set; } = BaseTimeMultiplier; // 1 real second = 1 in-game minute
 
         public event Action<GameTime> OnTimeChanged;
         public event Action<IGameEvent> OnEventTriggered;
@@ -22,11 +25,12 @@ namespace PawnShop.Services
         {
             _timeAccumulator += deltaTime * TimeMultiplier;
 
-            while (_timeAccumulator >= 60f)
+            int minutesToAdvance = Mathf.FloorToInt(_timeAccumulator / SecondsPerMinute);
+            for (int i = 0; i < minutesToAdvance; i++)
             {
                 AdvanceMinute();
-                _timeAccumulator -= 60f;
             }
+            _timeAccumulator -= minutesToAdvance * SecondsPerMinute;
         }
 
         private void AdvanceMinute()
@@ -58,6 +62,9 @@ namespace PawnShop.Services
                 {
                     OnEventTriggered?.Invoke(_scheduledEvents[i]);
                     _scheduledEvents.RemoveAt(i);
+                    
+                    // Switch to 1x speed when any event triggers
+                    TimeMultiplier = BaseTimeMultiplier;
                 }
             }
         }
