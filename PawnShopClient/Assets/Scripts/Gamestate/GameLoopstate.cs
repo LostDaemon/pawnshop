@@ -9,9 +9,9 @@ namespace PawnShop.Gamestate
         private readonly INegotiationService _negotiationService;
 
         public GameLoopState(
-            INegotiationService purchaseService)
+            INegotiationService negotiationService)
         {
-            _negotiationService = purchaseService;
+            _negotiationService = negotiationService;
         }
 
         public void Enter()

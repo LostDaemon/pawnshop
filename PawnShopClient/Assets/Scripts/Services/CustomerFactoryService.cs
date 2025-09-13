@@ -30,10 +30,7 @@ namespace PawnShop.Services
         {
             Debug.Log("[CustomerFactory] GenerateRandomCustomer called");
 
-            var customer = new Customer()
-            {
-                UncertaintyLevel = _random.Next(0, 101) / 100f
-            };
+            var customer = new Customer();
 
             // Determine customer type based on inventory
             DetermineCustomerType(customer);
