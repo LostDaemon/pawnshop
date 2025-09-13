@@ -103,10 +103,6 @@ namespace PawnShop.Installers
                     .To<CustomerService>()
                     .AsSingle();
 
-            // Shelf Service
-            Container.Bind<IShelfService>()
-                    .To<ShelfService>()
-                    .AsSingle();
 
             // Asset Bundle System
             Container.Bind<AssetBundleLoader>().AsSingle();
