@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
+  m_Name: tag_features_dirt
+  m_EditorClassIdentifier: 
+  ClassId: b7aef9e4-0210-46de-a99d-9c7c20ed17a9
+  TagType: 3
+  AnalyzeType: 1
+  DisplayName: Dirt
+  Description: A thick layer of dirt
+  RequiredSkills: 02000000
+  IsRevealedToPlayer: 0
+  IsRevealedToCustomer: 0
+  Hidden: 0
+  PriceMultiplier: 0.98
+  AppearanceChance: 0.2
+  Color: {r: 0.30817598, g: 0.30817598, b: 0.30817598, a: 1}

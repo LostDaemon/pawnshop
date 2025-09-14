@@ -1,9 +1,11 @@
 using PawnShop.Services;
 using PawnShop.Models.Characters;
+using PawnShop.Models.Tags;
 using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 using System.Collections;
+using System.Linq;
 
 namespace PawnShop.Controllers
 {
@@ -12,6 +14,9 @@ namespace PawnShop.Controllers
         [SerializeField] private Button _skipButton;
         [SerializeField] private SpriteRenderer _customerImage;
         [SerializeField] private SpriteRenderer _itemImage;
+        [SerializeField] private SpriteMask _itemSpriteMask;
+        [SerializeField] private GameObject _dirtLayer;
+        [SerializeField] private GameObject _scratchesLayer;
         [SerializeField] private CanvasGroup _uiCanvasGroup;
         [SerializeField] private float _fadeDuration = 1.0f;
 
@@ -57,6 +62,7 @@ namespace PawnShop.Controllers
             if (customer == null)
             {
                 // Customer is null, fade out
+                HideAllLayers();
                 StartCoroutine(FadeOut());
             }
             else
@@ -80,9 +86,21 @@ namespace PawnShop.Controllers
             {
                 if (item.Image != null)
                 {
+                    // Apply scale from item model to both sprite renderer and sprite mask
+                    Vector3 itemScale = Vector3.one * item.Scale * 2;
+                    
                     _itemImage.sprite = item.Image;
-                    _itemImage.transform.localScale = Vector3.one * item.Scale * 2; // Scale item image larger
-                    Debug.Log($"Item displayed: {item.Name}");
+                    _itemImage.transform.localScale = itemScale;
+                    
+                    if (_itemSpriteMask != null)
+                    {
+                        _itemSpriteMask.sprite = item.Image;
+                    }
+                    
+                    Debug.Log($"Item displayed: {item.Name} with scale: {item.Scale}");
+                    
+                    // Update visual layers based on item tags
+                    UpdateVisualLayers(item);
                 }
                 else
                 {
@@ -142,9 +160,59 @@ namespace PawnShop.Controllers
                 _itemImage.color = color;
             }
 
+            // Enable/disable SpriteMask based on alpha
+            if (_itemSpriteMask != null)
+            {
+                _itemSpriteMask.enabled = alpha > 0f;
+            }
+
             if (_uiCanvasGroup != null)
             {
                 _uiCanvasGroup.alpha = alpha;
+            }
+        }
+
+        private void UpdateVisualLayers(PawnShop.Models.ItemModel item)
+        {
+            // Hide all layers first
+            HideAllLayers();
+
+            if (item?.Tags == null) return;
+
+            // Check for Dirt feature tag
+            bool hasDirtTag = item.Tags.Any(tag => 
+                tag.TagType == TagType.Feature && 
+                tag.DisplayName == "Dirt");
+
+            // Check for scratch feature tags
+            bool hasScratchTag = item.Tags.Any(tag => 
+                tag.TagType == TagType.Feature && 
+                (tag.DisplayName == "Light Scratch" || tag.DisplayName == "Deep Scratch"));
+
+            // Show appropriate layers
+            if (hasDirtTag && _dirtLayer != null)
+            {
+                _dirtLayer.SetActive(true);
+                Debug.Log($"[CustomerController] Showing DirtLayer for item: {item.Name}");
+            }
+
+            if (hasScratchTag && _scratchesLayer != null)
+            {
+                _scratchesLayer.SetActive(true);
+                Debug.Log($"[CustomerController] Showing ScratchesLayer for item: {item.Name}");
+            }
+        }
+
+        private void HideAllLayers()
+        {
+            if (_dirtLayer != null)
+            {
+                _dirtLayer.SetActive(false);
+            }
+
+            if (_scratchesLayer != null)
+            {
+                _scratchesLayer.SetActive(false);
             }
         }
     }

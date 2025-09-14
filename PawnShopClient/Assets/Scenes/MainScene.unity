@@ -3122,6 +3122,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 209410505}
   m_CullTransparentMesh: 1
+--- !u!1 &225196688 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5535519501750834268, guid: a49457f47e9a3624ca0c558f08c1e1ca, type: 3}
+  m_PrefabInstance: {fileID: 8490515264814429124}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &232275619
 GameObject:
   m_ObjectHideFlags: 0
@@ -6414,6 +6419,11 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &611179129 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3609205797608154368, guid: a49457f47e9a3624ca0c558f08c1e1ca, type: 3}
+  m_PrefabInstance: {fileID: 8490515264814429124}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &644456542
 GameObject:
   m_ObjectHideFlags: 0
@@ -21761,6 +21771,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 796954566623561103, guid: a49457f47e9a3624ca0c558f08c1e1ca, type: 3}
+      propertyPath: _dirtLayer
+      value: 
+      objectReference: {fileID: 225196688}
+    - target: {fileID: 796954566623561103, guid: a49457f47e9a3624ca0c558f08c1e1ca, type: 3}
       propertyPath: _skipButton
       value: 
       objectReference: {fileID: 1765016997}
@@ -21768,17 +21782,13 @@ PrefabInstance:
       propertyPath: _uiCanvasGroup
       value: 
       objectReference: {fileID: 1471344019}
-    - target: {fileID: 2222742781691289436, guid: a49457f47e9a3624ca0c558f08c1e1ca, type: 3}
-      propertyPath: m_Color.a
-      value: 0
-      objectReference: {fileID: 0}
+    - target: {fileID: 796954566623561103, guid: a49457f47e9a3624ca0c558f08c1e1ca, type: 3}
+      propertyPath: _scratchesLayer
+      value: 
+      objectReference: {fileID: 611179129}
     - target: {fileID: 7598919785918261837, guid: a49457f47e9a3624ca0c558f08c1e1ca, type: 3}
       propertyPath: m_Name
       value: Customer
-      objectReference: {fileID: 0}
-    - target: {fileID: 8037909769834474517, guid: a49457f47e9a3624ca0c558f08c1e1ca, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: -7.002665
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
