@@ -100,8 +100,9 @@ namespace PawnShop.Services
                 if (skillPrototype.skillType == SkillType.Undefined)
                     continue;
 
-                // Generate random level from 0 to maxLevel
-                var randomLevel = _random.Next(0, skillPrototype.maxLevel + 1);
+                // Generate random level with minimum of 1 (customers are more experienced)
+                // Range: 1 to maxLevel (instead of 0 to maxLevel)
+                var randomLevel = _random.Next(1, skillPrototype.maxLevel + 1);
 
                 // Create skill instance with random level
                 var skill = new Skill(skillPrototype)
@@ -115,7 +116,7 @@ namespace PawnShop.Services
                 Debug.Log($"[CustomerFactory] Generated skill {skillPrototype.displayName} (Type: {skillPrototype.skillType}) with level {randomLevel}/{skillPrototype.maxLevel}");
             }
 
-            Debug.Log($"[CustomerFactory] Generated {customer.Skills.Count} random skills for customer");
+            Debug.Log($"[CustomerFactory] Generated {customer.Skills.Count} random skills for customer (minimum level 1)");
         }
 
         /// <summary>

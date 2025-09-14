@@ -9,17 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35e, type: 3}
+  m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
   m_Name: tag_condition_4_used
   m_EditorClassIdentifier: 
-  ClassId: 5bb58300-dd6f-458b-b2a5-a2c0d045b3cd
+  ClassId: 44d492de-c87e-4cfa-b84f-9334d74ef8e3
   TagType: 1
+  AnalyzeType: 1
   DisplayName: Used
-  Description: Normal wear, in working order
+  Description: Used, functional with minor wear
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0
   Hidden: 0
-  PriceMultiplier: 0.9
+  PriceMultiplier: 0.75
   AppearanceChance: 0.25
-  Color: {r: 0.5647059, g: 0.93333334, b: 0.5647059, a: 1}
+  Color: {r: 0.11764706, g: 0.5647059, b: 1, a: 1}

@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
-  m_Name: tag_documents_4_premiumcert
+  m_Name: tag_provenance_clear_history
   m_EditorClassIdentifier: 
-  ClassId: be61e049-6a1a-4c91-9f31-a60e911d8d35
-  TagType: 7
-  DisplayName: PremiumCert
-  Description: Top-tier provenance, museum would fight for it
-  RequiredSkills: 02000000
+  ClassId: 73e2179a-c830-4258-9f21-d52c0025c809
+  TagType: 5
+  AnalyzeType: 5
+  DisplayName: Auction Records
+  Description: Has Auction Records
+  RequiredSkills: 2a000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0
   Hidden: 0
-  PriceMultiplier: 2
-  AppearanceChance: 0.1
-  Color: {r: 1, g: 0.84313726, b: 0, a: 1}
+  PriceMultiplier: 1.1
+  AppearanceChance: 1
+  Color: {r: 0.25490198, g: 0.4117647, b: 0.88235295, a: 1}

@@ -10,17 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
-  m_Name: tag_documents_2_partial
+  m_Name: tag_manufacturer_defect
   m_EditorClassIdentifier: 
-  ClassId: d0dfe780-0f67-4eff-8427-f6a53d0b5f66
-  TagType: 7
-  AnalyzeType: 6
-  DisplayName: Partial
-  Description: Some documents are there, others lost in time
+  ClassId: e35568da-e4ef-497b-a100-b2a747b2673e
+  TagType: 11
+  AnalyzeType: 1
+  DisplayName: Factory Defect
+  Description: An imperfection from production, reducing quality and value
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0
   Hidden: 0
-  PriceMultiplier: 0.8
-  AppearanceChance: 0.25
-  Color: {r: 0, g: 0.6666667, b: 0.6666667, a: 1}
+  PriceMultiplier: 0.6
+  AppearanceChance: 0.2
+  Color: {r: 0.6627451, g: 0.6627451, b: 0.6627451, a: 1}

@@ -6,7 +6,7 @@ namespace PawnShop.Services
 {
     public interface IItemInspectionService
     {
-        public List<BaseTagModel> InspectByPlayer(ItemModel item);
-        public List<BaseTagModel> InspectByCustomer(ItemModel item);
+        public List<BaseTagModel> InspectByPlayer(ItemModel item, AnalyzeType analyzeType = AnalyzeType.Undefined);
+        public List<BaseTagModel> InspectByCustomer(ItemModel item, AnalyzeType analyzeType = AnalyzeType.Undefined);
     }
 }

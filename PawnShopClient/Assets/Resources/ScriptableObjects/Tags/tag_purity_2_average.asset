@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClassId: c47a890f-1cb1-45fd-a19b-0601ae6968f1
   TagType: 13
+  AnalyzeType: 3
   DisplayName: Average 55-75%
   Description: Average purity, acceptable quality
   RequiredSkills: 02000000

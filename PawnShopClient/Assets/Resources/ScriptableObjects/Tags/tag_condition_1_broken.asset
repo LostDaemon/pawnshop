@@ -9,17 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35b, type: 3}
+  m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
   m_Name: tag_condition_1_broken
   m_EditorClassIdentifier: 
-  ClassId: 5bb58300-dd6f-458b-b2a5-a2c0d045b3cd
+  ClassId: 87fe7270-f342-4190-b030-9294c3de5da5
   TagType: 1
+  AnalyzeType: 1
   DisplayName: Broken
-  Description: Not working, needs major repair
+  Description: Broken, requires major repair
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0
   Hidden: 0
-  PriceMultiplier: 0.3
-  AppearanceChance: 0.05
-  Color: {r: 0.39607844, g: 0.2627451, b: 0.12941177, a: 1}
+  PriceMultiplier: 0.15
+  AppearanceChance: 0.1
+  Color: {r: 0.54509807, g: 0, b: 0, a: 1}

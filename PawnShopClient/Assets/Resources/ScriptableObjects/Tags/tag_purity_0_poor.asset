@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClassId: 004ea8f3-8ead-487b-81ca-b32a1fa2847b
   TagType: 13
+  AnalyzeType: 3
   DisplayName: Poor 5-35%
   Description: Very poor purity, full of impurities
   RequiredSkills: 02000000

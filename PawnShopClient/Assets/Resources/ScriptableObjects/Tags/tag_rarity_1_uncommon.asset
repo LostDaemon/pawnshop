@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClassId: 3fadaa2a-d3bc-4afb-8ec7-38353f0c1686
   TagType: 2
+  AnalyzeType: 5
   DisplayName: Uncommon
   Description: Less usual item, still not rare
   RequiredSkills: 02000000

@@ -18,7 +18,7 @@ MonoBehaviour:
   BasePrice: 120
   Scale: 0.6
   Description: A dusty book with worn leather cover. First edition adds slight value.
-  requiredTags: 08000000
+  requiredTags: 08000000010000000200000006000000
   allowedTags:
   - TagType: 3
     MaxCount: 2

@@ -7,6 +7,7 @@ namespace PawnShop.Models.Tags
     {
         public string ClassId { get; set; }
         public TagType TagType { get; set; }
+        public AnalyzeType AnalyzeType { get; set; }
         public string DisplayName { get; set; }
         public string Description { get; set; }
         public SkillType[] RequiredSkills { get; set; }
@@ -23,6 +24,7 @@ namespace PawnShop.Models.Tags
             {
                 ClassId = prototype.ClassId;
                 TagType = prototype.TagType;
+                AnalyzeType = prototype.AnalyzeType;
                 DisplayName = prototype.DisplayName;
                 Description = prototype.Description;
                 RequiredSkills = prototype.RequiredSkills;

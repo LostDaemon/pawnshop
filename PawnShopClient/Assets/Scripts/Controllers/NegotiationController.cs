@@ -18,6 +18,14 @@ namespace PawnShop.Controllers
         [SerializeField] private ItemDetailsController _itemDetailsController;
         [SerializeField] private CounterOfferDialogController _counterOfferDialogController;
 
+        // Analysis buttons
+        [SerializeField] private Button _visualBtn;
+        [SerializeField] private Button _defectoscopeBtn;
+        [SerializeField] private Button _historyBtn;
+        [SerializeField] private Button _purityBtn;
+        [SerializeField] private Button _documentsBtn;
+        [SerializeField] private Button _legalStatusBtn;
+
         private INegotiationService _negotiationService;
 
         private struct DiscountButton
@@ -36,6 +44,14 @@ namespace PawnShop.Controllers
             _buyButton?.onClick.AddListener(OnBuyClicked);
             _askButton?.onClick.AddListener(OnAskClicked);
             _analyzeButton?.onClick.AddListener(OnAnalyzeClicked);
+
+            // Analysis buttons
+            _visualBtn?.onClick.AddListener(() => OnAnalysisClicked(AnalyzeType.VisualAnalysis));
+            _defectoscopeBtn?.onClick.AddListener(() => OnAnalysisClicked(AnalyzeType.Defectoscope));
+            _historyBtn?.onClick.AddListener(() => OnAnalysisClicked(AnalyzeType.HistoryResearch));
+            _purityBtn?.onClick.AddListener(() => OnAnalysisClicked(AnalyzeType.PurityAnalyzer));
+            _documentsBtn?.onClick.AddListener(() => OnAnalysisClicked(AnalyzeType.DocumentInspection));
+            _legalStatusBtn?.onClick.AddListener(() => OnAnalysisClicked(AnalyzeType.CheckLegalStatus));
 
             _discountButton = new DiscountButton { Discount = 0.10f, Button = _askDiscountButton };
             _discountButton.Button.onClick.AddListener(() => OnDiscountClicked(_discountButton.Discount));
@@ -88,6 +104,11 @@ namespace PawnShop.Controllers
             _negotiationService.AnalyzeItem();
         }
 
+        private void OnAnalysisClicked(AnalyzeType analyzeType)
+        {
+            _negotiationService.AnalyzeItem(analyzeType);
+        }
+
         private void OnDestroy()
         {
             if (_negotiationService != null)
@@ -122,7 +143,8 @@ namespace PawnShop.Controllers
 
         private void OnAskClicked()
         {
-            _negotiationService.AskAboutItemOrigin();
+            var customerTags = _negotiationService.AskAboutItemOrigin();
+            // Customer tags are now available for further processing if needed
         }
 
         private void OnDiscountClicked(float discount)

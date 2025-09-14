@@ -18,7 +18,7 @@ MonoBehaviour:
   BasePrice: 100
   Scale: 0.5
   Description: A faded old photograph in a wooden frame. Sentimental value.
-  requiredTags: 0100000008000000
+  requiredTags: 010000000800000002000000
   allowedTags:
   - TagType: 6
     MaxCount: 1

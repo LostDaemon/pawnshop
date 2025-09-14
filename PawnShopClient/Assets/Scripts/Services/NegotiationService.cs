@@ -168,10 +168,10 @@ namespace PawnShop.Services
 
 
 
-        public void AskAboutItemOrigin()
+        public List<BaseTagModel> AskAboutItemOrigin()
         {
             if (CurrentItem == null || CurrentCustomer == null)
-                return;
+                return new List<BaseTagModel>();
 
             // Get customer's knowledge about the item
             var customerKnownTags = CurrentItem.Tags.Where(t => t.IsRevealedToCustomer).ToList();
@@ -196,7 +196,7 @@ namespace PawnShop.Services
                         CurrentItem.CurrentOffer);
                     _history.Add(new TextRecord(HistoryRecordSource.Customer, neutralMessage));
                 }
-                return;
+                return new List<BaseTagModel>();
             }
 
             if (CurrentCustomer.CustomerType == CustomerType.Seller)
@@ -209,15 +209,37 @@ namespace PawnShop.Services
                 // Buyer logic: show negative tags they see and justify their offer
                 HandleBuyerKnowledge(customerKnownTags);
             }
+
+            return customerKnownTags;
         }
 
         private void HandleSellerKnowledge(List<BaseTagModel> customerKnownTags)
         {
+            Debug.Log($"[NegotiationService] HandleSellerKnowledge called with {customerKnownTags?.Count ?? 0} known tags");
+            
+            if (customerKnownTags == null)
+            {
+                Debug.LogWarning("[NegotiationService] HandleSellerKnowledge: customerKnownTags is null");
+                return;
+            }
+
+            // Log all known tags for debugging
+            Debug.Log($"[NegotiationService] Customer known tags:");
+            for (int i = 0; i < customerKnownTags.Count; i++)
+            {
+                var tag = customerKnownTags[i];
+                string tagName = tag?.DisplayName ?? "Unknown";
+                float multiplier = tag?.PriceMultiplier ?? 0f;
+                Debug.Log($"  [{i}] {tagName} - Multiplier: {multiplier}");
+            }
+
             // Get positive tags (tags with positive price multiplier)
             var positiveTags = customerKnownTags.Where(t => t.PriceMultiplier > 1.0f).ToList();
+            Debug.Log($"[NegotiationService] Found {positiveTags.Count} positive tags (multiplier > 1.0)");
 
             if (positiveTags.Count == 0)
             {
+                Debug.Log("[NegotiationService] No positive tags found - customer knows nothing about positive aspects");
                 // Customer knows about the item but no positive aspects - treat as knowing nothing
                 _history.Add(new TextRecord(HistoryRecordSource.Customer,
                     _localizationService.GetLocalization("dialog_customer_seller_knows_nothing")));
@@ -229,6 +251,7 @@ namespace PawnShop.Services
             for (int i = 0; i < positiveTags.Count; i++)
             {
                 var tag = positiveTags[i];
+                Debug.Log($"[NegotiationService] Formatting positive tag: {tag.DisplayName} (multiplier: {tag.PriceMultiplier})");
                 formattedTags += TagTextRenderHelper.RenderTag(tag);
 
                 if (i < positiveTags.Count - 1)
@@ -237,12 +260,25 @@ namespace PawnShop.Services
                 }
             }
 
+            Debug.Log($"[NegotiationService] Formatted tags string: {formattedTags}");
+
             // Add customer's knowledge to history
             string customerKnowledgeMessage = string.Format(
                 _localizationService.GetLocalization("dialog_customer_seller_knows_item_positive"),
                 formattedTags);
 
+            Debug.Log($"[NegotiationService] Adding customer knowledge message to history: {customerKnowledgeMessage}");
             _history.Add(new TextRecord(HistoryRecordSource.Customer, customerKnowledgeMessage));
+            
+            // Make revealed positive tags known to player
+            foreach (var tag in positiveTags)
+            {
+                if (!tag.IsRevealedToPlayer)
+                {
+                    tag.IsRevealedToPlayer = true;
+                }
+            }
+            OnTagsRevealed?.Invoke(CurrentItem);
         }
 
         private void HandleBuyerKnowledge(List<BaseTagModel> customerKnownTags)
@@ -283,9 +319,6 @@ namespace PawnShop.Services
 
         public bool MakeCounterOffer(long newOffer)
         {
-            _history.Add(new TextRecord(HistoryRecordSource.Player,
-                string.Format(_localizationService.GetLocalization("dialog_player_counter_offer"), newOffer)));
-
             var accepted = ProcessPlayerOffer(newOffer);
 
             if (accepted)
@@ -309,19 +342,34 @@ namespace PawnShop.Services
             return accepted;
         }
 
-        public void AnalyzeItem()
+        public void AnalyzeItem(AnalyzeType analyzeType = AnalyzeType.Undefined)
         {
-            var revealedTags = _inspectionService.InspectByPlayer(CurrentItem);
-
-            // Add to history
-            _history.Add(new TextRecord(HistoryRecordSource.Player,
-            string.Format(_localizationService.GetLocalization("dialog_player_analyzed_item"), CurrentItem.Name, revealedTags.Count)));
-            // Notify that tags were revealed
+            _inspectionService.InspectByPlayer(CurrentItem, analyzeType);
             OnTagsRevealed?.Invoke(CurrentItem);
         }
 
-        public void DeclareTags(List<BaseTagModel> tags)
+        public void DeclareTags(List<BaseTagModel> tags, long offerPrice)
         {
+            if (tags == null || tags.Count == 0)
+                return;
+
+            // Format tags for display
+            string formattedTags = "";
+            for (int i = 0; i < tags.Count; i++)
+            {
+                var tag = tags[i];
+                formattedTags += TagTextRenderHelper.RenderTag(tag);
+                if (i < tags.Count - 1)
+                {
+                    formattedTags += " ";
+                }
+            }
+
+            // Add player's declaration to history
+            string playerMessage = string.Format(_localizationService.GetLocalization("dialog_player_declares_tags"), formattedTags, offerPrice);
+            _history.Add(new TextRecord(HistoryRecordSource.Player, playerMessage));
+
+            // Make tags known to customer
             foreach (var tag in tags)
             {
                 var curTag = CurrentItem.Tags.FirstOrDefault(t => t.ClassId == tag.ClassId);

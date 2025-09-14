@@ -19,7 +19,7 @@ MonoBehaviour:
   Scale: 0.3
   Description: A well-preserved ink pen "Porker" from the 1950s. Might appeal to
     niche collectors.
-  requiredTags: 08000000
+  requiredTags: 0800000002000000010000000b000000
   allowedTags:
   - TagType: 3
     MaxCount: 2

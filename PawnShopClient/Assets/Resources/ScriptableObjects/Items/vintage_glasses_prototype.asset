@@ -18,7 +18,7 @@ MonoBehaviour:
   BasePrice: 180
   Scale: 0.5
   Description: Stylish round-frame glasses with gold accents. Slightly scratched.
-  requiredTags: 08000000
+  requiredTags: 0800000001000000020000000b000000
   allowedTags:
   - TagType: 3
     MaxCount: 2

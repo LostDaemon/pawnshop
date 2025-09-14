@@ -15,12 +15,12 @@ namespace PawnShop.Services
         long GetCurrentOffer();
         bool MakeCounterOffer(long newOffer);
         bool TryMakeDeal(long offeredPrice);
-        void AskAboutItemOrigin();
-        void DeclareTags(List<BaseTagModel> tags);
+        List<BaseTagModel> AskAboutItemOrigin();
+        void DeclareTags(List<BaseTagModel> tags, long offerPrice);
 
         /// <summary>
-        /// Analyze the current item (placeholder for future complex logic)
+        /// Analyze the current item with specific analysis type
         /// </summary>
-        void AnalyzeItem();
+        void AnalyzeItem(AnalyzeType analyzeType = AnalyzeType.Undefined);
     }
 }

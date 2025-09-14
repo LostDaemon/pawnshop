@@ -18,7 +18,7 @@ MonoBehaviour:
   BasePrice: 3500
   Scale: 0.5
   Description: A solid ingot of gold. Very high market value.
-  requiredTags: 0700000008000000
+  requiredTags: 07000000080000000d000000
   allowedTags: []
   OverrideTagsGeneration: 0
   OverridedTags: []

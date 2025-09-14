@@ -134,7 +134,7 @@ namespace PawnShop.Controllers
             var selectedTags = GetSelectedTags();
 
             // Declare selected tags to the customer
-            _negotiationService.DeclareTags(selectedTags);
+            _negotiationService.DeclareTags(selectedTags, newOffer);
             _negotiationService.MakeCounterOffer(newOffer);
             OnTagsConfirmed?.Invoke(selectedTags);
         }

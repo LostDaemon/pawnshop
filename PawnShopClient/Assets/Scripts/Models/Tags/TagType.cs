@@ -7,7 +7,7 @@ namespace PawnShop.Models.Tags
         Rarity = 2,
         Feature = 3,
         Origin = 4,
-        History = 5,
+        Provenance = 5,
         Ownership = 6,
         Documents = 7,
         LegalStatus = 8,

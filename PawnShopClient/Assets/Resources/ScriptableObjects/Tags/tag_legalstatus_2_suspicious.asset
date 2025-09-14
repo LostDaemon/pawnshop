@@ -12,12 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
   m_Name: tag_legalstatus_2_suspicious
   m_EditorClassIdentifier: 
-  TagType: 12
+  ClassId: 9b1b86cd-a231-48f6-b59a-72cbb5544d6e
+  TagType: 8
+  AnalyzeType: 7
   DisplayName: Suspicious
   Description: Smells fishy, but maybe still fine
-  Hidden: 0
-  Color: {r: 1, g: 0.6666667, b: 0, a: 1}
-  IsRevealed: 0
   RequiredSkills: 01000000
+  IsRevealedToPlayer: 0
+  IsRevealedToCustomer: 0
+  Hidden: 0
   PriceMultiplier: 0.7
   AppearanceChance: 0.1
+  Color: {r: 1, g: 0.6666667, b: 0, a: 1}

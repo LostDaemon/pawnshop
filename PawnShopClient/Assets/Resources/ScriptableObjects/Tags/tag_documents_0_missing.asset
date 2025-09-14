@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClassId: 836db213-e748-4719-a014-eed276925d0d
   TagType: 7
+  AnalyzeType: 6
   DisplayName: Missing
   Description: Should have docs, but they vanished
   RequiredSkills: 02000000

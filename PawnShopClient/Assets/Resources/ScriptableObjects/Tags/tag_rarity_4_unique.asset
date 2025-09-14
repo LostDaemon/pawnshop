@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClassId: 770741e4-5c77-4e99-9fdf-064d1e1fb6c0
   TagType: 2
+  AnalyzeType: 5
   DisplayName: Unique
   Description: One-of-a-kind item, exceptional value
   RequiredSkills: 02000000

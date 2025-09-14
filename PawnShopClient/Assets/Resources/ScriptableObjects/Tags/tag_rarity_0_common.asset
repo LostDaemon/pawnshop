@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClassId: 1945e20e-6773-402c-9d56-3c7c5dada130
   TagType: 2
+  AnalyzeType: 5
   DisplayName: Common
   Description: Everyday item, easy to find
   RequiredSkills: 02000000

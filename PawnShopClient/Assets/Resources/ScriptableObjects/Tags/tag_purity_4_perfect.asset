@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClassId: 6abf11b0-65b1-4ed8-ac3a-0a88d72be840
   TagType: 13
+  AnalyzeType: 3
   DisplayName: Perfect 99.99...%
   Description: Near perfect purity, exceptional and unique
   RequiredSkills: 02000000

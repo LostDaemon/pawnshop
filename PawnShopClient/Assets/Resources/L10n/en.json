@@ -96,6 +96,16 @@
       ]
     },
     {
+      "key": "dialog_player_declares_tags",
+      "values": [
+        "This is an interesting specimen, however I can see that {0}, so I can only offer {1}.",
+        "It's a curious piece, but {0} reduce its value. My offer: {1}.",
+        "Good item, but {0} make me cautious. I propose {1}.",
+        "Nice piece, but {0} don't allow me to offer more than {1}.",
+        "Interesting item, but {0} limit my evaluation. I can only give {1}."
+      ]
+    },
+    {
       "key": "dialog_system_item_loaded",
       "values": ["Item loaded successfully"]
     },
@@ -247,6 +257,78 @@
         "Your storage appears to be full. I'll have to keep this item.",
         "I can see your inventory is at capacity. Perhaps we can do business later?",
         "Unfortunately, you don't have room for this. Come back when you have space!"
+      ]
+    },
+    {
+      "key": "system_visual_analysis_completed",
+      "values": [
+        "You carefully examined the item '<b>{0}</b>' and learned new details: {1}"
+      ]
+    },
+    {
+      "key": "system_purity_analysis_completed",
+      "values": [
+        "You analyzed the purity of item '<b>{0}</b>' and determined quality parameters: {1}"
+      ]
+    },
+    {
+      "key": "system_defectoscope_analysis_completed",
+      "values": [
+        "You scanned item '<b>{0}</b>' with a defectoscope and discovered structural features: {1}"
+      ]
+    },
+    {
+      "key": "system_history_research_completed",
+      "values": [
+        "You researched the history of item '<b>{0}</b>' and learned facts about its origin: {1}"
+      ]
+    },
+    {
+      "key": "system_document_inspection_completed",
+      "values": [
+        "You studied the documents of item '<b>{0}</b>' and identified documentary features: {1}"
+      ]
+    },
+    {
+      "key": "system_legal_status_check_completed",
+      "values": [
+        "You checked the legal status of item '<b>{0}</b>' and discovered important facts: {1}"
+      ]
+    },
+    {
+      "key": "system_visual_analysis_no_results",
+      "values": [
+        "You carefully examined item '<b>{0}</b>' but found nothing new."
+      ]
+    },
+    {
+      "key": "system_purity_analysis_no_results",
+      "values": [
+        "You analyzed the purity of item '<b>{0}</b>' but found no new quality parameters."
+      ]
+    },
+    {
+      "key": "system_defectoscope_analysis_no_results",
+      "values": [
+        "You scanned item '<b>{0}</b>' with a defectoscope but found no new structural features."
+      ]
+    },
+    {
+      "key": "system_history_research_no_results",
+      "values": [
+        "You researched the history of item '<b>{0}</b>' but learned no new facts about its origin."
+      ]
+    },
+    {
+      "key": "system_document_inspection_no_results",
+      "values": [
+        "You studied the documents of item '<b>{0}</b>' but found no additional documentary features."
+      ]
+    },
+    {
+      "key": "system_legal_status_check_no_results",
+      "values": [
+        "You checked the legal status of item '<b>{0}</b>' but discovered no new important facts."
       ]
     }
   ]

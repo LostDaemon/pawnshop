@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClassId: 60ff05dd-4f3e-41ab-aa71-b29d1d9ce59c
   TagType: 13
+  AnalyzeType: 3
   DisplayName: Hight 75-98%
   Description: High purity, rare and valuable
   RequiredSkills: 02000000

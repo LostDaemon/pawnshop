@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClassId: e0ba18fd-ed46-462d-bdf3-d1214a13fd8c
   TagType: 12
+  AnalyzeType: 5
   DisplayName: Author Copy
   Description: The copy of original masterpeace, made by master
   RequiredSkills: 020000002a00000030000000

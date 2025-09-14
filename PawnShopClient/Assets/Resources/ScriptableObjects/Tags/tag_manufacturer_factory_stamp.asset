@@ -10,16 +10,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
-  m_Name: tag_legalstatus_0_unknown
+  m_Name: tag_manufacturer_factory_stamp
   m_EditorClassIdentifier: 
-  ClassId: af2f59e4-2d15-4ad3-9fee-22fad88bb3bc
-  TagType: 8
-  DisplayName: Unknown
-  Description: Nobody knows, better check twice
-  RequiredSkills: 01000000
+  ClassId: 3d2804c9-a800-4d9f-9c6f-680fbd3c620a
+  TagType: 11
+  AnalyzeType: 1
+  DisplayName: Factory Stamp
+  Description: Clear factory stamp
+  RequiredSkills: 02000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0
   Hidden: 0
-  PriceMultiplier: 1
+  PriceMultiplier: 1.1
   AppearanceChance: 0.3
-  Color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+  Color: {r: 0.18431373, g: 0.30980393, b: 0.30980393, a: 1}

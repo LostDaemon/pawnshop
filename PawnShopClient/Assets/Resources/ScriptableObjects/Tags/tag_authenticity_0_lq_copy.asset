@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClassId: fded74bc-c3a9-4232-af82-02ff4f43f98b
   TagType: 12
+  AnalyzeType: 5
   DisplayName: LQ Copy
   Description: Low Quality Copy
   RequiredSkills: 020000002a00000030000000

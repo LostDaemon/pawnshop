@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClassId: 30021c01-2610-4666-9929-d09b2654e4b5
   TagType: 12
+  AnalyzeType: 5
   DisplayName: Original
   Description: The Masterpeace
   RequiredSkills: 020000002a00000030000000

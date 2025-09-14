@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClassId: 4ef5df09-b104-4fe0-9351-47b2c471129d
   TagType: 8
+  AnalyzeType: 7
   DisplayName: Clean
   Description: All good, could sell it to grandma
   RequiredSkills: 01000000

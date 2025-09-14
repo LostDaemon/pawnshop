@@ -8,6 +8,7 @@ namespace PawnShop.ScriptableObjects.Tags
     {
         [Header("Tag Properties")]
         public TagType TagType;
+        public AnalyzeType AnalyzeType;
         public string DisplayName;
         [TextArea(3, 5)]
         public string Description;

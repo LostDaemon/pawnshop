@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClassId: 6725ee66-882a-4806-a615-fbc8a2ae7f2d
   TagType: 8
+  AnalyzeType: 7
   DisplayName: Illegal
   Description: Hot stuff, better hide it under the floorboards
   RequiredSkills: 01000000

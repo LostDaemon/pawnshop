@@ -14,12 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ClassId: 5bb58300-dd6f-458b-b2a5-a2c0d045b3cd
   TagType: 1
+  AnalyzeType: 1
   DisplayName: Destroyed
-  Description: Totally ruined, can be sold as scrap or disassembled for parts
+  Description: Totally ruined, can be scrapped for parts
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0
   Hidden: 0
-  PriceMultiplier: 0.1
-  AppearanceChance: 0.02
-  Color: {r: 0.18431373, g: 0.105882354, b: 0.078431375, a: 1}
+  PriceMultiplier: 0.05
+  AppearanceChance: 0.05
+  Color: {r: 0, g: 0, b: 0, a: 1}

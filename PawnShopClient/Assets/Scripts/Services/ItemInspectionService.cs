@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using PawnShop.Helpers;
 using PawnShop.Models;
 using PawnShop.Models.Characters;
 using PawnShop.Models.Tags;
@@ -10,27 +11,109 @@ namespace PawnShop.Services
     {
         private readonly IPlayerService _playerService;
         private readonly ICustomerService _customerService;
+        private readonly INegotiationHistoryService _historyService;
+        private readonly ILocalizationService _localizationService;
 
         [Inject]
-        public ItemInspectionService(IPlayerService playerService, ICustomerService customerService)
+        public ItemInspectionService(IPlayerService playerService, ICustomerService customerService,
+            INegotiationHistoryService historyService, ILocalizationService localizationService)
         {
             _playerService = playerService;
             _customerService = customerService;
+            _historyService = historyService;
+            _localizationService = localizationService;
         }
 
-        public List<BaseTagModel> InspectByPlayer(ItemModel item)
+        public List<BaseTagModel> InspectByPlayer(ItemModel item, AnalyzeType analyzeType = AnalyzeType.Undefined)
         {
             var player = _playerService.Player;
-            return InspectInternal(player, item);
+            var revealedTags = InspectInternal(player, item, analyzeType);
+            WriteAnalysisToHistory(item, analyzeType, revealedTags);
+            return revealedTags;
         }
 
-        public List<BaseTagModel> InspectByCustomer(ItemModel item)
+        public List<BaseTagModel> InspectByCustomer(ItemModel item, AnalyzeType analyzeType = AnalyzeType.Undefined)
         {
             var customer = _customerService.CurrentCustomer;
-            return InspectInternal(customer, item);
+            return InspectInternal(customer, item, analyzeType);
         }
 
-        private List<BaseTagModel> InspectInternal(ICharacter character, ItemModel item)
+        private void WriteAnalysisToHistory(ItemModel item, AnalyzeType analyzeType, List<BaseTagModel> newlyRevealedTags)
+        {
+            string messageKey;
+            switch (analyzeType)
+            {
+                case AnalyzeType.VisualAnalysis:
+                    messageKey = "system_visual_analysis_completed";
+                    break;
+                case AnalyzeType.CheckLegalStatus:
+                    messageKey = "system_legal_status_check_completed";
+                    break;
+                case AnalyzeType.PurityAnalyzer:
+                    messageKey = "system_purity_analysis_completed";
+                    break;
+                case AnalyzeType.Defectoscope:
+                    messageKey = "system_defectoscope_analysis_completed";
+                    break;
+                case AnalyzeType.HistoryResearch:
+                    messageKey = "system_history_research_completed";
+                    break;
+                case AnalyzeType.DocumentInspection:
+                    messageKey = "system_document_inspection_completed";
+                    break;
+                default: throw new System.ArgumentOutOfRangeException(nameof(analyzeType), analyzeType, null);
+            }
+
+            string message = string.Format(_localizationService.GetLocalization(messageKey), item.Name, GetTagsList(newlyRevealedTags));
+
+            // If no tags were revealed, use a different message
+            if (newlyRevealedTags.Count == 0)
+            {
+                string noResultsKey = GetNoResultsMessageKey(analyzeType);
+                message = string.Format(_localizationService.GetLocalization(noResultsKey), item.Name);
+            }
+
+            _historyService.Add(new TextRecord(HistoryRecordSource.System, message));
+        }
+
+        private string GetNoResultsMessageKey(AnalyzeType analyzeType)
+        {
+            switch (analyzeType)
+            {
+                case AnalyzeType.VisualAnalysis:
+                    return "system_visual_analysis_no_results";
+                case AnalyzeType.CheckLegalStatus:
+                    return "system_legal_status_check_no_results";
+                case AnalyzeType.PurityAnalyzer:
+                    return "system_purity_analysis_no_results";
+                case AnalyzeType.Defectoscope:
+                    return "system_defectoscope_analysis_no_results";
+                case AnalyzeType.HistoryResearch:
+                    return "system_history_research_no_results";
+                case AnalyzeType.DocumentInspection:
+                    return "system_document_inspection_no_results";
+                default: throw new System.ArgumentOutOfRangeException(nameof(analyzeType), analyzeType, null);
+            }
+        }
+
+        private string GetTagsList(List<BaseTagModel> tags)
+        {
+            if (tags.Count == 0)
+                return "";
+
+            string result = "";
+            for (int i = 0; i < tags.Count; i++)
+            {
+                result += TagTextRenderHelper.RenderTag(tags[i]);
+                if (i < tags.Count - 1)
+                {
+                    result += " ";
+                }
+            }
+            return result;
+        }
+
+        private List<BaseTagModel> InspectInternal(ICharacter character, ItemModel item, AnalyzeType analyzeType)
         {
             var revealedTags = new List<BaseTagModel>();
 
@@ -60,6 +143,12 @@ namespace PawnShop.Services
                     continue;
                 }
 
+                // Check if the analysis type matches the tag's required analysis type
+                if (analyzeType != AnalyzeType.Undefined && tag.AnalyzeType != analyzeType)
+                {
+                    continue; // Skip tags that don't match the analysis type
+                }
+
                 if (tag.RequiredSkills == null || tag.RequiredSkills.Length == 0)
                 {
                     continue;
@@ -71,6 +160,12 @@ namespace PawnShop.Services
                     {
                         int skillLevel = skill.Level;
                         float chance = skillLevel * 20f;
+                        
+                        // Add 30% bonus when using analysis tools
+                        if (analyzeType != AnalyzeType.Undefined)
+                        {
+                            chance += 30f;
+                        }
 
                         var randomValue = UnityEngine.Random.Range(0f, 1f) * 100f;
                         if (randomValue <= chance)
