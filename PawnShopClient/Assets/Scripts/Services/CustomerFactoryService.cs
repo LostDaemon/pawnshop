@@ -39,6 +39,9 @@ namespace PawnShop.Services
             // Generate random skill levels for all skills
             GenerateRandomSkills(customer);
 
+            // Generate random patience level (50-100)
+            GenerateRandomPatience(customer);
+
             // Generate item based on customer type
             if (customer.CustomerType == CustomerType.Buyer)
             {
@@ -117,6 +120,14 @@ namespace PawnShop.Services
             }
 
             Debug.Log($"[CustomerFactory] Generated {customer.Skills.Count} random skills for customer (minimum level 1)");
+        }
+
+        private void GenerateRandomPatience(Customer customer)
+        {
+            // Generate random patience level between 50 and 100
+            // Lower patience means customer will leave faster
+            customer.Patience = (float)(_random.NextDouble() * 50 + 50);
+            Debug.Log($"[CustomerFactory] Generated patience level: {customer.Patience:F1}/100");
         }
 
         /// <summary>

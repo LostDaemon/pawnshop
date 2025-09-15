@@ -3,12 +3,21 @@ using PawnShop.Helpers;
 using PawnShop.Models;
 using PawnShop.Models.Characters;
 using PawnShop.Models.Tags;
+using UnityEngine;
 using Zenject;
 
 namespace PawnShop.Services
 {
     public class ItemInspectionService : IItemInspectionService
     {
+        // Patience reduction constants for different analysis types
+        private const float VISUAL_ANALYSIS_PATIENCE_COST = 5f;
+        private const float LEGAL_STATUS_PATIENCE_COST = 10f;
+        private const float PURITY_ANALYZER_PATIENCE_COST = 15f;
+        private const float DEFECTOSCOPE_PATIENCE_COST = 20f;
+        private const float HISTORY_RESEARCH_PATIENCE_COST = 25f;
+        private const float DOCUMENT_INSPECTION_PATIENCE_COST = 30f;
+
         private readonly IPlayerService _playerService;
         private readonly ICustomerService _customerService;
         private readonly INegotiationHistoryService _historyService;
@@ -28,6 +37,10 @@ namespace PawnShop.Services
         {
             var player = _playerService.Player;
             var revealedTags = InspectInternal(player, item, analyzeType);
+
+            // Reduce customer patience when player performs inspection
+            ReduceCustomerPatience(analyzeType);
+
             WriteAnalysisToHistory(item, analyzeType, revealedTags);
             return revealedTags;
         }
@@ -160,7 +173,7 @@ namespace PawnShop.Services
                     {
                         int skillLevel = skill.Level;
                         float chance = skillLevel * 20f;
-                        
+
                         // Add 30% bonus when using analysis tools
                         if (analyzeType != AnalyzeType.Undefined)
                         {
@@ -187,6 +200,41 @@ namespace PawnShop.Services
             }
 
             return revealedTags; //Only newly revealed tags
+        }
+
+        private void ReduceCustomerPatience(AnalyzeType analyzeType)
+        {
+            var customer = _customerService.CurrentCustomer;
+            if (customer == null)
+            {
+                return; // No customer present, no patience to reduce
+            }
+
+            float patienceCost = GetPatienceCost(analyzeType);
+
+            // Only reduce patience if there's actually a cost
+            if (patienceCost > 0f)
+            {
+                // Use CustomerService method to change patience
+                _customerService.ChangeCustomerPatience(-patienceCost);
+
+                Debug.Log($"[ItemInspectionService] Customer patience reduced by {patienceCost:F1}");
+            }
+        }
+
+        private float GetPatienceCost(AnalyzeType analyzeType)
+        {
+            return analyzeType switch
+            {
+                AnalyzeType.VisualAnalysis => VISUAL_ANALYSIS_PATIENCE_COST,
+                AnalyzeType.CheckLegalStatus => LEGAL_STATUS_PATIENCE_COST,
+                AnalyzeType.PurityAnalyzer => PURITY_ANALYZER_PATIENCE_COST,
+                AnalyzeType.Defectoscope => DEFECTOSCOPE_PATIENCE_COST,
+                AnalyzeType.HistoryResearch => HISTORY_RESEARCH_PATIENCE_COST,
+                AnalyzeType.DocumentInspection => DOCUMENT_INSPECTION_PATIENCE_COST,
+                AnalyzeType.Undefined => 0f, // No patience cost for undefined analysis type
+                _ => 0f // No patience cost for unknown analysis types
+            };
         }
     }
 }

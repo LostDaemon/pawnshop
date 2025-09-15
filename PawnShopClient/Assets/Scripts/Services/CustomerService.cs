@@ -33,7 +33,133 @@ namespace PawnShop.Services
             _timeService = timeService;
 
             _timeService.OnEventTriggered += OnEventTriggered;
+            _timeService.OnTimeChanged += OnTimeChanged;
             ScheduleCustomerEvents();
+        }
+
+        public void ChangeCustomerPatience(float changeAmount)
+        {
+            if (CurrentCustomer == null)
+            {
+                Debug.LogWarning("[CustomerService] Cannot change patience - no current customer");
+                return;
+            }
+
+            float previousPatience = CurrentCustomer.Patience;
+            CurrentCustomer.Patience = Mathf.Max(0f, CurrentCustomer.Patience + changeAmount);
+            
+            Debug.Log($"[CustomerService] Customer patience changed by {changeAmount:F1}. Previous: {previousPatience:F1}, Current: {CurrentCustomer.Patience:F1}");
+        }
+
+        public void ClearCustomer()
+        {
+            Debug.Log("[CustomerService] Clearing current customer");
+            CurrentCustomer = null;
+            OnCustomerChanged?.Invoke(null);
+        }
+
+        public void Dispose()
+        {
+            // Unsubscribe from time service events
+            if (_timeService != null)
+            {
+                _timeService.OnEventTriggered -= OnEventTriggered;
+                _timeService.OnTimeChanged -= OnTimeChanged;
+            }
+        }
+
+        public void NextCustomer()
+        {
+            Debug.Log("[CustomerService] NextCustomer called");
+            
+            if (_customersQueue.Count == 0)
+            {
+                Debug.LogWarning("[CustomerService] No customers in queue");
+                return;
+            }
+            
+            CurrentCustomer = _customersQueue.Dequeue();
+            
+            Debug.Log($"[CustomerService] Current customer: Type={CurrentCustomer?.CustomerType}, Item={CurrentCustomer?.OwnedItem?.Name}");
+            OnCustomerChanged?.Invoke(CurrentCustomer);
+        }
+
+        public void RequestSkip()
+        {
+            _history.Add(new TextRecord(HistoryRecordSource.Player,
+                string.Format(_localizationService.GetLocalization("dialog_player_skip_item"), CurrentCustomer?.OwnedItem?.Name)));
+            ClearCustomer();
+        }
+
+        private void CheckPatienceThresholds(float previousPatience)
+        {
+            if (CurrentCustomer == null) return;
+            
+            // Show dialogue at 50% and 25% thresholds
+            if (previousPatience > 50f && CurrentCustomer.Patience <= 50f)
+            {
+                ShowCustomerPatienceDialogue();
+            }
+            else if (previousPatience > 25f && CurrentCustomer.Patience <= 25f)
+            {
+                ShowCustomerPatienceDialogue();
+            }
+        }
+
+        private void HandleCustomerLeaving()
+        {
+            if (CurrentCustomer == null) return;
+            
+            Debug.Log($"[CustomerService] Customer patience reached zero. Customer is leaving.");
+            
+            // Show customer's final dialogue before leaving
+            string leaveDialogue = _localizationService.GetLocalization("dialog_customer_patience_leave");
+            _history.Add(new TextRecord(HistoryRecordSource.Customer, leaveDialogue));
+            
+            // Add system message about customer leaving
+            string systemMessage = _localizationService.GetLocalization("system_customer_left_impatient");
+            _history.Add(new TextRecord(HistoryRecordSource.System, systemMessage));
+            
+            // Clear current customer
+            ClearCustomer();
+        }
+
+        private void OnEventTriggered(IGameEvent gameEvent)
+        {
+            Debug.Log($"[CustomerService] Event triggered: Type={gameEvent.EventType}, Time={gameEvent.Time.Day}:{gameEvent.Time.Hour:D2}:{gameEvent.Time.Minute:D2}");
+            
+            if (gameEvent.EventType == GameEventType.Customer)
+            {
+                var newCustomer = _customerFactory.GenerateRandomCustomer();
+                _customersQueue.Enqueue(newCustomer);
+                
+                Debug.Log($"[CustomerService] New customer added to queue: Type={newCustomer?.CustomerType}, Item={newCustomer?.OwnedItem?.Name}");
+                OnNewCustomer?.Invoke(newCustomer);
+                
+                if (CurrentCustomer == null)
+                {
+                    NextCustomer();
+                }
+            }
+        }
+
+        private void OnTimeChanged(GameTime currentTime)
+        {
+            // Reduce customer patience every minute
+            if (CurrentCustomer != null)
+            {
+                float previousPatience = CurrentCustomer.Patience;
+                CurrentCustomer.Patience = Mathf.Max(0f, CurrentCustomer.Patience - 0.1f);
+                
+                // Check patience thresholds and show dialogue
+                CheckPatienceThresholds(previousPatience);
+                
+                // Check if customer patience reached zero
+                if (CurrentCustomer.Patience <= 0f)
+                {
+                    HandleCustomerLeaving();
+                }
+            }
         }
 
         private void ScheduleCustomerEvents()
@@ -63,53 +189,13 @@ namespace PawnShop.Services
             Debug.Log($"[CustomerService] Scheduled customer events at: {string.Join(", ", scheduledTimes)}");
         }
 
-        private void OnEventTriggered(IGameEvent gameEvent)
+        private void ShowCustomerPatienceDialogue()
         {
-            Debug.Log($"[CustomerService] Event triggered: Type={gameEvent.EventType}, Time={gameEvent.Time.Day}:{gameEvent.Time.Hour:D2}:{gameEvent.Time.Minute:D2}");
+            if (CurrentCustomer == null) return;
             
-            if (gameEvent.EventType == GameEventType.Customer)
-            {
-                var newCustomer = _customerFactory.GenerateRandomCustomer();
-                _customersQueue.Enqueue(newCustomer);
-                
-                Debug.Log($"[CustomerService] New customer added to queue: Type={newCustomer?.CustomerType}, Item={newCustomer?.OwnedItem?.Name}");
-                OnNewCustomer?.Invoke(newCustomer);
-                
-                if (CurrentCustomer == null)
-                {
-                    NextCustomer();
-                }
-            }
-        }
-
-        public void NextCustomer()
-        {
-            Debug.Log("[CustomerService] NextCustomer called");
-            
-            if (_customersQueue.Count == 0)
-            {
-                Debug.LogWarning("[CustomerService] No customers in queue");
-                return;
-            }
-            
-            CurrentCustomer = _customersQueue.Dequeue();
-            
-            Debug.Log($"[CustomerService] Current customer: Type={CurrentCustomer?.CustomerType}, Item={CurrentCustomer?.OwnedItem?.Name}");
-            OnCustomerChanged?.Invoke(CurrentCustomer);
-        }
-
-        public void RequestSkip()
-        {
-            _history.Add(new TextRecord(HistoryRecordSource.Player,
-                string.Format(_localizationService.GetLocalization("dialog_player_skip_item"), CurrentCustomer?.OwnedItem?.Name)));
-            ClearCustomer();
-        }
-
-        public void ClearCustomer()
-        {
-            Debug.Log("[CustomerService] Clearing current customer");
-            CurrentCustomer = null;
-            OnCustomerChanged?.Invoke(null);
+            // Show random dialogue from customer about patience
+            string dialogue = _localizationService.GetLocalization("dialog_customer_patience");
+            _history.Add(new TextRecord(HistoryRecordSource.Customer, dialogue));
         }
     }
 }

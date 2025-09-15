@@ -7,5 +7,6 @@ namespace PawnShop.Models.Characters
     {
         public ItemModel OwnedItem { get; set; }
         public CustomerType CustomerType { get; set; }
+        public float Patience { get; set; } = 100f; // Customer patience level (0-100)
     }
 }

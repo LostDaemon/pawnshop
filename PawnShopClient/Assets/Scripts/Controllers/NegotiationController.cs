@@ -27,6 +27,9 @@ namespace PawnShop.Controllers
         [SerializeField] private Button _legalStatusBtn;
 
         private INegotiationService _negotiationService;
+        private ICustomerService _customerService;
+        
+        private bool _isAnalysisInProgress = false;
 
         private struct DiscountButton
         {
@@ -37,9 +40,10 @@ namespace PawnShop.Controllers
         private DiscountButton _discountButton;
 
         [Inject]
-        public void Construct(INegotiationService negotiationService)
+        public void Construct(INegotiationService negotiationService, ICustomerService customerService)
         {
             _negotiationService = negotiationService;
+            _customerService = customerService;
 
             _buyButton?.onClick.AddListener(OnBuyClicked);
             _askButton?.onClick.AddListener(OnAskClicked);
@@ -92,6 +96,7 @@ namespace PawnShop.Controllers
         private void OnTagsRevealed(ItemModel item)
         {
             _itemDetailsController?.UpdateItemDetails(item);
+            _isAnalysisInProgress = false; // Analysis completed
         }
 
         private void OnCurrentOfferChanged(ItemModel item)
@@ -101,11 +106,23 @@ namespace PawnShop.Controllers
 
         private void OnAnalyzeClicked()
         {
+            if (_isAnalysisInProgress)
+            {
+                return;
+            }
+            
+            _isAnalysisInProgress = true;
             _negotiationService.AnalyzeItem();
         }
 
         private void OnAnalysisClicked(AnalyzeType analyzeType)
         {
+            if (_isAnalysisInProgress)
+            {
+                return;
+            }
+            
+            _isAnalysisInProgress = true;
             _negotiationService.AnalyzeItem(analyzeType);
         }
 
@@ -128,6 +145,11 @@ namespace PawnShop.Controllers
 
         private void OnBuyClicked()
         {
+            if (_isAnalysisInProgress)
+            {
+                return;
+            }
+            
             long offer = _negotiationService.GetCurrentOffer();
 
             if (_negotiationService.TryMakeDeal(offer))
@@ -143,12 +165,26 @@ namespace PawnShop.Controllers
 
         private void OnAskClicked()
         {
+            if (_isAnalysisInProgress)
+            {
+                return;
+            }
+            
             var customerTags = _negotiationService.AskAboutItemOrigin();
+            
+            // Reduce customer patience by 10 for asking about item
+            _customerService.ChangeCustomerPatience(-10f);
+            
             // Customer tags are now available for further processing if needed
         }
 
         private void OnDiscountClicked(float discount)
         {
+            if (_isAnalysisInProgress)
+            {
+                return;
+            }
+            
             ShowCounterOfferDialog();
         }
 

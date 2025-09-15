@@ -330,6 +330,46 @@
       "values": [
         "You checked the legal status of item '<b>{0}</b>' but discovered no new important facts."
       ]
+    },
+    {
+      "key": "system_customer_patience_reduced",
+      "values": [
+        "Customer patience decreased by {0} points. Current patience: {1}/100",
+        "The customer is getting impatient. Patience reduced by {0} points. Current level: {1}/100",
+        "Customer's patience dropped by {0} points due to inspection. Remaining patience: {1}/100"
+      ]
+    },
+    {
+      "key": "system_customer_left_impatient",
+      "values": ["The customer got tired of waiting and left."]
+    },
+    {
+      "key": "dialog_customer_patience",
+      "values": [
+        "How long will this take? The thing is, I'm in a bit of a hurry.",
+        "Could you tell me how much longer to wait?",
+        "It seems like I've been standing here forever, could we speed up?",
+        "I'm sorry, but I don't have much time. How much longer will it take?",
+        "I understand this takes time, but could you hurry up a bit?",
+        "Please tell me, how much longer do I need to wait? I'm in a bit of a rush.",
+        "I don't want to rush you, but I have other things to do. How much longer?",
+        "I'm starting to worry about time. How much longer will the process take?",
+        "I didn't think this would take so long...",
+        "It seems this is taking longer than I expected. How much longer?"
+      ]
+    },
+    {
+      "key": "dialog_customer_patience_leave",
+      "values": [
+        "I'm sorry, but I can't wait any longer.",
+        "I need to go, I'm out of time.",
+        "I can't wait anymore, I'm sorry.",
+        "Unfortunately, I need to leave now.",
+        "I don't have any more time, I'm sorry.",
+        "I need to go, I'm running out of time.",
+        "I'm sorry, but I can't wait any longer.",
+        "Unfortunately, I need to go."
+      ]
     }
   ]
 }

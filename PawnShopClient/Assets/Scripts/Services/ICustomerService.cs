@@ -9,6 +9,7 @@ namespace PawnShop.Services
         void NextCustomer();
         void RequestSkip();
         void ClearCustomer();
+        void ChangeCustomerPatience(float changeAmount);
         event Action<Customer> OnCustomerChanged;
     }
 }

@@ -3,9 +3,11 @@ using PawnShop.Models.Characters;
 using PawnShop.Models.Tags;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 using Zenject;
 using System.Collections;
 using System.Linq;
+using PawnShop.Models;
 
 namespace PawnShop.Controllers
 {
@@ -19,17 +21,21 @@ namespace PawnShop.Controllers
         [SerializeField] private GameObject _scratchesLayer;
         [SerializeField] private CanvasGroup _uiCanvasGroup;
         [SerializeField] private float _fadeDuration = 1.0f;
+        [SerializeField] private TMP_Text _patienceIndicator;
 
         private ICustomerService _customerService;
         private INegotiationService _negotiationService;
+        private ITimeService _timeService;
 
         [Inject]
-        public void Construct(ICustomerService customerService, INegotiationService negotiationService)
+        public void Construct(ICustomerService customerService, INegotiationService negotiationService, ITimeService timeService)
         {
             _customerService = customerService;
             _negotiationService = negotiationService;
+            _timeService = timeService;
             _skipButton?.onClick.AddListener(OnSkipRequested);
             _customerService.OnCustomerChanged += OnCustomerChanged;
+            _timeService.OnTimeChanged += OnTimeChanged;
             _negotiationService.OnDealSuccess += OnSkipRequested;
             _negotiationService.OnNegotiationStarted += OnNegotiationStarted;
         }
@@ -46,6 +52,10 @@ namespace PawnShop.Controllers
                 _customerService.OnCustomerChanged -= OnCustomerChanged;
                 _negotiationService.OnDealSuccess -= OnSkipRequested;
                 _negotiationService.OnNegotiationStarted -= OnNegotiationStarted;
+            }
+            if (_timeService != null)
+            {
+                _timeService.OnTimeChanged -= OnTimeChanged;
             }
         }
 
@@ -64,11 +74,25 @@ namespace PawnShop.Controllers
                 // Customer is null, fade out
                 HideAllLayers();
                 StartCoroutine(FadeOut());
+                if (_patienceIndicator != null)
+                    _patienceIndicator.text = $"Patience: 0.0/100";
             }
             else
             {
                 // Customer exists, fade in
+                Debug.Log($"[CustomerController] Customer patience: {customer.Patience:F1}/100");
                 StartCoroutine(FadeIn());
+                if (_patienceIndicator != null)
+                    _patienceIndicator.text = $"Patience: {customer.Patience:F1}/100";
+            }
+        }
+
+        private void OnTimeChanged(GameTime currentTime)
+        {
+            // Update patience indicator if customer exists
+            if (_customerService.CurrentCustomer != null && _patienceIndicator != null)
+            {
+                _patienceIndicator.text = $"Patience: {_customerService.CurrentCustomer.Patience:F1}/100";
             }
         }
 
@@ -88,17 +112,17 @@ namespace PawnShop.Controllers
                 {
                     // Apply scale from item model to both sprite renderer and sprite mask
                     Vector3 itemScale = Vector3.one * item.Scale * 2;
-                    
+
                     _itemImage.sprite = item.Image;
                     _itemImage.transform.localScale = itemScale;
-                    
+
                     if (_itemSpriteMask != null)
                     {
                         _itemSpriteMask.sprite = item.Image;
                     }
-                    
+
                     Debug.Log($"Item displayed: {item.Name} with scale: {item.Scale}");
-                    
+
                     // Update visual layers based on item tags
                     UpdateVisualLayers(item);
                 }
@@ -180,13 +204,13 @@ namespace PawnShop.Controllers
             if (item?.Tags == null) return;
 
             // Check for Dirt feature tag
-            bool hasDirtTag = item.Tags.Any(tag => 
-                tag.TagType == TagType.Feature && 
+            bool hasDirtTag = item.Tags.Any(tag =>
+                tag.TagType == TagType.Feature &&
                 tag.DisplayName == "Dirt");
 
             // Check for scratch feature tags
-            bool hasScratchTag = item.Tags.Any(tag => 
-                tag.TagType == TagType.Feature && 
+            bool hasScratchTag = item.Tags.Any(tag =>
+                tag.TagType == TagType.Feature &&
                 (tag.DisplayName == "Light Scratch" || tag.DisplayName == "Deep Scratch"));
 
             // Show appropriate layers

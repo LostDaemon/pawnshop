@@ -12,6 +12,15 @@ namespace PawnShop.Services
 {
     public class NegotiationService : INegotiationService
     {
+        // Analysis delay constants (in game ticks)
+        private const int VISUAL_ANALYSIS_DELAY = 1;
+        private const int DEFECTOSCOPE_DELAY = 3;
+        private const int HISTORY_RESEARCH_DELAY = 2;
+        private const int PURITY_ANALYZER_DELAY = 3;
+        private const int DOCUMENT_INSPECTION_DELAY = 2;
+        private const int LEGAL_STATUS_DELAY = 2;
+        private const int DEFAULT_ANALYSIS_DELAY = 1;
+
         private readonly IWalletService _wallet;
         private readonly ISlotStorageService<ItemModel> _inventoryStorage;
         private readonly ISlotStorageService<ItemModel> _sellStorage;
@@ -21,6 +30,11 @@ namespace PawnShop.Services
         private readonly IItemInspectionService _inspectionService;
         private readonly IPlayerService _playerService;
         private readonly IEvaluationService _evaluationService;
+        private readonly ITimeService _timeService;
+
+        // Analysis delay tracking
+        private AnalyzeType? _pendingAnalysisType;
+        private int _remainingDelayTicks;
 
         public event Action OnDealSuccess;
         public event Action OnNegotiationStarted;
@@ -41,7 +55,8 @@ namespace PawnShop.Services
             ILocalizationService localizationService,
             IItemInspectionService inspectionService,
             IPlayerService playerService,
-            IEvaluationService evaluationService)
+            IEvaluationService evaluationService,
+            ITimeService timeService)
         {
             _wallet = wallet;
             _inventoryStorage = inventoryStorage;
@@ -52,9 +67,11 @@ namespace PawnShop.Services
             _inspectionService = inspectionService;
             _playerService = playerService;
             _evaluationService = evaluationService;
+            _timeService = timeService;
 
-            // Subscribe to customer change event
+            // Subscribe to events
             _customerService.OnCustomerChanged += OnCustomerChanged;
+            _timeService.OnTimeChanged += OnTimeChanged;
         }
 
         public long GetCurrentOffer() => CurrentItem?.CurrentOffer ?? 0;
@@ -67,6 +84,23 @@ namespace PawnShop.Services
             if (customer != null)
             {
                 StartNegotiation(customer);
+            }
+        }
+
+        private void OnTimeChanged(GameTime currentTime)
+        {
+            // Process pending analysis if delay is complete
+            if (_pendingAnalysisType.HasValue && _remainingDelayTicks > 0)
+            {
+                _remainingDelayTicks--;
+                Debug.Log($"[NegotiationService] Analysis delay: {_remainingDelayTicks} ticks remaining for {_pendingAnalysisType.Value}");
+                
+                if (_remainingDelayTicks <= 0)
+                {
+                    // Delay complete, perform analysis
+                    PerformAnalysis(_pendingAnalysisType.Value);
+                    _pendingAnalysisType = null;
+                }
             }
         }
 
@@ -337,6 +371,9 @@ namespace PawnShop.Services
                     ? "dialog_customer_seller_counter_rejected"
                     : "dialog_customer_buyer_counter_rejected";
                 _history.Add(new TextRecord(HistoryRecordSource.Customer, _localizationService.GetLocalization(rejectionKey)));
+                
+                // Reduce customer patience by 10 for rejected counter offer
+                _customerService.ChangeCustomerPatience(-10f);
             }
 
             return accepted;
@@ -344,8 +381,40 @@ namespace PawnShop.Services
 
         public void AnalyzeItem(AnalyzeType analyzeType = AnalyzeType.Undefined)
         {
+            // Check if analysis is already in progress
+            if (_pendingAnalysisType.HasValue)
+            {
+                Debug.Log($"[NegotiationService] Analysis already in progress for {_pendingAnalysisType.Value}, ignoring new request");
+                return;
+            }
+
+            // Start delayed analysis
+            int delayTicks = GetAnalysisDelay(analyzeType);
+            _pendingAnalysisType = analyzeType;
+            _remainingDelayTicks = delayTicks;
+            
+            Debug.Log($"[NegotiationService] Starting analysis delay of {delayTicks} ticks for {analyzeType}");
+        }
+
+        private void PerformAnalysis(AnalyzeType analyzeType)
+        {
+            Debug.Log($"[NegotiationService] Performing analysis: {analyzeType}");
             _inspectionService.InspectByPlayer(CurrentItem, analyzeType);
             OnTagsRevealed?.Invoke(CurrentItem);
+        }
+
+        private int GetAnalysisDelay(AnalyzeType analyzeType)
+        {
+            return analyzeType switch
+            {
+                AnalyzeType.VisualAnalysis => VISUAL_ANALYSIS_DELAY,
+                AnalyzeType.Defectoscope => DEFECTOSCOPE_DELAY,
+                AnalyzeType.HistoryResearch => HISTORY_RESEARCH_DELAY,
+                AnalyzeType.PurityAnalyzer => PURITY_ANALYZER_DELAY,
+                AnalyzeType.DocumentInspection => DOCUMENT_INSPECTION_DELAY,
+                AnalyzeType.CheckLegalStatus => LEGAL_STATUS_DELAY,
+                _ => DEFAULT_ANALYSIS_DELAY
+            };
         }
 
         public void DeclareTags(List<BaseTagModel> tags, long offerPrice)
@@ -395,6 +464,18 @@ namespace PawnShop.Services
             else
             {
                 return offer <= adjustedValue; // Buyer accepts if offer is at most realistic value
+            }
+        }
+
+        public void Dispose()
+        {
+            if (_customerService != null)
+            {
+                _customerService.OnCustomerChanged -= OnCustomerChanged;
+            }
+            if (_timeService != null)
+            {
+                _timeService.OnTimeChanged -= OnTimeChanged;
             }
         }
     }
