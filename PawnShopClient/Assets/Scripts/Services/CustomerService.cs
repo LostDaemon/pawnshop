@@ -18,6 +18,7 @@ namespace PawnShop.Services
         private readonly System.Random _random = new();
 
         private Queue<Customer> _customersQueue = new Queue<Customer>();
+        private bool _isDayScheduled = false;
 
         public Customer CurrentCustomer { get; private set; }
         public event Action<Customer> OnCustomerChanged;
@@ -35,7 +36,6 @@ namespace PawnShop.Services
 
             _timeService.OnEventTriggered += OnEventTriggered;
             _timeService.OnTimeChanged += OnTimeChanged;
-            ScheduleCustomerEvents();
         }
 
         public void ChangeCustomerPatience(float changeAmount)
@@ -149,6 +149,21 @@ namespace PawnShop.Services
 
         private void OnTimeChanged(GameTime currentTime)
         {
+            // Reset scheduling flag at midnight (0:00)
+            if (currentTime.Hour == 0 && currentTime.Minute == 0)
+            {
+                _isDayScheduled = false;
+                Debug.Log("[CustomerService] Midnight reached - scheduling flag reset");
+            }
+            
+            // Schedule customer events for the day if not already scheduled
+            if (!_isDayScheduled)
+            {
+                ScheduleCustomerEvents();
+                _isDayScheduled = true;
+                Debug.Log("[CustomerService] Customer events scheduled for the day");
+            }
+            
             // Reduce customer patience every minute
             if (CurrentCustomer != null)
             {
@@ -170,6 +185,7 @@ namespace PawnShop.Services
         {
             Debug.Log("[CustomerService] Scheduling customer events...");
             
+            var currentDay = _timeService.CurrentTime.Day;
             var scheduledTimes = new List<string>();
             
             for (int hour = 8; hour <= 18; hour++)
@@ -178,7 +194,7 @@ namespace PawnShop.Services
                 var deviation = _random.Next(-30, 31); // -30 to +30 minutes
                 var actualMinute = Math.Max(0, Math.Min(59, baseMinute + deviation));
                 
-                var scheduledTime = new GameTime(1, hour, actualMinute);
+                var scheduledTime = new GameTime(currentDay, hour, actualMinute);
                 
                 var gameEvent = new GameEvent
                 {
@@ -190,7 +206,7 @@ namespace PawnShop.Services
                 scheduledTimes.Add($"{hour}:{actualMinute:D2}");
             }
             
-            Debug.Log($"[CustomerService] Scheduled customer events at: {string.Join(", ", scheduledTimes)}");
+            Debug.Log($"[CustomerService] Scheduled customer events for day {currentDay} at: {string.Join(", ", scheduledTimes)}");
         }
 
         private void ShowCustomerPatienceDialogue()
