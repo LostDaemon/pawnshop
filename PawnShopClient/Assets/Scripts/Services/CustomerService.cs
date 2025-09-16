@@ -22,6 +22,7 @@ namespace PawnShop.Services
         public Customer CurrentCustomer { get; private set; }
         public event Action<Customer> OnCustomerChanged;
         public event Action<Customer> OnNewCustomer;
+        public event Action<float> OnPatienceChanged;
 
 
         [Inject]
@@ -49,6 +50,9 @@ namespace PawnShop.Services
             CurrentCustomer.Patience = Mathf.Max(0f, CurrentCustomer.Patience + changeAmount);
             
             Debug.Log($"[CustomerService] Customer patience changed by {changeAmount:F1}. Previous: {previousPatience:F1}, Current: {CurrentCustomer.Patience:F1}");
+            
+            // Update patience and trigger events
+            UpdatePatience(previousPatience);
         }
 
         public void ClearCustomer()
@@ -151,8 +155,8 @@ namespace PawnShop.Services
                 float previousPatience = CurrentCustomer.Patience;
                 CurrentCustomer.Patience = Mathf.Max(0f, CurrentCustomer.Patience - 0.1f);
                 
-                // Check patience thresholds and show dialogue
-                CheckPatienceThresholds(previousPatience);
+                // Update patience and trigger events
+                UpdatePatience(previousPatience);
                 
                 // Check if customer patience reached zero
                 if (CurrentCustomer.Patience <= 0f)
@@ -196,6 +200,19 @@ namespace PawnShop.Services
             // Show random dialogue from customer about patience
             string dialogue = _localizationService.GetLocalization("dialog_customer_patience");
             _history.Add(new TextRecord(HistoryRecordSource.Customer, dialogue));
+        }
+
+        private void UpdatePatience(float previousPatience)
+        {
+            // Only proceed if patience actually changed
+            if (Mathf.Approximately(previousPatience, CurrentCustomer.Patience))
+                return;
+            
+            // Check patience thresholds and show dialogue
+            CheckPatienceThresholds(previousPatience);
+            
+            // Trigger patience changed event
+            OnPatienceChanged?.Invoke(CurrentCustomer.Patience);
         }
     }
 }

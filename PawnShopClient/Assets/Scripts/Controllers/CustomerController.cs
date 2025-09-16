@@ -15,13 +15,13 @@ namespace PawnShop.Controllers
     {
         [SerializeField] private Button _skipButton;
         [SerializeField] private SpriteRenderer _customerImage;
+        [SerializeField] private SpriteRenderer _customerFace;
         [SerializeField] private SpriteRenderer _itemImage;
         [SerializeField] private SpriteMask _itemSpriteMask;
         [SerializeField] private GameObject _dirtLayer;
         [SerializeField] private GameObject _scratchesLayer;
         [SerializeField] private CanvasGroup _uiCanvasGroup;
         [SerializeField] private float _fadeDuration = 1.0f;
-        [SerializeField] private TMP_Text _patienceIndicator;
 
         private ICustomerService _customerService;
         private INegotiationService _negotiationService;
@@ -35,7 +35,6 @@ namespace PawnShop.Controllers
             _timeService = timeService;
             _skipButton?.onClick.AddListener(OnSkipRequested);
             _customerService.OnCustomerChanged += OnCustomerChanged;
-            _timeService.OnTimeChanged += OnTimeChanged;
             _negotiationService.OnDealSuccess += OnSkipRequested;
             _negotiationService.OnNegotiationStarted += OnNegotiationStarted;
         }
@@ -52,10 +51,6 @@ namespace PawnShop.Controllers
                 _customerService.OnCustomerChanged -= OnCustomerChanged;
                 _negotiationService.OnDealSuccess -= OnSkipRequested;
                 _negotiationService.OnNegotiationStarted -= OnNegotiationStarted;
-            }
-            if (_timeService != null)
-            {
-                _timeService.OnTimeChanged -= OnTimeChanged;
             }
         }
 
@@ -74,25 +69,12 @@ namespace PawnShop.Controllers
                 // Customer is null, fade out
                 HideAllLayers();
                 StartCoroutine(FadeOut());
-                if (_patienceIndicator != null)
-                    _patienceIndicator.text = $"Patience: 0.0/100";
             }
             else
             {
                 // Customer exists, fade in
                 Debug.Log($"[CustomerController] Customer patience: {customer.Patience:F1}/100");
                 StartCoroutine(FadeIn());
-                if (_patienceIndicator != null)
-                    _patienceIndicator.text = $"Patience: {customer.Patience:F1}/100";
-            }
-        }
-
-        private void OnTimeChanged(GameTime currentTime)
-        {
-            // Update patience indicator if customer exists
-            if (_customerService.CurrentCustomer != null && _patienceIndicator != null)
-            {
-                _patienceIndicator.text = $"Patience: {_customerService.CurrentCustomer.Patience:F1}/100";
             }
         }
 
@@ -175,6 +157,13 @@ namespace PawnShop.Controllers
                 Color color = _customerImage.color;
                 color.a = alpha;
                 _customerImage.color = color;
+            }
+
+            if (_customerFace != null)
+            {
+                Color color = _customerFace.color;
+                color.a = alpha;
+                _customerFace.color = color;
             }
 
             if (_itemImage != null)

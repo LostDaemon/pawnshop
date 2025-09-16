@@ -290,29 +290,7 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: face_male_angry
-      rect:
-        serializedVersion: 2
-        x: 0
-        y: 768
-        width: 256
-        height: 256
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 87fd81174aa27f243af6c1085b74239f
-      internalID: 413581910
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: face_male_disappointed
+      name: face_m_mood_100
       rect:
         serializedVersion: 2
         x: 256
@@ -320,21 +298,21 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f9e7648c4ce7c5f429309d50edb7980b
-      internalID: -1216620165
+      spriteID: 54302cacaa2ea7c4783e102c877c0386
+      internalID: 1158599152
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: face_male_normal
+      name: face_m_mood_80
       rect:
         serializedVersion: 2
         x: 512
@@ -342,21 +320,21 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b3fc5537a1fc1e94986a3fd6b16332fd
-      internalID: 1871324947
+      spriteID: 11ec14cea76dd74458316b64cc4355ea
+      internalID: 2117089834
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: face_male_content
+      name: face_m_mood_60
       rect:
         serializedVersion: 2
         x: 768
@@ -364,21 +342,21 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bf4b188973e7e7744bc067e6d98f17c2
-      internalID: 1600384177
+      spriteID: bb354ea250b74c849aef55e42f69e4aa
+      internalID: -1220289747
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: face_male_happy
+      name: face_m_mood_30
       rect:
         serializedVersion: 2
         x: 1024
@@ -386,43 +364,43 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 4c753958bb5f8ec4a943c1167f73aab0
-      internalID: 2104724530
+      spriteID: 6e9435e86dac94a4482dab614ec945a8
+      internalID: 1724392456
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: face_female_angry
+      name: face_m_mood_10
       rect:
         serializedVersion: 2
-        x: 0
-        y: 512
+        x: 1280
+        y: 768
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f9d593a7be594b347ac327e280f77791
-      internalID: -2122741957
+      spriteID: c27c20d75741dd24c8d1c80dc88f36dc
+      internalID: 1282269419
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: face_female_disappointed
+      name: face_f_mood_100
       rect:
         serializedVersion: 2
         x: 256
@@ -430,21 +408,21 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 81e39c7fa3115ff4da8ebdf602ef69f0
-      internalID: 212077291
+      spriteID: 1df303acf8e431043b9cc021eefcd517
+      internalID: 397068651
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: face_female_normal
+      name: face_f_mood_80
       rect:
         serializedVersion: 2
         x: 512
@@ -452,21 +430,21 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 84a99cddc566a454f83782e0d8a8db61
-      internalID: 137212130
+      spriteID: 05a36bed58f63bc409f4f54ac5cd48da
+      internalID: 787913553
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: face_female_content
+      name: face_f_mood_60
       rect:
         serializedVersion: 2
         x: 768
@@ -474,37 +452,59 @@ TextureImporter:
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 7faf06431ebebc144b5904b4428e4093
-      internalID: -600165766
+      spriteID: 5ef8e29b58c54824fb1f47dc6f483c01
+      internalID: -1435746919
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: face_female_happy
+      name: face_f_mood_30
       rect:
         serializedVersion: 2
         x: 1024
-        y: 512
+        y: 513
         width: 256
         height: 256
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: bd4f2d1420fdad14a905b7ef2ede00b6
-      internalID: 423469797
+      spriteID: 5574e957f1ccc1a45b8b95f59ab36535
+      internalID: 796160206
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: face_f_mood_10
+      rect:
+        serializedVersion: 2
+        x: 1279
+        y: 512
+        width: 256
+        height: 256
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9be417405307994cbdd66bbb03b0426
+      internalID: -1934543229
       vertices: []
       indices: 
       edges: []
@@ -523,7 +523,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      character_faces_11: -1934543229
+      character_faces_0: 264927980
       character_faces_12: -1249107621
       character_faces_13: -2069248819
       character_faces_14: -1908086621
@@ -532,17 +532,18 @@ TextureImporter:
       character_faces_17: -338471326
       character_faces_18: -1235495918
       character_faces_19: -2090007918
-      character_faces_5: 1282269419
-      face_female_angry: -2122741957
-      face_female_content: -600165766
-      face_female_disappointed: 212077291
-      face_female_happy: 423469797
-      face_female_normal: 137212130
-      face_male_angry: 413581910
-      face_male_content: 1600384177
-      face_male_disappointed: -1216620165
-      face_male_happy: 2104724530
-      face_male_normal: 1871324947
+      character_faces_20: 1383222325
+      character_faces_6: 1870415089
+      face_f_mood_10: -1934543229
+      face_f_mood_100: 397068651
+      face_f_mood_30: 796160206
+      face_f_mood_60: -1435746919
+      face_f_mood_80: 787913553
+      face_m_mood_10: 1282269419
+      face_m_mood_100: 1158599152
+      face_m_mood_30: 1724392456
+      face_m_mood_60: -1220289747
+      face_m_mood_80: 2117089834
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

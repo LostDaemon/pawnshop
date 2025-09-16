@@ -11,5 +11,6 @@ namespace PawnShop.Services
         void ClearCustomer();
         void ChangeCustomerPatience(float changeAmount);
         event Action<Customer> OnCustomerChanged;
+        event Action<float> OnPatienceChanged;
     }
 }
