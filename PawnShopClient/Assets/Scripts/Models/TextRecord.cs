@@ -11,6 +11,6 @@ namespace PawnShop.Models
             Text = text;
         }
 
-        public string Message => $"{Source}: {Text}";
+        public string Message => Text;
     }
 }
