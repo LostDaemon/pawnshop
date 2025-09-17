@@ -125,7 +125,7 @@ namespace PawnShop.Services
             }
             else
             {
-                var sellerMessage = string.Format(_localizationService.GetLocalization("dialog_customer_seller_intent"), CurrentItem.CurrentOffer);
+                var sellerMessage = string.Format(_localizationService.GetLocalization("dialog_customer_seller_intent"), CurrentItem.Name, CurrentItem.CurrentOffer);
                 Debug.Log($"[NegotiationService] Adding seller intent: {sellerMessage}");
                 _history.Add(new TextRecord(HistoryRecordSource.Customer, sellerMessage));
             }

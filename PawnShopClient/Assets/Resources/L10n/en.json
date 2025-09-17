@@ -242,11 +242,11 @@
     {
       "key": "dialog_customer_seller_intent",
       "values": [
-        "I want to offer you something for {0}",
-        "I have something to sell for {0}",
-        "I'd like to offer you an item for {0}",
-        "I want to sell something to you for {0}",
-        "I'm looking to sell an item for {0}"
+        "I want to offer you '{0}' for {1}",
+        "I have '{0}' to sell for {1}",
+        "I'd like to offer you '{0}' for {1}",
+        "I want to sell '{0}' to you for {1}",
+        "I'm looking to sell '{0}' for {1}"
       ]
     },
     {
