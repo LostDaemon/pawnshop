@@ -1,10 +1,13 @@
 fileFormatVersion: 2
-guid: e6b1f51a09d71084791f3c78b7681ab6
+guid: 9ed7cc2b543eacd4babbe7add72c2f9b
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -6351617318852302439
-    second: popup_0
+      213: -2906852116783470708
+    second: bg_wall_door_mask_0
+  - first:
+      213: 7019594133380286294
+    second: bg_wall_door_mask_1
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,12 +49,12 @@ TextureImporter:
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
-  spriteMode: 2
+  spriteMode: 1
   spriteExtrude: 1
-  spriteMeshType: 0
+  spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 128
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -113,49 +116,45 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: popup_body
+      name: bg_wall_door_mask_0
       rect:
         serializedVersion: 2
-        x: 6
-        y: 205
-        width: 500
-        height: 108
+        x: 1159
+        y: 499
+        width: 230
+        height: 299
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 34, y: 25, z: 30, w: 27}
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
-      outline:
-      - - {x: 250, y: 54}
-        - {x: -250, y: 54}
-        - {x: -250, y: -54}
-        - {x: 250, y: -54}
+      outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 999e69863b58ad7a0800000000000000
-      internalID: -6351617318852302439
+      spriteID: c876784a669c8a7d0800000000000000
+      internalID: -2906852116783470708
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: popup_arrow
+      name: bg_wall_door_mask_1
       rect:
         serializedVersion: 2
-        x: 89
-        y: 184
-        width: 33
-        height: 20
+        x: 1159
+        y: 198
+        width: 228
+        height: 243
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
-      tessellationDetail: 0
+      tessellationDetail: -1
       bones: []
-      spriteID: 103576300fbf7ea4cb3fec2484b945cc
-      internalID: 1414209769
+      spriteID: 6574c834cab9a6160800000000000000
+      internalID: 7019594133380286294
       vertices: []
       indices: 
       edges: []
@@ -164,7 +163,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: c84231bf12b5414419b97ae071238a18
+    spriteID: 5e97eb03825dee720800000000000000
     internalID: 0
     vertices: []
     indices: 
@@ -174,8 +173,8 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      popup_arrow: 1414209769
-      popup_body: -6351617318852302439
+      bg_wall_door_mask_0: -2906852116783470708
+      bg_wall_door_mask_1: 7019594133380286294
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
