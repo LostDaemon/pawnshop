@@ -16,10 +16,7 @@ namespace PawnShop.Controllers
         [SerializeField] private Button _skipButton;
         [SerializeField] private SpriteRenderer _customerImage;
         [SerializeField] private SpriteRenderer _customerFace;
-        [SerializeField] private SpriteRenderer _itemImage;
-        [SerializeField] private SpriteMask _itemSpriteMask;
-        [SerializeField] private GameObject _dirtLayer;
-        [SerializeField] private GameObject _scratchesLayer;
+        [SerializeField] private ItemController _itemController;
         [SerializeField] private CanvasGroup _uiCanvasGroup;
         [SerializeField] private float _fadeDuration = 1.0f;
 
@@ -62,18 +59,22 @@ namespace PawnShop.Controllers
 
         private void OnCustomerChanged(Customer customer)
         {
-            Debug.Log($"[CustomerController] Customer changed to: {customer?.CustomerType}");
-
             if (customer == null)
             {
-                // Customer is null, fade out
-                HideAllLayers();
+                // Customer is null, fade out and deactivate ItemController
+                if (_itemController != null)
+                {
+                    _itemController.gameObject.SetActive(false);
+                }
                 StartCoroutine(FadeOut());
             }
             else
             {
-                // Customer exists, fade in
-                Debug.Log($"[CustomerController] Customer patience: {customer.Patience:F1}/100");
+                // Customer exists, fade in and activate ItemController
+                if (_itemController != null)
+                {
+                    _itemController.gameObject.SetActive(true);
+                }
                 StartCoroutine(FadeIn());
             }
         }
@@ -82,35 +83,17 @@ namespace PawnShop.Controllers
         {
             if (_negotiationService == null)
             {
-                Debug.LogError("[CustomerController] NegotiationService is null in OnNegotiationStarted()");
                 return;
             }
 
             var item = _negotiationService.CurrentItem;
 
-            if (_itemImage != null && item != null)
+            if (item != null)
             {
-                if (item.Image != null)
+                // Initialize ItemController with customer's item
+                if (_itemController != null)
                 {
-                    // Apply scale from item model to both sprite renderer and sprite mask
-                    Vector3 itemScale = Vector3.one * item.Scale * 2;
-
-                    _itemImage.sprite = item.Image;
-                    _itemImage.transform.localScale = itemScale;
-
-                    if (_itemSpriteMask != null)
-                    {
-                        _itemSpriteMask.sprite = item.Image;
-                    }
-
-                    Debug.Log($"Item displayed: {item.Name} with scale: {item.Scale}");
-
-                    // Update visual layers based on item tags
-                    UpdateVisualLayers(item);
-                }
-                else
-                {
-                    Debug.LogWarning($"Sprite not found for item: {item.Name}");
+                    _itemController.Init(item);
                 }
             }
         }
@@ -166,67 +149,11 @@ namespace PawnShop.Controllers
                 _customerFace.color = color;
             }
 
-            if (_itemImage != null)
-            {
-                Color color = _itemImage.color;
-                color.a = alpha;
-                _itemImage.color = color;
-            }
-
-            // Enable/disable SpriteMask based on alpha
-            if (_itemSpriteMask != null)
-            {
-                _itemSpriteMask.enabled = alpha > 0f;
-            }
-
             if (_uiCanvasGroup != null)
             {
                 _uiCanvasGroup.alpha = alpha;
             }
         }
 
-        private void UpdateVisualLayers(PawnShop.Models.ItemModel item)
-        {
-            // Hide all layers first
-            HideAllLayers();
-
-            if (item?.Tags == null) return;
-
-            // Check for Dirt feature tag
-            bool hasDirtTag = item.Tags.Any(tag =>
-                tag.TagType == TagType.Feature &&
-                tag.DisplayName == "Dirt");
-
-            // Check for scratch feature tags
-            bool hasScratchTag = item.Tags.Any(tag =>
-                tag.TagType == TagType.Feature &&
-                (tag.DisplayName == "Light Scratch" || tag.DisplayName == "Deep Scratch"));
-
-            // Show appropriate layers
-            if (hasDirtTag && _dirtLayer != null)
-            {
-                _dirtLayer.SetActive(true);
-                Debug.Log($"[CustomerController] Showing DirtLayer for item: {item.Name}");
-            }
-
-            if (hasScratchTag && _scratchesLayer != null)
-            {
-                _scratchesLayer.SetActive(true);
-                Debug.Log($"[CustomerController] Showing ScratchesLayer for item: {item.Name}");
-            }
-        }
-
-        private void HideAllLayers()
-        {
-            if (_dirtLayer != null)
-            {
-                _dirtLayer.SetActive(false);
-            }
-
-            if (_scratchesLayer != null)
-            {
-                _scratchesLayer.SetActive(false);
-            }
-        }
     }
 }

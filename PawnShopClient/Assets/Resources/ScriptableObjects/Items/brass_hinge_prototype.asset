@@ -16,7 +16,7 @@ MonoBehaviour:
   Name: Brass Hinge
   Image: {fileID: 8313601971236692572, guid: 422082d6fa3b33c4aa49675b78e5a5f3, type: 3}
   BasePrice: 50
-  Scale: 0.4
+  Scale: 1
   Description: An ornate antique hinge. Minor detail piece, limited standalone value.
   requiredTags: 01000000080000000a00000002000000
   allowedTags:

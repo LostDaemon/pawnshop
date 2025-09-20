@@ -16,7 +16,7 @@ MonoBehaviour:
   Name: Vintage Glasses
   Image: {fileID: -3598727966044058003, guid: 422082d6fa3b33c4aa49675b78e5a5f3, type: 3}
   BasePrice: 180
-  Scale: 0.5
+  Scale: 1
   Description: Stylish round-frame glasses with gold accents. Slightly scratched.
   requiredTags: 0800000001000000020000000b000000
   allowedTags:

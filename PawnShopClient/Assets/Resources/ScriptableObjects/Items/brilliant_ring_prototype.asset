@@ -16,7 +16,7 @@ MonoBehaviour:
   Name: Brilliant Ring
   Image: {fileID: -4552970149568839382, guid: 422082d6fa3b33c4aa49675b78e5a5f3, type: 3}
   BasePrice: 2200
-  Scale: 0.3
+  Scale: 1
   Description: A luxurious ring set with a flawless brilliant-cut diamond. Pure extravagance.
   requiredTags: 010000000200000007000000080000000d000000
   allowedTags:

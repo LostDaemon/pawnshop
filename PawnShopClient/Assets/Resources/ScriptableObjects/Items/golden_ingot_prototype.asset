@@ -16,7 +16,7 @@ MonoBehaviour:
   Name: Golden Ingot
   Image: {fileID: -4536002638273010439, guid: 422082d6fa3b33c4aa49675b78e5a5f3, type: 3}
   BasePrice: 3500
-  Scale: 0.5
+  Scale: 1
   Description: A solid ingot of gold. Very high market value.
   requiredTags: 07000000080000000d000000
   allowedTags: []

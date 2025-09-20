@@ -12,6 +12,7 @@ namespace PawnShop.Controllers
         [SerializeField] private Button _cleaningButton;
         [SerializeField] private Button _recycleButton;
         [SerializeField] private Button _polishButton;
+        [SerializeField] private ItemSlotController _itemSlotController;
 
         private IWorkshopService _workshopService;
 
@@ -31,17 +32,30 @@ namespace PawnShop.Controllers
 
         private void SetupButtons()
         {
+            // Initially disable all buttons
             if (_repairButton != null)
+            {
+                _repairButton.interactable = false;
                 _repairButton.onClick.AddListener(OnRepairClicked);
+            }
 
             if (_cleaningButton != null)
+            {
+                _cleaningButton.interactable = false;
                 _cleaningButton.onClick.AddListener(OnCleaningClicked);
+            }
 
             if (_recycleButton != null)
+            {
+                _recycleButton.interactable = false;
                 _recycleButton.onClick.AddListener(OnRecycleClicked);
+            }
 
             if (_polishButton != null)
+            {
+                _polishButton.interactable = false;
                 _polishButton.onClick.AddListener(OnPolishClicked);
+            }
         }
 
         private void OnRepairClicked()
@@ -79,6 +93,17 @@ namespace PawnShop.Controllers
         private void OnTaskCompleted(ProcessingTask task)
         {
             Debug.Log($"[WorkshopController] Task completed: {task.ProcessingType} for {task.Item.Name}");
+            
+            // Find and update ItemController in ItemSlotController children
+            if (_itemSlotController != null)
+            {
+                var itemController = _itemSlotController.GetComponentInChildren<ItemController>();
+                if (itemController != null)
+                {
+                    itemController.UpdateVisualLayers(task.Item);
+                }
+            }
+            
             // Update UI to reflect item changes
             UpdateButtonsState();
         }

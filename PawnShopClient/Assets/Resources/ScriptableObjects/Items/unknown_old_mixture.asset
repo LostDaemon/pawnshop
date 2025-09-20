@@ -16,7 +16,7 @@ MonoBehaviour:
   Name: Unknown Old Mixture
   Image: {fileID: -3309413436566006285, guid: 422082d6fa3b33c4aa49675b78e5a5f3, type: 3}
   BasePrice: 75
-  Scale: 0.5
+  Scale: 1
   Description: A sealed bottle with unknown liquid. Possibly alchemical or medical.
   requiredTags: 0800000001000000020000000b00000005000000
   allowedTags:

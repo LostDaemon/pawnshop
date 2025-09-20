@@ -16,6 +16,9 @@ namespace PawnShop.Repositories
         ConditionWorn,
         ConditionUsed,
         ConditionPristine,
+        FeatureLightScratch,
+        FeatureDeepScratch,
+        FeatureDirt,
     }
 
 
@@ -30,7 +33,10 @@ namespace PawnShop.Repositories
             { DefaultTags.ConditionDamaged, "5c6f93b5-6717-47c5-acdf-3a12239c1984" },
             { DefaultTags.ConditionWorn, "1eca794e-fc4b-4365-8157-70b694be5dca" },
             { DefaultTags.ConditionUsed, "44d492de-c87e-4cfa-b84f-9334d74ef8e3" },
-            { DefaultTags.ConditionPristine, "5aa04753-b152-45d4-8e63-e36c185fced2" }
+            { DefaultTags.ConditionPristine, "5aa04753-b152-45d4-8e63-e36c185fced2" },
+            { DefaultTags.FeatureLightScratch, "f62a20bd-eb5a-44c3-8431-a91e7fd69739" },
+            { DefaultTags.FeatureDeepScratch, "8f9d43a1-1a47-4dab-80f2-f9acb34fd14b" },
+            { DefaultTags.FeatureDirt, "b7aef9e4-0210-46de-a99d-9c7c20ed17a9" }
         };
 
         public void Load()

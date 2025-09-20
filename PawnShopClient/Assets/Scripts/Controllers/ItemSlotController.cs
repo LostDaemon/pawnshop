@@ -25,14 +25,10 @@ public class ItemSlotController : MonoBehaviour, IDropHandler
 
     public void OnDrop(PointerEventData eventData)
     {
-        Debug.Log("OnDrop");
         var droppedObject = eventData.pointerDrag;
-        Debug.Log($"Dropped Object: {(droppedObject != null ? droppedObject.name : "None")}");
-
         if (droppedObject != null)
         {
             var draggableItem = droppedObject.GetComponent<ItemController>();
-            Debug.Log($"Draggable Item: {(draggableItem != null ? "Found" : "Not Found")}");
             if (draggableItem != null)
             {
                 // Get the payload from DraggableItemController
@@ -53,18 +49,14 @@ public class ItemSlotController : MonoBehaviour, IDropHandler
             Init(_slotId, _sourceStorageType);
         }
 
-        Debug.Log($"[InventorySlotController] Handling item drop: {itemModel?.Name} to slot {_slotId}, storage {_sourceStorageType}");
-
         // Check if slot is already occupied
         if (_storageService.HasItem(_slotId))
         {
-            Debug.LogWarning($"[InventorySlotController] Slot {_slotId} is already occupied. Drop rejected.");
             return;
         }
 
         // Add item to this slot
         _storageService.Put(_slotId, itemModel);
-        Debug.Log($"[InventorySlotController] Added item {itemModel.Name} to slot {_slotId} in storage {_sourceStorageType}");
 
         // Update DraggableItemController parent
         var previousSlot = draggableItem.CurrentParent.GetComponent<ItemSlotController>();
@@ -116,8 +108,7 @@ public class ItemSlotController : MonoBehaviour, IDropHandler
         var itemModel = _storageService.Get(_slotId);
         if (itemModel != null)
         {
-            var itemObject = Instantiate(_itemPrefab, transform);
-            var item = itemObject.GetComponent<ItemController>();
+            var item = _container.InstantiatePrefabForComponent<ItemController>(_itemPrefab, transform);
             item.Init(itemModel);
         }
     }
