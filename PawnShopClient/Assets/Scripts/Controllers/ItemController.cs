@@ -17,6 +17,7 @@ public class ItemController : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     public Image _dirt;
     public Image _destroyed;
     public Image _mask;
+    [SerializeField] private GameObject _processIcon;
 
     private ITagService _tagService;
 
@@ -128,6 +129,14 @@ public class ItemController : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
         if (hasDestroyedTag && _destroyed != null)
         {
             _destroyed.gameObject.SetActive(true);
+        }
+    }
+
+    public void ShowProcess(bool isActive)
+    {
+        if (_processIcon != null)
+        {
+            _processIcon.SetActive(isActive);
         }
     }
 

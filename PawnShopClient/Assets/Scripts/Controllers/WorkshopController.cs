@@ -12,7 +12,7 @@ namespace PawnShop.Controllers
         [SerializeField] private Button _cleaningButton;
         [SerializeField] private Button _recycleButton;
         [SerializeField] private Button _polishButton;
-        [SerializeField] private ItemSlotController _itemSlotController;
+        [SerializeField] private ItemSlotController _itemSlotController; 
 
         private IWorkshopService _workshopService;
 
@@ -61,21 +61,25 @@ namespace PawnShop.Controllers
         private void OnRepairClicked()
         {
             _workshopService.ScheduleTask(ProcessingType.Repair);
+            ShowProcess(true);
         }
 
         private void OnCleaningClicked()
         {
             _workshopService.ScheduleTask(ProcessingType.Cleaning);
+            ShowProcess(true);
         }
 
         private void OnRecycleClicked()
         {
             _workshopService.ScheduleTask(ProcessingType.Recycle);
+            ShowProcess(true);
         }
 
         private void OnPolishClicked()
         {
             _workshopService.ScheduleTask(ProcessingType.Polish);
+            ShowProcess(true);
         }
 
         private void OnItemAdded(ItemModel item)
@@ -94,6 +98,9 @@ namespace PawnShop.Controllers
         {
             Debug.Log($"[WorkshopController] Task completed: {task.ProcessingType} for {task.Item.Name}");
             
+            // Deactivate process icon when task is completed
+            ShowProcess(false);
+            
             // Find and update ItemController in ItemSlotController children
             if (_itemSlotController != null)
             {
@@ -106,6 +113,18 @@ namespace PawnShop.Controllers
             
             // Update UI to reflect item changes
             UpdateButtonsState();
+        }
+
+        private void ShowProcess(bool isActive)
+        {
+            if (_itemSlotController != null)
+            {
+                var itemController = _itemSlotController.GetComponentInChildren<ItemController>();
+                if (itemController != null)
+                {
+                    itemController.ShowProcess(isActive);
+                }
+            }
         }
 
         private void UpdateButtonsState()

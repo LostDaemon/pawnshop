@@ -88,6 +88,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 5501403984437445326, guid: 85d883563b4ffbc4190126f8dfd71988, type: 3}
+      propertyPath: _sourceStorageType
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7719518160841166840, guid: 85d883563b4ffbc4190126f8dfd71988, type: 3}
       propertyPath: m_Name
       value: WoodenShelfItemSlot
@@ -97,7 +101,8 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-    m_RemovedGameObjects: []
+    m_RemovedGameObjects:
+    - {fileID: 707150746200396036, guid: 85d883563b4ffbc4190126f8dfd71988, type: 3}
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 85d883563b4ffbc4190126f8dfd71988, type: 3}
