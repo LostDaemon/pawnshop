@@ -59,21 +59,6 @@ namespace PawnShop.Controllers
             }
         }
 
-        private void AddItemToSlot(ItemSlotController slotController, ItemModel item)
-        {
-            var itemObject = Instantiate(_itemPrefab, slotController.transform);
-            var itemController = itemObject.GetComponent<ItemController>();
-            if (itemController == null)
-            {
-                Debug.LogError($"Failed to instantiate ItemController for item {item.Name}");
-                return;
-            }
-
-            Debug.Log($"Adding item {item.Name} with id {item.Id} to slot.");
-            itemController.transform.localPosition = Vector3.zero;
-            itemController.OnClick += OnItemClicked;
-            itemController.Init(item);
-        }
 
         private void RemoveItemFromSlot(ItemSlotController slotController)
         {
@@ -144,12 +129,8 @@ namespace PawnShop.Controllers
                 slotController.Init(slotId, _sourceStorageType);
                 RenderedItems.Add(slotController);
 
-                // If slot is not empty, add item to the slot
-                var item = _storage.Get(slotId);
-                if (item != null)
-                {
-                    AddItemToSlot(slotController, item);
-                }
+                // ItemSlotController will handle visual representation through events
+                // No need to manually add items here
             }
         }
     }

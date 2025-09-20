@@ -73,7 +73,7 @@ public class ItemSlotController : MonoBehaviour, IDropHandler
             previousSlot.InformDropSuccess();
         }
 
-        draggableItem.CurrentParent = this.transform;
+        Destroy(draggableItem.gameObject);
     }
 
     public void Init(int slotId, StorageType sourceStorageType)
@@ -81,14 +81,16 @@ public class ItemSlotController : MonoBehaviour, IDropHandler
         _slotId = slotId;
         _sourceStorageType = sourceStorageType;
         _storageService = _storageLocatorService.Get(_sourceStorageType);
-        
+
         // Subscribe to storage changes for this specific slot
         if (_storageService != null)
         {
             _storageService.OnItemChanged += OnStorageItemChanged;
         }
-        
+
         _isInitialized = true;
+
+        UpdateVisual();
     }
 
 
@@ -125,7 +127,6 @@ public class ItemSlotController : MonoBehaviour, IDropHandler
         // Only react to changes in this specific slot
         if (slotId == _slotId)
         {
-            Debug.Log($"[ItemSlotController] Item changed in slot {_slotId}");
             UpdateVisual();
         }
     }
