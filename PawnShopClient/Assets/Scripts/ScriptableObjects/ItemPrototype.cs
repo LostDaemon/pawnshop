@@ -2,6 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using PawnShop.ScriptableObjects.Tags;
 using PawnShop.Models.Tags;
+using PawnShop.Models;
 
 namespace PawnShop.ScriptableObjects
 {
@@ -36,5 +37,9 @@ namespace PawnShop.ScriptableObjects
 
         [Tooltip("Tags that will be applied to every item of this type (overrides random generation)")]
         public List<BaseTagPrototype> OverridedTags = new List<BaseTagPrototype>();
+
+        [Header("Materials")]
+        [Tooltip("Materials that this item contains")]
+        public List<MaterialComponent> Materials = new List<MaterialComponent>();
     }
 }

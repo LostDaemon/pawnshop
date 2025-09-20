@@ -48,13 +48,6 @@ namespace PawnShop.Services
                 return;
             }
 
-            // Special handling for Recycle - always available
-            if (taskType == ProcessingType.Recycle)
-            {
-                ScheduleRecycleTask(item);
-                return;
-            }
-
             // Check if task can be performed on this item
             if (!CanPerformTask(item, taskType))
             {
@@ -76,21 +69,6 @@ namespace PawnShop.Services
             Debug.Log($"[{GetServiceName()}] Task scheduled: {taskType} for {item.Name} at {readyAt}");
         }
 
-        private void ScheduleRecycleTask(ItemModel item)
-        {
-            // Calculate ready time for recycle
-            var readyAt = CalculateReadyTime(ProcessingType.Recycle);
-
-            var task = new ProcessingTask
-            {
-                ProcessingType = ProcessingType.Recycle,
-                Item = item,
-                ReadyAt = readyAt
-            };
-
-            _scheduledTasks.Add(task);
-            Debug.Log($"[{GetServiceName()}] Recycle task scheduled for {item.Name} at {readyAt}");
-        }
 
         public virtual bool CanPerformTask(ItemModel item, ProcessingType taskType)
         {
@@ -226,6 +204,13 @@ namespace PawnShop.Services
         protected void ProcessDefaultTask(ItemModel item, ProcessingType processingType)
         {
             if (item == null) return;
+
+            // Special handling for Recycle - should be handled by derived classes
+            if (processingType == ProcessingType.Recycle)
+            {
+                Debug.LogWarning($"[{GetServiceName()}] Recycle task should be handled by derived class, not default task");
+                return;
+            }
 
             // Check success chance for default task
             if (Random.Range(0f, 1f) <= DEFAULT_TASK_SUCCESS_CHANCE)

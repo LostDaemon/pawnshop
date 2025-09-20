@@ -29,3 +29,10 @@ MonoBehaviour:
     MaxCount: 2
   OverrideTagsGeneration: 0
   OverridedTags: []
+  Materials:
+  - MaterialType: 2
+    Quantity: 10
+  - MaterialType: 7
+    Quantity: 5
+  - MaterialType: 1
+    Quantity: 100

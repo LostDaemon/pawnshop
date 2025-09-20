@@ -23,5 +23,8 @@ namespace PawnShop.Models
 
         // Tags system
         public List<BaseTagModel> Tags { get; set; } = new List<BaseTagModel>();
+        
+        // Materials system
+        public List<MaterialComponent> Materials { get; set; } = new List<MaterialComponent>();
     }
 }

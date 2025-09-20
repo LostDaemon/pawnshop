@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 147867198657250033}
   - component: {fileID: 3958785926941800376}
   m_Layer: 5
-  m_Name: DigitsIndicator
+  m_Name: digitsIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

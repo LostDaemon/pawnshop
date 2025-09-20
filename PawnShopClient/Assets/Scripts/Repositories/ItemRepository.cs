@@ -66,7 +66,8 @@ namespace PawnShop.Repositories
                 PurchasePrice = 0,
                 SellPrice = 0,
                 Inspected = false,
-                Condition = _random.Next(0, 100)
+                Condition = _random.Next(0, 100),
+                Materials = new List<MaterialComponent>(itemPrototype.Materials)
             };
 
             Debug.Log($"[ItemRepository] Created ItemModel: {result.Name}, Tags count before initialization: {result.Tags?.Count ?? 0}");

@@ -24,3 +24,8 @@ MonoBehaviour:
     MaxCount: 1
   OverrideTagsGeneration: 0
   OverridedTags: []
+  Materials:
+  - MaterialType: 3
+    Quantity: 10
+  - MaterialType: 4
+    Quantity: 15

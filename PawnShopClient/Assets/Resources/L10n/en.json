@@ -370,6 +370,34 @@
         "I'm sorry, but I can't wait any longer.",
         "Unfortunately, I need to go."
       ]
+    },
+    {
+      "key": "currency_type_money",
+      "values": ["Money"]
+    },
+    {
+      "key": "currency_type_metal_parts",
+      "values": ["Metal Parts"]
+    },
+    {
+      "key": "currency_type_plastics",
+      "values": ["Plastics"]
+    },
+    {
+      "key": "currency_type_fiber_fabric",
+      "values": ["Fiber & Fabric"]
+    },
+    {
+      "key": "currency_type_wood_remnants",
+      "values": ["Wood Remnants"]
+    },
+    {
+      "key": "currency_type_electronics",
+      "values": ["Electronics"]
+    },
+    {
+      "key": "currency_type_glass_ceramics",
+      "values": ["Glass & Ceramics"]
     }
   ]
 }

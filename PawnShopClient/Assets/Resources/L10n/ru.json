@@ -364,6 +364,34 @@
         "Извините, но я не могу больше ждать.",
         "К сожалению, мне нужно идти."
       ]
+    },
+    {
+      "key": "currency_type_money",
+      "values": ["Деньги"]
+    },
+    {
+      "key": "currency_type_metal_parts",
+      "values": ["Металлические детали"]
+    },
+    {
+      "key": "currency_type_plastics",
+      "values": ["Пластик"]
+    },
+    {
+      "key": "currency_type_fiber_fabric",
+      "values": ["Волокно и ткани"]
+    },
+    {
+      "key": "currency_type_wood_remnants",
+      "values": ["Древесные остатки"]
+    },
+    {
+      "key": "currency_type_electronics",
+      "values": ["Электроника"]
+    },
+    {
+      "key": "currency_type_glass_ceramics",
+      "values": ["Стекло и керамика"]
     }
   ]
 }

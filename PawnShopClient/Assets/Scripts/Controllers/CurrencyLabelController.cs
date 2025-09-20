@@ -5,9 +5,10 @@ using Zenject;
 
 namespace PawnShop.Controllers
 {
-    public class MoneyLabelController : MonoBehaviour
+    public class CurrencyLabelController : MonoBehaviour
     {
         [SerializeField] private IndicatorController _indicator;
+        [SerializeField] private CurrencyType _currencyType = CurrencyType.Money;
 
         private IWalletService _wallet;
 
@@ -17,8 +18,8 @@ namespace PawnShop.Controllers
             _wallet = wallet;
             _wallet.OnBalanceChanged += OnBalanceChanged;
 
-            // init
-            _indicator.SetValue(_wallet.GetBalance(CurrencyType.Money), animate: false);
+            // Initialize with current balance
+            _indicator.SetValue(_wallet.GetBalance(_currencyType), animate: false);
         }
 
         private void OnDestroy()
@@ -29,7 +30,7 @@ namespace PawnShop.Controllers
 
         private void OnBalanceChanged(CurrencyType currency, long newValue)
         {
-            if (currency == CurrencyType.Money)
+            if (currency == _currencyType)
                 _indicator.SetValue(newValue, animate: true);
         }
     }

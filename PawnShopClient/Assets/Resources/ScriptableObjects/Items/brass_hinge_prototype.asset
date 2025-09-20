@@ -33,3 +33,6 @@ MonoBehaviour:
   OverrideTagsGeneration: 0
   OverridedTags:
   - {fileID: 0}
+  Materials:
+  - MaterialType: 2
+    Quantity: 10
