@@ -115,6 +115,11 @@ namespace PawnShop.Installers
             .To<ItemProcessingService>()
             .AsSingle();
 
+            // Workshop
+            Container.Bind<IWorkshopService>()
+                .To<WorkshopService>()
+                .AsSingle();
+
             // Evaluation
             Container.Bind<IEvaluationService>()
                 .To<EvaluationService>()
@@ -133,6 +138,14 @@ namespace PawnShop.Installers
             // Tags
             Container.Bind<ITagRepository>()
                 .To<TagRepository>()
+                .AsSingle();
+
+            Container.Bind<ITagFactory>()
+                .To<TagFactory>()
+                .AsSingle();
+
+            Container.Bind<ITagService>()
+                .To<TagService>()
                 .AsSingle();
 
             // Languages

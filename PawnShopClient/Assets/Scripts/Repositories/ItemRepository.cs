@@ -4,6 +4,7 @@ using PawnShop.Models;
 using PawnShop.Models.Tags;
 using PawnShop.ScriptableObjects;
 using PawnShop.ScriptableObjects.Tags;
+using PawnShop.Services;
 using UnityEngine;
 
 namespace PawnShop.Repositories
@@ -12,13 +13,13 @@ namespace PawnShop.Repositories
     {
         private readonly List<ItemPrototype> _items;
         private readonly System.Random _random;
-        private readonly ITagRepository _tagRepository;
+        private readonly ITagService _tagService;
 
-        public ItemRepository(ITagRepository tagRepository)
+        public ItemRepository(ITagService tagService)
         {
             _random = new System.Random();
             _items = new List<ItemPrototype>();
-            _tagRepository = tagRepository;
+            _tagService = tagService;
         }
 
         public void Load()
@@ -134,7 +135,7 @@ namespace PawnShop.Repositories
                 Debug.Log($"[ItemRepository] Processing required tag type: {requiredTagType}");
 
                 // Get all tags of this type
-                var availableTags = _tagRepository.GetTagPrototypesByType(requiredTagType);
+                var availableTags = _tagService.GetTagPrototypesByType(requiredTagType);
                 if (availableTags.Count > 0)
                 {
                     // Select one tag with weighted probability, but one must be selected
@@ -173,7 +174,7 @@ namespace PawnShop.Repositories
                 }
 
                 // Get all available tags of this type
-                var availableTags = _tagRepository.GetTagPrototypesByType(tagLimit.TagType);
+                var availableTags = _tagService.GetTagPrototypesByType(tagLimit.TagType);
                 if (availableTags.Count == 0)
                 {
                     continue;
@@ -211,13 +212,7 @@ namespace PawnShop.Repositories
 
             Debug.Log($"[ItemRepository] Creating tag model from prototype: {prototype.TagType}, Type: {prototype.GetType().Name}");
 
-            BaseTagModel result = prototype switch
-            {
-                SimpleTagPrototype simplePrototype => new SimpleTagModel(simplePrototype),
-                TextTagPrototype textPrototype => new TextTagModel(textPrototype),
-                NumericTagPrototype numericPrototype => new NumericTagModel(numericPrototype),
-                _ => null
-            };
+            BaseTagModel result = _tagService.GetNewTag(prototype);
 
             if (result != null)
             {

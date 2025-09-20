@@ -24,3 +24,7 @@ MonoBehaviour:
   PriceMultiplier: 0.5
   AppearanceChance: 0.35
   Color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
+  ProcessingType: 0
+  ProcessingDurationInMinutes: 10
+  PreviousGradePrototype: {fileID: 0}
+  NextGradePrototype: {fileID: 11400000, guid: d64ac3786e72f5a4dafee197e9257464, type: 2}

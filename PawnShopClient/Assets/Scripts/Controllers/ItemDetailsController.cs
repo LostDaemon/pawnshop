@@ -26,13 +26,13 @@ namespace PawnShop.Controllers
         [SerializeField] private Color fallbackTagColor = Color.black;
 
         private ISpriteService _spriteService;
-        private ITagRepository _tagRepository;
+        private ITagService _tagService;
 
         [Inject]
-        private void Construct(ISpriteService spriteService, ITagRepository tagRepository)
+        private void Construct(ISpriteService spriteService, ITagService tagService)
         {
             _spriteService = spriteService;
-            _tagRepository = tagRepository;
+            _tagService = tagService;
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace PawnShop.Controllers
         private void OnTagLinkClicked(string linkId)
         {
             if (string.IsNullOrEmpty(linkId)) return;
-            var prototype = _tagRepository.GetTagPrototypeByClassId(linkId);
+            var prototype = _tagService.GetTagPrototypeByClassId(linkId);
             if (prototype != null)
             {
                 tagDescription.text = !string.IsNullOrEmpty(prototype.Description) ? prototype.Description : $"No description available for {prototype.DisplayName}";

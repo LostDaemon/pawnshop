@@ -17,6 +17,9 @@ namespace PawnShop.Models.Tags
         public bool IsRevealedToCustomer { get; set; }
         public bool Hidden { get; set; }
         public Color Color { get; set; }
+        public ProcessingType ProcessingType { get; set; }
+        public int ProcessingDurationInMinutes { get; set; }
+        public float UpgradeChance { get; set; }
 
         protected BaseTagModel(BaseTagPrototype prototype)
         {
@@ -34,6 +37,9 @@ namespace PawnShop.Models.Tags
                 IsRevealedToCustomer = prototype.IsRevealedToPlayer;
                 Hidden = prototype.Hidden;
                 Color = prototype.Color;
+                ProcessingType = prototype.ProcessingType;
+                ProcessingDurationInMinutes = prototype.ProcessingDurationInMinutes;
+                UpgradeChance = prototype.UpgradeChance;
             }
         }
     }

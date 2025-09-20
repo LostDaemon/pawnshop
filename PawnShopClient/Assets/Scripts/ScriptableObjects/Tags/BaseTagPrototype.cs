@@ -22,5 +22,17 @@ namespace PawnShop.ScriptableObjects.Tags
         [Range(0f, 1f)]
         public float AppearanceChance = 1f;
         public Color Color = Color.white;
+        [Tooltip("Processing type")]
+        public ProcessingType ProcessingType = ProcessingType.Undefined;
+        [Tooltip("Processing duration in minutes")]
+        public int ProcessingDurationInMinutes = 10;
+        [Range(0f, 1f)]
+        [Tooltip("Chance of upgrading this tag (0-1)")]
+        public float UpgradeChance = 0f;
+        [Tooltip("Previous grade prototype")]
+        public BaseTagPrototype PreviousGradePrototype;
+        [Tooltip("Next grade prototype")]
+        public BaseTagPrototype NextGradePrototype;
+        
     }
 }

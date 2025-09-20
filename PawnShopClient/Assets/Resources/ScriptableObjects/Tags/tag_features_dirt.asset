@@ -24,3 +24,4 @@ MonoBehaviour:
   PriceMultiplier: 0.98
   AppearanceChance: 0.2
   Color: {r: 0.30817598, g: 0.30817598, b: 0.30817598, a: 1}
+  ProcessingType: 1
