@@ -8,6 +8,10 @@ namespace PawnShop.Models
         Cleaning,
         Repair,
         Recycle,
-        Polish
+        Polish,
+        Research,
+        ForgeDocuments,
+        Evaluate,
+        CleanLegalStatus,
     }
 }

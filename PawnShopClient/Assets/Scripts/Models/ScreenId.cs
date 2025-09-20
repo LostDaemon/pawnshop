@@ -4,7 +4,7 @@ namespace PawnShop.Models
     {
         Negotiation,
         TradeHall,
-        Storage,
+        Laboratory,
         Settings,
         Workshop,
     }

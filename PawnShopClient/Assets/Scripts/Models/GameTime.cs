@@ -72,5 +72,29 @@ namespace PawnShop.Models
         {
             return !left.Equals(right);
         }
+
+        public static GameTime operator +(GameTime time, int minutes)
+        {
+            return time.AddMinutes(minutes);
+        }
+
+        public GameTime AddMinutes(int minutes)
+        {
+            int totalMinutes = (Day - 1) * 24 * 60 + Hour * 60 + Minute + minutes;
+            int newDay = totalMinutes / (24 * 60) + 1; // Days start from 1
+            totalMinutes %= (24 * 60);
+            
+            return new GameTime(newDay, totalMinutes / 60, totalMinutes % 60);
+        }
+
+        public GameTime AddHours(int hours)
+        {
+            return AddMinutes(hours * 60);
+        }
+
+        public GameTime AddDays(int days)
+        {
+            return AddMinutes(days * 24 * 60);
+        }
     }
 }

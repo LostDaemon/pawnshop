@@ -1,7 +1,8 @@
 using System.Collections.Generic;
+using PawnShop.Models;
 using UnityEngine;
 
-namespace PawnShop.Models
+namespace PawnShop.Helpers
 {
     public static class ScreenMapper
     {
@@ -9,9 +10,8 @@ namespace PawnShop.Models
         {
             [new Vector2Int(0, 0)] = ScreenId.Negotiation,
             [new Vector2Int(1, 0)] = ScreenId.Workshop,
-            [new Vector2Int(0, 1)] = ScreenId.Storage,
-            [new Vector2Int(-1, 0)] = ScreenId.TradeHall
-            // Добавь другие при необходимости
+            [new Vector2Int(0, 1)] = ScreenId.TradeHall,
+            [new Vector2Int(-1, 0)] = ScreenId.Laboratory
         };
 
         public static ScreenId GetScreen(Vector2Int position)

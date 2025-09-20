@@ -26,5 +26,6 @@ MonoBehaviour:
   Color: {r: 0.29411766, g: 0.69803923, b: 0.32941177, a: 1}
   ProcessingType: 0
   ProcessingDurationInMinutes: 10
+  UpgradeChance: 0.2
   PreviousGradePrototype: {fileID: 11400000, guid: 8b688d60518eb2e46b56584b5202ec92, type: 2}
   NextGradePrototype: {fileID: 0}

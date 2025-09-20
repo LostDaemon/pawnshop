@@ -5,6 +5,7 @@ namespace PawnShop.Models
         Undefined = 0,
         InventoryStorage,
         SellStorage,
-        WorkshopStorage
+        WorkshopStorage,
+        LaboratoryStorage
     }
 }

@@ -92,7 +92,7 @@ public class ItemController : MonoBehaviour, IBeginDragHandler, IDragHandler, IE
     {
         // Hide all layers first
         HideAllLayers();
-        
+
         if (item?.Tags == null || _tagService == null) return;
 
 

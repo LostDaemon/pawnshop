@@ -22,6 +22,7 @@ namespace PawnShop.Gamestate
         private const int DefaultInventorySlots = 50;
         private const int DefaultSellSlots = 12;
         private const int DefaultWorkshopSlots = 1;
+        private const int DefaultLaboratorySlots = 1;
 
 
         [Inject]
@@ -74,6 +75,9 @@ namespace PawnShop.Gamestate
 
             var workshopStorage = _storageLocatorService.Get(StorageType.WorkshopStorage);
             workshopStorage.AddSlots(DefaultWorkshopSlots);
+
+            var laboratoryStorage = _storageLocatorService.Get(StorageType.LaboratoryStorage);
+            laboratoryStorage.AddSlots(DefaultLaboratorySlots);
         }
 
         public void Exit() { }

@@ -69,6 +69,12 @@ namespace PawnShop.Installers
                 .To<WorkshopStorageService>()
                 .AsSingle();
 
+            // Laboratory storage
+            Container.Bind<ISlotStorageService<ItemModel>>()
+                .WithId(StorageType.LaboratoryStorage)
+                .To<LaboratoryStorageService>()
+                .AsSingle();
+
             Container.Bind<IStorageLocatorService>()
                       .To<StorageLocatorService>()
                       .AsSingle();
@@ -118,6 +124,11 @@ namespace PawnShop.Installers
             // Workshop
             Container.Bind<IWorkshopService>()
                 .To<WorkshopService>()
+                .AsSingle();
+
+            // Laboratory
+            Container.Bind<ILaboratoryService>()
+                .To<LaboratoryService>()
                 .AsSingle();
 
             // Evaluation
