@@ -10,5 +10,6 @@ namespace PawnShop.Repositories
         BaseTagPrototype GetTagPrototypeByClassId(string classId);
         IReadOnlyCollection<BaseTagPrototype> GetAllTagPrototypes();
         IReadOnlyCollection<BaseTagPrototype> GetTagPrototypesByType(TagType tagType);
+        BaseTagPrototype GetDefaultTagPrototype(DefaultTags defaultTag);
     }
 }

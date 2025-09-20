@@ -6,10 +6,32 @@ using UnityEngine;
 
 namespace PawnShop.Repositories
 {
+
+    public enum DefaultTags
+    {
+        Undefined = 0,
+        ConditionDestroyed,
+        ConditionBroken,
+        ConditionDamaged,
+        ConditionWorn,
+        ConditionUsed,
+        ConditionPristine,
+    }
+
+
     public class TagRepository : ITagRepository
     {
         private readonly Dictionary<TagType, List<BaseTagPrototype>> _tagsByType = new();
         private readonly List<BaseTagPrototype> _allTags = new();
+        private readonly Dictionary<DefaultTags, string> _defaultTagToClassId = new()
+        {
+            { DefaultTags.ConditionDestroyed, "5bb58300-dd6f-458b-b2a5-a2c0d045b3cd" },
+            { DefaultTags.ConditionBroken, "87fe7270-f342-4190-b030-9294c3de5da5" },
+            { DefaultTags.ConditionDamaged, "5c6f93b5-6717-47c5-acdf-3a12239c1984" },
+            { DefaultTags.ConditionWorn, "1eca794e-fc4b-4365-8157-70b694be5dca" },
+            { DefaultTags.ConditionUsed, "44d492de-c87e-4cfa-b84f-9334d74ef8e3" },
+            { DefaultTags.ConditionPristine, "5aa04753-b152-45d4-8e63-e36c185fced2" }
+        };
 
         public void Load()
         {
@@ -56,6 +78,12 @@ namespace PawnShop.Repositories
                 return tags.AsReadOnly();
             }
             return new List<BaseTagPrototype>().AsReadOnly();
+        }
+
+        public BaseTagPrototype GetDefaultTagPrototype(DefaultTags defaultTag)
+        {
+            if (!_defaultTagToClassId.TryGetValue(defaultTag, out var classId)) return null;
+            return GetTagPrototypeByClassId(classId);
         }
     }
 }
