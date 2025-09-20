@@ -35,6 +35,7 @@ namespace PawnShop.Services
 
             // Add upgraded tag
             var upgradedTag = CreateTagFromPrototype(currentPrototype.NextGradePrototype);
+            upgradedTag.IsRevealedToPlayer = true; // Reveal upgraded tag to player
             item.Tags.Add(upgradedTag);
         }
 
@@ -55,6 +56,7 @@ namespace PawnShop.Services
 
             // Add degraded tag
             var degradedTag = CreateTagFromPrototype(currentPrototype.PreviousGradePrototype);
+            degradedTag.IsRevealedToPlayer = true; // Reveal degraded tag to player
             item.Tags.Add(degradedTag);
         }
 
