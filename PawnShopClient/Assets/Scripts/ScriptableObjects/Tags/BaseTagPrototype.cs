@@ -10,6 +10,7 @@ namespace PawnShop.ScriptableObjects.Tags
         public TagType TagType;
         public AnalyzeType AnalyzeType;
         public string DisplayName;
+        public string Icon;
         [TextArea(3, 5)]
         public string Description;
         public SkillType[] RequiredSkills;

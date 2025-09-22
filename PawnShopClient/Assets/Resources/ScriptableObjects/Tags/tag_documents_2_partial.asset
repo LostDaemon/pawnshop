@@ -15,7 +15,8 @@ MonoBehaviour:
   ClassId: d0dfe780-0f67-4eff-8427-f6a53d0b5f66
   TagType: 7
   AnalyzeType: 6
-  DisplayName: Partial
+  DisplayName: tag.documents.partial
+  Icon: \uf0f2
   Description: Some documents are there, others lost in time
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0

@@ -15,7 +15,8 @@ MonoBehaviour:
   ClassId: b2c2c04c-ae3d-47b9-88ea-b5500fe0e8de
   TagType: 5
   AnalyzeType: 5
-  DisplayName: Ex-owner stamp
+  DisplayName: tag.provenance.ex_owner_stamp
+  Icon: "\u25A1"
   Description: "Former owner\u2019s mark"
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
@@ -24,3 +25,8 @@ MonoBehaviour:
   PriceMultiplier: 1.1
   AppearanceChance: 0.15
   Color: {r: 0.54509807, g: 0, b: 0, a: 1}
+  ProcessingType: 0
+  ProcessingDurationInMinutes: 10
+  UpgradeChance: 0
+  PreviousGradePrototype: {fileID: 0}
+  NextGradePrototype: {fileID: 0}

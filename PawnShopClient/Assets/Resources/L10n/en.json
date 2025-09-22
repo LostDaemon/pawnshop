@@ -398,6 +398,175 @@
     {
       "key": "currency_type_glass_ceramics",
       "values": ["Glass & Ceramics"]
+    },
+
+    {
+      "key": "tag.condition.destroyed",
+      "values": ["Destroyed"]
+    },
+    {
+      "key": "tag.condition.broken",
+      "values": ["Broken"]
+    },
+    {
+      "key": "tag.condition.damaged",
+      "values": ["Damaged"]
+    },
+    {
+      "key": "tag.condition.worn",
+      "values": ["Worn"]
+    },
+    {
+      "key": "tag.condition.used",
+      "values": ["Used"]
+    },
+    {
+      "key": "tag.condition.pristine",
+      "values": ["Pristine"]
+    },
+
+    {
+      "key": "tag.rarity.common",
+      "values": ["Common"]
+    },
+    {
+      "key": "tag.rarity.uncommon",
+      "values": ["Uncommon"]
+    },
+    {
+      "key": "tag.rarity.rare",
+      "values": ["Rare"]
+    },
+    {
+      "key": "tag.rarity.very_rare",
+      "values": ["Very Rare"]
+    },
+    {
+      "key": "tag.rarity.unique",
+      "values": ["Unique"]
+    },
+
+    {
+      "key": "tag.feature.dirt",
+      "values": ["Dirt"]
+    },
+    {
+      "key": "tag.feature.light_scratch",
+      "values": ["Light Scratch"]
+    },
+    {
+      "key": "tag.feature.deep_scratch",
+      "values": ["Deep Scratch"]
+    },
+    {
+      "key": "tag.feature.microcracks",
+      "values": ["Microcracks"]
+    },
+    {
+      "key": "tag.feature.careful_work",
+      "values": ["Well Crafted"]
+    },
+
+    {
+      "key": "tag.purity.poor",
+      "values": ["Poor"]
+    },
+    {
+      "key": "tag.purity.low",
+      "values": ["Low 35-55%"]
+    },
+    {
+      "key": "tag.purity.average",
+      "values": ["Average"]
+    },
+    {
+      "key": "tag.purity.high",
+      "values": ["High"]
+    },
+    {
+      "key": "tag.purity.perfect",
+      "values": ["Perfect"]
+    },
+
+    {
+      "key": "tag.legal_status.illegal",
+      "values": ["Illegal"]
+    },
+    {
+      "key": "tag.legal_status.suspicious",
+      "values": ["Suspicious"]
+    },
+    {
+      "key": "tag.legal_status.clean",
+      "values": ["Clean"]
+    },
+
+    {
+      "key": "tag.documents.missing",
+      "values": ["Missing"]
+    },
+    {
+      "key": "tag.documents.suspicious",
+      "values": ["Suspicious"]
+    },
+    {
+      "key": "tag.documents.partial",
+      "values": ["Partial"]
+    },
+    {
+      "key": "tag.documents.verified",
+      "values": ["Verified"]
+    },
+
+    {
+      "key": "tag.provenance.stamp",
+      "values": ["Stamp"]
+    },
+    {
+      "key": "tag.provenance.clear_history",
+      "values": ["Clear History"]
+    },
+    {
+      "key": "tag.provenance.auction_records",
+      "values": ["Auction Records"]
+    },
+    {
+      "key": "tag.provenance.ex_owner_stamp",
+      "values": ["Ex-owner Stamp"]
+    },
+
+    {
+      "key": "tag.manufacturer.factory_stamp",
+      "values": ["Factory Stamp"]
+    },
+    {
+      "key": "tag.manufacturer.defect",
+      "values": ["Defect"]
+    },
+    {
+      "key": "tag.manufacturer.factory_defect",
+      "values": ["Factory Defect"]
+    },
+
+    {
+      "key": "tag.authenticity.lq_copy",
+      "values": ["LQ Copy"]
+    },
+    {
+      "key": "tag.authenticity.hq_copy",
+      "values": ["HQ Copy"]
+    },
+    {
+      "key": "tag.authenticity.follower_copy",
+      "values": ["Follower Copy"]
+    },
+    {
+      "key": "tag.authenticity.author_copy",
+      "values": ["Author Copy"]
+    },
+    {
+      "key": "tag.authenticity.original",
+      "values": ["Original"]
     }
   ]
 }

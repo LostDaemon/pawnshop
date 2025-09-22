@@ -11,6 +11,12 @@ namespace PawnShop.Installers
     public class ProjectInstaller : MonoInstaller
     {
         private const long StartingMoney = 10000L; // TODO: Load from config later
+        private const long StartingMetalParts = 10L;
+        private const long StartingPlastics = 10L;
+        private const long StartingFiberFabric = 10L;
+        private const long StartingWoodRemnants = 10L;
+        private const long StartingElectronics = 10L;
+        private const long StartingGlassCeramics = 10L;
         private const int DefaultSellSlots = 12;
         private const int DefaultInventorySlots = 50;
 

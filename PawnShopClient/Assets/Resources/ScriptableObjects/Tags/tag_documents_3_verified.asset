@@ -15,7 +15,8 @@ MonoBehaviour:
   ClassId: 8343aa62-c553-420d-844e-42a28ccb36ef
   TagType: 7
   AnalyzeType: 6
-  DisplayName: Verified
+  DisplayName: tag.documents.verified
+  Icon: \uf0f2
   Description: Certified and stamped, sleep well
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0

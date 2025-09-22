@@ -15,7 +15,8 @@ MonoBehaviour:
   ClassId: 30021c01-2610-4666-9929-d09b2654e4b5
   TagType: 12
   AnalyzeType: 5
-  DisplayName: Original
+  DisplayName: tag.authenticity.original
+  Icon: \uf31c
   Description: The Masterpeace
   RequiredSkills: 020000002a00000030000000
   IsRevealedToPlayer: 0
@@ -26,5 +27,6 @@ MonoBehaviour:
   Color: {r: 1, g: 0, b: 0, a: 1}
   ProcessingType: 0
   ProcessingDurationInMinutes: 10
+  UpgradeChance: 0
   PreviousGradePrototype: {fileID: 11400000, guid: 8f2cf0d424b2c7446af1621467a58953, type: 2}
   NextGradePrototype: {fileID: 0}

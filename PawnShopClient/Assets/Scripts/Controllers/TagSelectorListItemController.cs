@@ -2,6 +2,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using PawnShop.Models.Tags;
+using PawnShop.Services;
+using Zenject;
 
 namespace PawnShop.Controllers
 {
@@ -10,9 +12,16 @@ namespace PawnShop.Controllers
         private TMP_Text _tagText;
         private Toggle _toggle;
         private BaseTagModel _tag;
+        private ILocalizationService _localizationService;
 
         public Toggle Toggle => _toggle;
         public BaseTagModel Tag => _tag;
+
+        [Inject]
+        public void Construct(ILocalizationService localizationService)
+        {
+            _localizationService = localizationService;
+        }
 
         private void Awake()
         {
@@ -52,13 +61,22 @@ namespace PawnShop.Controllers
             if (tag == null) return "Unknown Tag";
 
             var displayName = !string.IsNullOrEmpty(tag.DisplayName) ? tag.DisplayName : tag.TagType.ToString();
+            
+            // Apply localization if service is available
+            if (_localizationService != null)
+            {
+                displayName = _localizationService.GetLocalization(displayName);
+            }
+            
+            // Get icon
+            string icon = !string.IsNullOrEmpty(tag.Icon) ? tag.Icon : "\uf005"; // Default FontAwesome star
 
             // Add specific value for different tag types
             return tag switch
             {
-                TextTagModel textTag => $"{displayName}: {textTag.TextValue}",
-                NumericTagModel numericTag => $"{displayName}: {numericTag.NumericValue:F1}",
-                _ => displayName
+                TextTagModel textTag => $"{icon} {displayName}: {textTag.TextValue}",
+                NumericTagModel numericTag => $"{icon} {displayName}: {numericTag.NumericValue:F1}",
+                _ => $"{icon} {displayName}"
             };
         }
 

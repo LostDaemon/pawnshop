@@ -15,7 +15,8 @@ MonoBehaviour:
   ClassId: c47a890f-1cb1-45fd-a19b-0601ae6968f1
   TagType: 13
   AnalyzeType: 3
-  DisplayName: Average 55-75%
+  DisplayName: tag.purity.average
+  Icon: "\u25A1"
   Description: Average purity, acceptable quality
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
@@ -26,5 +27,6 @@ MonoBehaviour:
   Color: {r: 0.13333334, g: 0.54509807, b: 0.13333334, a: 1}
   ProcessingType: 0
   ProcessingDurationInMinutes: 10
+  UpgradeChance: 0
   PreviousGradePrototype: {fileID: 11400000, guid: d64ac3786e72f5a4dafee197e9257464, type: 2}
   NextGradePrototype: {fileID: 11400000, guid: b960f877661dabd429b0a4550be76ea5, type: 2}

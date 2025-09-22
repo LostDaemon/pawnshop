@@ -356,20 +356,21 @@ var conditionTags = item.Tags.Where(t => t.TagType == TagType.Condition);
 var conditionTag = item.Tags.FirstOrDefault(t => t.TagType == TagType.Condition);
 if (conditionTag != null)
 {
-    switch (conditionTag.DisplayName)
+    // Use ClassId for precise identification instead of DisplayName
+    switch (conditionTag.ClassId)
     {
-        case "Pristine": // Perfect condition
-        case "Used":     // Good condition
-        case "Worn":     // Normal condition
-        case "Damaged":  // Poor condition
-        case "Broken":   // Broken condition
-        case "Destroyed": // Destroyed condition
+        case "pristine_tag_class_id": // Perfect condition
+        case "used_tag_class_id":     // Good condition
+        case "worn_tag_class_id":     // Normal condition
+        case "damaged_tag_class_id":  // Poor condition
+        case "broken_tag_class_id":   // Broken condition
+        case "destroyed_tag_class_id": // Destroyed condition
     }
 }
 
-// Check item rarity through tags
-bool isRare = item.Tags.Any(t => t.DisplayName == "Rare");
-bool isUnique = item.Tags.Any(t => t.DisplayName == "Unique");
+// Check item rarity through tags using TagType and ClassId
+bool isRare = item.Tags.Any(t => t.TagType == TagType.Rarity && t.ClassId == "rare_tag_class_id");
+bool isUnique = item.Tags.Any(t => t.TagType == TagType.Rarity && t.ClassId == "unique_tag_class_id");
 ```
 
 ### Item Processing
@@ -382,24 +383,25 @@ public void ProcessItemForSale(ItemModel item)
     var conditionTag = item.Tags.FirstOrDefault(t => t.TagType == TagType.Condition);
     if (conditionTag != null)
     {
-        switch (conditionTag.DisplayName)
+        // Use ClassId for precise identification instead of DisplayName
+        switch (conditionTag.ClassId)
         {
-            case "Pristine":
+            case "pristine_tag_class_id":
                 Debug.Log($"Item {item.Name} is in perfect condition");
                 break;
-            case "Used":
+            case "used_tag_class_id":
                 Debug.Log($"Item {item.Name} is in good condition");
                 break;
-            case "Worn":
+            case "worn_tag_class_id":
                 Debug.Log($"Item {item.Name} is in normal condition");
                 break;
-            case "Damaged":
+            case "damaged_tag_class_id":
                 Debug.Log($"Item {item.Name} is damaged");
                 break;
-            case "Broken":
+            case "broken_tag_class_id":
                 Debug.Log($"Item {item.Name} is broken");
                 break;
-            case "Destroyed":
+            case "destroyed_tag_class_id":
                 Debug.Log($"Item {item.Name} is destroyed");
                 break;
         }
@@ -411,12 +413,12 @@ public void ProcessItemForSale(ItemModel item)
         Debug.Log($"Item {item.Name} is counterfeit");
     }
 
-    // Check rarity for pricing strategy
+    // Check rarity for pricing strategy using TagType and ClassId
     var rarityTag = item.Tags.FirstOrDefault(t =>
-        t.DisplayName == "Rare" || t.DisplayName == "Unique");
+        t.TagType == TagType.Rarity && (t.ClassId == "rare_tag_class_id" || t.ClassId == "unique_tag_class_id"));
     if (rarityTag != null)
     {
-        Debug.Log($"Item {item.Name} is {rarityTag.DisplayName} - consider premium pricing");
+        Debug.Log($"Item {item.Name} is rare/unique - consider premium pricing");
     }
 
     // Add to sell storage

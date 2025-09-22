@@ -15,7 +15,8 @@ MonoBehaviour:
   ClassId: 44d492de-c87e-4cfa-b84f-9334d74ef8e3
   TagType: 1
   AnalyzeType: 1
-  DisplayName: Used
+  DisplayName: tag.condition.used
+  Icon: \uf6e3
   Description: Used, functional with minor wear
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0

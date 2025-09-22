@@ -15,7 +15,8 @@ MonoBehaviour:
   ClassId: 3fadaa2a-d3bc-4afb-8ec7-38353f0c1686
   TagType: 2
   AnalyzeType: 5
-  DisplayName: Uncommon
+  DisplayName: tag.rarity.uncommon
+  Icon: "\u25A1"
   Description: Less usual item, still not rare
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
@@ -26,5 +27,6 @@ MonoBehaviour:
   Color: {r: 0, g: 0.39215687, b: 0, a: 1}
   ProcessingType: 0
   ProcessingDurationInMinutes: 10
+  UpgradeChance: 0
   PreviousGradePrototype: {fileID: 11400000, guid: 5779d25192b3b1145af27a985718817f, type: 2}
   NextGradePrototype: {fileID: 11400000, guid: 7e53b992894809642a8cbf14c3516090, type: 2}

@@ -392,6 +392,174 @@
     {
       "key": "currency_type_glass_ceramics",
       "values": ["Стекло и керамика"]
+    },
+    {
+      "key": "tag.condition.destroyed",
+      "values": ["Уничтожено"]
+    },
+    {
+      "key": "tag.condition.broken",
+      "values": ["Сломано"]
+    },
+    {
+      "key": "tag.condition.damaged",
+      "values": ["Повреждено"]
+    },
+    {
+      "key": "tag.condition.worn",
+      "values": ["Изношено"]
+    },
+    {
+      "key": "tag.condition.used",
+      "values": ["Б/у"]
+    },
+    {
+      "key": "tag.condition.pristine",
+      "values": ["Идеальное"]
+    },
+
+    {
+      "key": "tag.rarity.common",
+      "values": ["Обычное"]
+    },
+    {
+      "key": "tag.rarity.uncommon",
+      "values": ["Необычное"]
+    },
+    {
+      "key": "tag.rarity.rare",
+      "values": ["Редкое"]
+    },
+    {
+      "key": "tag.rarity.very_rare",
+      "values": ["Очень редкое"]
+    },
+    {
+      "key": "tag.rarity.unique",
+      "values": ["Уникальное"]
+    },
+
+    {
+      "key": "tag.feature.dirt",
+      "values": ["Грязь"]
+    },
+    {
+      "key": "tag.feature.light_scratch",
+      "values": ["Легкая царапина"]
+    },
+    {
+      "key": "tag.feature.deep_scratch",
+      "values": ["Глубокая царапина"]
+    },
+    {
+      "key": "tag.feature.microcracks",
+      "values": ["Микротрещины"]
+    },
+    {
+      "key": "tag.feature.careful_work",
+      "values": ["Аккуратная работа"]
+    },
+
+    {
+      "key": "tag.purity.poor",
+      "values": ["Плохое"]
+    },
+    {
+      "key": "tag.purity.low",
+      "values": ["Низкое 35-55%"]
+    },
+    {
+      "key": "tag.purity.average",
+      "values": ["Среднее"]
+    },
+    {
+      "key": "tag.purity.high",
+      "values": ["Высокое"]
+    },
+    {
+      "key": "tag.purity.perfect",
+      "values": ["Идеальное"]
+    },
+
+    {
+      "key": "tag.legal_status.illegal",
+      "values": ["Незаконное"]
+    },
+    {
+      "key": "tag.legal_status.suspicious",
+      "values": ["Подозрительное"]
+    },
+    {
+      "key": "tag.legal_status.clean",
+      "values": ["Чистое"]
+    },
+
+    {
+      "key": "tag.documents.missing",
+      "values": ["Отсутствуют"]
+    },
+    {
+      "key": "tag.documents.suspicious",
+      "values": ["Подозрительные"]
+    },
+    {
+      "key": "tag.documents.partial",
+      "values": ["Частичные"]
+    },
+    {
+      "key": "tag.documents.verified",
+      "values": ["Проверенные"]
+    },
+
+    {
+      "key": "tag.provenance.stamp",
+      "values": ["Штамп"]
+    },
+    {
+      "key": "tag.provenance.clear_history",
+      "values": ["Чистая история"]
+    },
+    {
+      "key": "tag.provenance.auction_records",
+      "values": ["Аукционные записи"]
+    },
+    {
+      "key": "tag.provenance.ex_owner_stamp",
+      "values": ["Штамп бывшего владельца"]
+    },
+
+    {
+      "key": "tag.manufacturer.factory_stamp",
+      "values": ["Заводской штамп"]
+    },
+    {
+      "key": "tag.manufacturer.defect",
+      "values": ["Брак"]
+    },
+    {
+      "key": "tag.manufacturer.factory_defect",
+      "values": ["Заводской брак"]
+    },
+
+    {
+      "key": "tag.authenticity.lq_copy",
+      "values": ["Низкокачественная копия"]
+    },
+    {
+      "key": "tag.authenticity.hq_copy",
+      "values": ["Высококачественная копия"]
+    },
+    {
+      "key": "tag.authenticity.follower_copy",
+      "values": ["Копия последователя"]
+    },
+    {
+      "key": "tag.authenticity.author_copy",
+      "values": ["Копия автора"]
+    },
+    {
+      "key": "tag.authenticity.original",
+      "values": ["Оригинал"]
     }
   ]
 }

@@ -15,7 +15,8 @@ MonoBehaviour:
   ClassId: b7aef9e4-0210-46de-a99d-9c7c20ed17a9
   TagType: 3
   AnalyzeType: 1
-  DisplayName: Dirt
+  DisplayName: tag.feature.dirt
+  Icon: \uf111
   Description: A thick layer of dirt
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
@@ -25,3 +26,7 @@ MonoBehaviour:
   AppearanceChance: 0.2
   Color: {r: 0.30817598, g: 0.30817598, b: 0.30817598, a: 1}
   ProcessingType: 1
+  ProcessingDurationInMinutes: 10
+  UpgradeChance: 0
+  PreviousGradePrototype: {fileID: 0}
+  NextGradePrototype: {fileID: 0}

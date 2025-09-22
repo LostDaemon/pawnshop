@@ -15,7 +15,8 @@ MonoBehaviour:
   ClassId: 004ea8f3-8ead-487b-81ca-b32a1fa2847b
   TagType: 13
   AnalyzeType: 3
-  DisplayName: Poor 5-35%
+  DisplayName: tag.purity.poor
+  Icon: "\u25A1"
   Description: Very poor purity, full of impurities
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
@@ -26,5 +27,6 @@ MonoBehaviour:
   Color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 1}
   ProcessingType: 0
   ProcessingDurationInMinutes: 10
+  UpgradeChance: 0
   PreviousGradePrototype: {fileID: 0}
   NextGradePrototype: {fileID: 11400000, guid: d64ac3786e72f5a4dafee197e9257464, type: 2}

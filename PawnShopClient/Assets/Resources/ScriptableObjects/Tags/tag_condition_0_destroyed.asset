@@ -15,7 +15,8 @@ MonoBehaviour:
   ClassId: 5bb58300-dd6f-458b-b2a5-a2c0d045b3cd
   TagType: 1
   AnalyzeType: 1
-  DisplayName: Destroyed
+  DisplayName: tag.condition.destroyed
+  Icon: \uf6e3
   Description: Totally ruined, can be scrapped for parts
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
@@ -26,5 +27,6 @@ MonoBehaviour:
   Color: {r: 0, g: 0, b: 0, a: 1}
   ProcessingType: 0
   ProcessingDurationInMinutes: 10
+  UpgradeChance: 0
   PreviousGradePrototype: {fileID: 0}
   NextGradePrototype: {fileID: 11400000, guid: 355743462fd20a14bb581800e5607177, type: 2}

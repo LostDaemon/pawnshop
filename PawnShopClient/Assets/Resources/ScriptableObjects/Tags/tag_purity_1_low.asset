@@ -15,7 +15,8 @@ MonoBehaviour:
   ClassId: 37a57f86-8b9f-4794-b485-4a59b7802da7
   TagType: 13
   AnalyzeType: 3
-  DisplayName: Low 35-55%
+  DisplayName: tag.purity.low
+  Icon: "\u25A1"
   Description: Low purity, common and unimpressive
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
@@ -26,5 +27,6 @@ MonoBehaviour:
   Color: {r: 0.54509807, g: 0.27058825, b: 0.07450981, a: 1}
   ProcessingType: 0
   ProcessingDurationInMinutes: 10
+  UpgradeChance: 0
   PreviousGradePrototype: {fileID: 11400000, guid: 2449b58d79d6bdd4d9e56655de3b1826, type: 2}
   NextGradePrototype: {fileID: 11400000, guid: dd1ebe37e2770c9479e3836ebb784334, type: 2}

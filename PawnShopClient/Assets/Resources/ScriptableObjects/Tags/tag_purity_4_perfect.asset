@@ -15,7 +15,8 @@ MonoBehaviour:
   ClassId: 6abf11b0-65b1-4ed8-ac3a-0a88d72be840
   TagType: 13
   AnalyzeType: 3
-  DisplayName: Perfect 99.99...%
+  DisplayName: tag.purity.perfect
+  Icon: "\u25A1"
   Description: Near perfect purity, exceptional and unique
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
@@ -26,5 +27,6 @@ MonoBehaviour:
   Color: {r: 0.85490197, g: 0.4392157, b: 0.8392157, a: 1}
   ProcessingType: 0
   ProcessingDurationInMinutes: 10
+  UpgradeChance: 0
   PreviousGradePrototype: {fileID: 11400000, guid: b960f877661dabd429b0a4550be76ea5, type: 2}
   NextGradePrototype: {fileID: 0}

@@ -15,7 +15,8 @@ MonoBehaviour:
   ClassId: 770741e4-5c77-4e99-9fdf-064d1e1fb6c0
   TagType: 2
   AnalyzeType: 5
-  DisplayName: Unique
+  DisplayName: tag.rarity.unique
+  Icon: "\u25A1"
   Description: One-of-a-kind item, exceptional value
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
@@ -26,5 +27,6 @@ MonoBehaviour:
   Color: {r: 1, g: 0.5019608, b: 0, a: 1}
   ProcessingType: 0
   ProcessingDurationInMinutes: 10
+  UpgradeChance: 0
   PreviousGradePrototype: {fileID: 11400000, guid: a54bb606b69477f488f9c3cdb1ba41a9, type: 2}
   NextGradePrototype: {fileID: 0}

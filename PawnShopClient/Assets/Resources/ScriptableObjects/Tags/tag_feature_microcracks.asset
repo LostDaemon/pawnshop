@@ -15,7 +15,8 @@ MonoBehaviour:
   ClassId: 8f9d43a1-1a47-4dab-80f2-f9acb34fd14b
   TagType: 3
   AnalyzeType: 4
-  DisplayName: Microcracks
+  DisplayName: tag.feature.microcracks
+  Icon: \uf111
   Description: Tiny surface fractures, lower durability
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
@@ -25,3 +26,7 @@ MonoBehaviour:
   AppearanceChance: 0.1
   Color: {r: 0.39215687, g: 0.39215687, b: 0.39215687, a: 1}
   ProcessingType: 4
+  ProcessingDurationInMinutes: 10
+  UpgradeChance: 0
+  PreviousGradePrototype: {fileID: 0}
+  NextGradePrototype: {fileID: 0}

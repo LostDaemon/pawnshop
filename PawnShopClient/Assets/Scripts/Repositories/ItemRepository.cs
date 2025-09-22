@@ -188,7 +188,7 @@ namespace PawnShop.Repositories
                     foreach (var tag in availableTags)
                     {
                         // Check if we already have this specific tag prototype (to avoid duplicates)
-                        if (item.Tags.Any(existingTag => existingTag.DisplayName == tag.DisplayName))
+                        if (item.Tags.Any(existingTag => existingTag.ClassId == tag.ClassId))
                         {
                             continue;
                         }

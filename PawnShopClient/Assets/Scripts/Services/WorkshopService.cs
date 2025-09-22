@@ -1,9 +1,7 @@
-using System.Collections.Generic;
 using System.Linq;
 using PawnShop.Models;
 using PawnShop.Models.Tags;
 using PawnShop.Repositories;
-using PawnShop.Services;
 using UnityEngine;
 using Zenject;
 
@@ -107,7 +105,7 @@ namespace PawnShop.Services
             return true;
         }
 
-        public void ScheduleTask(ProcessingType taskType)
+        public new void ScheduleTask(ProcessingType taskType)
         {
             var item = _storage.Get(0); // Get item from slot 0
 

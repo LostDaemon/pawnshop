@@ -15,7 +15,8 @@ MonoBehaviour:
   ClassId: 4ef5df09-b104-4fe0-9351-47b2c471129d
   TagType: 8
   AnalyzeType: 7
-  DisplayName: Clean
+  DisplayName: tag.legal_status.clean
+  Icon: \uf0e3
   Description: All good, could sell it to grandma
   RequiredSkills: 01000000
   IsRevealedToPlayer: 0
@@ -26,5 +27,6 @@ MonoBehaviour:
   Color: {r: 0.29411766, g: 0.69803923, b: 0.32941177, a: 1}
   ProcessingType: 0
   ProcessingDurationInMinutes: 10
+  UpgradeChance: 0
   PreviousGradePrototype: {fileID: 11400000, guid: 60b6716432976ea47b6c6b89d56c392b, type: 2}
   NextGradePrototype: {fileID: 0}

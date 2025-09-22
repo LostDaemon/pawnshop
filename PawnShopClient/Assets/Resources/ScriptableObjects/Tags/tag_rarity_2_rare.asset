@@ -15,7 +15,8 @@ MonoBehaviour:
   ClassId: c7b96fe6-76b0-47ab-a779-5542c7869c83
   TagType: 2
   AnalyzeType: 5
-  DisplayName: Rare
+  DisplayName: tag.rarity.rare
+  Icon: "\u25A1"
   Description: Harder to come across, more valuable
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
@@ -26,5 +27,6 @@ MonoBehaviour:
   Color: {r: 0, g: 0.5019608, b: 1, a: 1}
   ProcessingType: 0
   ProcessingDurationInMinutes: 10
+  UpgradeChance: 0
   PreviousGradePrototype: {fileID: 11400000, guid: 57868224740026a4cab861538e309b6e, type: 2}
   NextGradePrototype: {fileID: 11400000, guid: a54bb606b69477f488f9c3cdb1ba41a9, type: 2}

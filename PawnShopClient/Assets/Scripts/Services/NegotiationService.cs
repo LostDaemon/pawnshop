@@ -427,7 +427,7 @@ namespace PawnShop.Services
             for (int i = 0; i < tags.Count; i++)
             {
                 var tag = tags[i];
-                formattedTags += TagTextRenderHelper.RenderTag(tag);
+                formattedTags += TagTextRenderHelper.RenderTag(tag, _localizationService);
                 if (i < tags.Count - 1)
                 {
                     formattedTags += " ";

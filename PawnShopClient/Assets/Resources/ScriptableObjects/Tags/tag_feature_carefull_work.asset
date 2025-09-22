@@ -15,7 +15,8 @@ MonoBehaviour:
   ClassId: 8707f87e-d0a0-4c6c-b4b8-9faa4b8295dc
   TagType: 3
   AnalyzeType: 1
-  DisplayName: Well Crafted
+  DisplayName: tag.feature.careful_work
+  Icon: \uf111
   Description: Appears finely made
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
@@ -24,3 +25,8 @@ MonoBehaviour:
   PriceMultiplier: 1.1
   AppearanceChance: 0.3
   Color: {r: 0.93812585, g: 0.41823888, b: 1, a: 1}
+  ProcessingType: 0
+  ProcessingDurationInMinutes: 10
+  UpgradeChance: 0
+  PreviousGradePrototype: {fileID: 0}
+  NextGradePrototype: {fileID: 0}

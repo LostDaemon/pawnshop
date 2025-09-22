@@ -15,7 +15,8 @@ MonoBehaviour:
   ClassId: 60ff05dd-4f3e-41ab-aa71-b29d1d9ce59c
   TagType: 13
   AnalyzeType: 3
-  DisplayName: Hight 75-98%
+  DisplayName: tag.purity.high
+  Icon: "\u25A1"
   Description: High purity, rare and valuable
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
@@ -26,5 +27,6 @@ MonoBehaviour:
   Color: {r: 0.11764706, g: 0.5647059, b: 1, a: 1}
   ProcessingType: 0
   ProcessingDurationInMinutes: 10
+  UpgradeChance: 0
   PreviousGradePrototype: {fileID: 11400000, guid: dd1ebe37e2770c9479e3836ebb784334, type: 2}
   NextGradePrototype: {fileID: 11400000, guid: 1e8bc85984afdf542a9286156bec5a9e, type: 2}

@@ -15,7 +15,8 @@ MonoBehaviour:
   ClassId: 87fe7270-f342-4190-b030-9294c3de5da5
   TagType: 1
   AnalyzeType: 1
-  DisplayName: Broken
+  DisplayName: tag.condition.broken
+  Icon: \uf6e3
   Description: Broken, requires major repair
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0

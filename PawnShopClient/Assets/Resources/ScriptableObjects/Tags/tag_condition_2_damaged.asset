@@ -15,7 +15,8 @@ MonoBehaviour:
   ClassId: 5c6f93b5-6717-47c5-acdf-3a12239c1984
   TagType: 1
   AnalyzeType: 1
-  DisplayName: Damaged
+  DisplayName: tag.condition.damaged
+  Icon: \uf6e3
   Description: Damaged, visibly impaired
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0

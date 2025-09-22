@@ -15,7 +15,8 @@ MonoBehaviour:
   ClassId: b418a3b9-cddb-4515-8401-f89f896c6ca4
   TagType: 12
   AnalyzeType: 5
-  DisplayName: Follower Copy
+  DisplayName: tag.authenticity.follower_copy
+  Icon: \uf31c
   Description: Copy made by master's followers
   RequiredSkills: 020000002a00000030000000
   IsRevealedToPlayer: 0
@@ -26,5 +27,6 @@ MonoBehaviour:
   Color: {r: 0.6666667, g: 0, b: 1, a: 1}
   ProcessingType: 0
   ProcessingDurationInMinutes: 10
+  UpgradeChance: 0
   PreviousGradePrototype: {fileID: 11400000, guid: 577f9d86bf4b11c43b8045b814ccfd6a, type: 2}
   NextGradePrototype: {fileID: 11400000, guid: 8f2cf0d424b2c7446af1621467a58953, type: 2}

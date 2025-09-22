@@ -15,7 +15,8 @@ MonoBehaviour:
   ClassId: 6725ee66-882a-4806-a615-fbc8a2ae7f2d
   TagType: 8
   AnalyzeType: 7
-  DisplayName: Illegal
+  DisplayName: tag.legal_status.illegal
+  Icon: \uf0e3
   Description: Hot stuff, better hide it under the floorboards
   RequiredSkills: 01000000
   IsRevealedToPlayer: 0
@@ -26,5 +27,6 @@ MonoBehaviour:
   Color: {r: 1, g: 0, b: 0, a: 1}
   ProcessingType: 0
   ProcessingDurationInMinutes: 10
+  UpgradeChance: 0
   PreviousGradePrototype: {fileID: 0}
   NextGradePrototype: {fileID: 11400000, guid: 60b6716432976ea47b6c6b89d56c392b, type: 2}

@@ -21,6 +21,8 @@ namespace PawnShop.Controllers
         [SerializeField] private TMP_InputField _offerInputField;
 
         private INegotiationService _negotiationService;
+        private ILocalizationService _localizationService;
+        private DiContainer _container;
         private List<TagSelectorListItemController> _tagListItems = new List<TagSelectorListItemController>();
         private ItemModel _currentItem;
 
@@ -33,9 +35,11 @@ namespace PawnShop.Controllers
         public string CurrentOfferText => _offerInputField?.text ?? string.Empty;
 
         [Inject]
-        public void Construct(INegotiationService negotiationService)
+        public void Construct(INegotiationService negotiationService, ILocalizationService localizationService, DiContainer container)
         {
             _negotiationService = negotiationService;
+            _localizationService = localizationService;
+            _container = container;
 
             // Subscribe to negotiation service events
             _negotiationService.OnNegotiationStarted += OnNegotiationStarted;
@@ -90,12 +94,10 @@ namespace PawnShop.Controllers
 
             foreach (var tag in revealedTags)
             {
-                var listItemObject = Instantiate(_tagListItemPrefab, _contentRoot);
-                var listItemController = listItemObject.GetComponent<TagSelectorListItemController>();
+                var listItemController = _container.InstantiatePrefabForComponent<TagSelectorListItemController>(_tagListItemPrefab, _contentRoot);
 
                 if (listItemController == null)
                 {
-                    Destroy(listItemObject);
                     continue;
                 }
 

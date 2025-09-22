@@ -513,26 +513,30 @@ bool isRevealedToCustomer = item.Tags.Any(t => t.TagType == TagType.Authenticity
 // Calculate price multiplier from tags
 float totalMultiplier = item.Tags.Aggregate(1f, (mult, tag) => mult * tag.PriceMultiplier);
 
-// Find rare items by looking for rarity tags by display name
-var rareItems = items.Where(item => item.Tags.Any(tag => tag.DisplayName == "Rare"));
+// Find rare items by looking for rarity tags by TagType and ClassId
+var rareItems = items.Where(item => item.Tags.Any(tag => tag.TagType == TagType.Rarity && tag.ClassId == "rare_tag_class_id"));
 
 // Find items with high price multipliers (likely rare)
 var valuableItems = items.Where(item => item.Tags.Any(tag => tag.PriceMultiplier > 2.0f));
 
-// Check item condition through tags
+// Check item condition through tags using TagType and ClassId
 var conditionTag = item.Tags.FirstOrDefault(t => t.TagType == TagType.Condition);
 if (conditionTag != null)
 {
-    switch (conditionTag.DisplayName)
+    // Use ClassId for precise identification instead of DisplayName
+    switch (conditionTag.ClassId)
     {
-        case "Pristine": // Perfect condition
-        case "Used":     // Good condition
-        case "Worn":     // Normal condition
-        case "Damaged":  // Poor condition
-        case "Broken":   // Broken condition
-        case "Destroyed": // Destroyed condition
+        case "pristine_tag_class_id": // Perfect condition
+        case "used_tag_class_id":     // Good condition
+        case "worn_tag_class_id":     // Normal condition
+        case "damaged_tag_class_id":  // Poor condition
+        case "broken_tag_class_id":   // Broken condition
+        case "destroyed_tag_class_id": // Destroyed condition
     }
 }
+
+// DisplayName now contains localization keys directly (e.g., "tag.condition.destroyed")
+// Use ILocalizationService.GetLocalization(tag.DisplayName) to get translated text
 
 // Access tag descriptions for UI display
 var tagDescription = item.Tags.FirstOrDefault(t => t.TagType == TagType.Condition)?.Description;

@@ -15,7 +15,8 @@ MonoBehaviour:
   ClassId: fded74bc-c3a9-4232-af82-02ff4f43f98b
   TagType: 12
   AnalyzeType: 5
-  DisplayName: LQ Copy
+  DisplayName: tag.authenticity.lq_copy
+  Icon: \uf31c
   Description: Low Quality Copy
   RequiredSkills: 020000002a00000030000000
   IsRevealedToPlayer: 0
@@ -26,5 +27,6 @@ MonoBehaviour:
   Color: {r: 0.53333336, g: 0.53333336, b: 0.53333336, a: 1}
   ProcessingType: 0
   ProcessingDurationInMinutes: 10
+  UpgradeChance: 0
   PreviousGradePrototype: {fileID: 0}
   NextGradePrototype: {fileID: 11400000, guid: 577f9d86bf4b11c43b8045b814ccfd6a, type: 2}

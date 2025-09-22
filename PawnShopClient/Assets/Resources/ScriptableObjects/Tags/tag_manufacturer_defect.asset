@@ -15,7 +15,8 @@ MonoBehaviour:
   ClassId: e35568da-e4ef-497b-a100-b2a747b2673e
   TagType: 11
   AnalyzeType: 1
-  DisplayName: Factory Defect
+  DisplayName: tag.manufacturer.factory_defect
+  Icon: "\u25A1"
   Description: An imperfection from production, reducing quality and value
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
@@ -24,3 +25,8 @@ MonoBehaviour:
   PriceMultiplier: 0.6
   AppearanceChance: 0.2
   Color: {r: 0.6627451, g: 0.6627451, b: 0.6627451, a: 1}
+  ProcessingType: 0
+  ProcessingDurationInMinutes: 10
+  UpgradeChance: 0
+  PreviousGradePrototype: {fileID: 0}
+  NextGradePrototype: {fileID: 0}

@@ -15,7 +15,7 @@ namespace PawnShop.Controllers
         [SerializeField] private Button _askDiscountButton;
         [SerializeField] private Button _askButton;
         [SerializeField] private Button _analyzeButton;
-        [SerializeField] private ItemDetailsController _itemDetailsController;
+        [SerializeField] private ItemInfoController _itemInfoController;
         [SerializeField] private CounterOfferDialogController _counterOfferDialogController;
 
         // Analysis buttons
@@ -75,7 +75,7 @@ namespace PawnShop.Controllers
         {
             var item = _negotiationService.CurrentItem;
             _discountButton.Button.interactable = true;
-            _itemDetailsController.UpdateItemDetails(item);
+            _itemInfoController?.SetItem(item);
         }
 
         /// <summary>
@@ -95,13 +95,13 @@ namespace PawnShop.Controllers
 
         private void OnTagsRevealed(ItemModel item)
         {
-            _itemDetailsController?.UpdateItemDetails(item);
+            _itemInfoController?.SetItem(item);
             _isAnalysisInProgress = false; // Analysis completed
         }
 
         private void OnCurrentOfferChanged(ItemModel item)
         {
-            _itemDetailsController?.UpdateItemDetails(item);
+            _itemInfoController?.SetItem(item);
         }
 
         private void OnAnalyzeClicked()
