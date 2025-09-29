@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 1316092325104722830}
   - component: {fileID: 2921499550758742513}
   - component: {fileID: 5330321633568876097}
-  - component: {fileID: 8769379812350941216}
   m_Layer: 5
   m_Name: card_slot
   m_TagString: Untagged
@@ -60,14 +59,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.039215688}
+  m_Color: {r: 0.5019608, g: 0.5019608, b: 0.5019608, a: 0.39215687}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -6351617318852302439, guid: e6b1f51a09d71084791f3c78b7681ab6, type: 3}
+  m_Sprite: {fileID: 932849574, guid: 047418b6520f81a4db6ec36e392a6724, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -89,18 +88,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7d18b75d81821844af7de21c7ea963d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8769379812350941216
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3392245393193301822}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e19747de3f5aca642ab2be37e372fb86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectColor: {r: 1, g: 1, b: 0, a: 0.39215687}
-  m_EffectDistance: {x: 2, y: 2}
-  m_UseGraphicAlpha: 1
+  canReceiveDragged: 1

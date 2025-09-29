@@ -53,6 +53,10 @@ namespace PawnShop.Installers
         .To<NegotiationHistoryService>()
         .AsSingle();
 
+            Container.Bind<ICardNegotiationService>()
+                .To<CardNegotiationService>()
+                .AsSingle();
+
             Container.Bind<ISpriteService>()
                 .To<SpriteService>()
                 .AsSingle();

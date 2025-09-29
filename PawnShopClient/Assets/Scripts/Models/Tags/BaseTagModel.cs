@@ -36,7 +36,7 @@ namespace PawnShop.Models.Tags
                 PriceMultiplier = prototype.PriceMultiplier;
                 AppearanceChance = prototype.AppearanceChance;
                 IsRevealedToPlayer = prototype.IsRevealedToPlayer;
-                IsRevealedToCustomer = prototype.IsRevealedToPlayer;
+                IsRevealedToCustomer = prototype.IsRevealedToCustomer;
                 Hidden = prototype.Hidden;
                 Color = prototype.Color;
                 ProcessingType = prototype.ProcessingType;
