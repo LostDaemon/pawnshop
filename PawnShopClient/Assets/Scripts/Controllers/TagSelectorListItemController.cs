@@ -72,12 +72,7 @@ namespace PawnShop.Controllers
             string icon = !string.IsNullOrEmpty(tag.Icon) ? tag.Icon : "\uf005"; // Default FontAwesome star
 
             // Add specific value for different tag types
-            return tag switch
-            {
-                TextTagModel textTag => $"{icon} {displayName}: {textTag.TextValue}",
-                NumericTagModel numericTag => $"{icon} {displayName}: {numericTag.NumericValue:F1}",
-                _ => $"{icon} {displayName}"
-            };
+            return $"{icon} {displayName}";
         }
 
         /// <summary>

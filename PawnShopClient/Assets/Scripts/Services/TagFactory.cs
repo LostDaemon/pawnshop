@@ -12,8 +12,6 @@ namespace PawnShop.Services
             return prototype switch
             {
                 SimpleTagPrototype simplePrototype => new SimpleTagModel(simplePrototype),
-                TextTagPrototype textPrototype => new TextTagModel(textPrototype),
-                NumericTagPrototype numericPrototype => new NumericTagModel(numericPrototype),
                 _ => null
             };
         }
