@@ -15,7 +15,7 @@ MonoBehaviour:
   ClassId: 9b1b86cd-a231-48f6-b59a-72cbb5544d6e
   TagType: 8
   AnalyzeType: 7
-  DisplayName: tag.legal_status.suspicious
+  DisplayName: tag_legal_status_suspicious
   Icon: \uf0e3
   Description: Smells fishy, but maybe still fine
   RequiredSkills: 01000000

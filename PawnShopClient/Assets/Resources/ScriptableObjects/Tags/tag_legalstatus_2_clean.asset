@@ -15,7 +15,7 @@ MonoBehaviour:
   ClassId: 4ef5df09-b104-4fe0-9351-47b2c471129d
   TagType: 8
   AnalyzeType: 7
-  DisplayName: tag.legal_status.clean
+  DisplayName: tag_legal_status_clean
   Icon: \uf0e3
   Description: All good, could sell it to grandma
   RequiredSkills: 01000000

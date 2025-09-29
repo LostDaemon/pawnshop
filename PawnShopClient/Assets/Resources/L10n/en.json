@@ -4,6 +4,10 @@
       "key": "ui_label_loading",
       "values": ["Loading..."]
     },
+    {
+      "key": "card_effect_value",
+      "values": ["Effect {0}%"]
+    },
 
     {
       "key": "dialog_customer_deal_joy",
@@ -401,171 +405,171 @@
     },
 
     {
-      "key": "tag.condition.destroyed",
+      "key": "tag_condition_destroyed",
       "values": ["Destroyed"]
     },
     {
-      "key": "tag.condition.broken",
+      "key": "tag_condition_broken",
       "values": ["Broken"]
     },
     {
-      "key": "tag.condition.damaged",
+      "key": "tag_condition_damaged",
       "values": ["Damaged"]
     },
     {
-      "key": "tag.condition.worn",
+      "key": "tag_condition_worn",
       "values": ["Worn"]
     },
     {
-      "key": "tag.condition.used",
+      "key": "tag_condition_used",
       "values": ["Used"]
     },
     {
-      "key": "tag.condition.pristine",
+      "key": "tag_condition_pristine",
       "values": ["Pristine"]
     },
 
     {
-      "key": "tag.rarity.common",
+      "key": "tag_rarity_common",
       "values": ["Common"]
     },
     {
-      "key": "tag.rarity.uncommon",
+      "key": "tag_rarity_uncommon",
       "values": ["Uncommon"]
     },
     {
-      "key": "tag.rarity.rare",
+      "key": "tag_rarity_rare",
       "values": ["Rare"]
     },
     {
-      "key": "tag.rarity.very_rare",
+      "key": "tag_rarity_very_rare",
       "values": ["Very Rare"]
     },
     {
-      "key": "tag.rarity.unique",
+      "key": "tag_rarity_unique",
       "values": ["Unique"]
     },
 
     {
-      "key": "tag.feature.dirt",
+      "key": "tag_feature_dirt",
       "values": ["Dirt"]
     },
     {
-      "key": "tag.feature.light_scratch",
+      "key": "tag_feature_light_scratch",
       "values": ["Light Scratch"]
     },
     {
-      "key": "tag.feature.deep_scratch",
+      "key": "tag_feature_deep_scratch",
       "values": ["Deep Scratch"]
     },
     {
-      "key": "tag.feature.microcracks",
+      "key": "tag_feature_microcracks",
       "values": ["Microcracks"]
     },
     {
-      "key": "tag.feature.careful_work",
+      "key": "tag_feature_careful_work",
       "values": ["Well Crafted"]
     },
 
     {
-      "key": "tag.purity.poor",
+      "key": "tag_purity_poor",
       "values": ["Poor"]
     },
     {
-      "key": "tag.purity.low",
+      "key": "tag_purity_low",
       "values": ["Low 35-55%"]
     },
     {
-      "key": "tag.purity.average",
+      "key": "tag_purity_average",
       "values": ["Average"]
     },
     {
-      "key": "tag.purity.high",
+      "key": "tag_purity_high",
       "values": ["High"]
     },
     {
-      "key": "tag.purity.perfect",
+      "key": "tag_purity_perfect",
       "values": ["Perfect"]
     },
 
     {
-      "key": "tag.legal_status.illegal",
+      "key": "tag_legal_status_illegal",
       "values": ["Illegal"]
     },
     {
-      "key": "tag.legal_status.suspicious",
+      "key": "tag_legal_status_suspicious",
       "values": ["Suspicious"]
     },
     {
-      "key": "tag.legal_status.clean",
+      "key": "tag_legal_status_clean",
       "values": ["Clean"]
     },
 
     {
-      "key": "tag.documents.missing",
+      "key": "tag_documents_missing",
       "values": ["Missing"]
     },
     {
-      "key": "tag.documents.suspicious",
+      "key": "tag_documents_suspicious",
       "values": ["Suspicious"]
     },
     {
-      "key": "tag.documents.partial",
+      "key": "tag_documents_partial",
       "values": ["Partial"]
     },
     {
-      "key": "tag.documents.verified",
+      "key": "tag_documents_verified",
       "values": ["Verified"]
     },
 
     {
-      "key": "tag.provenance.stamp",
+      "key": "tag_provenance_stamp",
       "values": ["Stamp"]
     },
     {
-      "key": "tag.provenance.clear_history",
+      "key": "tag_provenance_clear_history",
       "values": ["Clear History"]
     },
     {
-      "key": "tag.provenance.auction_records",
+      "key": "tag_provenance_auction_records",
       "values": ["Auction Records"]
     },
     {
-      "key": "tag.provenance.ex_owner_stamp",
+      "key": "tag_provenance_ex_owner_stamp",
       "values": ["Ex-owner Stamp"]
     },
 
     {
-      "key": "tag.manufacturer.factory_stamp",
+      "key": "tag_manufacturer_factory_stamp",
       "values": ["Factory Stamp"]
     },
     {
-      "key": "tag.manufacturer.defect",
+      "key": "tag_manufacturer_defect",
       "values": ["Defect"]
     },
     {
-      "key": "tag.manufacturer.factory_defect",
+      "key": "tag_manufacturer_factory_defect",
       "values": ["Factory Defect"]
     },
 
     {
-      "key": "tag.authenticity.lq_copy",
+      "key": "tag_authenticity_lq_copy",
       "values": ["LQ Copy"]
     },
     {
-      "key": "tag.authenticity.hq_copy",
+      "key": "tag_authenticity_hq_copy",
       "values": ["HQ Copy"]
     },
     {
-      "key": "tag.authenticity.follower_copy",
+      "key": "tag_authenticity_follower_copy",
       "values": ["Follower Copy"]
     },
     {
-      "key": "tag.authenticity.author_copy",
+      "key": "tag_authenticity_author_copy",
       "values": ["Author Copy"]
     },
     {
-      "key": "tag.authenticity.original",
+      "key": "tag_authenticity_original",
       "values": ["Original"]
     }
   ]

@@ -15,7 +15,7 @@ MonoBehaviour:
   ClassId: 004ea8f3-8ead-487b-81ca-b32a1fa2847b
   TagType: 13
   AnalyzeType: 3
-  DisplayName: tag.purity.poor
+  DisplayName: tag_purity_poor
   Icon: "\u25A1"
   Description: Very poor purity, full of impurities
   RequiredSkills: 02000000

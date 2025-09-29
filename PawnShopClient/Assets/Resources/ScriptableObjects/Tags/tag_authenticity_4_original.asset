@@ -15,7 +15,7 @@ MonoBehaviour:
   ClassId: 30021c01-2610-4666-9929-d09b2654e4b5
   TagType: 12
   AnalyzeType: 5
-  DisplayName: tag.authenticity.original
+  DisplayName: tag_authenticity_original
   Icon: \uf31c
   Description: The Masterpeace
   RequiredSkills: 020000002a00000030000000

@@ -15,7 +15,7 @@ MonoBehaviour:
   ClassId: 3d2804c9-a800-4d9f-9c6f-680fbd3c620a
   TagType: 11
   AnalyzeType: 1
-  DisplayName: tag.manufacturer.factory_stamp
+  DisplayName: tag_manufacturer_factory_stamp
   Icon: "\u25A1"
   Description: Clear factory stamp
   RequiredSkills: 02000000

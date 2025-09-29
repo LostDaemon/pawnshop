@@ -15,7 +15,7 @@ MonoBehaviour:
   ClassId: bbc9c750-7a91-4861-961c-561099a83613
   TagType: 12
   AnalyzeType: 5
-  DisplayName: tag.authenticity.hq_copy
+  DisplayName: tag_authenticity_hq_copy
   Icon: \uf31c
   Description: 
   RequiredSkills: 020000002a00000030000000

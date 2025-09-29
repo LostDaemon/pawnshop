@@ -15,7 +15,7 @@ MonoBehaviour:
   ClassId: b418a3b9-cddb-4515-8401-f89f896c6ca4
   TagType: 12
   AnalyzeType: 5
-  DisplayName: tag.authenticity.follower_copy
+  DisplayName: tag_authenticity_follower_copy
   Icon: \uf31c
   Description: Copy made by master's followers
   RequiredSkills: 020000002a00000030000000

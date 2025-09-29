@@ -15,7 +15,7 @@ MonoBehaviour:
   ClassId: fded74bc-c3a9-4232-af82-02ff4f43f98b
   TagType: 12
   AnalyzeType: 5
-  DisplayName: tag.authenticity.lq_copy
+  DisplayName: tag_authenticity_lq_copy
   Icon: \uf31c
   Description: Low Quality Copy
   RequiredSkills: 020000002a00000030000000

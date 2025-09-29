@@ -15,7 +15,7 @@ MonoBehaviour:
   ClassId: 8707f87e-d0a0-4c6c-b4b8-9faa4b8295dc
   TagType: 3
   AnalyzeType: 1
-  DisplayName: tag.feature.careful_work
+  DisplayName: tag_feature_careful_work
   Icon: \uf111
   Description: Appears finely made
   RequiredSkills: 02000000

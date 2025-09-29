@@ -15,7 +15,7 @@ MonoBehaviour:
   ClassId: f62a20bd-eb5a-44c3-8431-a91e7fd69739
   TagType: 3
   AnalyzeType: 1
-  DisplayName: tag.feature.light_scratch
+  DisplayName: tag_feature_light_scratch
   Icon: \uf111
   Description: Minor, but visible mark
   RequiredSkills: 02000000

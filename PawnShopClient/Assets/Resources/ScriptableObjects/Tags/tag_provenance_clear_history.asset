@@ -15,7 +15,7 @@ MonoBehaviour:
   ClassId: 73e2179a-c830-4258-9f21-d52c0025c809
   TagType: 5
   AnalyzeType: 5
-  DisplayName: tag.provenance.auction_records
+  DisplayName: tag_provenance_clear_history
   Icon: "\u25A1"
   Description: Has Auction Records
   RequiredSkills: 2a000000

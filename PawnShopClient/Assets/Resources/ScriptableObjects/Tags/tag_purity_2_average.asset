@@ -15,7 +15,7 @@ MonoBehaviour:
   ClassId: c47a890f-1cb1-45fd-a19b-0601ae6968f1
   TagType: 13
   AnalyzeType: 3
-  DisplayName: tag.purity.average
+  DisplayName: tag_purity_average
   Icon: "\u25A1"
   Description: Average purity, acceptable quality
   RequiredSkills: 02000000

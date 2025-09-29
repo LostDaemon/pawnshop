@@ -15,7 +15,7 @@ MonoBehaviour:
   ClassId: c7b96fe6-76b0-47ab-a779-5542c7869c83
   TagType: 2
   AnalyzeType: 5
-  DisplayName: tag.rarity.rare
+  DisplayName: tag_rarity_rare
   Icon: "\u25A1"
   Description: Harder to come across, more valuable
   RequiredSkills: 02000000

@@ -4,6 +4,10 @@
       "key": "ui_label_loading",
       "values": ["Загрузка..."]
     },
+    {
+      "key": "card_effect_value",
+      "values": ["Эффект {0}%"]
+    },
 
     {
       "key": "dialog_customer_deal_joy",
@@ -394,171 +398,171 @@
       "values": ["Стекло и керамика"]
     },
     {
-      "key": "tag.condition.destroyed",
+      "key": "tag_condition_destroyed",
       "values": ["Уничтожено"]
     },
     {
-      "key": "tag.condition.broken",
+      "key": "tag_condition_broken",
       "values": ["Сломано"]
     },
     {
-      "key": "tag.condition.damaged",
+      "key": "tag_condition_damaged",
       "values": ["Повреждено"]
     },
     {
-      "key": "tag.condition.worn",
+      "key": "tag_condition_worn",
       "values": ["Изношено"]
     },
     {
-      "key": "tag.condition.used",
+      "key": "tag_condition_used",
       "values": ["Б/у"]
     },
     {
-      "key": "tag.condition.pristine",
+      "key": "tag_condition_pristine",
       "values": ["Идеальное"]
     },
 
     {
-      "key": "tag.rarity.common",
+      "key": "tag_rarity_common",
       "values": ["Обычное"]
     },
     {
-      "key": "tag.rarity.uncommon",
+      "key": "tag_rarity_uncommon",
       "values": ["Необычное"]
     },
     {
-      "key": "tag.rarity.rare",
+      "key": "tag_rarity_rare",
       "values": ["Редкое"]
     },
     {
-      "key": "tag.rarity.very_rare",
+      "key": "tag_rarity_very_rare",
       "values": ["Очень редкое"]
     },
     {
-      "key": "tag.rarity.unique",
+      "key": "tag_rarity_unique",
       "values": ["Уникальное"]
     },
 
     {
-      "key": "tag.feature.dirt",
+      "key": "tag_feature_dirt",
       "values": ["Грязь"]
     },
     {
-      "key": "tag.feature.light_scratch",
+      "key": "tag_feature_light_scratch",
       "values": ["Легкая царапина"]
     },
     {
-      "key": "tag.feature.deep_scratch",
+      "key": "tag_feature_deep_scratch",
       "values": ["Глубокая царапина"]
     },
     {
-      "key": "tag.feature.microcracks",
+      "key": "tag_feature_microcracks",
       "values": ["Микротрещины"]
     },
     {
-      "key": "tag.feature.careful_work",
+      "key": "tag_feature_careful_work",
       "values": ["Аккуратная работа"]
     },
 
     {
-      "key": "tag.purity.poor",
+      "key": "tag_purity_poor",
       "values": ["Плохое"]
     },
     {
-      "key": "tag.purity.low",
+      "key": "tag_purity_low",
       "values": ["Низкое 35-55%"]
     },
     {
-      "key": "tag.purity.average",
+      "key": "tag_purity_average",
       "values": ["Среднее"]
     },
     {
-      "key": "tag.purity.high",
+      "key": "tag_purity_high",
       "values": ["Высокое"]
     },
     {
-      "key": "tag.purity.perfect",
+      "key": "tag_purity_perfect",
       "values": ["Идеальное"]
     },
 
     {
-      "key": "tag.legal_status.illegal",
+      "key": "tag_legal_status_illegal",
       "values": ["Незаконное"]
     },
     {
-      "key": "tag.legal_status.suspicious",
+      "key": "tag_legal_status_suspicious",
       "values": ["Подозрительное"]
     },
     {
-      "key": "tag.legal_status.clean",
+      "key": "tag_legal_status_clean",
       "values": ["Чистое"]
     },
 
     {
-      "key": "tag.documents.missing",
+      "key": "tag_documents_missing",
       "values": ["Отсутствуют"]
     },
     {
-      "key": "tag.documents.suspicious",
+      "key": "tag_documents_suspicious",
       "values": ["Подозрительные"]
     },
     {
-      "key": "tag.documents.partial",
+      "key": "tag_documents_partial",
       "values": ["Частичные"]
     },
     {
-      "key": "tag.documents.verified",
+      "key": "tag_documents_verified",
       "values": ["Проверенные"]
     },
 
     {
-      "key": "tag.provenance.stamp",
+      "key": "tag_provenance_stamp",
       "values": ["Штамп"]
     },
     {
-      "key": "tag.provenance.clear_history",
+      "key": "tag_provenance_clear_history",
       "values": ["Чистая история"]
     },
     {
-      "key": "tag.provenance.auction_records",
+      "key": "tag_provenance_auction_records",
       "values": ["Аукционные записи"]
     },
     {
-      "key": "tag.provenance.ex_owner_stamp",
+      "key": "tag_provenance_ex_owner_stamp",
       "values": ["Штамп бывшего владельца"]
     },
 
     {
-      "key": "tag.manufacturer.factory_stamp",
+      "key": "tag_manufacturer_factory_stamp",
       "values": ["Заводской штамп"]
     },
     {
-      "key": "tag.manufacturer.defect",
+      "key": "tag_manufacturer_defect",
       "values": ["Брак"]
     },
     {
-      "key": "tag.manufacturer.factory_defect",
+      "key": "tag_manufacturer_factory_defect",
       "values": ["Заводской брак"]
     },
 
     {
-      "key": "tag.authenticity.lq_copy",
+      "key": "tag_authenticity_lq_copy",
       "values": ["Низкокачественная копия"]
     },
     {
-      "key": "tag.authenticity.hq_copy",
+      "key": "tag_authenticity_hq_copy",
       "values": ["Высококачественная копия"]
     },
     {
-      "key": "tag.authenticity.follower_copy",
+      "key": "tag_authenticity_follower_copy",
       "values": ["Копия последователя"]
     },
     {
-      "key": "tag.authenticity.author_copy",
+      "key": "tag_authenticity_author_copy",
       "values": ["Копия автора"]
     },
     {
-      "key": "tag.authenticity.original",
+      "key": "tag_authenticity_original",
       "values": ["Оригинал"]
     }
   ]

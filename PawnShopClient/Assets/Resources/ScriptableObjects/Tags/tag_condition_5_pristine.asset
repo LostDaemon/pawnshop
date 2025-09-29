@@ -15,7 +15,7 @@ MonoBehaviour:
   ClassId: 5aa04753-b152-45d4-8e63-e36c185fced2
   TagType: 1
   AnalyzeType: 1
-  DisplayName: tag.condition.pristine
+  DisplayName: tag_condition_pristine
   Icon: \uf6e3
   Description: Pristine, like new
   RequiredSkills: 02000000

@@ -15,7 +15,7 @@ MonoBehaviour:
   ClassId: 770741e4-5c77-4e99-9fdf-064d1e1fb6c0
   TagType: 2
   AnalyzeType: 5
-  DisplayName: tag.rarity.unique
+  DisplayName: tag_rarity_unique
   Icon: "\u25A1"
   Description: One-of-a-kind item, exceptional value
   RequiredSkills: 02000000

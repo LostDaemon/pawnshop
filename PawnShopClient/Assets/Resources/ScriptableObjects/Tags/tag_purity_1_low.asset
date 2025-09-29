@@ -15,7 +15,7 @@ MonoBehaviour:
   ClassId: 37a57f86-8b9f-4794-b485-4a59b7802da7
   TagType: 13
   AnalyzeType: 3
-  DisplayName: tag.purity.low
+  DisplayName: tag_purity_low
   Icon: "\u25A1"
   Description: Low purity, common and unimpressive
   RequiredSkills: 02000000

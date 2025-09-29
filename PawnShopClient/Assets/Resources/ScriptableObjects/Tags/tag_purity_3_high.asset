@@ -15,7 +15,7 @@ MonoBehaviour:
   ClassId: 60ff05dd-4f3e-41ab-aa71-b29d1d9ce59c
   TagType: 13
   AnalyzeType: 3
-  DisplayName: tag.purity.high
+  DisplayName: tag_purity_high
   Icon: "\u25A1"
   Description: High purity, rare and valuable
   RequiredSkills: 02000000

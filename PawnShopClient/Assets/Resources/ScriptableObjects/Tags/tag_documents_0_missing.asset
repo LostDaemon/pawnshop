@@ -15,7 +15,7 @@ MonoBehaviour:
   ClassId: 836db213-e748-4719-a014-eed276925d0d
   TagType: 7
   AnalyzeType: 6
-  DisplayName: tag.documents.missing
+  DisplayName: tag_documents_missing
   Icon: \uf0f2
   Description: Should have docs, but they vanished
   RequiredSkills: 02000000

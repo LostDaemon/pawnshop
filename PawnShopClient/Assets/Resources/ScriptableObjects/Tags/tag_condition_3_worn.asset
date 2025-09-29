@@ -15,7 +15,7 @@ MonoBehaviour:
   ClassId: 1eca794e-fc4b-4365-8157-70b694be5dca
   TagType: 1
   AnalyzeType: 1
-  DisplayName: tag.condition.worn
+  DisplayName: tag_condition_worn
   Icon: \uf6e3
   Description: Worn, shows clear signs of use
   RequiredSkills: 02000000

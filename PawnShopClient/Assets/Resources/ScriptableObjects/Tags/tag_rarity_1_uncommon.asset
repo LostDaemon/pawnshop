@@ -15,7 +15,7 @@ MonoBehaviour:
   ClassId: 3fadaa2a-d3bc-4afb-8ec7-38353f0c1686
   TagType: 2
   AnalyzeType: 5
-  DisplayName: tag.rarity.uncommon
+  DisplayName: tag_rarity_uncommon
   Icon: "\u25A1"
   Description: Less usual item, still not rare
   RequiredSkills: 02000000
