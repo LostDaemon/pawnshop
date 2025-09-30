@@ -17,7 +17,7 @@ MonoBehaviour:
   AnalyzeType: 6
   DisplayName: tag_documents_verified
   Icon: \uf0f2
-  Description: Certified and stamped, sleep well
+  Description: tag_documents_verified_desc
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0

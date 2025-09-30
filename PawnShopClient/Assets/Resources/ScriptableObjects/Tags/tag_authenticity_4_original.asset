@@ -17,7 +17,7 @@ MonoBehaviour:
   AnalyzeType: 5
   DisplayName: tag_authenticity_original
   Icon: \uf31c
-  Description: The Masterpeace
+  Description: tag_authenticity_original_desc
   RequiredSkills: 020000002a00000030000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0

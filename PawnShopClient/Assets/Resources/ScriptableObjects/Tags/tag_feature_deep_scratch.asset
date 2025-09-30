@@ -17,7 +17,8 @@ MonoBehaviour:
   AnalyzeType: 1
   DisplayName: tag_feature_deep_scratch
   Icon: \uf111
-  Description: Heavy visible gouge
+  Image: {fileID: 8091752522290103347, guid: ab053b2ccb4ac0e4c8356a2b79264ea9, type: 3}
+  Description: tag_feature_deep_scratch_desc
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0

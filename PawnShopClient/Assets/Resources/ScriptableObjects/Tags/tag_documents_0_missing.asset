@@ -17,7 +17,7 @@ MonoBehaviour:
   AnalyzeType: 6
   DisplayName: tag_documents_missing
   Icon: \uf0f2
-  Description: Should have docs, but they vanished
+  Description: tag_documents_missing_desc
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0

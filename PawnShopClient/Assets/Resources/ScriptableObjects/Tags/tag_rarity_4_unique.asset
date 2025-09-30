@@ -17,7 +17,7 @@ MonoBehaviour:
   AnalyzeType: 5
   DisplayName: tag_rarity_unique
   Icon: "\u25A1"
-  Description: One-of-a-kind item, exceptional value
+  Description: tag_rarity_unique_desc
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0

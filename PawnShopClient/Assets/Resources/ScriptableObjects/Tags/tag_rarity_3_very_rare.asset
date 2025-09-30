@@ -17,7 +17,7 @@ MonoBehaviour:
   AnalyzeType: 5
   DisplayName: tag_rarity_very_rare
   Icon: "\u25A1"
-  Description: "Rare collector\u2019s piece, high value"
+  Description: tag_rarity_very_rare_desc
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0

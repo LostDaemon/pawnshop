@@ -6,7 +6,7 @@
     },
     {
       "key": "card_effect_value",
-      "values": ["Эффект {0}%"]
+      "values": ["Эффект: {0}%"]
     },
 
     {
@@ -531,10 +531,29 @@
       "key": "tag_provenance_ex_owner_stamp",
       "values": ["Штамп бывшего владельца"]
     },
-
     {
-      "key": "tag_manufacturer_factory_stamp",
-      "values": ["Заводской штамп"]
+      "key": "tag_manufacturer_factory_stamp_clear",
+      "values": ["Чёткий заводской штамп"]
+    },
+    {
+      "key": "tag_manufacturer_factory_stamp_clear_desc",
+      "values": ["Чёткий заводской штамп"]
+    },
+    {
+      "key": "tag_manufacturer_factory_stamp_damaged",
+      "values": ["Повреждённый заводской штамп"]
+    },
+    {
+      "key": "tag_manufacturer_factory_stamp_damaged_desc",
+      "values": [""]
+    },
+    {
+      "key": "tag_manufacturer_factory_stamp_lost",
+      "values": ["Утраченный заводской штамп"]
+    },
+    {
+      "key": "tag_manufacturer_factory_stamp_lost_desc",
+      "values": [""]
     },
     {
       "key": "tag_manufacturer_defect",
@@ -544,9 +563,17 @@
       "key": "tag_manufacturer_factory_defect",
       "values": ["Заводской брак"]
     },
+    {
+      "key": "tag_manufacturer_factory_defect_desc",
+      "values": ["Несовершенство производства, снижающее качество и ценность"]
+    },
 
     {
       "key": "tag_authenticity_lq_copy",
+      "values": ["Низкокачественная копия"]
+    },
+    {
+      "key": "tag_authenticity_lq_copy_desc",
       "values": ["Низкокачественная копия"]
     },
     {
@@ -554,16 +581,151 @@
       "values": ["Высококачественная копия"]
     },
     {
+      "key": "tag_authenticity_hq_copy_desc",
+      "values": [""]
+    },
+    {
       "key": "tag_authenticity_follower_copy",
       "values": ["Копия последователя"]
+    },
+    {
+      "key": "tag_authenticity_follower_copy_desc",
+      "values": ["Копия, сделанная последователями мастера"]
     },
     {
       "key": "tag_authenticity_author_copy",
       "values": ["Копия автора"]
     },
     {
+      "key": "tag_authenticity_author_copy_desc",
+      "values": ["Копия оригинального шедевра, сделанная мастером"]
+    },
+    {
       "key": "tag_authenticity_original",
       "values": ["Оригинал"]
+    },
+    {
+      "key": "tag_authenticity_original_desc",
+      "values": ["Шедевр"]
+    },
+
+    {
+      "key": "tag_feature_light_scratch_desc",
+      "values": ["Незначительная, но видимая отметина"]
+    },
+    {
+      "key": "tag_feature_deep_scratch_desc",
+      "values": ["Глубокая видимая царапина"]
+    },
+    {
+      "key": "tag_feature_microcracks_desc",
+      "values": ["Микротрещины на поверхности, сниженная прочность"]
+    },
+    {
+      "key": "tag_feature_careful_work_desc",
+      "values": ["Выглядит тщательно изготовленным"]
+    },
+    {
+      "key": "tag_feature_dirt_desc",
+      "values": ["Толстый слой грязи"]
+    },
+
+    {
+      "key": "tag_condition_destroyed_desc",
+      "values": ["Полностью разрушено, можно разобрать на запчасти"]
+    },
+    {
+      "key": "tag_condition_damaged_desc",
+      "values": ["Повреждено, заметно ухудшено"]
+    },
+    {
+      "key": "tag_condition_worn_desc",
+      "values": ["Изношено, видны явные следы использования"]
+    },
+    {
+      "key": "tag_condition_pristine_desc",
+      "values": ["В идеальном состоянии, как новое"]
+    },
+
+    {
+      "key": "tag_rarity_common_desc",
+      "values": ["Повседневный предмет, легко найти"]
+    },
+    {
+      "key": "tag_rarity_uncommon_desc",
+      "values": ["Менее обычный предмет, но всё ещё не редкий"]
+    },
+    {
+      "key": "tag_rarity_rare_desc",
+      "values": ["Труднее найти, более ценный"]
+    },
+    {
+      "key": "tag_rarity_very_rare_desc",
+      "values": ["Редкий предмет коллекционера, высокая ценность"]
+    },
+    {
+      "key": "tag_rarity_unique_desc",
+      "values": ["Уникальный предмет, исключительная ценность"]
+    },
+
+    {
+      "key": "tag_purity_poor_desc",
+      "values": ["Очень низкая чистота, полна примесей"]
+    },
+    {
+      "key": "tag_purity_low_desc",
+      "values": ["Низкая чистота, обычная и невпечатляющая"]
+    },
+    {
+      "key": "tag_purity_average_desc",
+      "values": ["Средняя чистота, приемлемое качество"]
+    },
+    {
+      "key": "tag_purity_high_desc",
+      "values": ["Высокая чистота, редкая и ценная"]
+    },
+    {
+      "key": "tag_purity_perfect_desc",
+      "values": ["Почти идеальная чистота, исключительная и уникальная"]
+    },
+
+    {
+      "key": "tag_legal_status_illegal_desc",
+      "values": ["Горячий товар, лучше спрятать под половицами"]
+    },
+    {
+      "key": "tag_legal_status_suspicious_desc",
+      "values": ["Пахнет рыбой, но может быть ещё в порядке"]
+    },
+    {
+      "key": "tag_legal_status_clean_desc",
+      "values": ["Всё в порядке, можно продать бабушке"]
+    },
+
+    {
+      "key": "tag_documents_missing_desc",
+      "values": ["Должны быть документы, но они исчезли"]
+    },
+    {
+      "key": "tag_documents_suspicious_desc",
+      "values": ["Документы есть, но пахнут свежими чернилами"]
+    },
+    {
+      "key": "tag_documents_partial_desc",
+      "values": ["Некоторые документы есть, другие потеряны во времени"]
+    },
+    {
+      "key": "tag_documents_verified_desc",
+      "values": ["Сертифицировано и заверено, спи спокойно"]
+    },
+
+    {
+      "key": "tag_provenance_stamp_desc",
+      "values": ["Метка бывшего владельца"]
+    },
+    {
+      "key": "tag_provenance_clear_history_desc",
+      "values": ["Есть аукционные записи"]
     }
   ]
 }

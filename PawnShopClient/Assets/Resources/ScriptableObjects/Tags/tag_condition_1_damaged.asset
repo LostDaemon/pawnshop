@@ -10,23 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
-  m_Name: tag_condition_4_used
+  m_Name: tag_condition_1_damaged
   m_EditorClassIdentifier: 
-  ClassId: 44d492de-c87e-4cfa-b84f-9334d74ef8e3
+  ClassId: 5c6f93b5-6717-47c5-acdf-3a12239c1984
   TagType: 1
   AnalyzeType: 1
-  DisplayName: tag_condition_used
+  DisplayName: tag_condition_damaged
   Icon: \uf6e3
-  Description: Used, functional with minor wear
+  Image: {fileID: 1073132348, guid: ab053b2ccb4ac0e4c8356a2b79264ea9, type: 3}
+  Description: tag_condition_damaged_desc
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0
   Hidden: 0
-  PriceMultiplier: 0.75
-  AppearanceChance: 0.25
-  Color: {r: 0.11764706, g: 0.5647059, b: 1, a: 1}
+  PriceMultiplier: 0.35
+  AppearanceChance: 0.2
+  Color: {r: 1, g: 0.27058825, b: 0, a: 1}
   ProcessingType: 2
   ProcessingDurationInMinutes: 10
-  UpgradeChance: 0.1
-  PreviousGradePrototype: {fileID: 11400000, guid: 3d3b627c7d91cbb4aa9884e9b607ca06, type: 2}
-  NextGradePrototype: {fileID: 11400000, guid: d66668eb78bcc9e44adea2b037c00e91, type: 2}
+  UpgradeChance: 0.6
+  PreviousGradePrototype: {fileID: 11400000, guid: 8fd9141e5c14ace49869e8682a8bed56, type: 2}
+  NextGradePrototype: {fileID: 11400000, guid: 3d3b627c7d91cbb4aa9884e9b607ca06, type: 2}

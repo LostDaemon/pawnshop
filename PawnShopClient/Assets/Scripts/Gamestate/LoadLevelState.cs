@@ -57,7 +57,7 @@ namespace PawnShop.Gamestate
             InitializeStorageSizes();
 
             // Set default language after loading language prototypes
-            _localizationService.SwitchLocalization(Language.Russian);
+            _localizationService.SwitchLocalization(Language.English);
 
             _sceneLoader.Load("MainScene", () =>
             {

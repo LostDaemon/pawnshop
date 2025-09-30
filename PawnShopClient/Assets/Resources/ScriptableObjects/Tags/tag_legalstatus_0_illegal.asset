@@ -17,7 +17,7 @@ MonoBehaviour:
   AnalyzeType: 7
   DisplayName: tag_legal_status_illegal
   Icon: \uf0e3
-  Description: Hot stuff, better hide it under the floorboards
+  Description: tag_legal_status_illegal_desc
   RequiredSkills: 01000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0

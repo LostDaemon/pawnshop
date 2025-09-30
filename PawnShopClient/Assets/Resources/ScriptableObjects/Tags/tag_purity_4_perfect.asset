@@ -17,7 +17,7 @@ MonoBehaviour:
   AnalyzeType: 3
   DisplayName: tag_purity_perfect
   Icon: "\u25A1"
-  Description: Near perfect purity, exceptional and unique
+  Description: tag_purity_perfect_desc
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0

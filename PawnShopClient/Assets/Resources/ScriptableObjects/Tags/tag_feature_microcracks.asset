@@ -17,7 +17,8 @@ MonoBehaviour:
   AnalyzeType: 4
   DisplayName: tag_feature_microcracks
   Icon: \uf111
-  Description: Tiny surface fractures, lower durability
+  Image: {fileID: 1273530475, guid: ab053b2ccb4ac0e4c8356a2b79264ea9, type: 3}
+  Description: tag_feature_microcracks_desc
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0

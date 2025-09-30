@@ -17,7 +17,7 @@ MonoBehaviour:
   AnalyzeType: 6
   DisplayName: tag_documents_partial
   Icon: \uf0f2
-  Description: Some documents are there, others lost in time
+  Description: tag_documents_partial_desc
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0

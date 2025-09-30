@@ -6,7 +6,7 @@
     },
     {
       "key": "card_effect_value",
-      "values": ["Effect {0}%"]
+      "values": ["Effect: {0}%"]
     },
 
     {
@@ -538,10 +538,29 @@
       "key": "tag_provenance_ex_owner_stamp",
       "values": ["Ex-owner Stamp"]
     },
-
     {
-      "key": "tag_manufacturer_factory_stamp",
-      "values": ["Factory Stamp"]
+      "key": "tag_manufacturer_factory_stamp_clear",
+      "values": ["Clear Factory Stamp"]
+    },
+    {
+      "key": "tag_manufacturer_factory_stamp_clear_desc",
+      "values": ["Clear factory stamp"]
+    },
+    {
+      "key": "tag_manufacturer_factory_stamp_damaged",
+      "values": ["Damaged Factory Stamp"]
+    },
+    {
+      "key": "tag_manufacturer_factory_stamp_damaged_desc",
+      "values": [""]
+    },
+    {
+      "key": "tag_manufacturer_factory_stamp_lost",
+      "values": ["Lost Factory Stamp"]
+    },
+    {
+      "key": "tag_manufacturer_factory_stamp_lost_desc",
+      "values": [""]
     },
     {
       "key": "tag_manufacturer_defect",
@@ -551,26 +570,169 @@
       "key": "tag_manufacturer_factory_defect",
       "values": ["Factory Defect"]
     },
+    {
+      "key": "tag_manufacturer_factory_defect_desc",
+      "values": ["An imperfection from production, reducing quality and value"]
+    },
 
     {
       "key": "tag_authenticity_lq_copy",
       "values": ["LQ Copy"]
     },
     {
+      "key": "tag_authenticity_lq_copy_desc",
+      "values": ["Low Quality Copy"]
+    },
+    {
       "key": "tag_authenticity_hq_copy",
       "values": ["HQ Copy"]
+    },
+    {
+      "key": "tag_authenticity_hq_copy_desc",
+      "values": [""]
     },
     {
       "key": "tag_authenticity_follower_copy",
       "values": ["Follower Copy"]
     },
     {
+      "key": "tag_authenticity_follower_copy_desc",
+      "values": ["Copy made by master's followers"]
+    },
+    {
       "key": "tag_authenticity_author_copy",
       "values": ["Author Copy"]
     },
     {
+      "key": "tag_authenticity_author_copy_desc",
+      "values": ["The copy of original masterpeace, made by master"]
+    },
+    {
       "key": "tag_authenticity_original",
       "values": ["Original"]
+    },
+    {
+      "key": "tag_authenticity_original_desc",
+      "values": ["The Masterpeace"]
+    },
+
+    {
+      "key": "tag_feature_light_scratch_desc",
+      "values": ["Minor, but visible mark"]
+    },
+    {
+      "key": "tag_feature_deep_scratch_desc",
+      "values": ["Heavy visible gouge"]
+    },
+    {
+      "key": "tag_feature_microcracks_desc",
+      "values": ["Tiny surface fractures, lower durability"]
+    },
+    {
+      "key": "tag_feature_careful_work_desc",
+      "values": ["Appears finely made"]
+    },
+    {
+      "key": "tag_feature_dirt_desc",
+      "values": ["A thick layer of dirt"]
+    },
+
+    {
+      "key": "tag_condition_destroyed_desc",
+      "values": ["Totally ruined, can be scrapped for parts"]
+    },
+    {
+      "key": "tag_condition_damaged_desc",
+      "values": ["Damaged, visibly impaired"]
+    },
+    {
+      "key": "tag_condition_worn_desc",
+      "values": ["Worn, shows clear signs of use"]
+    },
+    {
+      "key": "tag_condition_pristine_desc",
+      "values": ["Pristine, like new"]
+    },
+
+    {
+      "key": "tag_rarity_common_desc",
+      "values": ["Everyday item, easy to find"]
+    },
+    {
+      "key": "tag_rarity_uncommon_desc",
+      "values": ["Less usual item, still not rare"]
+    },
+    {
+      "key": "tag_rarity_rare_desc",
+      "values": ["Harder to come across, more valuable"]
+    },
+    {
+      "key": "tag_rarity_very_rare_desc",
+      "values": ["Rare collector's piece, high value"]
+    },
+    {
+      "key": "tag_rarity_unique_desc",
+      "values": ["One-of-a-kind item, exceptional value"]
+    },
+
+    {
+      "key": "tag_purity_poor_desc",
+      "values": ["Very poor purity, full of impurities"]
+    },
+    {
+      "key": "tag_purity_low_desc",
+      "values": ["Low purity, common and unimpressive"]
+    },
+    {
+      "key": "tag_purity_average_desc",
+      "values": ["Average purity, acceptable quality"]
+    },
+    {
+      "key": "tag_purity_high_desc",
+      "values": ["High purity, rare and valuable"]
+    },
+    {
+      "key": "tag_purity_perfect_desc",
+      "values": ["Near perfect purity, exceptional and unique"]
+    },
+
+    {
+      "key": "tag_legal_status_illegal_desc",
+      "values": ["Hot stuff, better hide it under the floorboards"]
+    },
+    {
+      "key": "tag_legal_status_suspicious_desc",
+      "values": ["Smells fishy, but maybe still fine"]
+    },
+    {
+      "key": "tag_legal_status_clean_desc",
+      "values": ["All good, could sell it to grandma"]
+    },
+
+    {
+      "key": "tag_documents_missing_desc",
+      "values": ["Should have docs, but they vanished"]
+    },
+    {
+      "key": "tag_documents_suspicious_desc",
+      "values": ["Papers exist, but smell like fresh ink"]
+    },
+    {
+      "key": "tag_documents_partial_desc",
+      "values": ["Some documents are there, others lost in time"]
+    },
+    {
+      "key": "tag_documents_verified_desc",
+      "values": ["Certified and stamped, sleep well"]
+    },
+
+    {
+      "key": "tag_provenance_stamp_desc",
+      "values": ["Former owner's mark"]
+    },
+    {
+      "key": "tag_provenance_clear_history_desc",
+      "values": ["Has Auction Records"]
     }
   ]
 }

@@ -17,7 +17,7 @@ MonoBehaviour:
   AnalyzeType: 5
   DisplayName: tag_rarity_common
   Icon: "\u25A1"
-  Description: Everyday item, easy to find
+  Description: tag_rarity_common_desc
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0

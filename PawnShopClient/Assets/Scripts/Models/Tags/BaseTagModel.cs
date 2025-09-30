@@ -10,6 +10,7 @@ namespace PawnShop.Models.Tags
         public AnalyzeType AnalyzeType { get; set; }
         public string DisplayName { get; set; }
         public string Icon { get; set; }
+        public Sprite Image { get; set; }
         public string Description { get; set; }
         public SkillType[] RequiredSkills { get; set; }
         public float PriceMultiplier { get; set; }
@@ -31,6 +32,7 @@ namespace PawnShop.Models.Tags
                 AnalyzeType = prototype.AnalyzeType;
                 DisplayName = prototype.DisplayName;
                 Icon = prototype.Icon;
+                Image = prototype.Image;
                 Description = prototype.Description;
                 RequiredSkills = prototype.RequiredSkills;
                 PriceMultiplier = prototype.PriceMultiplier;

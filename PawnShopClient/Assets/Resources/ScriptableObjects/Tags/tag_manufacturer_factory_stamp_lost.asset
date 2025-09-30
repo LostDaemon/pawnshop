@@ -10,23 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
-  m_Name: tag_condition_2_damaged
+  m_Name: tag_manufacturer_factory_stamp_lost
   m_EditorClassIdentifier: 
-  ClassId: 5c6f93b5-6717-47c5-acdf-3a12239c1984
-  TagType: 1
+  ClassId: 491a329d-a21c-46de-8df0-521b9490c465
+  TagType: 11
   AnalyzeType: 1
-  DisplayName: tag_condition_damaged
-  Icon: \uf6e3
-  Description: Damaged, visibly impaired
+  DisplayName: tag_manufacturer_factory_stamp_lost
+  Icon: "\u25A1"
+  Image: {fileID: -540841610, guid: ab053b2ccb4ac0e4c8356a2b79264ea9, type: 3}
+  Description: tag_manufacturer_factory_stamp_lost_desc
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0
   Hidden: 0
-  PriceMultiplier: 0.35
-  AppearanceChance: 0.2
-  Color: {r: 1, g: 0.27058825, b: 0, a: 1}
-  ProcessingType: 2
+  PriceMultiplier: 0.5
+  AppearanceChance: 0.1
+  Color: {r: 1, g: 1, b: 1, a: 1}
+  ProcessingType: 0
   ProcessingDurationInMinutes: 10
-  UpgradeChance: 0.6
-  PreviousGradePrototype: {fileID: 11400000, guid: 355743462fd20a14bb581800e5607177, type: 2}
-  NextGradePrototype: {fileID: 11400000, guid: 3d3b627c7d91cbb4aa9884e9b607ca06, type: 2}
+  UpgradeChance: 0
+  PreviousGradePrototype: {fileID: 0}
+  NextGradePrototype: {fileID: 0}

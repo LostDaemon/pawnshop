@@ -17,7 +17,7 @@ MonoBehaviour:
   AnalyzeType: 3
   DisplayName: tag_purity_high
   Icon: "\u25A1"
-  Description: High purity, rare and valuable
+  Description: tag_purity_high_desc
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0

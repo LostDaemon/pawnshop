@@ -17,7 +17,7 @@ MonoBehaviour:
   AnalyzeType: 5
   DisplayName: tag_provenance_stamp
   Icon: "\u25A1"
-  Description: "Former owner\u2019s mark"
+  Description: tag_provenance_stamp_desc
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0

@@ -17,7 +17,7 @@ MonoBehaviour:
   AnalyzeType: 5
   DisplayName: tag_rarity_uncommon
   Icon: "\u25A1"
-  Description: Less usual item, still not rare
+  Description: tag_rarity_uncommon_desc
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0

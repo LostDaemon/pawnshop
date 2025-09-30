@@ -17,7 +17,7 @@ MonoBehaviour:
   AnalyzeType: 5
   DisplayName: tag_rarity_rare
   Icon: "\u25A1"
-  Description: Harder to come across, more valuable
+  Description: tag_rarity_rare_desc
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0

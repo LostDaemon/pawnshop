@@ -17,7 +17,8 @@ MonoBehaviour:
   AnalyzeType: 1
   DisplayName: tag_manufacturer_factory_defect
   Icon: "\u25A1"
-  Description: An imperfection from production, reducing quality and value
+  Image: {fileID: -523144621, guid: ab053b2ccb4ac0e4c8356a2b79264ea9, type: 3}
+  Description: tag_manufacturer_factory_defect_desc
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0

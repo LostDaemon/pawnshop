@@ -17,7 +17,7 @@ MonoBehaviour:
   AnalyzeType: 1
   DisplayName: tag_feature_dirt
   Icon: \uf111
-  Description: A thick layer of dirt
+  Description: tag_feature_dirt_desc
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0

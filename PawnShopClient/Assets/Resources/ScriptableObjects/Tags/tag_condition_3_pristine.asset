@@ -10,23 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 58ace90209c4fdd4bab35e5f288cc35a, type: 3}
-  m_Name: tag_condition_3_worn
+  m_Name: tag_condition_3_pristine
   m_EditorClassIdentifier: 
-  ClassId: 1eca794e-fc4b-4365-8157-70b694be5dca
+  ClassId: 5aa04753-b152-45d4-8e63-e36c185fced2
   TagType: 1
   AnalyzeType: 1
-  DisplayName: tag_condition_worn
+  DisplayName: tag_condition_pristine
   Icon: \uf6e3
-  Description: Worn, shows clear signs of use
+  Image: {fileID: -2049718269, guid: ab053b2ccb4ac0e4c8356a2b79264ea9, type: 3}
+  Description: tag_condition_pristine_desc
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0
   Hidden: 0
-  PriceMultiplier: 0.55
-  AppearanceChance: 0.25
-  Color: {r: 0.85490197, g: 0.64705884, b: 0.1254902, a: 1}
-  ProcessingType: 2
+  PriceMultiplier: 1
+  AppearanceChance: 0.15
+  Color: {r: 0.19607843, g: 0.8039216, b: 0.19607843, a: 1}
+  ProcessingType: 0
   ProcessingDurationInMinutes: 10
-  UpgradeChance: 0.3
-  PreviousGradePrototype: {fileID: 11400000, guid: e7696b8f62751424e8ad69b209fbb82e, type: 2}
-  NextGradePrototype: {fileID: 11400000, guid: 2c7a42d319811474fa96d44e135c56cd, type: 2}
+  UpgradeChance: 0
+  PreviousGradePrototype: {fileID: 11400000, guid: 3d3b627c7d91cbb4aa9884e9b607ca06, type: 2}
+  NextGradePrototype: {fileID: 0}

@@ -17,7 +17,7 @@ MonoBehaviour:
   AnalyzeType: 3
   DisplayName: tag_purity_poor
   Icon: "\u25A1"
-  Description: Very poor purity, full of impurities
+  Description: tag_purity_poor_desc
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0

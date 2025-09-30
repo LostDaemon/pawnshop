@@ -27,12 +27,14 @@ namespace PawnShop.Controllers
 
         private ISpriteService _spriteService;
         private ITagService _tagService;
+        private ILocalizationService _localizationService;
 
         [Inject]
-        private void Construct(ISpriteService spriteService, ITagService tagService)
+        private void Construct(ISpriteService spriteService, ITagService tagService, ILocalizationService localizationService)
         {
             _spriteService = spriteService;
             _tagService = tagService;
+            _localizationService = localizationService;
         }
 
         /// <summary>
@@ -200,7 +202,10 @@ namespace PawnShop.Controllers
             var prototype = _tagService.GetTagPrototypeByClassId(linkId);
             if (prototype != null)
             {
-                tagDescription.text = !string.IsNullOrEmpty(prototype.Description) ? prototype.Description : $"No description available for {prototype.DisplayName}";
+                string localizedDescription = !string.IsNullOrEmpty(prototype.Description) ? 
+                    _localizationService?.GetLocalization(prototype.Description) ?? prototype.Description : 
+                    $"No description available for {_localizationService?.GetLocalization(prototype.DisplayName) ?? prototype.DisplayName}";
+                tagDescription.text = localizedDescription;
             }
         }
     }

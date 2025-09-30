@@ -17,7 +17,8 @@ MonoBehaviour:
   AnalyzeType: 1
   DisplayName: tag_condition_destroyed
   Icon: \uf6e3
-  Description: Totally ruined, can be scrapped for parts
+  Image: {fileID: -1038391167, guid: ab053b2ccb4ac0e4c8356a2b79264ea9, type: 3}
+  Description: tag_condition_destroyed_desc
   RequiredSkills: 02000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0
@@ -29,4 +30,4 @@ MonoBehaviour:
   ProcessingDurationInMinutes: 10
   UpgradeChance: 0
   PreviousGradePrototype: {fileID: 0}
-  NextGradePrototype: {fileID: 11400000, guid: 355743462fd20a14bb581800e5607177, type: 2}
+  NextGradePrototype: {fileID: 11400000, guid: e7696b8f62751424e8ad69b209fbb82e, type: 2}

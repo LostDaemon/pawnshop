@@ -17,7 +17,7 @@ MonoBehaviour:
   AnalyzeType: 7
   DisplayName: tag_legal_status_clean
   Icon: \uf0e3
-  Description: All good, could sell it to grandma
+  Description: tag_legal_status_clean_desc
   RequiredSkills: 01000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0

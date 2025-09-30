@@ -17,7 +17,7 @@ MonoBehaviour:
   AnalyzeType: 7
   DisplayName: tag_legal_status_suspicious
   Icon: \uf0e3
-  Description: Smells fishy, but maybe still fine
+  Description: tag_legal_status_suspicious_desc
   RequiredSkills: 01000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0

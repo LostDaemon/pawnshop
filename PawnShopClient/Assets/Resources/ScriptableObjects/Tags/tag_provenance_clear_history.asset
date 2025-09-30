@@ -17,7 +17,7 @@ MonoBehaviour:
   AnalyzeType: 5
   DisplayName: tag_provenance_clear_history
   Icon: "\u25A1"
-  Description: Has Auction Records
+  Description: tag_provenance_clear_history_desc
   RequiredSkills: 2a000000
   IsRevealedToPlayer: 0
   IsRevealedToCustomer: 0
