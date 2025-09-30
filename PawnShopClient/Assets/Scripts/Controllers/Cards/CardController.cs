@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class CardController : DraggableItemController
+public class CardController : DraggableItemController<BaseTagModel>
 {
     [SerializeField] private Text _title;
     [SerializeField] private Text _description;
@@ -21,8 +21,10 @@ public class CardController : DraggableItemController
         _localizationService = localizationService;
     }
 
-    public void Init(BaseTagModel tagModel)
+    public override void Init(BaseTagModel tagModel)
     {
+        base.Init(tagModel);
+        
         if (tagModel == null) return;
         
         // Set title and description with localization

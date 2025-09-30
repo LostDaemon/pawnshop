@@ -92,12 +92,12 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35.8
+  m_fontSize: 32
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
   m_fontSizeMin: 18
-  m_fontSizeMax: 72
+  m_fontSizeMax: 32
   m_fontStyle: 32
   m_HorizontalAlignment: 1
   m_VerticalAlignment: 256
@@ -420,7 +420,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: -6351617318852302439, guid: e6b1f51a09d71084791f3c78b7681ab6, type: 3}
+  m_Sprite: {fileID: -1662395367, guid: 047418b6520f81a4db6ec36e392a6724, type: 3}
   m_Type: 1
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -682,6 +682,26 @@ PrefabInstance:
       propertyPath: m_fontSizeBase
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 5242542493284635970, guid: d6f747e6ab3a2444ab0d0ca0dc50bc25, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242542493284635970, guid: d6f747e6ab3a2444ab0d0ca0dc50bc25, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242542493284635970, guid: d6f747e6ab3a2444ab0d0ca0dc50bc25, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242542493284635970, guid: d6f747e6ab3a2444ab0d0ca0dc50bc25, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242542493284635970, guid: d6f747e6ab3a2444ab0d0ca0dc50bc25, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7512082377059199568, guid: d6f747e6ab3a2444ab0d0ca0dc50bc25, type: 3}
       propertyPath: m_text
       value: \uf51e
@@ -807,6 +827,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8050996317531310584, guid: d6f747e6ab3a2444ab0d0ca0dc50bc25, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8050996317531310584, guid: d6f747e6ab3a2444ab0d0ca0dc50bc25, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -906,6 +930,26 @@ PrefabInstance:
     - target: {fileID: 4346890934549305238, guid: d6f747e6ab3a2444ab0d0ca0dc50bc25, type: 3}
       propertyPath: m_fontSizeBase
       value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242542493284635970, guid: d6f747e6ab3a2444ab0d0ca0dc50bc25, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242542493284635970, guid: d6f747e6ab3a2444ab0d0ca0dc50bc25, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242542493284635970, guid: d6f747e6ab3a2444ab0d0ca0dc50bc25, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242542493284635970, guid: d6f747e6ab3a2444ab0d0ca0dc50bc25, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5242542493284635970, guid: d6f747e6ab3a2444ab0d0ca0dc50bc25, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7512082377059199568, guid: d6f747e6ab3a2444ab0d0ca0dc50bc25, type: 3}
       propertyPath: m_text
@@ -1029,6 +1073,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8050996317531310584, guid: d6f747e6ab3a2444ab0d0ca0dc50bc25, type: 3}
       propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8050996317531310584, guid: d6f747e6ab3a2444ab0d0ca0dc50bc25, type: 3}
+      propertyPath: m_SizeDelta.x
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8050996317531310584, guid: d6f747e6ab3a2444ab0d0ca0dc50bc25, type: 3}

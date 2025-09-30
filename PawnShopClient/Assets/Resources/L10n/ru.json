@@ -8,6 +8,10 @@
       "key": "card_effect_value",
       "values": ["Эффект: {0}%"]
     },
+    {
+      "key": "negotiation_round_effect",
+      "values": ["{0}%"]
+    },
 
     {
       "key": "dialog_customer_deal_joy",

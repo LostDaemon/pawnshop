@@ -4,17 +4,24 @@ using UnityEngine.UI;
 
 namespace PawnShop.Controllers.DragNDrop
 {
-    public abstract class DraggableItemController : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
+    public abstract class DraggableItemController<T> : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler, IDropHandler
     {
         [SerializeField] public bool canDrag = true;
         public Image image;
         [HideInInspector] public Transform parentAfterDrag;
         private Image[] childImages;
+        
+        public T Payload { get; private set; }
 
         protected virtual void Awake()
         {
             // Find all Image components in children
             childImages = GetComponentsInChildren<Image>();
+        }
+        
+        public virtual void Init(T payload)
+        {
+            Payload = payload;
         }
 
         public virtual void OnBeginDrag(PointerEventData eventData)

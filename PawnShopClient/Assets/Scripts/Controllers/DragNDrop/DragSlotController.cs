@@ -1,11 +1,15 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
+using System;
 
 namespace PawnShop.Controllers.DragNDrop
 {
-    public abstract class DragSlotController : MonoBehaviour, IDropHandler
+    public abstract class DragSlotController<T> : MonoBehaviour, IDropHandler
     {
         [SerializeField] public bool canReceiveDragged = true;
+        
+        // Events for drag and drop operations
+        public event Action<DraggableItemController<T>, PointerEventData> OnItemDroppedEvent;
         public virtual void OnDrop(PointerEventData eventData)
         {
             if (!canReceiveDragged) return;
@@ -15,7 +19,7 @@ namespace PawnShop.Controllers.DragNDrop
             GameObject dropped = eventData.pointerDrag;
             if (dropped != null)
             {
-                DraggableItemController draggableItem = dropped.GetComponent<DraggableItemController>();
+                var draggableItem = dropped.GetComponent<DraggableItemController<T>>();
                 if (draggableItem != null)
                 {
                     // Set the slot as the new parent for the dropped item
@@ -24,6 +28,9 @@ namespace PawnShop.Controllers.DragNDrop
 
                     // Call custom drop logic
                     OnItemDropped(draggableItem, eventData);
+                    
+                    // Invoke drop event
+                    OnItemDroppedEvent?.Invoke(draggableItem, eventData);
                 }
             }
         }
@@ -33,7 +40,7 @@ namespace PawnShop.Controllers.DragNDrop
         /// </summary>
         /// <param name="draggableItem">The item that was dropped</param>
         /// <param name="eventData">Event data from the drop</param>
-        protected virtual void OnItemDropped(DraggableItemController draggableItem, PointerEventData eventData)
+        protected virtual void OnItemDropped(DraggableItemController<T> draggableItem, PointerEventData eventData)
         {
             // Override in derived classes for custom behavior
         }
