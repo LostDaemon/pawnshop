@@ -1,7 +1,34 @@
+using System;
+using System.Collections.Generic;
+using PawnShop.Models.Characters;
+
 namespace PawnShop.Services
 {
-    public interface ICardNegotiationService
+    public interface ICardNegotiationService : IDisposable
     {
-        // TODO: Define card negotiation methods
+        // Customer management
+        Customer CurrentCustomer { get; }
+        
+        // Price state management
+        float BasePrice { get; }
+        float CurrentNegotiatedPrice { get; }
+        
+        // Price calculation methods
+        float CalculateNegotiatedPrice(float basePrice, List<float> multipliers);
+        float ApplyPriceConstraints(float price, float basePrice, float minPercentage = 0.1f);
+        float GetTotalEffect(List<float> multipliers);
+        
+        // Price state methods
+        void SetBasePrice(float basePrice);
+        void UpdateNegotiatedPrice(List<float> multipliers);
+        bool IsAtMinimumPrice();
+        
+        // Customer management methods
+        void SetCustomer(Customer customer);
+        void ClearCustomer();
+        
+        // Events
+        event Action<Customer> OnCustomerChanged;
+        event Action<float> OnPriceChanged;
     }
 }

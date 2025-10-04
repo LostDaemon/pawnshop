@@ -23,23 +23,20 @@ namespace PawnShop.Controllers.Cards
         [SerializeField] private Text _paidPrice;
 
         private ICardNegotiationService _cardNegotiationService;
-        private ICustomerService _customerService;
         private DiContainer _container;
 
-        private float _currentPrice;
-
         [Inject]
-        public void Construct(ICardNegotiationService cardNegotiationService, ICustomerService customerService, DiContainer container)
+        public void Construct(ICardNegotiationService cardNegotiationService, DiContainer container)
         {
             _cardNegotiationService = cardNegotiationService;
-            _customerService = customerService;
             _container = container;
 
             // Initialize negotiation rounds
             InitializeNegotiationRounds();
 
-            // Subscribe to customer changes
-            _customerService.OnCustomerChanged += OnCustomerChanged;
+            // Subscribe to service events
+            _cardNegotiationService.OnCustomerChanged += OnCustomerChanged;
+            _cardNegotiationService.OnPriceChanged += OnPriceChanged;
         }
 
         private void InitializeNegotiationRounds()
@@ -61,10 +58,11 @@ namespace PawnShop.Controllers.Cards
 
         private void OnDestroy()
         {
-            // Unsubscribe from events to prevent memory leaks
-            if (_customerService != null)
+            // Unsubscribe from service events
+            if (_cardNegotiationService != null)
             {
-                _customerService.OnCustomerChanged -= OnCustomerChanged;
+                _cardNegotiationService.OnCustomerChanged -= OnCustomerChanged;
+                _cardNegotiationService.OnPriceChanged -= OnPriceChanged;
             }
 
             // Unsubscribe from all negotiation rounds
@@ -86,10 +84,8 @@ namespace PawnShop.Controllers.Cards
             // Clear existing cards
             ClearExistingCards();
 
-            // Update initial price from customer service
-            UpdateInitialPrice(customer);
-
-            // TODO: Implement card negotiation UI logic
+            // Update initial price display
+            UpdateInitialPriceDisplay(customer);
 
             // Iterate through customer's item tags and create cards
             if (customer?.OwnedItem?.Tags != null)
@@ -135,13 +131,11 @@ namespace PawnShop.Controllers.Cards
             }
         }
 
-        private void UpdateInitialPrice(Customer customer)
+        private void UpdateInitialPriceDisplay(Customer customer)
         {
             if (_initialPrice != null && customer?.OwnedItem != null)
             {
-                // Get base price from customer service (without tag multipliers)
                 var basePrice = customer.OwnedItem.BasePrice;
-                _currentPrice = basePrice;
                 _initialPrice.text = basePrice.ToString();
 
                 // Update negotiated price to initial price
@@ -170,52 +164,38 @@ namespace PawnShop.Controllers.Cards
             UpdateCurrentPrice(newMultiplier);
         }
 
+        private void OnPriceChanged(float newPrice)
+        {
+            // Update negotiated price display
+            if (_negotiatedPrice != null)
+            {
+                var priceText = newPrice.ToString("F2");
+                if (_cardNegotiationService.IsAtMinimumPrice())
+                {
+                    priceText += " [min]";
+                }
+                _negotiatedPrice.text = priceText;
+            }
+        }
+
         private void UpdateCurrentPrice(float multiplier)
         {
             if (_negotiationContainer != null)
             {
-                // Get all round controllers and calculate total effect
+                // Get all round controllers and collect multipliers
                 var roundControllers = _negotiationContainer.GetComponentsInChildren<NegotiationRoundController>();
-                float totalEffect = 0f; // Start with 0 for addition
-                var effectParts = new System.Collections.Generic.List<string>();
+                var multipliers = new System.Collections.Generic.List<float>();
 
                 foreach (var roundController in roundControllers)
                 {
                     if (roundController != null)
                     {
-                        // Add the effect directly (already represents the effect)
-                        float roundEffect = roundController.EffectMultiplier;
-                        totalEffect += roundEffect;
-                        
-                        if (roundEffect != 0f)
-                        {
-                            effectParts.Add($"{roundEffect:+0.00;-0.00;0.00}");
-                        }
+                        multipliers.Add(roundController.EffectMultiplier);
                     }
                 }
 
-                // Calculate new price: base price * (1 + total effect)
-                var newPrice = _currentPrice * (1f + totalEffect);
-                
-                // Apply minimum price constraint (10% of base price)
-                var minPrice = _currentPrice * MIN_PRICE_PERCENTAGE;
-                bool isAtMinimum = newPrice < minPrice;
-                if (isAtMinimum)
-                {
-                    newPrice = minPrice;
-                }
-
-
-                // Update negotiated price display
-                if (_negotiatedPrice != null)
-                {
-                    var priceText = newPrice.ToString("F2");
-                    if (isAtMinimum)
-                    {
-                        priceText += " [min]";
-                    }
-                    _negotiatedPrice.text = priceText;
-                }
+                // Use service to update negotiated price
+                _cardNegotiationService.UpdateNegotiatedPrice(multipliers);
             }
         }
     }
