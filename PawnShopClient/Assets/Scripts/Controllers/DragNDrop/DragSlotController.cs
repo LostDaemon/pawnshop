@@ -7,15 +7,13 @@ namespace PawnShop.Controllers.DragNDrop
     public abstract class DragSlotController<T> : MonoBehaviour, IDropHandler
     {
         [SerializeField] public bool canReceiveDragged = true;
-        
+
         // Events for drag and drop operations
         public event Action<DraggableItemController<T>> OnItemStartDragEvent;
         public event Action<DraggableItemController<T>> OnItemDroppedEvent;
         public virtual void OnDrop(PointerEventData eventData)
         {
             if (!canReceiveDragged) return;
-            
-            Debug.Log($"[{GetType().Name}] OnDrop - Slot: {gameObject.name}, Dropped object: {eventData.pointerDrag?.name}");
 
             GameObject dropped = eventData.pointerDrag;
             if (dropped != null)
@@ -25,11 +23,8 @@ namespace PawnShop.Controllers.DragNDrop
                 {
                     // Set the slot as the new parent for the dropped item
                     draggableItem.parentAfterDrag = transform;
-                    Debug.Log($"[{GetType().Name}] Item {dropped.name} dropped into slot {gameObject.name}");
-
                     // Call custom drop logic
                     OnItemDropped(draggableItem, eventData);
-                    
                     // Invoke drop event
                     OnItemDroppedEvent?.Invoke(draggableItem);
                 }
@@ -42,7 +37,6 @@ namespace PawnShop.Controllers.DragNDrop
         /// <param name="draggableItem">The item being dragged out</param>
         public virtual void DragOut(DraggableItemController<T> draggableItem)
         {
-            Debug.Log($"[DragSlotController] DragOut - Item: {draggableItem.name} dragged out from slot: {gameObject.name}");
             OnItemStartDragEvent?.Invoke(draggableItem);
         }
 
