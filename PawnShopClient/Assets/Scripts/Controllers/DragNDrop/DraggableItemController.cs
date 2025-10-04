@@ -29,8 +29,13 @@ namespace PawnShop.Controllers.DragNDrop
             if (!canDrag) return;
             
             parentAfterDrag = transform.parent;
+
             transform.SetParent(transform.root);
             transform.SetAsLastSibling();
+            // Call DragOut on the slot before starting drag
+            var slot = parentAfterDrag?.GetComponent<DragSlotController<T>>();
+            Debug.Log($"[DraggableItemController] OnBeginDrag - Item: {gameObject.name}, Slot: {slot?.name}");
+            slot?.DragOut(this);
 
             SetRaycastTarget(false);
         }

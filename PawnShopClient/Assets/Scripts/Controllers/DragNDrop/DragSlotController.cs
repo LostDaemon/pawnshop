@@ -9,7 +9,8 @@ namespace PawnShop.Controllers.DragNDrop
         [SerializeField] public bool canReceiveDragged = true;
         
         // Events for drag and drop operations
-        public event Action<DraggableItemController<T>, PointerEventData> OnItemDroppedEvent;
+        public event Action<DraggableItemController<T>> OnItemStartDragEvent;
+        public event Action<DraggableItemController<T>> OnItemDroppedEvent;
         public virtual void OnDrop(PointerEventData eventData)
         {
             if (!canReceiveDragged) return;
@@ -30,9 +31,19 @@ namespace PawnShop.Controllers.DragNDrop
                     OnItemDropped(draggableItem, eventData);
                     
                     // Invoke drop event
-                    OnItemDroppedEvent?.Invoke(draggableItem, eventData);
+                    OnItemDroppedEvent?.Invoke(draggableItem);
                 }
             }
+        }
+
+        /// <summary>
+        /// Public method to handle drag out operation
+        /// </summary>
+        /// <param name="draggableItem">The item being dragged out</param>
+        public virtual void DragOut(DraggableItemController<T> draggableItem)
+        {
+            Debug.Log($"[DragSlotController] DragOut - Item: {draggableItem.name} dragged out from slot: {gameObject.name}");
+            OnItemStartDragEvent?.Invoke(draggableItem);
         }
 
         /// <summary>
