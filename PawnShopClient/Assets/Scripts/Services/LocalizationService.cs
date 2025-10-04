@@ -35,26 +35,21 @@ namespace PawnShop.Services
 
         public string GetLocalization(string key)
         {
-            Debug.Log($"[LocalizationService] GetLocalization called for key: '{key}', current language: {_currentLanguage}");
-            
             if (_localizationDictionary.TryGetValue(key, out string[] values))
             {
                 if (values == null || values.Length == 0)
                 {
-                    Debug.LogWarning($"Localization key '{key}' has no values for language {_currentLanguage}");
                     return $"[{key}]";
                 }
 
                 // If only one value, return it directly
                 if (values.Length == 1)
                 {
-                    Debug.Log($"[LocalizationService] Found single value for '{key}': {values[0]}");
                     return values[0];
                 }
 
                 // If multiple values, return a random one
                 var selectedValue = values[Random.Range(0, values.Length)];
-                Debug.Log($"[LocalizationService] Found {values.Length} values for '{key}', selected: {selectedValue}");
                 return selectedValue;
             }
 
@@ -78,7 +73,7 @@ namespace PawnShop.Services
             {
                 var jsonContent = textAsset.text;
                 Debug.Log($"[LocalizationService] JSON content length: {jsonContent.Length}");
-                
+
                 var localizationData = JsonUtility.FromJson<LocalizationData>(jsonContent);
                 Debug.Log($"[LocalizationService] Parsed {localizationData?.entries?.Length ?? 0} entries from JSON");
 
@@ -89,12 +84,12 @@ namespace PawnShop.Services
                 }
 
                 Debug.Log($"Loaded {_localizationDictionary.Count} localization entries from {fileName}");
-                
+
                 // Check if our new keys are loaded
                 var greetingKey = "dialog_customer_greeting";
                 var buyerKey = "dialog_customer_buyer_intent";
                 var sellerKey = "dialog_customer_seller_intent";
-                
+
                 Debug.Log($"[LocalizationService] Greeting key exists: {_localizationDictionary.ContainsKey(greetingKey)}");
                 Debug.Log($"[LocalizationService] Buyer key exists: {_localizationDictionary.ContainsKey(buyerKey)}");
                 Debug.Log($"[LocalizationService] Seller key exists: {_localizationDictionary.ContainsKey(sellerKey)}");
