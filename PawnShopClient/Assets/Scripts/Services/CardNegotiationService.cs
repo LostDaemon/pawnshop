@@ -9,13 +9,13 @@ namespace PawnShop.Services
     public class CardNegotiationService : ICardNegotiationService
     {
         private const float MIN_PRICE_PERCENTAGE = 0.1f;
-        
+
         private readonly ICustomerService _customerService;
-        
+
         public Customer CurrentCustomer { get; private set; }
         public float BasePrice { get; private set; }
         public float CurrentNegotiatedPrice { get; private set; }
-        
+
         public event Action<Customer> OnCustomerChanged;
         public event Action<float> OnPriceChanged;
 
@@ -26,16 +26,16 @@ namespace PawnShop.Services
             _customerService.OnCustomerChanged += OnCustomerServiceChanged;
         }
 
-        public float CalculateNegotiatedPrice(float basePrice, List<float> multipliers)
+        public float CalculateNegotiatedPrice(List<float> multipliers)
         {
             float totalEffect = GetTotalEffect(multipliers);
-            float newPrice = basePrice * (1f + totalEffect);
-            return ApplyPriceConstraints(newPrice, basePrice);
+            float newPrice = BasePrice * (1f + totalEffect);
+            return ApplyPriceConstraints(newPrice);
         }
 
-        public float ApplyPriceConstraints(float price, float basePrice, float minPercentage = 0.1f)
+        public float ApplyPriceConstraints(float price)
         {
-            float minPrice = basePrice * minPercentage;
+            float minPrice = BasePrice * MIN_PRICE_PERCENTAGE;
             return Mathf.Max(price, minPrice);
         }
 
@@ -52,15 +52,9 @@ namespace PawnShop.Services
             return totalEffect;
         }
 
-        public void SetBasePrice(float basePrice)
-        {
-            BasePrice = basePrice;
-            CurrentNegotiatedPrice = basePrice;
-        }
-
         public void UpdateNegotiatedPrice(List<float> multipliers)
         {
-            CurrentNegotiatedPrice = CalculateNegotiatedPrice(BasePrice, multipliers);
+            CurrentNegotiatedPrice = CalculateNegotiatedPrice(multipliers);
             OnPriceChanged?.Invoke(CurrentNegotiatedPrice);
         }
 
@@ -72,11 +66,11 @@ namespace PawnShop.Services
 
         public void SetCustomer(Customer customer)
         {
-            
             CurrentCustomer = customer;
             if (customer?.OwnedItem != null)
             {
-                SetBasePrice(customer.OwnedItem.BasePrice);
+                BasePrice = customer.OwnedItem.BasePrice;
+                CurrentNegotiatedPrice = customer.OwnedItem.BasePrice;
             }
             OnCustomerChanged?.Invoke(customer);
         }
@@ -91,7 +85,6 @@ namespace PawnShop.Services
 
         private void OnCustomerServiceChanged(Customer customer)
         {
-            
             SetCustomer(customer);
         }
 

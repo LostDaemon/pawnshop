@@ -14,12 +14,11 @@ namespace PawnShop.Services
         float CurrentNegotiatedPrice { get; }
         
         // Price calculation methods
-        float CalculateNegotiatedPrice(float basePrice, List<float> multipliers);
-        float ApplyPriceConstraints(float price, float basePrice, float minPercentage = 0.1f);
+        float CalculateNegotiatedPrice(List<float> multipliers);
+        float ApplyPriceConstraints(float price);
         float GetTotalEffect(List<float> multipliers);
         
         // Price state methods
-        void SetBasePrice(float basePrice);
         void UpdateNegotiatedPrice(List<float> multipliers);
         bool IsAtMinimumPrice();
         
