@@ -8,6 +8,7 @@ using PawnShop.Models;
 using PawnShop.Services;
 using Zenject;
 using System;
+using System.Collections;
 
 namespace PawnShop.Controllers.Cards
 {
@@ -18,19 +19,69 @@ namespace PawnShop.Controllers.Cards
         [SerializeField] private Text _multiplierIndicator;
 
         private ILocalizationService _localizationService;
+        private ICardNegotiationService _cardNegotiationService;
 
         public CardSlotController PlayerCardSlot => _playerCardSlot;
         public CardSlotController CustomerCardSlot => _customerCardSlot;
 
         public float EffectMultiplier { get; private set; }
+        public int RoundNumber { get; private set; }
 
         // Event for multiplier changes
         public event Action<float> OnMultiplierChanged;
 
         [Inject]
-        public void Construct(ILocalizationService localizationService)
+        public void Construct(ILocalizationService localizationService, ICardNegotiationService cardNegotiationService)
         {
             _localizationService = localizationService;
+            _cardNegotiationService = cardNegotiationService;
+        }
+
+        public void InitializeRound(int roundNumber)
+        {
+            RoundNumber = roundNumber;
+        }
+
+        public void SetPlayerCard(CardController cardController)
+        {
+            if (cardController == null || _playerCardSlot == null) return;
+            Debug.Log($"[NegotiationRoundController] SetPlayerCard: {cardController?.Payload?.DisplayName}");
+            
+            // Clear existing card in player slot
+            ClearSlot(_playerCardSlot);
+            
+            // Set the new card as child of player slot
+            cardController.transform.SetParent(_playerCardSlot.transform);
+            cardController.transform.localPosition = Vector3.zero;
+            CalculateEffect(cardController?.Payload, null);
+        }
+
+        public void SetCustomerCard(CardController cardController)
+        {
+            if (cardController == null || _customerCardSlot == null) return;
+            Debug.Log($"[NegotiationRoundController] SetCustomerCard: {cardController?.Payload?.DisplayName}");
+            
+            // Clear existing card in customer slot
+            ClearSlot(_customerCardSlot);
+            
+            // Set the new card as child of customer slot
+            cardController.transform.SetParent(_customerCardSlot.transform);
+            cardController.transform.localPosition = Vector3.zero;
+            CalculateEffect(null, cardController?.Payload);
+        }
+
+        private void ClearSlot(CardSlotController slot)
+        {
+            if (slot == null) return;
+            
+            // Remove all existing cards from the slot
+            foreach (Transform child in slot.transform)
+            {
+                if (child.GetComponent<CardController>() != null)
+                {
+                    Destroy(child.gameObject);
+                }
+            }
         }
 
         private void OnEnable()
@@ -73,11 +124,18 @@ namespace PawnShop.Controllers.Cards
             }
         }
 
+
         private void OnPlayerCardDropped(DraggableItemController<BaseTagModel> draggableItem)
         {
+            if (draggableItem?.Payload == null)
+            {
+               return;
+            }
+            
             // Get the other card from customer slot
             var customerCard = _customerCardSlot?.GetComponentInChildren<CardController>();
             CalculateEffect(draggableItem.Payload, customerCard?.Payload);
+           _cardNegotiationService.PlayerPlay(draggableItem.Payload);
         }
 
         private void OnCustomerCardDropped(DraggableItemController<BaseTagModel> draggableItem)

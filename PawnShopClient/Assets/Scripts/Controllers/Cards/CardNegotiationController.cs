@@ -6,6 +6,7 @@ using PawnShop.Models.Tags;
 using PawnShop.Models.Characters;
 using PawnShop.Models;
 using System.Collections.Generic;
+using System.Collections;
 using PawnShop.Controllers.DragNDrop;
 
 namespace PawnShop.Controllers.Cards
@@ -24,6 +25,7 @@ namespace PawnShop.Controllers.Cards
 
         private ICardNegotiationService _cardNegotiationService;
         private DiContainer _container;
+        private Dictionary<int, NegotiationRoundController> _roundControllers = new Dictionary<int, NegotiationRoundController>();
 
         [Inject]
         public void Construct(ICardNegotiationService cardNegotiationService, DiContainer container)
@@ -34,6 +36,9 @@ namespace PawnShop.Controllers.Cards
             // Subscribe to service events
             _cardNegotiationService.OnCustomerChanged += OnCustomerChanged;
             _cardNegotiationService.OnPriceChanged += OnPriceChanged;
+            _cardNegotiationService.OnRoundChanged += OnRoundChanged;
+            _cardNegotiationService.OnCustomerPlayed += OnCustomerPlayed;
+            _cardNegotiationService.OnPlayerPlayed += OnPlayerPlayed;
         }
 
         private void InitializeNegotiationRounds()
@@ -42,19 +47,28 @@ namespace PawnShop.Controllers.Cards
 
             // Clear existing rounds first
             ClearExistingRounds();
+            _roundControllers.Clear();
 
             // Get rounds from service
             var rounds = _cardNegotiationService.NegotiationRounds;
             if (rounds == null) return;
 
+            int roundIndex = 0;
             foreach (var round in rounds.Values)
             {
                 var roundInstance = _container.InstantiatePrefab(_negotiationRoundPrefab, _negotiationContainer);
                 var roundController = roundInstance.GetComponent<NegotiationRoundController>();
                 if (roundController != null)
                 {
+                    // Initialize round number
+                    roundController.InitializeRound(roundIndex);
+
                     // Subscribe to multiplier changes
                     roundController.OnMultiplierChanged += OnRoundMultiplierChanged;
+
+                    // Add to dictionary with zero-based index
+                    _roundControllers[roundIndex] = roundController;
+                    roundIndex++;
                 }
             }
         }
@@ -66,6 +80,9 @@ namespace PawnShop.Controllers.Cards
             {
                 _cardNegotiationService.OnCustomerChanged -= OnCustomerChanged;
                 _cardNegotiationService.OnPriceChanged -= OnPriceChanged;
+                _cardNegotiationService.OnRoundChanged -= OnRoundChanged;
+                _cardNegotiationService.OnCustomerPlayed -= OnCustomerPlayed;
+                _cardNegotiationService.OnPlayerPlayed -= OnPlayerPlayed;
             }
 
             // Unsubscribe from all negotiation rounds
@@ -140,18 +157,15 @@ namespace PawnShop.Controllers.Cards
 
         private void UnsubscribeFromRounds()
         {
-            // Unsubscribe from all negotiation rounds
-            if (_negotiationContainer != null)
+            // Unsubscribe from all negotiation rounds using dictionary
+            foreach (var roundController in _roundControllers.Values)
             {
-                var roundControllers = _negotiationContainer.GetComponentsInChildren<NegotiationRoundController>();
-                foreach (var roundController in roundControllers)
+                if (roundController != null)
                 {
-                    if (roundController != null)
-                    {
-                        roundController.OnMultiplierChanged -= OnRoundMultiplierChanged;
-                    }
+                    roundController.OnMultiplierChanged -= OnRoundMultiplierChanged;
                 }
             }
+            _roundControllers.Clear();
         }
 
         private void ClearExistingRounds()
@@ -249,6 +263,56 @@ namespace PawnShop.Controllers.Cards
             }
         }
 
+        private void OnRoundChanged(int roundNumber)
+        {
+            Debug.Log($"[CardNegotiationController] Round changed to: {roundNumber}");
+        }
+
+        private void OnCustomerPlayed(BaseTagModel customerTag, int roundNumber)
+        {
+            Debug.Log($"[CardNegotiationController] OnCustomerPlayed: {customerTag.DisplayName} - {roundNumber}");
+            
+            // Find the card controller that matches the tag
+            var cardControllers = _customerCardContainer.GetComponentsInChildren<CardController>();
+            foreach (var cardController in cardControllers)
+            {
+                if (cardController.Payload == customerTag)
+                {
+                    // Set the card in the appropriate round
+                    if (_roundControllers.ContainsKey(roundNumber))
+                    {
+                        _roundControllers[roundNumber].SetCustomerCard(cardController);
+                    }
+                    break;
+                }
+            }
+            
+            // Start delay and call NextRound
+            StartCoroutine(HandleWithDelay(() => 
+            {
+                Debug.Log($"[CardNegotiationController] Customer played: {customerTag.DisplayName}");
+                _cardNegotiationService.NextRound();
+            }));
+        }
+
+        private void OnPlayerPlayed(BaseTagModel playerTag, int roundNumber)
+        {
+            Debug.Log($"[CardNegotiationController] OnPlayerPlayed: {playerTag.DisplayName} - {roundNumber}");
+            
+            // Start delay and call CustomerPlay
+            StartCoroutine(HandleWithDelay(() => 
+            {
+                Debug.Log($"[CardNegotiationController] Player played: {playerTag.DisplayName}");
+                _cardNegotiationService.CustomerPlay(playerTag);
+            }));
+        }
+
+        private System.Collections.IEnumerator HandleWithDelay(System.Action action)
+        {
+            yield return new WaitForSeconds(1f);
+            action?.Invoke();
+        }
+
         private void UpdateCurrentPrice(float multiplier)
         {
             if (_negotiationContainer != null)
@@ -269,5 +333,6 @@ namespace PawnShop.Controllers.Cards
                 _cardNegotiationService.UpdateNegotiatedPrice(multipliers);
             }
         }
+
     }
 }

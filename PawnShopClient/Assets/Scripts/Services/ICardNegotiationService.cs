@@ -22,6 +22,9 @@ namespace PawnShop.Services
         List<BaseTagModel> PlayerTags { get; }
         List<BaseTagModel> CustomerTags { get; }
         
+        // Round counter
+        int CurrentRound { get; }
+        
         // Price calculation methods
         float CalculateNegotiatedPrice(List<float> multipliers);
         float ApplyPriceConstraints(float price);
@@ -31,11 +34,19 @@ namespace PawnShop.Services
         void UpdateNegotiatedPrice(List<float> multipliers);
         bool IsAtMinimumPrice();
         
+        // Player actions
+        void PlayerPlay(BaseTagModel tag);
+        void CustomerPlay(BaseTagModel playerTag);
+        void NextRound();
+        
         // Customer management methods
         void ClearCustomer();
         
         // Events
         event Action<Customer> OnCustomerChanged;
         event Action<float> OnPriceChanged;
+        event Action<int> OnRoundChanged;
+        event Action<BaseTagModel, int> OnCustomerPlayed;
+        event Action<BaseTagModel, int> OnPlayerPlayed;
     }
 }
