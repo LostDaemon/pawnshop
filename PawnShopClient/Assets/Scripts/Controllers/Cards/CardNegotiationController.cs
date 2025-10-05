@@ -8,6 +8,7 @@ using PawnShop.Models;
 using System.Collections.Generic;
 using System.Collections;
 using PawnShop.Controllers.DragNDrop;
+using PawnShop.Controllers;
 
 namespace PawnShop.Controllers.Cards
 {
@@ -25,13 +26,15 @@ namespace PawnShop.Controllers.Cards
 
         private ICardNegotiationService _cardNegotiationService;
         private DiContainer _container;
+        private ItemInfoController _itemInfoController;
         private Dictionary<int, NegotiationRoundController> _roundControllers = new Dictionary<int, NegotiationRoundController>();
 
         [Inject]
-        public void Construct(ICardNegotiationService cardNegotiationService, DiContainer container)
+        public void Construct(ICardNegotiationService cardNegotiationService, DiContainer container, ItemInfoController itemInfoController)
         {
             _cardNegotiationService = cardNegotiationService;
             _container = container;
+            _itemInfoController = itemInfoController;
 
             // Subscribe to service events
             _cardNegotiationService.OnCustomerChanged += OnCustomerChanged;
@@ -102,6 +105,9 @@ namespace PawnShop.Controllers.Cards
 
             // Update initial price display
             UpdateInitialPriceDisplay(customer);
+
+            // Update item info display
+            UpdateItemInfoDisplay(customer);
 
             Debug.Log($"[CardNegotiationController] Player tags: {_cardNegotiationService.PlayerTags?.Count ?? 0}");
             Debug.Log($"[CardNegotiationController] Customer tags: {_cardNegotiationService.CustomerTags?.Count ?? 0}");
@@ -240,6 +246,14 @@ namespace PawnShop.Controllers.Cards
                         _paidPrice.text = customer.OwnedItem.PurchasePrice.ToString("F2");
                     }
                 }
+            }
+        }
+
+        private void UpdateItemInfoDisplay(Customer customer)
+        {
+            if (_itemInfoController != null && customer?.OwnedItem != null)
+            {
+                _itemInfoController.SetItem(customer.OwnedItem);
             }
         }
 
