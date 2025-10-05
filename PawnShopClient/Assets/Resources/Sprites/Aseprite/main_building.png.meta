@@ -1,0 +1,728 @@
+fileFormatVersion: 2
+guid: 21cbb6b4b71586d4690a729f2647549d
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: -7820936974062842531
+    second: main_building_0
+  - first:
+      213: -2960370752351937974
+    second: main_building_1
+  - first:
+      213: -5007181582875137479
+    second: main_building_2
+  - first:
+      213: 5739569844150363198
+    second: main_building_3
+  - first:
+      213: 5920741320636278097
+    second: main_building_4
+  - first:
+      213: 4457708024571357037
+    second: main_building_5
+  - first:
+      213: -8488187127164772594
+    second: main_building_6
+  - first:
+      213: 2239217404638908651
+    second: main_building_7
+  - first:
+      213: 9018095220257639596
+    second: main_building_8
+  - first:
+      213: 4238856825395043568
+    second: main_building_9
+  - first:
+      213: -3193496039904763025
+    second: main_building_10
+  - first:
+      213: 801076478837258924
+    second: main_building_11
+  - first:
+      213: -6199890016022544488
+    second: main_building_12
+  - first:
+      213: -8924695207597217701
+    second: main_building_13
+  - first:
+      213: -14706670208467853
+    second: main_building_14
+  - first:
+      213: 6004744939700943748
+    second: main_building_15
+  - first:
+      213: -6793592099044496184
+    second: main_building_16
+  - first:
+      213: -6571844123175562367
+    second: main_building_17
+  - first:
+      213: -2910624885619774563
+    second: main_building_18
+  - first:
+      213: 1789275486817368830
+    second: main_building_19
+  - first:
+      213: -8418210458956538490
+    second: main_building_20
+  - first:
+      213: -8834991439573982932
+    second: main_building_21
+  - first:
+      213: 2961617717333112241
+    second: main_building_22
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: main_building
+      rect:
+        serializedVersion: 2
+        x: 15
+        y: 15
+        width: 674
+        height: 466
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d5d044a5243767390800000000000000
+      internalID: -7820936974062842531
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main_building_room_31_dark
+      rect:
+        serializedVersion: 2
+        x: 1055
+        y: 367
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4a5b964c76aae6d0800000000000000
+      internalID: -2960370752351937974
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main_building_room_32_dark
+      rect:
+        serializedVersion: 2
+        x: 1167
+        y: 367
+        width: 194
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 93a69da21eae28ab0800000000000000
+      internalID: -5007181582875137479
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main_building_room_31_light
+      rect:
+        serializedVersion: 2
+        x: 1727
+        y: 367
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e34602c1d5c07af40800000000000000
+      internalID: 5739569844150363198
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main_building_room_32_light
+      rect:
+        serializedVersion: 2
+        x: 1839
+        y: 367
+        width: 194
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 155a0879cd2ba2250800000000000000
+      internalID: 5920741320636278097
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main_building_room_20_dark
+      rect:
+        serializedVersion: 2
+        x: 719
+        y: 255
+        width: 322
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d67ebf494d5fcdd30800000000000000
+      internalID: 4457708024571357037
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main_building_room_21_dark
+      rect:
+        serializedVersion: 2
+        x: 1055
+        y: 255
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e0fdc4ab7c6e33a80800000000000000
+      internalID: -8488187127164772594
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main_building_room_22_dark
+      rect:
+        serializedVersion: 2
+        x: 1167
+        y: 255
+        width: 194
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: be0df5a9d5c431f10800000000000000
+      internalID: 2239217404638908651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main_building_room_20_light
+      rect:
+        serializedVersion: 2
+        x: 1391
+        y: 255
+        width: 322
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cacca1aa2d5b62d70800000000000000
+      internalID: 9018095220257639596
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main_building_room_21_light
+      rect:
+        serializedVersion: 2
+        x: 1727
+        y: 255
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0fc596303d173da30800000000000000
+      internalID: 4238856825395043568
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main_building_room_22_light
+      rect:
+        serializedVersion: 2
+        x: 1839
+        y: 255
+        width: 194
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: f632cd5854c6ea3d0800000000000000
+      internalID: -3193496039904763025
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main_building_room_10_dark
+      rect:
+        serializedVersion: 2
+        x: 719
+        y: 143
+        width: 322
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: caaf30f20defd1b00800000000000000
+      internalID: 801076478837258924
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main_building_room_11_dark
+      rect:
+        serializedVersion: 2
+        x: 1055
+        y: 143
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 89f3c7cf0e095f9a0800000000000000
+      internalID: -6199890016022544488
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main_building_room_12_dark
+      rect:
+        serializedVersion: 2
+        x: 1167
+        y: 143
+        width: 194
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: b5869866efc152480800000000000000
+      internalID: -8924695207597217701
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main_building_room_10_light
+      rect:
+        serializedVersion: 2
+        x: 1391
+        y: 143
+        width: 322
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 37c35628c50cbcff0800000000000000
+      internalID: -14706670208467853
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main_building_room_11_light
+      rect:
+        serializedVersion: 2
+        x: 1727
+        y: 143
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 48bf2b945b3255350800000000000000
+      internalID: 6004744939700943748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main_building_room_12_light
+      rect:
+        serializedVersion: 2
+        x: 1839
+        y: 143
+        width: 194
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 8cc6d8bdaff48b1a0800000000000000
+      internalID: -6793592099044496184
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main_building_room_00_dark
+      rect:
+        serializedVersion: 2
+        x: 719
+        y: 31
+        width: 322
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 183d1eec69e1cc4a0800000000000000
+      internalID: -6571844123175562367
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main_building_room_01_dark
+      rect:
+        serializedVersion: 2
+        x: 1055
+        y: 31
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d9ba83276126b97d0800000000000000
+      internalID: -2910624885619774563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main_building_room_02_dark
+      rect:
+        serializedVersion: 2
+        x: 1167
+        y: 31
+        width: 194
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: efa30154398c4d810800000000000000
+      internalID: 1789275486817368830
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main_building_room_00_light
+      rect:
+        serializedVersion: 2
+        x: 1391
+        y: 31
+        width: 322
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 68dda6d60328c2b80800000000000000
+      internalID: -8418210458956538490
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main_building_room_01_light
+      rect:
+        serializedVersion: 2
+        x: 1727
+        y: 31
+        width: 98
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c216392781ec36580800000000000000
+      internalID: -8834991439573982932
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: main_building_room_02_light
+      rect:
+        serializedVersion: 2
+        x: 1839
+        y: 31
+        width: 194
+        height: 98
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 1b5b4226f97c91920800000000000000
+      internalID: 2961617717333112241
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 215c3c42d0ab60842a2f019394cbef84
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      main_building: -7820936974062842531
+      main_building_room_00_dark: -6571844123175562367
+      main_building_room_00_light: -8418210458956538490
+      main_building_room_01_dark: -2910624885619774563
+      main_building_room_01_light: -8834991439573982932
+      main_building_room_02_dark: 1789275486817368830
+      main_building_room_02_light: 2961617717333112241
+      main_building_room_10_dark: 801076478837258924
+      main_building_room_10_light: -14706670208467853
+      main_building_room_11_dark: -6199890016022544488
+      main_building_room_11_light: 6004744939700943748
+      main_building_room_12_dark: -8924695207597217701
+      main_building_room_12_light: -6793592099044496184
+      main_building_room_20_dark: 4457708024571357037
+      main_building_room_20_light: 9018095220257639596
+      main_building_room_21_dark: -8488187127164772594
+      main_building_room_21_light: 4238856825395043568
+      main_building_room_22_dark: 2239217404638908651
+      main_building_room_22_light: -3193496039904763025
+      main_building_room_31_dark: -2960370752351937974
+      main_building_room_31_light: 5739569844150363198
+      main_building_room_32_dark: -5007181582875137479
+      main_building_room_32_light: 5920741320636278097
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
