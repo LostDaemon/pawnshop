@@ -482,6 +482,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: customer_card_slot
       objectReference: {fileID: 0}
+    - target: {fileID: 5330321633568876097, guid: f9f617414dad97d4383cd5a2e82680f8, type: 3}
+      propertyPath: canReceiveDragged
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

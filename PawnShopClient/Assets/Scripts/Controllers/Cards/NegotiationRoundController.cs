@@ -4,6 +4,7 @@ using UnityEngine.UI;
 using PawnShop.Controllers.Cards;
 using PawnShop.Controllers.DragNDrop;
 using PawnShop.Models.Tags;
+using PawnShop.Models;
 using PawnShop.Services;
 using Zenject;
 using System;

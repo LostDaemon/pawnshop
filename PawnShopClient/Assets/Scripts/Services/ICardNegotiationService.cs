@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using PawnShop.Models.Characters;
+using PawnShop.Models;
+using PawnShop.Models.Tags;
 
 namespace PawnShop.Services
 {
@@ -13,6 +15,13 @@ namespace PawnShop.Services
         float BasePrice { get; }
         float CurrentNegotiatedPrice { get; }
         
+        // Negotiation rounds
+        Dictionary<int, NegotiationRound> NegotiationRounds { get; }
+        
+        // Item tags for player and customer
+        List<BaseTagModel> PlayerTags { get; }
+        List<BaseTagModel> CustomerTags { get; }
+        
         // Price calculation methods
         float CalculateNegotiatedPrice(List<float> multipliers);
         float ApplyPriceConstraints(float price);
@@ -23,7 +32,6 @@ namespace PawnShop.Services
         bool IsAtMinimumPrice();
         
         // Customer management methods
-        void SetCustomer(Customer customer);
         void ClearCustomer();
         
         // Events
