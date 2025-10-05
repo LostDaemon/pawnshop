@@ -418,6 +418,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69a89e312142d0d47a7e50162c2ebdee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cardPrefab: {fileID: 0}
+  _cardSlotPrefab: {fileID: 0}
+  _negotiationRoundPrefab: {fileID: 0}
+  _playerCardContainer: {fileID: 0}
+  _customerCardContainer: {fileID: 0}
+  _negotiationContainer: {fileID: 0}
+  _initialPrice: {fileID: 0}
+  _negotiatedPrice: {fileID: 0}
+  _paidPrice: {fileID: 0}
 --- !u!114 &341111010
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -553,6 +562,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 674136808}
     m_Modifications:
+    - target: {fileID: 151523667255249679, guid: 87ba4b19a03420e4ca02bbde658370ae, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 151523667255249679, guid: 87ba4b19a03420e4ca02bbde658370ae, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 151523667255249679, guid: 87ba4b19a03420e4ca02bbde658370ae, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 151523667255249679, guid: 87ba4b19a03420e4ca02bbde658370ae, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 151523667255249679, guid: 87ba4b19a03420e4ca02bbde658370ae, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3329840649230598613, guid: 87ba4b19a03420e4ca02bbde658370ae, type: 3}
       propertyPath: m_Pivot.x
       value: 0.5
@@ -1505,6 +1534,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69a89e312142d0d47a7e50162c2ebdee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cardPrefab: {fileID: 0}
+  _cardSlotPrefab: {fileID: 0}
+  _negotiationRoundPrefab: {fileID: 0}
+  _playerCardContainer: {fileID: 0}
+  _customerCardContainer: {fileID: 0}
+  _negotiationContainer: {fileID: 0}
+  _initialPrice: {fileID: 0}
+  _negotiatedPrice: {fileID: 0}
+  _paidPrice: {fileID: 0}
 --- !u!114 &1108239141
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1636,6 +1674,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69a89e312142d0d47a7e50162c2ebdee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cardPrefab: {fileID: 0}
+  _cardSlotPrefab: {fileID: 0}
+  _negotiationRoundPrefab: {fileID: 0}
+  _playerCardContainer: {fileID: 0}
+  _customerCardContainer: {fileID: 0}
+  _negotiationContainer: {fileID: 0}
+  _initialPrice: {fileID: 0}
+  _negotiatedPrice: {fileID: 0}
+  _paidPrice: {fileID: 0}
 --- !u!114 &1112685871
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2025,6 +2072,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69a89e312142d0d47a7e50162c2ebdee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _cardPrefab: {fileID: 0}
+  _cardSlotPrefab: {fileID: 0}
+  _negotiationRoundPrefab: {fileID: 0}
+  _playerCardContainer: {fileID: 0}
+  _customerCardContainer: {fileID: 0}
+  _negotiationContainer: {fileID: 0}
+  _initialPrice: {fileID: 0}
+  _negotiatedPrice: {fileID: 0}
+  _paidPrice: {fileID: 0}
 --- !u!114 &1226418344
 MonoBehaviour:
   m_ObjectHideFlags: 0

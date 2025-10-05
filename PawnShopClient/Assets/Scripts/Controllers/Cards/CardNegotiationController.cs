@@ -112,7 +112,7 @@ namespace PawnShop.Controllers.Cards
             {
                 foreach (var tag in _cardNegotiationService.PlayerTags)
                 {
-                    CreateCardForTag(tag, _playerCardContainer, true);
+                    CreateCardForTag(tag, _playerCardContainer, true, true);
                 }
             }
 
@@ -121,7 +121,7 @@ namespace PawnShop.Controllers.Cards
             {
                 foreach (var tag in _cardNegotiationService.CustomerTags)
                 {
-                    CreateCardForTag(tag, _customerCardContainer, false);
+                    CreateCardForTag(tag, _customerCardContainer, false, false);
                 }
             }
         }
@@ -184,7 +184,7 @@ namespace PawnShop.Controllers.Cards
             }
         }
 
-        private void CreateCardForTag(BaseTagModel tagModel, Transform container, bool isInteractive)
+        private void CreateCardForTag(BaseTagModel tagModel, Transform container, bool isInteractive, bool destroyOnDragOut = false)
         {
             if (_cardPrefab == null || _cardSlotPrefab == null || container == null) return;
 
@@ -271,7 +271,7 @@ namespace PawnShop.Controllers.Cards
         private void OnCustomerPlayed(BaseTagModel customerTag, int roundNumber)
         {
             Debug.Log($"[CardNegotiationController] OnCustomerPlayed: {customerTag.DisplayName} - {roundNumber}");
-            
+
             // Find the card controller that matches the tag
             var cardControllers = _customerCardContainer.GetComponentsInChildren<CardController>();
             foreach (var cardController in cardControllers)
@@ -286,9 +286,12 @@ namespace PawnShop.Controllers.Cards
                     break;
                 }
             }
-            
+
+            // Remove empty customer slots after customer played
+            RemoveEmptyCustomerSlots();
+
             // Start delay and call NextRound
-            StartCoroutine(HandleWithDelay(() => 
+            StartCoroutine(HandleWithDelay(() =>
             {
                 Debug.Log($"[CardNegotiationController] Customer played: {customerTag.DisplayName}");
                 _cardNegotiationService.NextRound();
@@ -298,9 +301,12 @@ namespace PawnShop.Controllers.Cards
         private void OnPlayerPlayed(BaseTagModel playerTag, int roundNumber)
         {
             Debug.Log($"[CardNegotiationController] OnPlayerPlayed: {playerTag.DisplayName} - {roundNumber}");
-            
+
+            // Remove empty player slots after player played
+            RemoveEmptyPlayerSlots();
+
             // Start delay and call CustomerPlay
-            StartCoroutine(HandleWithDelay(() => 
+            StartCoroutine(HandleWithDelay(() =>
             {
                 Debug.Log($"[CardNegotiationController] Player played: {playerTag.DisplayName}");
                 _cardNegotiationService.CustomerPlay(playerTag);
@@ -331,6 +337,46 @@ namespace PawnShop.Controllers.Cards
 
                 // Use service to update negotiated price
                 _cardNegotiationService.UpdateNegotiatedPrice(multipliers);
+            }
+        }
+
+        /// <summary>
+        /// Remove empty slots from player card container
+        /// </summary>
+        private void RemoveEmptyPlayerSlots()
+        {
+            if (_playerCardContainer == null) return;
+
+            // Get all card slot controllers in player container
+            var slotControllers = _playerCardContainer.GetComponentsInChildren<CardSlotController>();
+            
+            foreach (var slotController in slotControllers)
+            {
+                if (slotController != null && slotController.transform.childCount == 0)
+                {
+                    // Slot is empty, destroy it
+                    Destroy(slotController.gameObject);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Remove empty slots from customer card container
+        /// </summary>
+        private void RemoveEmptyCustomerSlots()
+        {
+            if (_customerCardContainer == null) return;
+
+            // Get all card slot controllers in customer container
+            var slotControllers = _customerCardContainer.GetComponentsInChildren<CardSlotController>();
+            
+            foreach (var slotController in slotControllers)
+            {
+                if (slotController != null && slotController.transform.childCount == 0)
+                {
+                    // Slot is empty, destroy it
+                    Destroy(slotController.gameObject);
+                }
             }
         }
 

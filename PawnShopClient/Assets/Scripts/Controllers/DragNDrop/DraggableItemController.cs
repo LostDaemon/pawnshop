@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using System;
 
 namespace PawnShop.Controllers.DragNDrop
 {
@@ -10,15 +11,18 @@ namespace PawnShop.Controllers.DragNDrop
         public Image image;
         [HideInInspector] public Transform parentAfterDrag;
         private Image[] childImages;
-        
+
         public T Payload { get; private set; }
+
+        // Event raised after successful drop
+        public event Action OnItemDropped;
 
         protected virtual void Awake()
         {
             // Find all Image components in children
             childImages = GetComponentsInChildren<Image>();
         }
-        
+
         public virtual void Init(T payload)
         {
             Payload = payload;
@@ -27,7 +31,7 @@ namespace PawnShop.Controllers.DragNDrop
         public virtual void OnBeginDrag(PointerEventData eventData)
         {
             if (!canDrag) return;
-            
+
             parentAfterDrag = transform.parent;
 
             transform.SetParent(transform.root);
@@ -43,14 +47,14 @@ namespace PawnShop.Controllers.DragNDrop
         public virtual void OnDrag(PointerEventData eventData)
         {
             if (!canDrag) return;
-            
+
             transform.position = eventData.position;
         }
 
         public virtual void OnEndDrag(PointerEventData eventData)
         {
             if (!canDrag) return;
-            
+
             Debug.Log($"[{GetType().Name}] OnEndDrag - Item: {gameObject.name}, Position: {eventData.position}");
             transform.SetParent(parentAfterDrag);
             transform.localPosition = Vector3.zero;
@@ -66,6 +70,9 @@ namespace PawnShop.Controllers.DragNDrop
             }
 
             SetRaycastTarget(true);
+
+            // Raise event after successful drop
+            OnItemDropped?.Invoke();
         }
 
         public virtual void OnDrop(PointerEventData eventData)

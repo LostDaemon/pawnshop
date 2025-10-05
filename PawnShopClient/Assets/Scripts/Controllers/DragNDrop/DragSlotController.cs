@@ -47,7 +47,6 @@ namespace PawnShop.Controllers.DragNDrop
         /// <param name="eventData">Event data from the drop</param>
         protected virtual void OnItemDropped(DraggableItemController<T> draggableItem, PointerEventData eventData)
         {
-            // Override in derived classes for custom behavior
         }
     }
 }

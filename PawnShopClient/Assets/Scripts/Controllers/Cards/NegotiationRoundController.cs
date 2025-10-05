@@ -40,16 +40,25 @@ namespace PawnShop.Controllers.Cards
         public void InitializeRound(int roundNumber)
         {
             RoundNumber = roundNumber;
+            UpdateSlotActivity();
+        }
+
+        private void UpdateSlotActivity()
+        {
+            if (_playerCardSlot != null)
+            {
+                _playerCardSlot.canReceiveDragged = (_cardNegotiationService.CurrentRound == RoundNumber);
+            }
         }
 
         public void SetPlayerCard(CardController cardController)
         {
             if (cardController == null || _playerCardSlot == null) return;
             Debug.Log($"[NegotiationRoundController] SetPlayerCard: {cardController?.Payload?.DisplayName}");
-            
+
             // Clear existing card in player slot
             ClearSlot(_playerCardSlot);
-            
+
             // Set the new card as child of player slot
             cardController.transform.SetParent(_playerCardSlot.transform);
             cardController.transform.localPosition = Vector3.zero;
@@ -60,20 +69,21 @@ namespace PawnShop.Controllers.Cards
         {
             if (cardController == null || _customerCardSlot == null) return;
             Debug.Log($"[NegotiationRoundController] SetCustomerCard: {cardController?.Payload?.DisplayName}");
-            
+
             // Clear existing card in customer slot
             ClearSlot(_customerCardSlot);
-            
+
             // Set the new card as child of customer slot
             cardController.transform.SetParent(_customerCardSlot.transform);
             cardController.transform.localPosition = Vector3.zero;
-            CalculateEffect(null, cardController?.Payload);
+            var playerCard = _playerCardSlot?.GetComponentInChildren<CardController>();
+            CalculateEffect(playerCard?.Payload, cardController?.Payload);
         }
 
         private void ClearSlot(CardSlotController slot)
         {
             if (slot == null) return;
-            
+
             // Remove all existing cards from the slot
             foreach (Transform child in slot.transform)
             {
@@ -87,11 +97,13 @@ namespace PawnShop.Controllers.Cards
         private void OnEnable()
         {
             SubscribeToSlotEvents();
+            SubscribeToServiceEvents();
         }
 
         private void OnDisable()
         {
             UnsubscribeFromSlotEvents();
+            UnsubscribeFromServiceEvents();
         }
 
         private void SubscribeToSlotEvents()
@@ -124,18 +136,39 @@ namespace PawnShop.Controllers.Cards
             }
         }
 
+        private void UnsubscribeFromServiceEvents()
+        {
+            if (_cardNegotiationService != null)
+            {
+                _cardNegotiationService.OnRoundChanged -= OnRoundChanged;
+            }
+        }
+
+        private void SubscribeToServiceEvents()
+        {
+            if (_cardNegotiationService != null)
+            {
+                _cardNegotiationService.OnRoundChanged += OnRoundChanged;
+            }
+        }
+
+        private void OnRoundChanged(int roundNumber)
+        {
+            UpdateSlotActivity();
+        }
+
 
         private void OnPlayerCardDropped(DraggableItemController<BaseTagModel> draggableItem)
         {
             if (draggableItem?.Payload == null)
             {
-               return;
+                return;
             }
-            
+
             // Get the other card from customer slot
             var customerCard = _customerCardSlot?.GetComponentInChildren<CardController>();
             CalculateEffect(draggableItem.Payload, customerCard?.Payload);
-           _cardNegotiationService.PlayerPlay(draggableItem.Payload);
+            _cardNegotiationService.PlayerPlay(draggableItem.Payload);
         }
 
         private void OnCustomerCardDropped(DraggableItemController<BaseTagModel> draggableItem)
