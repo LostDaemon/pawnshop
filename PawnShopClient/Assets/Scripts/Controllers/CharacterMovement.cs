@@ -36,6 +36,9 @@ namespace PawnShop.Controllers
             // Set up rigidbody for 2D platformer
             rb.freezeRotation = true;
             rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+            
+            // Initialize facing direction based on current sprite scale
+            isFacingRight = transform.localScale.x > 0;
         }
         
         private void Update()
