@@ -1,7 +1,7 @@
 using System.Linq;
 using UnityEngine;
 
-namespace PawnShop.Controllers
+namespace PawnShop.Controllers.Teleport
 {
     public class TeleportClientController : MonoBehaviour
     {

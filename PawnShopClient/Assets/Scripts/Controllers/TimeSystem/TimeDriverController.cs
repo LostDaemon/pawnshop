@@ -1,11 +1,12 @@
 using PawnShop.Services;
 using PawnShop.Models.Events;
+using PawnShop.Models;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using Zenject;
 
-namespace PawnShop.Controllers
+namespace PawnShop.Controllers.TimeSystem
 {
     public class TimeDriverController : MonoBehaviour
     {
@@ -13,6 +14,7 @@ namespace PawnShop.Controllers
         [SerializeField] private Button _normalSpeedButton;
         [SerializeField] private Button _fastSpeedButton;
         [SerializeField] private Button _skipTimeButton;
+        [SerializeField] private TMP_Text _timeLabel;
 
         [Inject] private ITimeService _timeService;
 
@@ -24,6 +26,13 @@ namespace PawnShop.Controllers
         {
             SetupButtons();
             _timeService.OnEventTriggered += OnEventTriggered;
+            _timeService.OnTimeChanged += OnTimeChanged;
+            
+            // Initial time update
+            if (_timeService != null && _timeLabel != null)
+            {
+                OnTimeChanged(_timeService.CurrentTime);
+            }
         }
 
         private void OnDestroy()
@@ -31,6 +40,7 @@ namespace PawnShop.Controllers
             if (_timeService != null)
             {
                 _timeService.OnEventTriggered -= OnEventTriggered;
+                _timeService.OnTimeChanged -= OnTimeChanged;
             }
         }
 
@@ -88,6 +98,14 @@ namespace PawnShop.Controllers
         private void Update()
         {
             _timeService.Tick(Time.deltaTime);
+        }
+
+        private void OnTimeChanged(GameTime time)
+        {
+            if (_timeLabel != null)
+            {
+                _timeLabel.text = $"Day {time.Day}  {time.Hour:00}:{time.Minute:00}";
+            }
         }
     }
 }

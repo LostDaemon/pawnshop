@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace PawnShop.Controllers
+namespace PawnShop.Controllers.Teleport
 {
     public class TeleportController : MonoBehaviour
     {
