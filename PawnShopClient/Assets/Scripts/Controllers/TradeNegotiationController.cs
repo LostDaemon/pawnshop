@@ -101,36 +101,44 @@ namespace PawnShop.Controllers
 
         public void RecalculateOffer()
         {
-
-            Debug.Log($"[TradeNegotiationController] Current Item: {_currentItem.Name != null} ");
             if (_currentItem == null) return;
 
             float basePrice = _currentItem.BasePrice;
             float totalMultiplier = 1f;
-
+            
+            Debug.Log($"[RecalculateOffer] Starting calculation - Base Price: {basePrice}");
+            
             // Calculate multiplier from player round slots
+            Debug.Log($"[RecalculateOffer] Processing {_playerRoundSlots.Count} player round slots");
             foreach (var slot in _playerRoundSlots)
             {
                 var cardController = slot.GetComponentInChildren<CardController>();
                 if (cardController?.Model != null)
                 {
-                    totalMultiplier *= cardController.Model.PriceMultiplier;
+                    float multiplier = cardController.Model.PriceMultiplier;
+                    totalMultiplier *= multiplier;
+                    Debug.Log($"[RecalculateOffer] Player card multiplier: {multiplier}, Total multiplier now: {totalMultiplier}");
                 }
             }
 
             // Calculate multiplier from customer round slots
+            Debug.Log($"[RecalculateOffer] Processing {_customerRoundSlots.Count} customer round slots");
             foreach (var slot in _customerRoundSlots)
             {
                 var cardController = slot.GetComponentInChildren<CardController>();
                 if (cardController?.Model != null)
                 {
-                    totalMultiplier *= cardController.Model.PriceMultiplier;
+                    float multiplier = cardController.Model.PriceMultiplier;
+                    totalMultiplier *= multiplier;
+                    Debug.Log($"[RecalculateOffer] Customer card multiplier: {multiplier}, Total multiplier now: {totalMultiplier}");
                 }
             }
 
             // Apply multiplier to base price and round down
             float newOffer = Mathf.Floor(basePrice * totalMultiplier);
+            Debug.Log($"[RecalculateOffer] Final calculation - Base: {basePrice} × Total Multiplier: {totalMultiplier} = {basePrice * totalMultiplier}, Floored: {newOffer}");
             _currentItem.CurrentOffer = (long)newOffer;
+            Debug.Log($"[RecalculateOffer] Final offer set to: {_currentItem.CurrentOffer}");
         }
 
         public void PlayerTakeCards()
@@ -214,57 +222,49 @@ namespace PawnShop.Controllers
 
         private void InitializeCustomerRoundSlots()
         {
-            Debug.Log($"[TradeNegotiationController] InitializeCustomerRoundSlots called. _customerRoundDeck: {_customerRoundDeck != null}");
-
             // Find all CardSlotController components in customer round deck
             if (_customerRoundDeck != null)
             {
                 _customerRoundSlots.Clear();
                 var customerSlots = _customerRoundDeck.GetComponentsInChildren<CardSlotController>();
-                Debug.Log($"[TradeNegotiationController] Found {customerSlots.Length} customer slots");
                 _customerRoundSlots.AddRange(customerSlots);
 
                 // Subscribe to OnItemDroppedEvent and OnItemStartDragEvent for each customer slot
                 foreach (var slot in _customerRoundSlots)
                 {
-                    Debug.Log($"[TradeNegotiationController] Subscribing to customer slot: {slot.name}");
                     slot.OnItemDroppedEvent += OnCustomerSlotItemDropped;
                     slot.OnItemStartDragEvent += OnCustomerSlotItemStartDrag;
-                    Debug.Log($"[TradeNegotiationController] Subscribed to customer slot: {slot.name}");
                 }
-
-                Debug.Log($"[TradeNegotiationController] Subscribed to {_customerRoundSlots.Count} customer slots");
-            }
-            else
-            {
-                Debug.LogWarning("[TradeNegotiationController] _customerRoundDeck is null!");
             }
         }
 
         private void OnPlayerSlotItemDropped(DraggableItemController<BaseTagModel> draggableItem)
         {
-            Debug.Log($"[TradeNegotiationController] OnPlayerSlotItemDropped CALLED! Item: {draggableItem?.Payload?.DisplayName}, Type: {draggableItem?.GetType()}");
-            RecalculateOffer();
-            UpdateNegotiatedPrice();
+            StartCoroutine(RecalculateAfterCardMoved());
         }
 
         private void OnCustomerSlotItemDropped(DraggableItemController<BaseTagModel> draggableItem)
         {
-            Debug.Log($"[TradeNegotiationController] OnCustomerSlotItemDropped CALLED! Item: {draggableItem?.Payload?.DisplayName}");
+            StartCoroutine(RecalculateAfterCardMoved());
+        }
+
+        private System.Collections.IEnumerator RecalculateAfterCardMoved()
+        {
+            // Wait one frame for the card to be actually moved to its new parent
+            yield return null;
+            
             RecalculateOffer();
             UpdateNegotiatedPrice();
         }
 
         private void OnPlayerSlotItemStartDrag(DraggableItemController<BaseTagModel> draggableItem)
         {
-            Debug.Log($"[TradeNegotiationController] Player slot item start drag: {draggableItem?.Payload?.DisplayName}");
             RecalculateOffer();
             UpdateNegotiatedPrice();
         }
 
         private void OnCustomerSlotItemStartDrag(DraggableItemController<BaseTagModel> draggableItem)
         {
-            Debug.Log($"[TradeNegotiationController] Customer slot item start drag: {draggableItem?.Payload?.DisplayName}");
             RecalculateOffer();
             UpdateNegotiatedPrice();
         }

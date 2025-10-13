@@ -209,8 +209,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _playerDeckContainer: {fileID: 2063916690}
   _customerDeckContainer: {fileID: 1373502504}
-  _playerRoundDeck: {fileID: 0}
-  _customerRoundDeck: {fileID: 0}
+  _playerRoundDeck: {fileID: 952335769}
+  _customerRoundDeck: {fileID: 2037965524}
   _cardPrefab: {fileID: 3392245393193301822, guid: 87ba4b19a03420e4ca02bbde658370ae, type: 3}
   _cardSlotPrefab: {fileID: 3392245393193301822, guid: c31ad3066a9a1c643b2caae85df66e4e, type: 3}
   _itemImage: {fileID: 687863641}

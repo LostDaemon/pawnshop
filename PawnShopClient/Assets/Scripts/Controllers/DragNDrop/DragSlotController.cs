@@ -13,25 +13,20 @@ namespace PawnShop.Controllers.DragNDrop
         public event Action<DraggableItemController<T>> OnItemDroppedEvent;
         public virtual void OnDrop(PointerEventData eventData)
         {
-            Debug.Log($"[DragSlotController] OnDrop: {canReceiveDragged}");
             if (!canReceiveDragged) return;
 
             GameObject dropped = eventData.pointerDrag;
             if (dropped != null)
             {
-
                 var draggableItem = dropped.GetComponent<DraggableItemController<T>>();
                 if (draggableItem != null)
                 {
-                    Debug.Log($"[DragSlotController] OnDrop!: {draggableItem != null}");
                     // Set the slot as the new parent for the dropped item
                     draggableItem.parentAfterDrag = transform;
                     // Call custom drop logic
                     OnItemDropped(draggableItem, eventData);
                     // Invoke drop event
-                    Debug.Log($"[DragSlotController] Invoking OnItemDroppedEvent for: {draggableItem?.name}");
                     OnItemDroppedEvent?.Invoke(draggableItem);
-                    Debug.Log($"[DragSlotController] OnItemDroppedEvent invoked");
                 }
             }
         }
