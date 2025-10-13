@@ -1,5 +1,6 @@
 using UnityEngine;
 using PawnShop.Controllers.Teleport;
+using PawnShop.Models;
 
 namespace PawnShop.Controllers
 {
@@ -18,6 +19,9 @@ namespace PawnShop.Controllers
         [SerializeField] private float moveSpeed = 4f;
         [SerializeField] private bool lookAtTarget = true;
         [SerializeField] private float searchVerticalThreshold = 0.1f; // Threshold for vertical level checking
+
+        [Header("NPC Action")]
+        [SerializeField] private NpcAction npcAction = NpcAction.Undefined;
         [SerializeField] private float thresholdX = 0.5f; // Threshold for X coordinate checking
 
         [Header("References")]

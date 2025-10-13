@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7607728703897867788}
   - component: {fileID: 7074798671033555866}
   m_Layer: 5
-  m_Name: trade_container
+  m_Name: TradeContainer
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

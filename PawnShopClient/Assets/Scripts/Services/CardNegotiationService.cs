@@ -40,6 +40,12 @@ namespace PawnShop.Services
             _customerService = customerService;
             _negotiationRounds = new Dictionary<int, NegotiationRound>();
             _customerService.OnCustomerChanged += OnCustomerServiceChanged;
+            
+            // Initialize with current customer if one already exists
+            if (_customerService.CurrentCustomer != null)
+            {
+                SetCustomer(_customerService.CurrentCustomer);
+            }
         }
 
         // Public interface methods
@@ -103,14 +109,6 @@ namespace PawnShop.Services
             BasePrice = 0f;
             CurrentNegotiatedPrice = 0f;
             OnCustomerChanged?.Invoke(null);
-        }
-
-        public void Dispose()
-        {
-            if (_customerService != null)
-            {
-                _customerService.OnCustomerChanged -= OnCustomerServiceChanged;
-            }
         }
 
         public void CustomerPlay(BaseTagModel playerTag)
@@ -241,6 +239,14 @@ namespace PawnShop.Services
         private void OnCustomerServiceChanged(Customer customer)
         {
             SetCustomer(customer);
+        }
+
+        public void Dispose()
+        {
+            if (_customerService != null)
+            {
+                _customerService.OnCustomerChanged -= OnCustomerServiceChanged;
+            }
         }
     }
 }

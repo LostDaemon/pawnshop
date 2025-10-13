@@ -36,6 +36,7 @@ public class CardSlotController : DragSlotController<BaseTagModel>
 
     protected override void OnItemDropped(DraggableItemController<BaseTagModel> draggableItem, PointerEventData eventData)
     {
+        Debug.Log($"[CardSlotController] OnItemDropped: {draggableItem?.Payload?.DisplayName}");
         base.OnItemDropped(draggableItem, eventData);
         // Additional custom logic can be added here if needed
     }

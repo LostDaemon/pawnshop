@@ -578,9 +578,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 239251558}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29c5c8347f7a47a498c85913fa15a29b, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a560f96150039a4bae6152ba1b283c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  targetSceneName: NegotiationScene
 --- !u!1 &326349677
 GameObject:
   m_ObjectHideFlags: 0

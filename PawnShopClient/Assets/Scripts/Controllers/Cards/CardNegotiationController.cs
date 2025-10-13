@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Collections;
 using PawnShop.Controllers.DragNDrop;
 using PawnShop.Controllers;
+using System;
 
 namespace PawnShop.Controllers.Cards
 {
@@ -23,26 +24,27 @@ namespace PawnShop.Controllers.Cards
         [SerializeField] private Text _initialPrice;
         [SerializeField] private Text _negotiatedPrice;
         [SerializeField] private Text _paidPrice;
+        [SerializeField] private ItemInfoController _itemInfoController;
 
         private ICardNegotiationService _cardNegotiationService;
+        private ICustomerService _customerService;
         private DiContainer _container;
-        private ItemInfoController _itemInfoController;
         private Dictionary<int, NegotiationRoundController> _roundControllers = new Dictionary<int, NegotiationRoundController>();
 
         [Inject]
-        public void Construct(ICardNegotiationService cardNegotiationService, DiContainer container, ItemInfoController itemInfoController)
+        public void Construct(ICardNegotiationService cardNegotiationService, ICustomerService customerService, DiContainer container)
         {
             _cardNegotiationService = cardNegotiationService;
+            _customerService = customerService;
             _container = container;
-            _itemInfoController = itemInfoController;
 
-            // Subscribe to service events
-            _cardNegotiationService.OnCustomerChanged += OnCustomerChanged;
+            // Subscribe to service events for interactive updates
             _cardNegotiationService.OnPriceChanged += OnPriceChanged;
             _cardNegotiationService.OnRoundChanged += OnRoundChanged;
             _cardNegotiationService.OnCustomerPlayed += OnCustomerPlayed;
             _cardNegotiationService.OnPlayerPlayed += OnPlayerPlayed;
         }
+
 
         private void InitializeNegotiationRounds()
         {
@@ -76,12 +78,17 @@ namespace PawnShop.Controllers.Cards
             }
         }
 
+        private void OnEnable()
+        {
+            // Initialize with current data when scene is loaded
+            InitializeWithCurrentData();
+        }
+
         private void OnDestroy()
         {
             // Unsubscribe from service events
             if (_cardNegotiationService != null)
             {
-                _cardNegotiationService.OnCustomerChanged -= OnCustomerChanged;
                 _cardNegotiationService.OnPriceChanged -= OnPriceChanged;
                 _cardNegotiationService.OnRoundChanged -= OnRoundChanged;
                 _cardNegotiationService.OnCustomerPlayed -= OnCustomerPlayed;
@@ -92,43 +99,62 @@ namespace PawnShop.Controllers.Cards
             UnsubscribeFromRounds();
         }
 
-        private void OnCustomerChanged(Customer customer)
+        /// <summary>
+        /// Initialize controller with current customer and negotiation data
+        /// </summary>
+        private void InitializeWithCurrentData()
         {
-            // Unsubscribe from existing negotiation rounds
-            UnsubscribeFromRounds();
-
-            // Clear existing cards
-            ClearExistingCards();
-
-            // Initialize negotiation rounds (based on service initialization)
-            InitializeNegotiationRounds();
-
-            // Update initial price display
-            UpdateInitialPriceDisplay(customer);
-
-            // Update item info display
-            UpdateItemInfoDisplay(customer);
-
-            Debug.Log($"[CardNegotiationController] Player tags: {_cardNegotiationService.PlayerTags?.Count ?? 0}");
-            Debug.Log($"[CardNegotiationController] Customer tags: {_cardNegotiationService.CustomerTags?.Count ?? 0}");
+            Debug.Log("[CardNegotiationController] CardNegociationService=" + (_cardNegotiationService != null));
 
 
-            // Create cards for player tags (interactive slots)
-            if (_cardNegotiationService.PlayerTags != null)
+            if (_customerService?.CurrentCustomer != null)
             {
-                foreach (var tag in _cardNegotiationService.PlayerTags)
-                {
-                    CreateCardForTag(tag, _playerCardContainer, true, true);
-                }
-            }
+                // Unsubscribe from existing negotiation rounds
+                UnsubscribeFromRounds();
 
-            // Create cards for customer tags (non-interactive slots)
-            if (_cardNegotiationService.CustomerTags != null)
-            {
-                foreach (var tag in _cardNegotiationService.CustomerTags)
+                // Clear existing cards
+                ClearExistingCards();
+
+                // Initialize negotiation rounds (based on local initialization)
+                InitializeNegotiationRounds();
+
+                // Update initial price display
+                UpdateInitialPriceDisplay(_customerService.CurrentCustomer);
+
+                // Initialize ItemInfoController with customer's item
+                if (_itemInfoController != null && _customerService.CurrentCustomer.OwnedItem != null)
                 {
-                    CreateCardForTag(tag, _customerCardContainer, false, false);
+                    _itemInfoController.SetItem(_customerService.CurrentCustomer.OwnedItem);
                 }
+
+
+                Debug.Log($"[CardNegotiationController] Player tags: {_cardNegotiationService.PlayerTags?.Count ?? 0}");
+                Debug.Log($"[CardNegotiationController] Customer tags: {_cardNegotiationService.CustomerTags?.Count ?? 0}");
+
+                // Create cards for player tags (interactive slots)
+                if (_cardNegotiationService.PlayerTags != null)
+                {
+                    foreach (var tag in _cardNegotiationService.PlayerTags)
+                    {
+                        Debug.Log($"[CardNegotiationController] Creating player card for tag: {tag?.DisplayName ?? "null"}");
+                        CreateCardForTag(tag, _playerCardContainer, true, true);
+                    }
+                }
+
+                // Create cards for customer tags (non-interactive slots)
+                if (_cardNegotiationService.CustomerTags != null)
+                {
+                    foreach (var tag in _cardNegotiationService.CustomerTags)
+                    {
+                        CreateCardForTag(tag, _customerCardContainer, false, false);
+                    }
+                }
+
+                // Update price display with current negotiated price
+                OnPriceChanged(_cardNegotiationService.CurrentNegotiatedPrice);
+
+                // Update round display
+                OnRoundChanged(_cardNegotiationService.CurrentRound);
             }
         }
 
@@ -249,14 +275,6 @@ namespace PawnShop.Controllers.Cards
             }
         }
 
-        private void UpdateItemInfoDisplay(Customer customer)
-        {
-            if (_itemInfoController != null && customer?.OwnedItem != null)
-            {
-                _itemInfoController.SetItem(customer.OwnedItem);
-            }
-        }
-
         private void OnRoundMultiplierChanged(float newMultiplier)
         {
             // Update current price based on multiplier
@@ -363,7 +381,7 @@ namespace PawnShop.Controllers.Cards
 
             // Get all card slot controllers in player container
             var slotControllers = _playerCardContainer.GetComponentsInChildren<CardSlotController>();
-            
+
             foreach (var slotController in slotControllers)
             {
                 if (slotController != null && slotController.transform.childCount == 0)
@@ -383,7 +401,7 @@ namespace PawnShop.Controllers.Cards
 
             // Get all card slot controllers in customer container
             var slotControllers = _customerCardContainer.GetComponentsInChildren<CardSlotController>();
-            
+
             foreach (var slotController in slotControllers)
             {
                 if (slotController != null && slotController.transform.childCount == 0)
@@ -393,6 +411,7 @@ namespace PawnShop.Controllers.Cards
                 }
             }
         }
+
 
     }
 }

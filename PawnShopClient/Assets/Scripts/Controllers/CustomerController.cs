@@ -11,6 +11,7 @@ using PawnShop.Models;
 
 namespace PawnShop.Controllers
 {
+    //TODO: Remove
     public class CustomerController : MonoBehaviour
     {
         [SerializeField] private Button _skipButton;

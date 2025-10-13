@@ -91,5 +91,21 @@ namespace PawnShop.Services
         {
             return _tagRepository.GetDefaultTagPrototype(defaultTag);
         }
+
+        public System.Collections.Generic.IReadOnlyCollection<BaseTagPrototype> GetPositiveTags()
+        {
+            return _tagRepository.GetAllTagPrototypes()
+                .Where(tag => tag.PriceMultiplier > 1f)
+                .ToList()
+                .AsReadOnly();
+        }
+
+        public System.Collections.Generic.IReadOnlyCollection<BaseTagPrototype> GetNegativeTags()
+        {
+            return _tagRepository.GetAllTagPrototypes()
+                .Where(tag => tag.PriceMultiplier < 1f)
+                .ToList()
+                .AsReadOnly();
+        }
     }
 }

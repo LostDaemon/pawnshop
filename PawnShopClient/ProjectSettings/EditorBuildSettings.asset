@@ -11,5 +11,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainScene.unity
     guid: 0d86cea04835a7046bd6591b80b11f1e
+  - enabled: 1
+    path: Assets/Scenes/NegotiationScene.unity
+    guid: 1c813ca3a14787e47a6cde60897b5531
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

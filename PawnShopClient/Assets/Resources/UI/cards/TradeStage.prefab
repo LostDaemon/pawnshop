@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 3482268173631666953}
   - component: {fileID: 2008024166600326281}
   m_Layer: 5
-  m_Name: trade_stage
+  m_Name: TradeStage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

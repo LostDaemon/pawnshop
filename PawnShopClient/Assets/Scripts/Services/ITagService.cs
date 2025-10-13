@@ -19,5 +19,9 @@ namespace PawnShop.Services
         IReadOnlyCollection<BaseTagPrototype> GetAllTagPrototypes();
         IReadOnlyCollection<BaseTagPrototype> GetTagPrototypesByType(TagType tagType);
         BaseTagPrototype GetDefaultTagPrototype(DefaultTags defaultTag);
+        
+        // Tag filtering methods
+        IReadOnlyCollection<BaseTagPrototype> GetPositiveTags();
+        IReadOnlyCollection<BaseTagPrototype> GetNegativeTags();
     }
 }
