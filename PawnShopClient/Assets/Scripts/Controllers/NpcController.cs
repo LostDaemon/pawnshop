@@ -21,10 +21,10 @@ namespace PawnShop.Controllers
         [SerializeField] private float moveSpeed = 4f;
         [SerializeField] private bool lookAtTarget = true;
         [SerializeField] private float searchVerticalThreshold = 0.1f; // Threshold for vertical level checking
+        [SerializeField] private float thresholdX = 0.5f; // Threshold for X coordinate checking
 
         [Header("NPC Action")]
         [SerializeField] private NpcAction npcAction = NpcAction.Undefined;
-        [SerializeField] private float thresholdX = 0.5f; // Threshold for X coordinate checking
 
         [Header("References")]
         [SerializeField] private CharacterMovement characterMovement;
@@ -44,6 +44,14 @@ namespace PawnShop.Controllers
         public System.Action OnTargetReached;
         public System.Action OnMovementStarted;
         public System.Action OnMovementStopped;
+
+        /// <summary>
+        /// Set NPC action
+        /// </summary>
+        public void SetNpcAction(NpcAction action)
+        {
+            npcAction = action;
+        }
 
         [Inject]
         public void Construct(ITimeService timeService)
@@ -383,6 +391,5 @@ namespace PawnShop.Controllers
             if (waypoints == null || waypoints.Length == 0) return null;
             return waypoints[0]; // Always return first waypoint
         }
-
     }
 }
