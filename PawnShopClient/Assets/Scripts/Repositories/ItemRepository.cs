@@ -70,25 +70,14 @@ namespace PawnShop.Repositories
                 Materials = new List<MaterialComponent>(itemPrototype.Materials)
             };
 
-            Debug.Log($"[ItemRepository] Created ItemModel: {result.Name}, Tags count before initialization: {result.Tags?.Count ?? 0}");
-
             // Initialize tags for the item
-            InitializeItemTags(result, itemPrototype);
-
-            Debug.Log($"[ItemRepository] Final ItemModel: {result.Name}, Tags count: {result.Tags?.Count ?? 0}");
-
+            // InitializeItemTags(result, itemPrototype);
             return result;
         }
 
         private void InitializeItemTags(ItemModel item, ItemPrototype prototype)
         {
             if (prototype == null) return;
-
-            Debug.Log($"[ItemRepository] Initializing tags for item: {prototype.Name}");
-            Debug.Log($"[ItemRepository] Required tags count: {prototype.requiredTags?.Count ?? 0}");
-            Debug.Log($"[ItemRepository] Override tags generation: {prototype.OverrideTagsGeneration}");
-            Debug.Log($"[ItemRepository] Overrided tags count: {prototype.OverridedTags?.Count ?? 0}");
-            Debug.Log($"[ItemRepository] Allowed tags count: {prototype.allowedTags?.Count ?? 0}");
 
             if (prototype.OverrideTagsGeneration)
             {

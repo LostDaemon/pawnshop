@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.SceneManagement;
 using Zenject;
 using PawnShop.Services;
 using PawnShop.Models;
@@ -26,10 +27,15 @@ namespace PawnShop.Controllers
         [SerializeField] private TextMeshProUGUI _itemTitle;
         [SerializeField] private TextMeshProUGUI _itemDescription;
         [SerializeField] private TextMeshProUGUI _negotiatedPrice;
+        [SerializeField] private Button _acceptButton;
+        [SerializeField] private Button _rejectButton;
+        [SerializeField] private Button _roundButton;
 
         private ICustomerService _customerService;
         private ITagService _tagService;
         private ITagFactory _tagFactory;
+        private IWalletService _walletService;
+        private ISlotStorageService<ItemModel> _inventoryStorage;
         private ItemModel _currentItem;
 
         private List<CardController> _playerCardControllers = new List<CardController>();
@@ -39,11 +45,16 @@ namespace PawnShop.Controllers
         private DiContainer _container;
 
         [Inject]
-        public void Construct(ICustomerService customerService, ITagService tagService, ITagFactory tagFactory, DiContainer container)
+        public void Construct(ICustomerService customerService, ITagService tagService, ITagFactory tagFactory, 
+            IWalletService walletService,
+            [Inject(Id = StorageType.InventoryStorage)] ISlotStorageService<ItemModel> inventoryStorage, 
+            DiContainer container)
         {
             _customerService = customerService;
             _tagService = tagService;
             _tagFactory = tagFactory;
+            _walletService = walletService;
+            _inventoryStorage = inventoryStorage;
             _container = container;
         }
 
@@ -65,6 +76,7 @@ namespace PawnShop.Controllers
             CustomerTakeCards();
             InitializePlayerRoundSlots();
             InitializeCustomerRoundSlots();
+            InitializeButtons();
         }
 
         private void UpdateItemImage()
@@ -108,7 +120,19 @@ namespace PawnShop.Controllers
             
             Debug.Log($"[RecalculateOffer] Starting calculation - Base Price: {basePrice}");
             
-            // Calculate multiplier from player round slots
+            // First, calculate multiplier from item tags
+            Debug.Log($"[RecalculateOffer] Processing {_currentItem.Tags.Count} item tags");
+            foreach (var tag in _currentItem.Tags)
+            {
+                if (tag != null)
+                {
+                    float multiplier = tag.PriceMultiplier;
+                    totalMultiplier *= multiplier;
+                    Debug.Log($"[RecalculateOffer] Item tag multiplier: {multiplier}, Total multiplier now: {totalMultiplier}");
+                }
+            }
+            
+            // Then, calculate multiplier from player round slots
             Debug.Log($"[RecalculateOffer] Processing {_playerRoundSlots.Count} player round slots");
             foreach (var slot in _playerRoundSlots)
             {
@@ -121,7 +145,7 @@ namespace PawnShop.Controllers
                 }
             }
 
-            // Calculate multiplier from customer round slots
+            // Finally, calculate multiplier from customer round slots
             Debug.Log($"[RecalculateOffer] Processing {_customerRoundSlots.Count} customer round slots");
             foreach (var slot in _customerRoundSlots)
             {
@@ -269,6 +293,158 @@ namespace PawnShop.Controllers
             UpdateNegotiatedPrice();
         }
 
+        private void InitializeButtons()
+        {
+            if (_acceptButton != null)
+            {
+                _acceptButton.onClick.AddListener(OnAcceptButtonClicked);
+            }
+
+            if (_rejectButton != null)
+            {
+                _rejectButton.onClick.AddListener(OnRejectButtonClicked);
+            }
+
+            if (_roundButton != null)
+            {
+                _roundButton.onClick.AddListener(OnRoundButtonClicked);
+            }
+        }
+
+        private void OnAcceptButtonClicked()
+        {
+            Debug.Log("[TradeNegotiationController] Accept button clicked - Trade accepted!");
+            
+            if (_currentItem == null)
+            {
+                Debug.LogWarning("[TradeNegotiationController] No current item to accept!");
+                return;
+            }
+
+            // Try to deduct money for purchase (taken from NegotiationService logic)
+            var success = _walletService.TransactionAttempt(CurrencyType.Money, -_currentItem.CurrentOffer);
+            if (!success)
+            {
+                Debug.LogWarning("[TradeNegotiationController] Not enough money to buy the item!");
+                return;
+            }
+
+            // Move item to inventory storage (taken from NegotiationService logic)
+            if (_inventoryStorage.Put(_currentItem))
+            {
+                Debug.Log($"[TradeNegotiationController] Item {_currentItem.Name} purchased and moved to inventory for {_currentItem.CurrentOffer}!");
+                // Clear customer and unload scene
+                _customerService.ClearCustomer();
+                UnloadNegotiationScene();
+            }
+            else
+            {
+                Debug.LogWarning("[TradeNegotiationController] Failed to move item to inventory - inventory full!");
+                // Refund money if inventory is full
+                _walletService.TransactionAttempt(CurrencyType.Money, _currentItem.CurrentOffer);
+            }
+        }
+
+        private void OnRejectButtonClicked()
+        {
+            Debug.Log("[TradeNegotiationController] Reject button clicked - Trade rejected!");
+            
+            // Just clear customer and unload scene without making deal
+            _customerService.ClearCustomer();
+            UnloadNegotiationScene();
+        }
+
+        private void OnRoundButtonClicked()
+        {
+            Debug.Log("[TradeNegotiationController] Round button clicked - Starting new round!");
+            
+            // Add tags from round cards to item and reveal them to player
+            AddRoundCardsTagsToItem();
+            
+            // Clear current round cards and deal new ones
+            ClearRoundCards();
+            PlayerTakeCards();
+            CustomerTakeCards();
+            
+            // Recalculate offer based on new cards
+            RecalculateOffer();
+            UpdateNegotiatedPrice();
+        }
+
+        private void AddRoundCardsTagsToItem()
+        {
+            if (_currentItem == null) return;
+
+            // Add tags from player round cards
+            foreach (var slot in _playerRoundSlots)
+            {
+                if (slot != null)
+                {
+                    var cardController = slot.GetComponentInChildren<CardController>();
+                    if (cardController?.Model != null)
+                    {
+                        // Add tag to item and reveal it to player
+                        var tagModel = cardController.Model;
+                        _currentItem.Tags.Add(tagModel);
+                        tagModel.IsRevealedToPlayer = true;
+                        Debug.Log($"[TradeNegotiationController] Added player tag {tagModel.DisplayName} to item");
+                    }
+                }
+            }
+
+            // Add tags from customer round cards
+            foreach (var slot in _customerRoundSlots)
+            {
+                if (slot != null)
+                {
+                    var cardController = slot.GetComponentInChildren<CardController>();
+                    if (cardController?.Model != null)
+                    {
+                        // Add tag to item and reveal it to player
+                        var tagModel = cardController.Model;
+                        _currentItem.Tags.Add(tagModel);
+                        tagModel.IsRevealedToPlayer = true;
+                        Debug.Log($"[TradeNegotiationController] Added customer tag {tagModel.DisplayName} to item");
+                    }
+                }
+            }
+        }
+
+        private void ClearRoundCards()
+        {
+            // Clear player round cards
+            foreach (var slot in _playerRoundSlots)
+            {
+                if (slot != null)
+                {
+                    var cardController = slot.GetComponentInChildren<CardController>();
+                    if (cardController != null)
+                    {
+                        Destroy(cardController.gameObject);
+                    }
+                }
+            }
+
+            // Clear customer round cards
+            foreach (var slot in _customerRoundSlots)
+            {
+                if (slot != null)
+                {
+                    var cardController = slot.GetComponentInChildren<CardController>();
+                    if (cardController != null)
+                    {
+                        Destroy(cardController.gameObject);
+                    }
+                }
+            }
+        }
+
+        private void UnloadNegotiationScene()
+        {
+            Debug.Log("[TradeNegotiationController] Unloading NegotiationScene");
+            SceneManager.UnloadSceneAsync("NegotiationScene");
+        }
+
         private void OnDestroy()
         {
             // Unsubscribe from all player slots
@@ -289,6 +465,22 @@ namespace PawnShop.Controllers
                     slot.OnItemDroppedEvent -= OnCustomerSlotItemDropped;
                     slot.OnItemStartDragEvent -= OnCustomerSlotItemStartDrag;
                 }
+            }
+
+            // Unsubscribe from button events
+            if (_acceptButton != null)
+            {
+                _acceptButton.onClick.RemoveListener(OnAcceptButtonClicked);
+            }
+
+            if (_rejectButton != null)
+            {
+                _rejectButton.onClick.RemoveListener(OnRejectButtonClicked);
+            }
+
+            if (_roundButton != null)
+            {
+                _roundButton.onClick.RemoveListener(OnRoundButtonClicked);
             }
         }
     }
