@@ -11,11 +11,13 @@ namespace PawnShop.Controllers
         [SerializeField] private Transform[] waypoints;
 
         private ICustomerService _customerService;
+        private ITimeService _timeService;
 
         [Inject]
-        public void Construct(ICustomerService customerService)
+        public void Construct(ICustomerService customerService, ITimeService timeService)
         {
             _customerService = customerService;
+            _timeService = timeService;
         }
 
         private void Start()
@@ -42,9 +44,21 @@ namespace PawnShop.Controllers
                 
                 // Assign waypoints to the spawned customer
                 var npcController = customerInstance.GetComponent<NpcController>();
+                var characterMovement = customerInstance.GetComponent<CharacterMovement>();
+                
                 if (npcController != null && waypoints != null && waypoints.Length > 0)
                 {
                     npcController.SetWaypoints(waypoints);
+                }
+                
+                // Manually inject TimeService into components since they're created via Instantiate
+                if (characterMovement != null)
+                {
+                    characterMovement.Construct(_timeService);
+                }
+                if (npcController != null)
+                {
+                    npcController.Construct(_timeService);
                 }
             }
         }

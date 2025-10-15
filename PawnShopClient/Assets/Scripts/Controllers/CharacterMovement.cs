@@ -1,5 +1,7 @@
 using UnityEngine;
 using System;
+using PawnShop.Services;
+using Zenject;
 
 namespace PawnShop.Controllers
 {
@@ -11,11 +13,12 @@ namespace PawnShop.Controllers
     public class CharacterMovement : MonoBehaviour
     {
         [Header("Movement Settings")]
-        [SerializeField] private float moveSpeed = 4f;
+        [SerializeField] private float moveSpeed = 3f;
         
         // Components
         private Rigidbody2D rb;
         private Animator animator;
+        private ITimeService timeService;
         
         // Movement state
         private float horizontalInput;
@@ -23,6 +26,12 @@ namespace PawnShop.Controllers
         
         // Events
         public System.Action<float> OnHorizontalMovement;
+        
+        [Inject]
+        public void Construct(ITimeService timeService)
+        {
+            this.timeService = timeService;
+        }
         
         private void Awake()
         {
@@ -56,8 +65,12 @@ namespace PawnShop.Controllers
         /// </summary>
         private void HandleMovement()
         {
-            // Apply horizontal movement (preserve Y velocity)
-            rb.linearVelocity = new Vector2(horizontalInput * moveSpeed, rb.linearVelocity.y);
+            // Get time multiplier from TimeService (60 = normal speed, 240 = 4x speed, etc.)
+            float timeMultiplier = timeService?.TimeMultiplier ?? 60f;
+            float timeScale = timeMultiplier / 60f; // Convert to relative scale
+            
+            // Apply horizontal movement with time scale (preserve Y velocity)
+            rb.linearVelocity = new Vector2(horizontalInput * moveSpeed * timeScale, rb.linearVelocity.y);
             
             // Flip sprite based on movement direction
             FlipSprite();
@@ -99,6 +112,11 @@ namespace PawnShop.Controllers
         private void HandleAnimations()
         {
             if (animator == null) return;
+            
+            // Get time multiplier from TimeService and set animation speed
+            float timeMultiplier = timeService?.TimeMultiplier ?? 60f;
+            float timeScale = timeMultiplier / 60f; // Convert to relative scale
+            animator.speed = timeScale;
             
             // Set animation parameters
             animator.SetFloat("xVelocity", Math.Abs(rb.linearVelocity.x));

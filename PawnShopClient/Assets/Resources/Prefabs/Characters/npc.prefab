@@ -207,17 +207,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1295daf1d3b434943b80f6341ceabf9a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  waypoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  waypoints: []
   reachDistance: 0.1
   waitTimeAtWaypoint: 2
-  moveSpeed: 4
+  moveSpeed: 3
   lookAtTarget: 1
   searchVerticalThreshold: 0.3
-  thresholdX: 0.2
+  npcAction: 0
+  thresholdX: 0.4
   characterMovement: {fileID: 7148135631189816733}
   teleportClientController: {fileID: 148511961142386929}
 --- !u!114 &148511961142386929
@@ -264,6 +261,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiObject: {fileID: 8081258981812968}
+  activationDistance: 0.5
 --- !u!1 &7944235456483015526
 GameObject:
   m_ObjectHideFlags: 0

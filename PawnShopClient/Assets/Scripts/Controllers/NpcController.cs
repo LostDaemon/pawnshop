@@ -1,6 +1,8 @@
 using UnityEngine;
 using PawnShop.Controllers.Teleport;
 using PawnShop.Models;
+using Zenject;
+using PawnShop.Services;
 
 namespace PawnShop.Controllers
 {
@@ -28,6 +30,9 @@ namespace PawnShop.Controllers
         [SerializeField] private CharacterMovement characterMovement;
         [SerializeField] private TeleportClientController teleportClientController;
 
+        // Services
+        private ITimeService timeService;
+
         // State
         private bool isMoving = false;
         private bool isWaiting = false;
@@ -39,6 +44,12 @@ namespace PawnShop.Controllers
         public System.Action OnTargetReached;
         public System.Action OnMovementStarted;
         public System.Action OnMovementStopped;
+
+        [Inject]
+        public void Construct(ITimeService timeService)
+        {
+            this.timeService = timeService;
+        }
 
         private void Awake()
         {
@@ -70,14 +81,17 @@ namespace PawnShop.Controllers
                 StartMovement();
             }
         }
-        
+
         private void Update()
         {
             if (isMoving && waypoints != null && waypoints.Length > 0)
             {
                 if (isWaiting)
                 {
-                    waitTimer -= Time.deltaTime;
+                    // Use time multiplier to scale wait timer
+                    float timeMultiplier = timeService?.TimeMultiplier ?? 60f;
+                    float timeScale = timeMultiplier / 60f;
+                    waitTimer -= Time.deltaTime * timeScale;
                     if (waitTimer <= 0f)
                     {
                         isWaiting = false;
@@ -159,7 +173,7 @@ namespace PawnShop.Controllers
         private void SearchForTeleport()
         {
             needTeleport = true;
-            
+
             // If already need teleport, check if first waypoint is already a teleport
             if (waypoints != null && waypoints.Length > 0)
             {
@@ -170,7 +184,7 @@ namespace PawnShop.Controllers
                     RemoveFirstWaypoint();
                 }
             }
-            
+
             // Find all TeleportController objects on the scene
             var teleportControllers = FindObjectsByType<TeleportController>(FindObjectsSortMode.None);
 
