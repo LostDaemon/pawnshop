@@ -118,51 +118,41 @@ namespace PawnShop.Controllers
             float basePrice = _currentItem.BasePrice;
             float totalMultiplier = 1f;
             
-            Debug.Log($"[RecalculateOffer] Starting calculation - Base Price: {basePrice}");
-            
-            // First, calculate multiplier from item tags
-            Debug.Log($"[RecalculateOffer] Processing {_currentItem.Tags.Count} item tags");
+            // Calculate multiplier from item tags
             foreach (var tag in _currentItem.Tags)
             {
                 if (tag != null)
                 {
-                    float multiplier = tag.PriceMultiplier;
-                    totalMultiplier *= multiplier;
-                    Debug.Log($"[RecalculateOffer] Item tag multiplier: {multiplier}, Total multiplier now: {totalMultiplier}");
+                    totalMultiplier *= tag.PriceMultiplier;
                 }
             }
             
-            // Then, calculate multiplier from player round slots
-            Debug.Log($"[RecalculateOffer] Processing {_playerRoundSlots.Count} player round slots");
+            // Calculate multiplier from player round slots
             foreach (var slot in _playerRoundSlots)
             {
                 var cardController = slot.GetComponentInChildren<CardController>();
                 if (cardController?.Model != null)
                 {
-                    float multiplier = cardController.Model.PriceMultiplier;
-                    totalMultiplier *= multiplier;
-                    Debug.Log($"[RecalculateOffer] Player card multiplier: {multiplier}, Total multiplier now: {totalMultiplier}");
+                    totalMultiplier *= cardController.Model.PriceMultiplier;
                 }
             }
 
-            // Finally, calculate multiplier from customer round slots
-            Debug.Log($"[RecalculateOffer] Processing {_customerRoundSlots.Count} customer round slots");
+            // Calculate multiplier from customer round slots
             foreach (var slot in _customerRoundSlots)
             {
                 var cardController = slot.GetComponentInChildren<CardController>();
                 if (cardController?.Model != null)
                 {
-                    float multiplier = cardController.Model.PriceMultiplier;
-                    totalMultiplier *= multiplier;
-                    Debug.Log($"[RecalculateOffer] Customer card multiplier: {multiplier}, Total multiplier now: {totalMultiplier}");
+                    totalMultiplier *= cardController.Model.PriceMultiplier;
                 }
             }
 
-            // Apply multiplier to base price and round down
-            float newOffer = Mathf.Floor(basePrice * totalMultiplier);
-            Debug.Log($"[RecalculateOffer] Final calculation - Base: {basePrice} × Total Multiplier: {totalMultiplier} = {basePrice * totalMultiplier}, Floored: {newOffer}");
-            _currentItem.CurrentOffer = (long)newOffer;
-            Debug.Log($"[RecalculateOffer] Final offer set to: {_currentItem.CurrentOffer}");
+            // Apply multiplier to base price and round to nearest integer
+            float calculatedPrice = basePrice * totalMultiplier;
+            long newOffer = Mathf.RoundToInt(calculatedPrice);
+            _currentItem.CurrentOffer = newOffer;
+            
+            Debug.Log($"[RecalculateOffer] Item tags: {_currentItem.Tags.Count}, Player cards: {_playerRoundSlots.Count(c => c.GetComponentInChildren<CardController>()?.Model != null)}, Customer cards: {_customerRoundSlots.Count(c => c.GetComponentInChildren<CardController>()?.Model != null)}, Total multiplier: {totalMultiplier:F2}, Price: {basePrice} → {newOffer}");
         }
 
         public void PlayerTakeCards()
@@ -357,16 +347,25 @@ namespace PawnShop.Controllers
         private void OnRoundButtonClicked()
         {
             Debug.Log("[TradeNegotiationController] Round button clicked - Starting new round!");
-            
+            StartCoroutine(ProcessRoundEnd());
+        }
+
+        private System.Collections.IEnumerator ProcessRoundEnd()
+        {
             // Add tags from round cards to item and reveal them to player
             AddRoundCardsTagsToItem();
             
-            // Clear current round cards and deal new ones
+            // Clear current round cards first
             ClearRoundCards();
+            
+            // Wait one frame for cards to be destroyed
+            yield return null;
+            
+            // Deal new cards
             PlayerTakeCards();
             CustomerTakeCards();
             
-            // Recalculate offer based on new cards
+            // Recalculate price with new round cards (old cards are now part of item tags)
             RecalculateOffer();
             UpdateNegotiatedPrice();
         }
@@ -408,6 +407,8 @@ namespace PawnShop.Controllers
                     }
                 }
             }
+            
+            // Price will be recalculated after clearing round cards
         }
 
         private void ClearRoundCards()
