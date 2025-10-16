@@ -174,6 +174,11 @@ namespace PawnShop.Installers
                 .To<LanguageRepository>()
                 .AsSingle();
 
+            // Navigation
+            Container.Bind<INavigationRepository>()
+                .To<NavigationRepository>()
+                .AsSingle();
+
             // Drag and Drop
             Container.Bind<IDragNDropService<ItemModel>>()
                 .To<DragNDropService<ItemModel>>()

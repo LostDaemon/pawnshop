@@ -2,22 +2,25 @@ using UnityEngine;
 using Zenject;
 using PawnShop.Services;
 using PawnShop.Models.Characters;
+using PawnShop.Repositories;
+using PawnShop.Models;
 
 namespace PawnShop.Controllers
 {
     public class CustomerSpawnController : MonoBehaviour
     {
         [SerializeField] private GameObject customerPrefab;
-        [SerializeField] private Transform[] waypoints;
 
         private ICustomerService _customerService;
         private ITimeService _timeService;
+        private INavigationRepository _navigationRepository;
 
         [Inject]
-        public void Construct(ICustomerService customerService, ITimeService timeService)
+        public void Construct(ICustomerService customerService, ITimeService timeService, INavigationRepository navigationRepository)
         {
             _customerService = customerService;
             _timeService = timeService;
+            _navigationRepository = navigationRepository;
         }
 
         private void Start()
@@ -38,28 +41,32 @@ namespace PawnShop.Controllers
 
         private void OnCustomerChanged(Customer customer)
         {
-            if (customerPrefab != null)
+            Debug.Log($"[CustomerSpawnController] OnCustomerChanged triggered. Customer: {(customer != null ? customer.Id.ToString() : "null")}");
+
+            if (customer == null || customerPrefab == null)
             {
-                GameObject customerInstance = Instantiate(customerPrefab, transform.position, transform.rotation, transform);
-                
-                // Assign waypoints to the spawned customer
-                var npcController = customerInstance.GetComponent<NpcController>();
-                var characterMovement = customerInstance.GetComponent<CharacterMovement>();
-                
-                if (npcController != null && waypoints != null && waypoints.Length > 0)
-                {
-                    npcController.SetWaypoints(waypoints);
-                }
-                
-                // Manually inject TimeService into components since they're created via Instantiate
-                if (characterMovement != null)
-                {
-                    characterMovement.Construct(_timeService);
-                }
-                if (npcController != null)
-                {
-                    npcController.Construct(_timeService);
-                }
+                return;
+            }
+
+            GameObject customerInstance = Instantiate(customerPrefab, transform.position, transform.rotation, transform);
+
+            // Get components from spawned customer
+            var npcController = customerInstance.GetComponent<NpcController>();
+            var characterMovement = customerInstance.GetComponent<CharacterMovement>();
+
+            // Manually inject services into components since they're created via Instantiate
+            if (characterMovement != null)
+            {
+                characterMovement.Construct(_timeService);
+            }
+            if (npcController != null)
+            {
+                // Set customer action based on customer type
+                NpcAction action = customer.CustomerType == CustomerType.Seller ? NpcAction.Sell : NpcAction.Buy;
+                customer.CurrentAction = action;
+
+                npcController.Construct(_timeService, _navigationRepository, _customerService);
+                npcController.Init(customer);
             }
         }
     }

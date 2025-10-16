@@ -24,6 +24,7 @@ namespace PawnShop.Services
         public event Action<Customer> OnCustomerChanged;
         public event Action<Customer> OnNewCustomer;
         public event Action<float> OnPatienceChanged;
+        public event Action<NpcAction> OnCustomerActionChanged;
 
 
         [Inject]
@@ -33,7 +34,6 @@ namespace PawnShop.Services
             _history = history;
             _localizationService = localizationService;
             _timeService = timeService;
-
             _timeService.OnEventTriggered += OnEventTriggered;
             _timeService.OnTimeChanged += OnTimeChanged;
         }
@@ -48,9 +48,9 @@ namespace PawnShop.Services
 
             float previousPatience = CurrentCustomer.Patience;
             CurrentCustomer.Patience = Mathf.Max(0f, CurrentCustomer.Patience + changeAmount);
-            
+
             Debug.Log($"[CustomerService] Customer patience changed by {changeAmount:F1}. Previous: {previousPatience:F1}, Current: {CurrentCustomer.Patience:F1}");
-            
+
             // Update patience and trigger events
             UpdatePatience(previousPatience);
         }
@@ -75,15 +75,15 @@ namespace PawnShop.Services
         public void NextCustomer()
         {
             Debug.Log("[CustomerService] NextCustomer called");
-            
+
             if (_customersQueue.Count == 0)
             {
                 Debug.LogWarning("[CustomerService] No customers in queue");
                 return;
             }
-            
+
             CurrentCustomer = _customersQueue.Dequeue();
-            
+
             Debug.Log($"[CustomerService] Current customer: Type={CurrentCustomer?.CustomerType}, Item={CurrentCustomer?.OwnedItem?.Name}");
             OnCustomerChanged?.Invoke(CurrentCustomer);
         }
@@ -95,10 +95,27 @@ namespace PawnShop.Services
             ClearCustomer();
         }
 
+        public void SetCustomerAction(NpcAction action)
+        {
+            Debug.Log($"[CustomerService] SetCustomerAction called with action: {action} for customer: {CurrentCustomer?.CustomerType}");
+
+            if (CurrentCustomer == null)
+            {
+                Debug.LogWarning("[CustomerService] No current customer to set action");
+                return;
+            }
+
+            // Update customer's current action
+            CurrentCustomer.CurrentAction = action;
+
+            // Trigger event for NPC controllers to listen
+            OnCustomerActionChanged?.Invoke(action);
+        }
+
         private void CheckPatienceThresholds(float previousPatience)
         {
             if (CurrentCustomer == null) return;
-            
+
             // Show dialogue at 50% and 25% thresholds
             if (previousPatience > 50f && CurrentCustomer.Patience <= 50f)
             {
@@ -113,17 +130,17 @@ namespace PawnShop.Services
         private void HandleCustomerLeaving()
         {
             if (CurrentCustomer == null) return;
-            
+
             Debug.Log($"[CustomerService] Customer patience reached zero. Customer is leaving.");
-            
+
             // Show customer's final dialogue before leaving
             string leaveDialogue = _localizationService.GetLocalization("dialog_customer_patience_leave");
             _history.Add(new TextRecord(HistoryRecordSource.Customer, leaveDialogue));
-            
+
             // Add system message about customer leaving
             string systemMessage = _localizationService.GetLocalization("system_customer_left_impatient");
             _history.Add(new TextRecord(HistoryRecordSource.System, systemMessage));
-            
+
             // Clear current customer
             ClearCustomer();
         }
@@ -131,15 +148,15 @@ namespace PawnShop.Services
         private void OnEventTriggered(IGameEvent gameEvent)
         {
             Debug.Log($"[CustomerService] Event triggered: Type={gameEvent.EventType}, Time={gameEvent.Time.Day}:{gameEvent.Time.Hour:D2}:{gameEvent.Time.Minute:D2}");
-            
+
             if (gameEvent.EventType == GameEventType.Customer)
             {
                 var newCustomer = _customerFactory.GenerateRandomCustomer();
                 _customersQueue.Enqueue(newCustomer);
-                
+
                 Debug.Log($"[CustomerService] New customer added to queue: Type={newCustomer?.CustomerType}, Item={newCustomer?.OwnedItem?.Name}");
                 OnNewCustomer?.Invoke(newCustomer);
-                
+                SetCustomerAction(NpcAction.Sell); //<--
                 if (CurrentCustomer == null)
                 {
                     NextCustomer();
@@ -155,7 +172,7 @@ namespace PawnShop.Services
                 _isDayScheduled = false;
                 Debug.Log("[CustomerService] Midnight reached - scheduling flag reset");
             }
-            
+
             // Schedule customer events for the day if not already scheduled
             if (!_isDayScheduled)
             {
@@ -163,16 +180,16 @@ namespace PawnShop.Services
                 _isDayScheduled = true;
                 Debug.Log("[CustomerService] Customer events scheduled for the day");
             }
-            
+
             // Reduce customer patience every minute
             if (CurrentCustomer != null)
             {
                 float previousPatience = CurrentCustomer.Patience;
                 CurrentCustomer.Patience = Mathf.Max(0f, CurrentCustomer.Patience - 0.1f);
-                
+
                 // Update patience and trigger events
                 UpdatePatience(previousPatience);
-                
+
                 // Check if customer patience reached zero
                 if (CurrentCustomer.Patience <= 0f)
                 {
@@ -184,35 +201,35 @@ namespace PawnShop.Services
         private void ScheduleCustomerEvents()
         {
             Debug.Log("[CustomerService] Scheduling customer events...");
-            
+
             var currentDay = _timeService.CurrentTime.Day;
             var scheduledTimes = new List<string>();
-            
+
             for (int hour = 8; hour <= 18; hour++)
             {
                 var baseMinute = 0;
                 var deviation = _random.Next(-30, 31); // -30 to +30 minutes
                 var actualMinute = Math.Max(0, Math.Min(59, baseMinute + deviation));
-                
+
                 var scheduledTime = new GameTime(currentDay, hour, actualMinute);
-                
+
                 var gameEvent = new GameEvent
                 {
                     EventType = GameEventType.Customer,
                     Time = scheduledTime
                 };
-                
+
                 _timeService.Schedule(gameEvent);
                 scheduledTimes.Add($"{hour}:{actualMinute:D2}");
             }
-            
+
             Debug.Log($"[CustomerService] Scheduled customer events for day {currentDay} at: {string.Join(", ", scheduledTimes)}");
         }
 
         private void ShowCustomerPatienceDialogue()
         {
             if (CurrentCustomer == null) return;
-            
+
             // Show random dialogue from customer about patience
             string dialogue = _localizationService.GetLocalization("dialog_customer_patience");
             _history.Add(new TextRecord(HistoryRecordSource.Customer, dialogue));
@@ -223,10 +240,10 @@ namespace PawnShop.Services
             // Only proceed if patience actually changed
             if (Mathf.Approximately(previousPatience, CurrentCustomer.Patience))
                 return;
-            
+
             // Check patience thresholds and show dialogue
             CheckPatienceThresholds(previousPatience);
-            
+
             // Trigger patience changed event
             OnPatienceChanged?.Invoke(CurrentCustomer.Patience);
         }

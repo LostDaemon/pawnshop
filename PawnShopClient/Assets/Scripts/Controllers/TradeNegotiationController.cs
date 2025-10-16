@@ -45,9 +45,9 @@ namespace PawnShop.Controllers
         private DiContainer _container;
 
         [Inject]
-        public void Construct(ICustomerService customerService, ITagService tagService, ITagFactory tagFactory, 
+        public void Construct(ICustomerService customerService, ITagService tagService, ITagFactory tagFactory,
             IWalletService walletService,
-            [Inject(Id = StorageType.InventoryStorage)] ISlotStorageService<ItemModel> inventoryStorage, 
+            [Inject(Id = StorageType.InventoryStorage)] ISlotStorageService<ItemModel> inventoryStorage,
             DiContainer container)
         {
             _customerService = customerService;
@@ -117,7 +117,7 @@ namespace PawnShop.Controllers
 
             float basePrice = _currentItem.BasePrice;
             float totalMultiplier = 1f;
-            
+
             // Calculate multiplier from item tags
             foreach (var tag in _currentItem.Tags)
             {
@@ -126,7 +126,7 @@ namespace PawnShop.Controllers
                     totalMultiplier *= tag.PriceMultiplier;
                 }
             }
-            
+
             // Calculate multiplier from player round slots
             foreach (var slot in _playerRoundSlots)
             {
@@ -151,7 +151,7 @@ namespace PawnShop.Controllers
             float calculatedPrice = basePrice * totalMultiplier;
             long newOffer = Mathf.RoundToInt(calculatedPrice);
             _currentItem.CurrentOffer = newOffer;
-            
+
             Debug.Log($"[RecalculateOffer] Item tags: {_currentItem.Tags.Count}, Player cards: {_playerRoundSlots.Count(c => c.GetComponentInChildren<CardController>()?.Model != null)}, Customer cards: {_customerRoundSlots.Count(c => c.GetComponentInChildren<CardController>()?.Model != null)}, Total multiplier: {totalMultiplier:F2}, Price: {basePrice} → {newOffer}");
         }
 
@@ -266,7 +266,7 @@ namespace PawnShop.Controllers
         {
             // Wait one frame for the card to be actually moved to its new parent
             yield return null;
-            
+
             RecalculateOffer();
             UpdateNegotiatedPrice();
         }
@@ -304,7 +304,7 @@ namespace PawnShop.Controllers
         private void OnAcceptButtonClicked()
         {
             Debug.Log("[TradeNegotiationController] Accept button clicked - Trade accepted!");
-            
+
             if (_currentItem == null)
             {
                 Debug.LogWarning("[TradeNegotiationController] No current item to accept!");
@@ -323,6 +323,10 @@ namespace PawnShop.Controllers
             if (_inventoryStorage.Put(_currentItem))
             {
                 Debug.Log($"[TradeNegotiationController] Item {_currentItem.Name} purchased and moved to inventory for {_currentItem.CurrentOffer}!");
+
+                // Send customer to city
+                _customerService.SetCustomerAction(NpcAction.ReturnToZone);
+
                 // Clear customer and unload scene
                 _customerService.ClearCustomer();
                 UnloadNegotiationScene();
@@ -338,7 +342,10 @@ namespace PawnShop.Controllers
         private void OnRejectButtonClicked()
         {
             Debug.Log("[TradeNegotiationController] Reject button clicked - Trade rejected!");
-            
+
+            // Send customer to city
+            _customerService.SetCustomerAction(NpcAction.ReturnToZone);
+
             // Just clear customer and unload scene without making deal
             _customerService.ClearCustomer();
             UnloadNegotiationScene();
@@ -354,17 +361,17 @@ namespace PawnShop.Controllers
         {
             // Add tags from round cards to item and reveal them to player
             AddRoundCardsTagsToItem();
-            
+
             // Clear current round cards first
             ClearRoundCards();
-            
+
             // Wait one frame for cards to be destroyed
             yield return null;
-            
+
             // Deal new cards
             PlayerTakeCards();
             CustomerTakeCards();
-            
+
             // Recalculate price with new round cards (old cards are now part of item tags)
             RecalculateOffer();
             UpdateNegotiatedPrice();
@@ -407,7 +414,7 @@ namespace PawnShop.Controllers
                     }
                 }
             }
-            
+
             // Price will be recalculated after clearing round cards
         }
 

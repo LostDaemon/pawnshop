@@ -1,5 +1,6 @@
 using System;
 using PawnShop.Models.Characters;
+using PawnShop.Models;
 
 namespace PawnShop.Services
 {
@@ -10,7 +11,9 @@ namespace PawnShop.Services
         void RequestSkip();
         void ClearCustomer();
         void ChangeCustomerPatience(float changeAmount);
+        void SetCustomerAction(NpcAction action);
         event Action<Customer> OnCustomerChanged;
         event Action<float> OnPatienceChanged;
+        event Action<NpcAction> OnCustomerActionChanged;
     }
 }

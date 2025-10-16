@@ -6,6 +6,8 @@ namespace PawnShop.Models
         Sell,
         Search,
         Buy,
-        Attack
+        Attack,
+        ReturnToZone,
+        ReturnToCity
     }
 }
