@@ -38,6 +38,8 @@ namespace PawnShop.Controllers
         private float _waitTimer = 0f;
         private float _currentTargetOffset = 0f; // Random offset for current target
 
+        public Customer Model => _customer;
+
         /// <summary>
         /// Initialize NPC with character model
         /// </summary>

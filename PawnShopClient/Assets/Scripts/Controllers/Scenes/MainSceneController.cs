@@ -24,11 +24,6 @@ public class MainSceneController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // Check for E key press to load target scene
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            LoadTargetScene();
-        }
     }
     
     /// <summary>
