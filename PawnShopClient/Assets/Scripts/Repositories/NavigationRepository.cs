@@ -1,46 +1,45 @@
 using System.Collections.Generic;
-using PawnShop.Models;
-using UnityEngine;
+using PawnShop.Models.Npc;
 
 namespace PawnShop.Repositories
 {
     public class NavigationRepository : INavigationRepository
     {
-        private readonly Dictionary<NpcAction, List<Transform>> _actionTransforms;
+        private readonly Dictionary<NpcType, List<NpcTask>> _actionTasks;
 
         public NavigationRepository()
         {
-            _actionTransforms = new Dictionary<NpcAction, List<Transform>>();
+            _actionTasks = new Dictionary<NpcType, List<NpcTask>>();
         }
 
         /// <summary>
-        /// Register transforms for specific NPC action
+        /// Register tasks for specific NPC action
         /// </summary>
         /// <param name="action">NPC action type</param>
-        /// <param name="transforms">List of transforms for this action</param>
-        public void Register(NpcAction action, List<Transform> transforms)
+        /// <param name="tasks">List of tasks for this action</param>
+        public void Register(NpcType type, List<NpcTask> tasks)
         {
-            _actionTransforms[action] = transforms;
+            _actionTasks[type] = tasks;
         }
 
         /// <summary>
-        /// Clear all registered transforms
+        /// Clear all registered tasks
         /// </summary>
         public void Clear()
         {
-            _actionTransforms.Clear();
+            _actionTasks.Clear();
         }
 
         /// <summary>
-        /// Get navigation transforms for specific NPC action
+        /// Get navigation tasks for specific NPC action
         /// </summary>
         /// <param name="action">NPC action type</param>
-        /// <returns>List of transforms for the action, or empty list if not found</returns>
-        public List<Transform> GetNavigation(NpcAction action)
+        /// <returns>List of tasks for the action, or empty list if not found</returns>
+        public List<NpcTask> GetNavigation(NpcType action)
         {
-            return _actionTransforms.TryGetValue(action, out var transforms) 
-                ? transforms 
-                : new List<Transform>();
+            return _actionTasks.TryGetValue(action, out var tasks)
+                ? tasks
+                : new List<NpcTask>();
         }
     }
 }

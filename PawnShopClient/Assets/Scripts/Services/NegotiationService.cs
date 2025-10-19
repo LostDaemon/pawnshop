@@ -7,6 +7,7 @@ using PawnShop.Models.Tags;
 using PawnShop.Helpers;
 using UnityEngine;
 using Zenject;
+using PawnShop.Models.Npc;
 
 namespace PawnShop.Services
 {
@@ -94,7 +95,7 @@ namespace PawnShop.Services
             {
                 _remainingDelayTicks--;
                 Debug.Log($"[NegotiationService] Analysis delay: {_remainingDelayTicks} ticks remaining for {_pendingAnalysisType.Value}");
-                
+
                 if (_remainingDelayTicks <= 0)
                 {
                     // Delay complete, perform analysis
@@ -118,7 +119,7 @@ namespace PawnShop.Services
             _history.Add(new TextRecord(HistoryRecordSource.Customer, greetingMessage));
 
             // Add customer intent message based on type
-            if (CurrentCustomer.CustomerType == CustomerType.Buyer)
+            if (CurrentCustomer.CustomerType == NpcType.Buyer)
             {
                 var buyerMessage = string.Format(_localizationService.GetLocalization("dialog_customer_buyer_intent"), CurrentItem.CurrentOffer);
                 _history.Add(new TextRecord(HistoryRecordSource.Customer, buyerMessage));
@@ -138,7 +139,7 @@ namespace PawnShop.Services
             if (CurrentItem == null) return;
 
             // Use different evaluation strategies based on customer type
-            var strategy = CurrentCustomer.CustomerType == CustomerType.Seller
+            var strategy = CurrentCustomer.CustomerType == NpcType.Seller
                 ? EvaluationStrategy.Optimistic  // Seller overestimates item value
                 : EvaluationStrategy.Pessimistic; // Buyer underestimates item value
 
@@ -150,7 +151,7 @@ namespace PawnShop.Services
             if (CurrentItem == null)
                 return false;
 
-            if (CurrentCustomer.CustomerType == CustomerType.Seller)
+            if (CurrentCustomer.CustomerType == NpcType.Seller)
             {
                 // Seller logic: player buys item from customer
                 var success = _wallet.TransactionAttempt(CurrencyType.Money, -offeredPrice);
@@ -213,11 +214,11 @@ namespace PawnShop.Services
             if (customerKnownTags.Count == 0)
             {
                 // Customer doesn't know anything about the item
-                string noKnowledgeKey = CurrentCustomer.CustomerType == CustomerType.Seller
+                string noKnowledgeKey = CurrentCustomer.CustomerType == NpcType.Seller
                     ? "dialog_customer_seller_knows_nothing"
                     : "dialog_customer_buyer_knows_no_negative";
 
-                if (CurrentCustomer.CustomerType == CustomerType.Seller)
+                if (CurrentCustomer.CustomerType == NpcType.Seller)
                 {
                     _history.Add(new TextRecord(HistoryRecordSource.Customer,
                         _localizationService.GetLocalization(noKnowledgeKey)));
@@ -233,7 +234,7 @@ namespace PawnShop.Services
                 return new List<BaseTagModel>();
             }
 
-            if (CurrentCustomer.CustomerType == CustomerType.Seller)
+            if (CurrentCustomer.CustomerType == NpcType.Seller)
             {
                 // Seller logic: show positive tags they know about
                 HandleSellerKnowledge(customerKnownTags);
@@ -250,7 +251,7 @@ namespace PawnShop.Services
         private void HandleSellerKnowledge(List<BaseTagModel> customerKnownTags)
         {
             Debug.Log($"[NegotiationService] HandleSellerKnowledge called with {customerKnownTags?.Count ?? 0} known tags");
-            
+
             if (customerKnownTags == null)
             {
                 Debug.LogWarning("[NegotiationService] HandleSellerKnowledge: customerKnownTags is null");
@@ -303,7 +304,7 @@ namespace PawnShop.Services
 
             Debug.Log($"[NegotiationService] Adding customer knowledge message to history: {customerKnowledgeMessage}");
             _history.Add(new TextRecord(HistoryRecordSource.Customer, customerKnowledgeMessage));
-            
+
             // Make revealed positive tags known to player
             foreach (var tag in positiveTags)
             {
@@ -367,11 +368,11 @@ namespace PawnShop.Services
             {
                 Debug.Log("Counter offer rejected.");
                 // Use different rejection messages based on customer type
-                string rejectionKey = CurrentCustomer.CustomerType == CustomerType.Seller
+                string rejectionKey = CurrentCustomer.CustomerType == NpcType.Seller
                     ? "dialog_customer_seller_counter_rejected"
                     : "dialog_customer_buyer_counter_rejected";
                 _history.Add(new TextRecord(HistoryRecordSource.Customer, _localizationService.GetLocalization(rejectionKey)));
-                
+
                 // Reduce customer patience by 10 for rejected counter offer
                 _customerService.ChangeCustomerPatience(-10f);
             }
@@ -392,7 +393,7 @@ namespace PawnShop.Services
             int delayTicks = GetAnalysisDelay(analyzeType);
             _pendingAnalysisType = analyzeType;
             _remainingDelayTicks = delayTicks;
-            
+
             Debug.Log($"[NegotiationService] Starting analysis delay of {delayTicks} ticks for {analyzeType}");
         }
 
@@ -457,7 +458,7 @@ namespace PawnShop.Services
             long adjustedValue = (long)(itemValue * (1 + deviation));
 
             // Different acceptance logic based on customer type
-            if (CurrentCustomer.CustomerType == CustomerType.Seller)
+            if (CurrentCustomer.CustomerType == NpcType.Seller)
             {
                 return offer >= adjustedValue; // Seller accepts if offer is at least realistic value
             }

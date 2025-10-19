@@ -5,7 +5,7 @@ namespace PawnShop.Models.Characters
 {
     public interface ICharacter
     {
-        public Guid Id { get; set; }
+        public string Id { get; set; }
         public Dictionary<SkillType, Skill> Skills { get; set; }
     }
 }

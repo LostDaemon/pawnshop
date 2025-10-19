@@ -1,13 +1,11 @@
-using System.Collections.Generic;
-using PawnShop.Models;
+using PawnShop.Models.Npc;
 
 namespace PawnShop.Models.Characters
 {
     public class Customer : BaseCharacter
     {
         public ItemModel OwnedItem { get; set; }
-        public CustomerType CustomerType { get; set; }
-        public float Patience { get; set; } = 100f; // Customer patience level (0-100)
-        public NpcAction CurrentAction { get; set; } = NpcAction.Undefined;
+        public NpcType CustomerType { get; set; }
+        public float Patience { get; set; } = 100f;
     }
 }

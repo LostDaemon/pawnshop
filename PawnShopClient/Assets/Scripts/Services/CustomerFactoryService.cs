@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using PawnShop.Models;
 using PawnShop.Models.Characters;
+using PawnShop.Models.Npc;
 using PawnShop.Repositories;
 using UnityEngine;
 
@@ -43,7 +44,7 @@ namespace PawnShop.Services
             GenerateRandomPatience(customer);
 
             // Generate item based on customer type
-            if (customer.CustomerType == CustomerType.Buyer)
+            if (customer.CustomerType == NpcType.Buyer)
             {
                 // Buyer wants to buy an item from player's inventory
                 customer.OwnedItem = GetRandomItemFromSell();
@@ -74,20 +75,20 @@ namespace PawnShop.Services
                 if (sellItemCount > 0)
                 {
                     // 50% chance to be buyer if inventory has items
-                    customer.CustomerType = _random.NextDouble() < BUYER_CHANCE ? CustomerType.Buyer : CustomerType.Seller;
+                    customer.CustomerType = _random.NextDouble() < BUYER_CHANCE ? NpcType.Buyer : NpcType.Seller;
                     Debug.Log($"[CustomerFactory] Generated {customer.CustomerType} customer (inventory items: {sellItemCount})");
                 }
                 else
                 {
                     // Always seller if inventory is empty (no items to buy)
-                    customer.CustomerType = CustomerType.Seller;
+                    customer.CustomerType = NpcType.Seller;
                     Debug.Log($"[CustomerFactory] Generated {customer.CustomerType} customer - inventory is empty, no items to buy");
                 }
             }
             catch (Exception ex)
             {
                 Debug.LogWarning($"[CustomerFactory] Failed to determine customer type: {ex.Message}. Defaulting to Seller.");
-                customer.CustomerType = CustomerType.Seller;
+                customer.CustomerType = NpcType.Seller;
             }
         }
 

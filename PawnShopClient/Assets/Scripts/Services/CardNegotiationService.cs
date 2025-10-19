@@ -5,6 +5,7 @@ using Zenject;
 using PawnShop.Models.Characters;
 using PawnShop.Models;
 using PawnShop.Models.Tags;
+using PawnShop.Models.Npc;
 
 namespace PawnShop.Services
 {
@@ -40,7 +41,7 @@ namespace PawnShop.Services
             _customerService = customerService;
             _negotiationRounds = new Dictionary<int, NegotiationRound>();
             _customerService.OnCustomerChanged += OnCustomerServiceChanged;
-            
+
             // Initialize with current customer if one already exists
             if (_customerService.CurrentCustomer != null)
             {
@@ -199,7 +200,7 @@ namespace PawnShop.Services
                 if (tag.PriceMultiplier == 1f) continue;
 
                 // Determine which tags go to player and customer based on customer type and tag effect
-                if (CurrentCustomer.CustomerType == CustomerType.Seller)
+                if (CurrentCustomer.CustomerType == NpcType.Seller)
                 {
                     // If customer is seller:
                     // - Customer gets tags with positive effect (beneficial for them)
@@ -217,7 +218,7 @@ namespace PawnShop.Services
                         Debug.Log($"[CardNegotiationService] Added tag to player tags: {tag.DisplayName}");
                     }
                 }
-                else if (CurrentCustomer.CustomerType == CustomerType.Buyer)
+                else if (CurrentCustomer.CustomerType == NpcType.Buyer)
                 {
                     // If customer is buyer:
                     // - Customer gets tags with negative effect (beneficial for them)

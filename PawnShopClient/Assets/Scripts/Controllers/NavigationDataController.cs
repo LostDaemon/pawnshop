@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using PawnShop.Models;
+using PawnShop.Models.Npc;
 using PawnShop.Repositories;
 using UnityEngine;
 using Zenject;
@@ -15,11 +15,11 @@ namespace PawnShop.Controllers
         [System.Serializable]
         public class NavigationData
         {
-            [SerializeField] private NpcAction action;
-            [SerializeField] private List<Transform> transforms;
+            [SerializeField] private NpcType npcType;
+            [SerializeField] private List<NpcTask> tasks;
 
-            public NpcAction Action => action;
-            public List<Transform> Transforms => transforms;
+            public NpcType Type => npcType;
+            public List<NpcTask> Tasks => tasks;
         }
 
         [Header("Navigation Data")]
@@ -45,10 +45,10 @@ namespace PawnShop.Controllers
         {
             foreach (var data in navigationDataList)
             {
-                if (data.Transforms != null && data.Transforms.Count > 0)
+                if (data.Tasks != null && data.Tasks.Count > 0)
                 {
-                    navigationRepository.Register(data.Action, data.Transforms);
-                    Debug.Log($"[NavigationDataController] Registered {data.Transforms.Count} transforms for action: {data.Action}");
+                    navigationRepository.Register(data.Type, data.Tasks);
+                    Debug.Log($"[NavigationDataController] Registered {data.Tasks.Count} transforms for action: {data.Type}");
                 }
             }
         }

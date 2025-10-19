@@ -1,6 +1,5 @@
 using System.Collections.Generic;
-using PawnShop.Models;
-using UnityEngine;
+using PawnShop.Models.Npc;
 
 namespace PawnShop.Repositories
 {
@@ -10,8 +9,8 @@ namespace PawnShop.Repositories
         /// Register transforms for specific NPC action
         /// </summary>
         /// <param name="action">NPC action type</param>
-        /// <param name="transforms">List of transforms for this action</param>
-        void Register(NpcAction action, List<Transform> transforms);
+        /// <param name="tasks">List of transforms for this action</param>
+        void Register(NpcType action, List<NpcTask> tasks);
 
         /// <summary>
         /// Clear all registered transforms
@@ -23,6 +22,6 @@ namespace PawnShop.Repositories
         /// </summary>
         /// <param name="action">NPC action type</param>
         /// <returns>List of transforms for the action, or empty list if not found</returns>
-        List<Transform> GetNavigation(NpcAction action);
+        List<NpcTask> GetNavigation(NpcType type);
     }
 }

@@ -1,6 +1,6 @@
-namespace PawnShop.Models
+namespace PawnShop.Models.Npc
 {
-    public enum CustomerType
+    public enum NpcType
     {
         Undefined = 0,
         Buyer,

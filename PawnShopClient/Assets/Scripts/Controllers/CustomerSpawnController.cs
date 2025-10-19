@@ -61,10 +61,6 @@ namespace PawnShop.Controllers
             }
             if (npcController != null)
             {
-                // Set customer action based on customer type
-                NpcAction action = customer.CustomerType == CustomerType.Seller ? NpcAction.Sell : NpcAction.Buy;
-                customer.CurrentAction = action;
-
                 npcController.Construct(_timeService, _navigationRepository, _customerService);
                 npcController.Init(customer);
             }

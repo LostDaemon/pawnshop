@@ -1,6 +1,6 @@
 using System;
 using PawnShop.Models.Characters;
-using PawnShop.Models;
+using PawnShop.Models.Npc;
 
 namespace PawnShop.Services
 {
@@ -11,9 +11,9 @@ namespace PawnShop.Services
         void RequestSkip();
         void ClearCustomer();
         void ChangeCustomerPatience(float changeAmount);
-        void SetCustomerAction(NpcAction action);
+        void TriggerNpcAction(string npcId, NpcAction action);
         event Action<Customer> OnCustomerChanged;
         event Action<float> OnPatienceChanged;
-        event Action<NpcAction> OnCustomerActionChanged;
+        event Action<string, NpcAction> OnNpcAction;
     }
 }

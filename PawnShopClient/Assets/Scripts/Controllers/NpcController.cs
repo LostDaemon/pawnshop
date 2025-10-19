@@ -1,10 +1,9 @@
 using UnityEngine;
-using PawnShop.Controllers.Teleport;
-using PawnShop.Models;
 using PawnShop.Repositories;
 using Zenject;
 using PawnShop.Services;
 using PawnShop.Models.Characters;
+using PawnShop.Models.Npc;
 
 namespace PawnShop.Controllers
 {
@@ -15,22 +14,17 @@ namespace PawnShop.Controllers
     public class NpcController : MonoBehaviour
     {
         [Header("Target Settings")]
-        [SerializeField] private Transform[] _waypoints;
-        [SerializeField] private float _reachDistance = 0.5f;
-        [SerializeField] private float _waitTimeAtWaypoint = 2f;
+        [SerializeField] private NpcTask[] _tasks;
+        [SerializeField] private float _reachDistance = 0.1f;
+        [SerializeField] private float _waitTimeAtWaypoint = 0f;
 
         [Header("Movement Settings")]
         [SerializeField] private float _moveSpeed = 4f;
         [SerializeField] private bool _lookAtTarget = true;
-        [SerializeField] private float _searchVerticalThreshold = 0.1f; // Threshold for vertical level checking
-        [SerializeField] private float _thresholdX = 0.5f; // Threshold for X coordinate checking
-
-        [Header("NPC Action")]
-        [SerializeField] private NpcAction _npcAction = NpcAction.Undefined;
+        [SerializeField] private float _thresholdX = 0.1f; // Threshold for X coordinate checking
 
         [Header("References")]
         [SerializeField] private CharacterMovement _characterMovement;
-        [SerializeField] private TeleportClientController _teleportClientController;
 
         // Services
         private ITimeService _timeService;
@@ -42,13 +36,7 @@ namespace PawnShop.Controllers
         private bool _isMoving = false;
         private bool _isWaiting = false;
         private float _waitTimer = 0f;
-        private bool _needTeleport = false;
         private float _currentTargetOffset = 0f; // Random offset for current target
-
-        // Events
-        public System.Action OnTargetReached;
-        public System.Action OnMovementStarted;
-        public System.Action OnMovementStopped;
 
         /// <summary>
         /// Initialize NPC with character model
@@ -59,34 +47,27 @@ namespace PawnShop.Controllers
             Debug.Log($"[NpcController] Initialized with customer: {_customer?.GetType().Name}, ID: {_customer?.Id}");
 
             // Load actions from customer model
-            if (_customer != null && _customer.CurrentAction != NpcAction.Undefined)
+            if (_customer != null)
             {
-                SetNpcAction(_customer.CurrentAction);
+                SetNpcType(_customer.CustomerType);
             }
         }
 
-        /// <summary>
-        /// Set NPC action and update waypoints from navigation repository
-        /// </summary>
-        public void SetNpcAction(NpcAction action)
+        private void SetNpcType(NpcType npcType)
         {
-            _npcAction = action;
-
-            Debug.Log($"[NpcController] Navigation Repository: {_navigationRepository != null}");
-
             // Get navigation points for this action from repository
-            var navigationTransforms = _navigationRepository.GetNavigation(action);
+            var npcTasks = _navigationRepository.GetNavigation(npcType);
 
-            if (navigationTransforms != null && navigationTransforms.Count > 0)
+            if (npcTasks != null && npcTasks.Count > 0)
             {
                 // Convert List<Transform> to Transform[]
-                _waypoints = navigationTransforms.ToArray();
-                Debug.Log($"[NpcController] Set {_waypoints.Length} waypoints for action: {action}");
+                _tasks = npcTasks.ToArray();
+                Debug.Log($"[NpcController] Set {_tasks.Length} waypoints for action: {npcType}");
             }
             else
             {
-                Debug.LogWarning($"[NpcController] No navigation points found for action: {action}");
-                _waypoints = new Transform[0];
+                Debug.LogWarning($"[NpcController] No navigation points found for action: {npcType}");
+                _tasks = new NpcTask[0];
             }
         }
 
@@ -97,26 +78,8 @@ namespace PawnShop.Controllers
             _navigationRepository = navigationRepository;
             _customerService = customerService;
 
-            // Subscribe to customer action changes
-            _customerService.OnCustomerActionChanged += OnCustomerActionChanged;
-        }
-
-        private void OnDestroy()
-        {
-            if (_customerService != null)
-            {
-                _customerService.OnCustomerActionChanged -= OnCustomerActionChanged;
-            }
-        }
-
-        private void OnCustomerActionChanged(NpcAction action)
-        {
-            Debug.Log($"[NpcController] Received customer action change: {action}");
-
-            // Check if this NPC should respond to this action
-            // For now, all NPCs will respond to any action change
-            SetNpcAction(action);
-            StartMovement();
+            // Subscribe to NPC action events
+            _customerService.OnNpcAction += OnNpcActionTriggered;
         }
 
         private void Awake()
@@ -130,29 +93,19 @@ namespace PawnShop.Controllers
                     _characterMovement = GetComponentInParent<CharacterMovement>();
                 }
             }
-
-            // Auto-find TeleportClientController if not assigned
-            if (_teleportClientController == null)
-            {
-                _teleportClientController = GetComponent<TeleportClientController>();
-                if (_teleportClientController == null)
-                {
-                    _teleportClientController = GetComponentInParent<TeleportClientController>();
-                }
-            }
         }
 
         private void Start()
         {
-            if (_waypoints != null && _waypoints.Length > 0)
+            if (_tasks != null && _tasks.Length > 0)
             {
-                StartMovement();
+                StartTasks();
             }
         }
 
         private void Update()
         {
-            if (_isMoving && _waypoints != null && _waypoints.Length > 0)
+            if (_isMoving && _tasks != null && _tasks.Length > 0)
             {
                 if (_isWaiting)
                 {
@@ -164,210 +117,98 @@ namespace PawnShop.Controllers
                     {
                         _isWaiting = false;
                         // Remove the reached waypoint (index 0) and continue to new first waypoint
-                        RemoveFirstWaypoint();
-                        if (_needTeleport)
-                        {
-                            _isWaiting = false;
-                            TryTeleport();
-                        }
-                        // Check if we need teleport before moving to next waypoint
+                        RemoveFirstTask();
                     }
                 }
                 else
                 {
-                    MoveToCurrentWaypoint();
+                    ProceedNextTask();
                 }
             }
         }
 
-        private void MoveToCurrentWaypoint()
+        private void ProceedNextTask()
         {
-            if (_characterMovement == null || _waypoints == null || _waypoints.Length == 0) return;
+            if (_characterMovement == null || _tasks == null || _tasks.Length == 0) return;
             // Always move to first waypoint (index 0)
-            Transform currentWaypoint = _waypoints[0];
-            if (currentWaypoint == null) return;
-
-            Debug.Log($"[NpcController] Is postision on the same level: {IsPointOnTheSameLevel(currentWaypoint.position)}");
-
-            // Check if NPC and target are on the same level
-            if (!IsPointOnTheSameLevel(currentWaypoint.position))
+            var currentTask = _tasks[0];
+            if (currentTask == null) return;
+            if (currentTask.Type == NpcTaskType.WalkTo || currentTask.Type == NpcTaskType.RunTo)
             {
-                Debug.LogWarning($"[NpcController] Cannot move to waypoint - not on the same level. NPC Y: {transform.position.y}, Target Y: {currentWaypoint.position.y}");
-                SearchForTeleport();
-                return;
-            }
-
-            Debug.Log($"[NpcController] Moving towards waypoint 0 at position {currentWaypoint.position}");
-
-            // Generate random offset for this target if not set
-            if (_currentTargetOffset == 0f)
-            {
-                _currentTargetOffset = Random.Range(-_thresholdX, _thresholdX);
-            }
-
-            // Calculate target position with offset
-            Vector3 targetPosition = new Vector3(currentWaypoint.position.x + _currentTargetOffset, currentWaypoint.position.y, currentWaypoint.position.z);
-            Vector3 direction = (targetPosition - transform.position);
-            float distance = direction.magnitude;
-
-            if (distance <= _reachDistance)
-            {
-                Debug.Log($"Reached waypoint 0, distance={distance}, offset={_currentTargetOffset}");
-
-                _characterMovement.SetHorizontalInput(0f);
-                _isWaiting = true;
-                _waitTimer = _waitTimeAtWaypoint;
-                OnTargetReached?.Invoke();
-                return;
-            }
-
-            float horizontalInput = direction.x > 0 ? 1f : -1f;
-
-            _characterMovement.SetHorizontalInput(horizontalInput);
-
-            if (_lookAtTarget)
-            {
-                _characterMovement.SetFacingDirection(horizontalInput);
-            }
-        }
-
-        /// <summary>
-        /// Check if target point is on the same level as NPC (Y coordinate)
-        /// </summary>
-        private bool IsPointOnTheSameLevel(Vector3 targetPoint)
-        {
-            return Mathf.Abs(transform.position.y - targetPoint.y) <= _searchVerticalThreshold;
-        }
-
-        /// <summary>
-        /// Search for teleport to reach target level
-        /// </summary>
-        private void SearchForTeleport()
-        {
-            _needTeleport = true;
-
-            // If already need teleport, check if first waypoint is already a teleport
-            if (_waypoints != null && _waypoints.Length > 0)
-            {
-                var firstWaypoint = _waypoints[0];
-                if (firstWaypoint != null && firstWaypoint.GetComponent<TeleportController>() != null)
+                // Generate random offset for this target if not set
+                if (_currentTargetOffset == 0f)
                 {
-                    // Remove existing teleport waypoint first
-                    RemoveFirstWaypoint();
+                    _currentTargetOffset = UnityEngine.Random.Range(-_thresholdX, _thresholdX);
                 }
-            }
 
-            // Find all TeleportController objects on the scene
-            var teleportControllers = FindObjectsByType<TeleportController>(FindObjectsSortMode.None);
+                // Calculate target position with offset
+                Vector3 targetPosition = new Vector3(currentTask.Target.position.x + _currentTargetOffset, currentTask.Target.position.y, currentTask.Target.position.z);
+                Vector3 direction = (targetPosition - transform.position);
+                float distance = direction.magnitude;
 
-            // Find teleport on the same level as NPC
-            foreach (var teleport in teleportControllers)
-            {
-                if (IsPointOnTheSameLevel(teleport.transform.position))
+                if (distance <= _reachDistance)
                 {
-                    Debug.Log($"[NpcController] Found teleport on same level: {teleport.name}");
+                    Debug.Log($"Reached waypoint 0, distance={distance}, offset={_currentTargetOffset}");
 
-                    // Insert teleport as first waypoint
-                    InsertAsFirstWaypoint(teleport.transform);
+                    _characterMovement.SetHorizontalInput(0f);
+                    _isWaiting = true;
+                    _waitTimer = _waitTimeAtWaypoint;
                     return;
                 }
-            }
 
-            Debug.LogWarning("[NpcController] No teleport found on the same level");
-        }
+                float horizontalInput = direction.x > 0 ? 1f : -1f;
 
-        /// <summary>
-        /// Try to teleport
-        /// </summary>
-        private void TryTeleport()
-        {
-            if (_teleportClientController == null)
-            {
-                Debug.LogWarning("[NpcController] TeleportClientController not found!");
-                return;
-            }
+                _characterMovement.SetHorizontalInput(horizontalInput);
 
-            if (_waypoints == null || _waypoints.Length == 0)
-            {
-                Debug.LogWarning("[NpcController] No waypoints to compare!");
-                return;
-            }
-
-            // Get target waypoint (first in list)
-            Transform targetWaypoint = _waypoints[0];
-            if (targetWaypoint == null)
-            {
-                Debug.LogWarning("[NpcController] Target waypoint is null!");
-                return;
-            }
-
-            // Teleport to target level
-            Debug.Log($"[NpcController] Teleporting to target level");
-            _teleportClientController.TryTeleportToTarget(targetWaypoint, _searchVerticalThreshold);
-
-            _needTeleport = false;
-        }
-
-        /// <summary>
-        /// Insert transform as first waypoint
-        /// </summary>
-        private void InsertAsFirstWaypoint(Transform transformToInsert)
-        {
-            if (_waypoints == null)
-            {
-                _waypoints = new Transform[] { transformToInsert };
-            }
-            else
-            {
-                // Create new array with transform as first element
-                Transform[] newWaypoints = new Transform[_waypoints.Length + 1];
-                newWaypoints[0] = transformToInsert;
-
-                // Copy existing waypoints
-                for (int i = 0; i < _waypoints.Length; i++)
+                if (_lookAtTarget)
                 {
-                    newWaypoints[i + 1] = _waypoints[i];
+                    _characterMovement.SetFacingDirection(horizontalInput);
                 }
-
-                _waypoints = newWaypoints;
             }
-
-            Debug.Log($"[NpcController] Inserted as first waypoint: {transformToInsert.name}");
         }
+
 
         /// <summary>
         /// Remove the first waypoint from the list and continue movement
         /// </summary>
-        private void RemoveFirstWaypoint()
+        private void RemoveFirstTask()
         {
-            if (_waypoints == null || _waypoints.Length == 0) return;
+            if (_tasks == null || _tasks.Length == 0) return;
 
             // Reset offset for next target
             _currentTargetOffset = 0f;
 
             // Create new array without the first element
-            Transform[] newWaypoints = new Transform[_waypoints.Length - 1];
-            for (int i = 1; i < _waypoints.Length; i++)
+            var newTasks = new NpcTask[_tasks.Length - 1];
+            for (int i = 1; i < _tasks.Length; i++)
             {
-                newWaypoints[i - 1] = _waypoints[i];
+                newTasks[i - 1] = _tasks[i];
             }
 
-            _waypoints = newWaypoints;
+            _tasks = newTasks;
 
             // If no waypoints left, stop movement
-            if (_waypoints.Length == 0)
+            if (_tasks.Length == 0)
             {
-                StopMovement();
+                EndTasks();
+                return;
+            }
+
+            // Check if next task is SelfDestroy
+            var nextTask = _tasks[0];
+            if (nextTask != null && nextTask.Type == NpcTaskType.SelfDestroy)
+            {
+                ExecuteSelfDestroy();
                 return;
             }
 
             // Continue moving to new first waypoint
-            Debug.Log($"Removed first waypoint, {_waypoints.Length} waypoints remaining");
+            Debug.Log($"Removed first waypoint, {_tasks.Length} waypoints remaining");
         }
 
-        public void SetWaypoints(Transform[] newWaypoints)
+        public void SetTasks(NpcTask[] newTasks)
         {
-            _waypoints = newWaypoints;
+            _tasks = newTasks;
         }
 
         public void SetWaitTime(float time)
@@ -378,13 +219,13 @@ namespace PawnShop.Controllers
         /// <summary>
         /// Start moving to current target
         /// </summary>
-        public void StartMovement()
+        public void StartTasks()
         {
-            Debug.Log($"StartMovement: waypoints={_waypoints != null && _waypoints.Length > 0}, characterMovement={_characterMovement != null}");
+            Debug.Log($"StartTasks: tasks={_tasks != null && _tasks.Length > 0}, characterMovement={_characterMovement != null}");
 
-            if (_waypoints == null || _waypoints.Length == 0)
+            if (_tasks == null || _tasks.Length == 0)
             {
-                Debug.LogWarning("[NpcController] No waypoints set!");
+                Debug.LogWarning("[NpcController] No tasks set!");
                 return;
             }
 
@@ -396,7 +237,6 @@ namespace PawnShop.Controllers
 
             _isMoving = true;
             _isWaiting = false;
-            OnMovementStarted?.Invoke();
 
             Debug.Log($"Movement started: isMoving={_isMoving}");
         }
@@ -404,7 +244,7 @@ namespace PawnShop.Controllers
         /// <summary>
         /// Stop movement
         /// </summary>
-        public void StopMovement()
+        public void EndTasks()
         {
             _isMoving = false;
 
@@ -412,8 +252,6 @@ namespace PawnShop.Controllers
             {
                 _characterMovement.SetHorizontalInput(0f);
             }
-
-            OnMovementStopped?.Invoke();
         }
 
 
@@ -445,15 +283,106 @@ namespace PawnShop.Controllers
             return _isMoving;
         }
 
-        public int GetCurrentWaypointIndex()
+        public int GetCurrentTaskIndex()
         {
-            return 0; // Always return 0 since we always target the first waypoint
+            return 0; // Always return 0 since we always target the first task
         }
 
-        public Transform GetCurrentWaypoint()
+        public NpcTask GetCurrentTask()
         {
-            if (_waypoints == null || _waypoints.Length == 0) return null;
-            return _waypoints[0]; // Always return first waypoint
+            if (_tasks == null || _tasks.Length == 0) return null;
+            return _tasks[0]; // Always return first task
+        }
+
+        /// <summary>
+        /// Handle NPC action events from CustomerService
+        /// </summary>
+        private void OnNpcActionTriggered(string npcId, NpcAction action)
+        {
+            // Check if this action is for current customer
+            if (_customer != null && _customer.Id == npcId)
+            {
+                Debug.Log($"[NpcController] Handling NPC action: {action} for customer: {npcId}");
+                // Execute action based on trigger
+                ExecuteActionByTrigger(action);
+            }
+        }
+
+        /// <summary>
+        /// Execute specific action based on trigger
+        /// </summary>
+        private void ExecuteActionByTrigger(NpcAction trigger)
+        {
+            var currentTask = GetCurrentTask();
+            if (currentTask == null)
+            {
+                Debug.LogWarning($"[NpcController] No current task to process trigger: {trigger}");
+                return;
+            }
+
+            switch (currentTask.Type)
+            {
+                case NpcTaskType.WaitFor:
+                    HandleWaitForTask(currentTask, trigger);
+                    break;
+
+                case NpcTaskType.SelfDestroy:
+                    ExecuteSelfDestroy();
+                    break;
+
+                default:
+                    Debug.Log($"[NpcController] Current task type {currentTask.Type} doesn't respond to trigger events");
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Handle WaitFor task - check if trigger matches and proceed to next task
+        /// </summary>
+        private void HandleWaitForTask(NpcTask task, NpcAction trigger)
+        {
+            if (task.Trigger == trigger)
+            {
+                Debug.Log($"[NpcController] WaitFor condition met for trigger: {trigger}, proceeding to next task");
+
+                // Stop waiting and proceed to next task
+                _isWaiting = false;
+                RemoveFirstTask();
+
+                // Continue with next task if available
+                if (_tasks != null && _tasks.Length > 0)
+                {
+                    ProceedNextTask();
+                }
+                else
+                {
+                    EndTasks();
+                }
+            }
+            else
+            {
+                Debug.Log($"[NpcController] WaitFor task trigger mismatch. Expected: {task.Trigger}, Received: {trigger}");
+            }
+        }
+
+        /// <summary>
+        /// Execute SelfDestroy - destroy the controller
+        /// </summary>
+        private void ExecuteSelfDestroy()
+        {
+            Debug.Log($"[NpcController] SelfDestroy executed, destroying controller for customer: {_customer?.Id}");
+            Destroy(gameObject);
+        }
+
+        /// <summary>
+        /// Cleanup subscriptions when destroyed
+        /// </summary>
+        private void OnDestroy()
+        {
+            if (_customerService != null)
+            {
+                _customerService.OnNpcAction -= OnNpcActionTriggered;
+            }
         }
     }
 }

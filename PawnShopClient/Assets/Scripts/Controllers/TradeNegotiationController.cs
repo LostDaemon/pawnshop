@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 using Zenject;
 using PawnShop.Services;
 using PawnShop.Models;
-using PawnShop.Controllers.Cards;
+using PawnShop.Models.Npc;
 using PawnShop.Models.Tags;
 using System.Collections.Generic;
 using System.Linq;
@@ -325,7 +325,7 @@ namespace PawnShop.Controllers
                 Debug.Log($"[TradeNegotiationController] Item {_currentItem.Name} purchased and moved to inventory for {_currentItem.CurrentOffer}!");
 
                 // Send customer to city
-                _customerService.SetCustomerAction(NpcAction.ReturnToZone);
+                _customerService.TriggerNpcAction(null, NpcAction.SellAttempt);
 
                 // Clear customer and unload scene
                 _customerService.ClearCustomer();
@@ -344,7 +344,7 @@ namespace PawnShop.Controllers
             Debug.Log("[TradeNegotiationController] Reject button clicked - Trade rejected!");
 
             // Send customer to city
-            _customerService.SetCustomerAction(NpcAction.ReturnToZone);
+            _customerService.TriggerNpcAction(null, NpcAction.SellAttempt);
 
             // Just clear customer and unload scene without making deal
             _customerService.ClearCustomer();

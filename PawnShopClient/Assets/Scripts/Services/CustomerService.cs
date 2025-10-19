@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using PawnShop.Models;
 using PawnShop.Models.Characters;
 using PawnShop.Models.Events;
+using PawnShop.Models.Npc;
 using UnityEngine;
 using Zenject;
 
@@ -24,8 +24,7 @@ namespace PawnShop.Services
         public event Action<Customer> OnCustomerChanged;
         public event Action<Customer> OnNewCustomer;
         public event Action<float> OnPatienceChanged;
-        public event Action<NpcAction> OnCustomerActionChanged;
-
+        public event Action<string, NpcAction> OnNpcAction;
 
         [Inject]
         public CustomerService(ICustomerFactoryService customerFactory, INegotiationHistoryService history, ILocalizationService localizationService, ITimeService timeService)
@@ -95,21 +94,11 @@ namespace PawnShop.Services
             ClearCustomer();
         }
 
-        public void SetCustomerAction(NpcAction action)
+        public void TriggerNpcAction(string npcId, NpcAction action)
         {
-            Debug.Log($"[CustomerService] SetCustomerAction called with action: {action} for customer: {CurrentCustomer?.CustomerType}");
-
-            if (CurrentCustomer == null)
-            {
-                Debug.LogWarning("[CustomerService] No current customer to set action");
-                return;
-            }
-
-            // Update customer's current action
-            CurrentCustomer.CurrentAction = action;
-
-            // Trigger event for NPC controllers to listen
-            OnCustomerActionChanged?.Invoke(action);
+            npcId = npcId ?? CurrentCustomer?.Id;
+            Debug.Log($"[CustomerService] Triggering NPC action: ID={npcId}, Action={action}");
+            OnNpcAction?.Invoke(npcId, action);
         }
 
         private void CheckPatienceThresholds(float previousPatience)
@@ -156,10 +145,9 @@ namespace PawnShop.Services
 
                 Debug.Log($"[CustomerService] New customer added to queue: Type={newCustomer?.CustomerType}, Item={newCustomer?.OwnedItem?.Name}");
                 OnNewCustomer?.Invoke(newCustomer);
-                SetCustomerAction(NpcAction.Sell); //<--
                 if (CurrentCustomer == null)
                 {
-                    NextCustomer();
+                    NextCustomer(); //<??
                 }
             }
         }
