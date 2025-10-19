@@ -299,7 +299,7 @@ GameObject:
   - component: {fileID: 1831271493778505569}
   - component: {fileID: 4492326113056169943}
   m_Layer: 5
-  m_Name: NpcInteractions
+  m_Name: ReceptionInteraction
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
