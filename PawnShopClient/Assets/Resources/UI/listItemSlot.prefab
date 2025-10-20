@@ -90,7 +90,35 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7719518160841166840, guid: 85d883563b4ffbc4190126f8dfd71988, type: 3}
       propertyPath: m_Name
-      value: ItemSlotBase Variant
+      value: listItemSlot
+      objectReference: {fileID: 0}
+    - target: {fileID: 9074739701143735483, guid: 85d883563b4ffbc4190126f8dfd71988, type: 3}
+      propertyPath: m_Type
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9074739701143735483, guid: 85d883563b4ffbc4190126f8dfd71988, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 932849574, guid: 047418b6520f81a4db6ec36e392a6724, type: 3}
+    - target: {fileID: 9074739701143735483, guid: 85d883563b4ffbc4190126f8dfd71988, type: 3}
+      propertyPath: m_Color.a
+      value: 0.39215687
+      objectReference: {fileID: 0}
+    - target: {fileID: 9074739701143735483, guid: 85d883563b4ffbc4190126f8dfd71988, type: 3}
+      propertyPath: m_Color.b
+      value: 0.6603774
+      objectReference: {fileID: 0}
+    - target: {fileID: 9074739701143735483, guid: 85d883563b4ffbc4190126f8dfd71988, type: 3}
+      propertyPath: m_Color.g
+      value: 0.6603774
+      objectReference: {fileID: 0}
+    - target: {fileID: 9074739701143735483, guid: 85d883563b4ffbc4190126f8dfd71988, type: 3}
+      propertyPath: m_Color.r
+      value: 0.6603774
+      objectReference: {fileID: 0}
+    - target: {fileID: 9074739701143735483, guid: 85d883563b4ffbc4190126f8dfd71988, type: 3}
+      propertyPath: m_PixelsPerUnitMultiplier
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

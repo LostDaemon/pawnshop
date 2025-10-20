@@ -12,7 +12,7 @@ namespace PawnShop.Controllers
         [SerializeField] private Button _cleaningButton;
         [SerializeField] private Button _recycleButton;
         [SerializeField] private Button _polishButton;
-        [SerializeField] private ItemSlotController _itemSlotController; 
+        [SerializeField] private ItemSlotController _itemSlotController;
 
         private IWorkshopService _workshopService;
 
@@ -97,20 +97,20 @@ namespace PawnShop.Controllers
         private void OnTaskCompleted(ProcessingTask task)
         {
             Debug.Log($"[WorkshopController] Task completed: {task.ProcessingType} for {task.Item.Name}");
-            
+
             // Deactivate process icon when task is completed
             ShowProcess(false);
-            
+
             // Find and update ItemController in ItemSlotController children
             if (_itemSlotController != null)
             {
                 var itemController = _itemSlotController.GetComponentInChildren<ItemController>();
                 if (itemController != null)
                 {
-                    itemController.UpdateVisualLayers(task.Item);
+                    //itemController.UpdateVisualLayers(task.Item);
                 }
             }
-            
+
             // Update UI to reflect item changes
             UpdateButtonsState();
         }
@@ -122,7 +122,7 @@ namespace PawnShop.Controllers
                 var itemController = _itemSlotController.GetComponentInChildren<ItemController>();
                 if (itemController != null)
                 {
-                    itemController.ShowProcess(isActive);
+                    //itemController.ShowProcess(isActive);
                 }
             }
         }

@@ -12,7 +12,7 @@ namespace PawnShop.Controllers
         [SerializeField] private Button _forgeDocumentsButton;
         [SerializeField] private Button _evaluateButton;
         [SerializeField] private Button _cleanLegalStatusButton;
-        [SerializeField] private ItemSlotController _itemSlotController; 
+        [SerializeField] private ItemSlotController _itemSlotController;
 
         private ILaboratoryService _laboratoryService;
 
@@ -100,20 +100,20 @@ namespace PawnShop.Controllers
         private void OnTaskCompleted(ProcessingTask task)
         {
             Debug.Log($"[LaboratoryController] Task completed: {task.ProcessingType} for {task.Item.Name}");
-            
+
             // Deactivate process icon when task is completed
             ShowProcess(false);
-            
+
             // Find and update ItemController in ItemSlotController children
             if (_itemSlotController != null)
             {
                 var itemController = _itemSlotController.GetComponentInChildren<ItemController>();
                 if (itemController != null)
                 {
-                    itemController.UpdateVisualLayers(task.Item);
+                    //  itemController.UpdateVisualLayers(task.Item);
                 }
             }
-            
+
             // Update UI to reflect item changes
             UpdateButtonsState();
         }
@@ -125,7 +125,7 @@ namespace PawnShop.Controllers
                 var itemController = _itemSlotController.GetComponentInChildren<ItemController>();
                 if (itemController != null)
                 {
-                    itemController.ShowProcess(isActive);
+                    // itemController.ShowProcess(isActive);
                 }
             }
         }
