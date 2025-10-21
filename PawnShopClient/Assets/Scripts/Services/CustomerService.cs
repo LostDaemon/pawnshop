@@ -138,9 +138,9 @@ namespace PawnShop.Services
         {
             Debug.Log($"[CustomerService] Event triggered: Type={gameEvent.EventType}, Time={gameEvent.Time.Day}:{gameEvent.Time.Hour:D2}:{gameEvent.Time.Minute:D2}");
 
-            if (gameEvent.EventType == GameEventType.Customer)
+            if (gameEvent.EventType == GameEventType.CustomerSeller)
             {
-                var newCustomer = _customerFactory.GenerateRandomCustomer();
+                var newCustomer = _customerFactory.GenerateCustomer(NpcType.Seller);
                 _customersQueue.Enqueue(newCustomer);
 
                 Debug.Log($"[CustomerService] New customer added to queue: Type={newCustomer?.CustomerType}, Item={newCustomer?.OwnedItem?.Name}");
@@ -178,12 +178,18 @@ namespace PawnShop.Services
                 // Update patience and trigger events
                 UpdatePatience(previousPatience);
 
+                // Trigger BuyAttempt for current customer
+                TriggerNpcAction(CurrentCustomer.Id, NpcAction.BuyAttempt);
+
                 // Check if customer patience reached zero
                 if (CurrentCustomer.Patience <= 0f)
                 {
                     HandleCustomerLeaving();
                 }
             }
+
+            // Trigger BuyAttempt for all customers every frame
+            OnNpcAction?.Invoke(null, NpcAction.BuyAttempt);
         }
 
         private void ScheduleCustomerEvents()
@@ -193,6 +199,7 @@ namespace PawnShop.Services
             var currentDay = _timeService.CurrentTime.Day;
             var scheduledTimes = new List<string>();
 
+            // Schedule seller events (8-18 hours, every hour = 11 events)
             for (int hour = 8; hour <= 18; hour++)
             {
                 var baseMinute = 0;
@@ -203,15 +210,38 @@ namespace PawnShop.Services
 
                 var gameEvent = new GameEvent
                 {
-                    EventType = GameEventType.Customer,
+                    EventType = GameEventType.CustomerSeller,
                     Time = scheduledTime
                 };
 
                 _timeService.Schedule(gameEvent);
-                scheduledTimes.Add($"{hour}:{actualMinute:D2}");
+                scheduledTimes.Add($"Seller {hour}:{actualMinute:D2}");
             }
 
-            Debug.Log($"[CustomerService] Scheduled customer events for day {currentDay} at: {string.Join(", ", scheduledTimes)}");
+            // Schedule buyer events - twice as many as sellers (22 events)
+            for (int hour = 8; hour <= 18; hour++)
+            {
+                // Schedule 2 buyer events per hour
+                for (int buyerIndex = 0; buyerIndex < 2; buyerIndex++)
+                {
+                    var baseMinute = buyerIndex * 30; // 0 and 30 minutes
+                    var deviation = _random.Next(-15, 16); // -15 to +15 minutes deviation
+                    var actualMinute = Math.Max(0, Math.Min(59, baseMinute + deviation));
+
+                    var scheduledTime = new GameTime(currentDay, hour, actualMinute);
+
+                    var gameEvent = new GameEvent
+                    {
+                        EventType = GameEventType.CustomerBuyer,
+                        Time = scheduledTime
+                    };
+
+                    _timeService.Schedule(gameEvent);
+                    scheduledTimes.Add($"Buyer {hour}:{actualMinute:D2}");
+                }
+            }
+
+            Debug.Log($"[CustomerService] Scheduled {scheduledTimes.Count} customer events for day {currentDay} at: {string.Join(", ", scheduledTimes)}");
         }
 
         private void ShowCustomerPatienceDialogue()

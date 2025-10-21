@@ -10,8 +10,6 @@ namespace PawnShop.Services
 {
     public class CustomerFactoryService : ICustomerFactoryService
     {
-        private const float BUYER_CHANCE = 0.5f;
-
         private readonly System.Random _random = new();
         private readonly IItemRepository _itemRepository;
         private readonly ISkillRepository _skillRepository;
@@ -27,15 +25,13 @@ namespace PawnShop.Services
             _storageLocator = storageLocator;
         }
 
-        public Customer GenerateRandomCustomer()
+        public Customer GenerateCustomer(NpcType customerType)
         {
-            Debug.Log("[CustomerFactory] GenerateRandomCustomer called");
+            Debug.Log($"[CustomerFactory] GenerateCustomer called with type: {customerType}");
 
             var customer = new Customer();
-
-            // Determine customer type based on inventory
-            DetermineCustomerType(customer);
-            Debug.Log($"[CustomerFactory] Customer type determined: {customer.CustomerType}");
+            customer.CustomerType = customerType;
+            Debug.Log($"[CustomerFactory] Customer type set to: {customer.CustomerType}");
 
             // Generate random skill levels for all skills
             GenerateRandomSkills(customer);
@@ -63,33 +59,6 @@ namespace PawnShop.Services
             }
 
             return customer;
-        }
-
-        private void DetermineCustomerType(Customer customer)
-        {
-            try
-            {
-                var sellStorage = _storageLocator.Get(StorageType.SellStorage);
-                var sellItemCount = sellStorage.GetOccupiedSlotsCount();
-
-                if (sellItemCount > 0)
-                {
-                    // 50% chance to be buyer if inventory has items
-                    customer.CustomerType = _random.NextDouble() < BUYER_CHANCE ? NpcType.Buyer : NpcType.Seller;
-                    Debug.Log($"[CustomerFactory] Generated {customer.CustomerType} customer (inventory items: {sellItemCount})");
-                }
-                else
-                {
-                    // Always seller if inventory is empty (no items to buy)
-                    customer.CustomerType = NpcType.Seller;
-                    Debug.Log($"[CustomerFactory] Generated {customer.CustomerType} customer - inventory is empty, no items to buy");
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.LogWarning($"[CustomerFactory] Failed to determine customer type: {ex.Message}. Defaulting to Seller.");
-                customer.CustomerType = NpcType.Seller;
-            }
         }
 
         private void GenerateRandomSkills(Customer customer)

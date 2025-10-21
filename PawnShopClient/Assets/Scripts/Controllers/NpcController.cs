@@ -4,6 +4,7 @@ using Zenject;
 using PawnShop.Services;
 using PawnShop.Models.Characters;
 using PawnShop.Models.Npc;
+using PawnShop.Models;
 
 namespace PawnShop.Controllers
 {
@@ -30,6 +31,8 @@ namespace PawnShop.Controllers
         private ITimeService _timeService;
         private INavigationRepository _navigationRepository;
         private ICustomerService _customerService;
+        private IWalletService _walletService;
+        private IStorageLocatorService _storageLocator;
 
         // State
         private Customer _customer;
@@ -46,7 +49,6 @@ namespace PawnShop.Controllers
         public void Init(Customer characterModel)
         {
             _customer = characterModel;
-            Debug.Log($"[NpcController] Initialized with customer: {_customer?.GetType().Name}, ID: {_customer?.Id}");
 
             // Load actions from customer model
             if (_customer != null)
@@ -64,7 +66,6 @@ namespace PawnShop.Controllers
             {
                 // Convert List<Transform> to Transform[]
                 _tasks = npcTasks.ToArray();
-                Debug.Log($"[NpcController] Set {_tasks.Length} waypoints for action: {npcType}");
             }
             else
             {
@@ -74,11 +75,13 @@ namespace PawnShop.Controllers
         }
 
         [Inject]
-        public void Construct(ITimeService timeService, INavigationRepository navigationRepository, ICustomerService customerService)
+        public void Construct(ITimeService timeService, INavigationRepository navigationRepository, ICustomerService customerService, IWalletService walletService, IStorageLocatorService storageLocator)
         {
             _timeService = timeService;
             _navigationRepository = navigationRepository;
             _customerService = customerService;
+            _walletService = walletService;
+            _storageLocator = storageLocator;
 
             // Subscribe to NPC action events
             _customerService.OnNpcAction += OnNpcActionTriggered;
@@ -150,7 +153,6 @@ namespace PawnShop.Controllers
 
                 if (distance <= _reachDistance)
                 {
-                    Debug.Log($"Reached waypoint 0, distance={distance}, offset={_currentTargetOffset}");
 
                     _characterMovement.SetHorizontalInput(0f);
                     _isWaiting = true;
@@ -205,7 +207,6 @@ namespace PawnShop.Controllers
             }
 
             // Continue moving to new first waypoint
-            Debug.Log($"Removed first waypoint, {_tasks.Length} waypoints remaining");
         }
 
         public void SetTasks(NpcTask[] newTasks)
@@ -223,7 +224,6 @@ namespace PawnShop.Controllers
         /// </summary>
         public void StartTasks()
         {
-            Debug.Log($"StartTasks: tasks={_tasks != null && _tasks.Length > 0}, characterMovement={_characterMovement != null}");
 
             if (_tasks == null || _tasks.Length == 0)
             {
@@ -240,7 +240,6 @@ namespace PawnShop.Controllers
             _isMoving = true;
             _isWaiting = false;
 
-            Debug.Log($"Movement started: isMoving={_isMoving}");
         }
 
         /// <summary>
@@ -301,10 +300,9 @@ namespace PawnShop.Controllers
         /// </summary>
         private void OnNpcActionTriggered(string npcId, NpcAction action)
         {
-            // Check if this action is for current customer
-            if (_customer != null && _customer.Id == npcId)
+            // Check if this action is for current customer or for all customers (npcId == null)
+            if (_customer != null && (_customer.Id == npcId || npcId == null))
             {
-                Debug.Log($"[NpcController] Handling NPC action: {action} for customer: {npcId}");
                 // Execute action based on trigger
                 ExecuteActionByTrigger(action);
             }
@@ -345,7 +343,12 @@ namespace PawnShop.Controllers
         {
             if (task.Trigger == trigger)
             {
-                Debug.Log($"[NpcController] WaitFor condition met for trigger: {trigger}, proceeding to next task");
+
+                // Execute specific action if it's BuyAttempt
+                if (trigger == NpcAction.BuyAttempt)
+                {
+                    BuyAttempt();
+                }
 
                 // Stop waiting and proceed to next task
                 _isWaiting = false;
@@ -363,7 +366,6 @@ namespace PawnShop.Controllers
             }
             else
             {
-                Debug.Log($"[NpcController] WaitFor task trigger mismatch. Expected: {task.Trigger}, Received: {trigger}");
             }
         }
 
@@ -372,12 +374,65 @@ namespace PawnShop.Controllers
         /// </summary>
         private void ExecuteSelfDestroy()
         {
-            Debug.Log($"[NpcController] SelfDestroy executed, destroying controller for customer: {_customer?.Id}");
             Destroy(gameObject);
         }
 
         /// <summary>
-        /// Cleanup subscriptions when destroyed
+        /// Handle buy attempt action
+        /// </summary>
+        private void BuyAttempt()
+        {
+
+            if (_customer == null)
+            {
+                Debug.LogWarning("[NpcController] No customer");
+                return;
+            }
+
+            // Get sell storage
+            var sellStorage = _storageLocator.Get(StorageType.SellStorage);
+            if (sellStorage == null)
+            {
+                Debug.LogError("[NpcController] Sell storage not found");
+                return;
+            }
+
+            // Check if there are items in sell storage
+            var occupiedSlots = sellStorage.GetOccupiedSlotsCount();
+            if (occupiedSlots == 0)
+            {
+                return;
+            }
+
+            // Get random item from sell storage
+            var randomSlot = UnityEngine.Random.Range(0, occupiedSlots);
+            var itemToBuy = sellStorage.Get(randomSlot);
+            
+            if (itemToBuy == null)
+            {
+                Debug.LogWarning("[NpcController] Failed to get random item from sell storage");
+                return;
+            }
+
+            // Get offer price for the item
+            var offerPrice = itemToBuy.CurrentOffer;
+            if (offerPrice <= 0)
+            {
+                Debug.LogWarning($"[NpcController] Item {itemToBuy.Name} has no valid offer price");
+                return;
+            }
+
+            // Check if customer has enough money (assuming customer has unlimited money for now)
+            // TODO: Implement customer money system
+
+            // Buy the item - remove from sell storage and add money to player
+            sellStorage.Withdraw(randomSlot);
+            _walletService.TransactionAttempt(CurrencyType.Money, offerPrice);
+
+        }
+
+        /// <summary>
+        /// Cleanup subscriptions when destroyedф
         /// </summary>
         private void OnDestroy()
         {

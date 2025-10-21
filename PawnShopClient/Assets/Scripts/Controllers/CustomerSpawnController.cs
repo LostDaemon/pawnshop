@@ -14,13 +14,17 @@ namespace PawnShop.Controllers
         private ICustomerService _customerService;
         private ITimeService _timeService;
         private INavigationRepository _navigationRepository;
+        private IWalletService _walletService;
+        private IStorageLocatorService _storageLocator;
 
         [Inject]
-        public void Construct(ICustomerService customerService, ITimeService timeService, INavigationRepository navigationRepository)
+        public void Construct(ICustomerService customerService, ITimeService timeService, INavigationRepository navigationRepository, IWalletService walletService, IStorageLocatorService storageLocator)
         {
             _customerService = customerService;
             _timeService = timeService;
             _navigationRepository = navigationRepository;
+            _walletService = walletService;
+            _storageLocator = storageLocator;
         }
 
         private void Start()
@@ -61,7 +65,7 @@ namespace PawnShop.Controllers
             }
             if (npcController != null)
             {
-                npcController.Construct(_timeService, _navigationRepository, _customerService);
+                npcController.Construct(_timeService, _navigationRepository, _customerService, _walletService, _storageLocator);
                 npcController.Init(customer);
             }
         }
