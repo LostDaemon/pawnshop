@@ -41,7 +41,6 @@ namespace PawnShop.Installers
             // --- Services: Utility ---
             Container.Bind<ITimeService>().To<TimeService>().AsSingle();
             Container.Bind<ILocalizationService>().To<LocalizationService>().AsSingle();
-            Container.Bind<INavigationService>().To<NavigationService>().AsSingle();
 
             // --- Game Systems ---
             Container.Bind<IWalletService>()
@@ -123,9 +122,6 @@ namespace PawnShop.Installers
             // Asset Bundle System
             Container.Bind<AssetBundleLoader>().AsSingle();
 
-            Container.Bind<INegotiationService>()
-            .To<NegotiationService>()
-            .AsSingle();
 
             Container.Bind<IItemProcessingService>()
             .To<ItemProcessingService>()
